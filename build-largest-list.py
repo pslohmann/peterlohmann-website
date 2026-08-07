@@ -342,6 +342,23 @@ total_doors = sum(r['doors'] for r in valid)
 median = sorted(r['doors'] for r in valid)[n//2]
 us_states = sorted({r['state'] for r in state_entries if r['state'] in STATE_NAME})
 
+# --- Safety guard: abort loudly instead of silently publishing a broken list. This is what would have
+# caught today's JotForm location-field rename (the map collapsed to 6 states). If it trips, the daily
+# Action fails and emails us, rather than shipping a broken list. Raise the floors as the list grows.
+_guard = []
+if n < 200:
+    _guard.append(f"only {n} companies ranked (expected 300+); a JotForm question may have been renamed")
+if len(us_states) < 25:
+    _guard.append(f"only {len(us_states)} states have companies (expected 40+); the HQ location field may have changed")
+_no_state = sum(1 for r in valid if r['state'] == '??')
+if _no_state > n * 0.5:
+    _guard.append(f"{_no_state} of {n} companies have no detectable state; check the HQ location field")
+_no_name = sum(1 for r in valid if not r['name'])
+if _no_name > n * 0.1:
+    _guard.append(f"{_no_name} of {n} companies have no name; the Company Name field may have changed")
+if _guard:
+    raise SystemExit("BUILD ABORTED - output looks broken, not publishing:\n  - " + "\n  - ".join(_guard))
+
 def _chart_counts(field, keep=6):
     # Exclude 'Unknown' (older submissions predate these questions); lump a long tail into 'Other'.
     c = [(k, v) for k, v in collections.Counter(r[field] for r in valid).most_common() if k != 'Unknown']
