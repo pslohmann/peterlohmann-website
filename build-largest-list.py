@@ -18,7 +18,7 @@ JOTFORM_FORM_ID = "240037996931060"
 SUBMISSION_YEAR = "2026"   # only include submissions from this year (newest data, top of the JotForm sheet)
 PRIOR_YEAR = "2025"        # used for the "Change from 2025" column
 # Absolute site origin, for per-state page canonical URLs + JSON-LD. CHANGE TO https://www.peterlohmann.com AT LAUNCH.
-SITE_URL = "https://andrewmswensen-hue.github.io/peterlohmann-website"
+SITE_URL = "https://www.peterlohmann.com"
 NAME_Q  = "Company Name"
 DOORS_Q = "Total 3rd party rental doors under management:"
 CRANE_Q = "Are you (or is someone on your team) a Crane member?"
@@ -792,6 +792,14 @@ page = f"""<!--
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The Largest PM Companies &middot; Peter Lohmann</title>
 <meta name="description" content="Peter Lohmann's 2026 ranking of the largest residential property management companies, with software share, org structure, NARPM membership, and top-10-by-state breakdowns." />
+<link rel="canonical" href="{SITE_URL}/largest-pm-companies" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="The Largest Property Management Companies (2026)" />
+<meta property="og:description" content="The 2026 ranking of the largest residential property management companies in America, plus a top 10 for every state." />
+<meta property="og:url" content="{SITE_URL}/largest-pm-companies" />
+<meta property="og:image" content="{SITE_URL}/images/og-default.png" />
+<meta property="og:site_name" content="Peter Lohmann" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="apple-touch-icon" href="favicon.png" />
@@ -1074,7 +1082,7 @@ page = f"""<!--
         <h2>Get your company on the list.</h2>
         <p>The goal is the largest 40+ PM companies in the U.S., and a top 10 for every state. If you run a qualifying company, add yours. It's free, and it's the fastest way to benchmark against your peers.</p>
         <p style="color:#f0a882;font-weight:700;">Submissions are open through the end of the month.</p>
-        <a class="btn btn-primary" href="https://www.peterlohmann.com/largest-pm-companies" target="_blank" rel="noopener">Submit your PM company</a>
+        <a class="btn btn-primary" href="https://form.jotform.com/240037996931060" target="_blank" rel="noopener">Submit your PM company</a>
       </div>
     </div>
   </section>
@@ -1215,7 +1223,7 @@ CS_HERO = """  <header class="page-hero cs-hero">
       <p class="lead">The 2026 ranking is being compiled from this year's submissions. Check back soon for the full top 40, the data breakdowns, and the state-by-state map. In the meantime:</p>
       <div class="hero-jump" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;">
         <a class="btn btn-primary" href="blog/largest-property-management-companies-2025.html">Click here to see last year's final results</a>
-        <a class="btn btn-ghost" href="https://www.peterlohmann.com/largest-pm-companies" target="_blank" rel="noopener">Submit your company</a>
+        <a class="btn btn-ghost" href="https://form.jotform.com/240037996931060" target="_blank" rel="noopener">Submit your company</a>
       </div>
     </div>
   </header>"""
@@ -1259,7 +1267,7 @@ for _st in by_state:
 
 def render_state_page(st, rows):
     name = STATE_NAME[st]
-    url = f"{SITE_URL}/{state_page_filename(st)}"
+    url = f"{SITE_URL}/{state_page_filename(st)[:-5]}"   # clean/extensionless canonical (matches sitemap)
     top10, rest = rows[:10], rows[10:]
     st_rows, st_cards = render_rows(top10)
     rest_html = ''
@@ -1307,6 +1315,13 @@ def render_state_page(st, rows):
 <title>The {cnt} Largest Property Management Companies in {esc(name)} (2026) &middot; Peter Lohmann</title>
 <meta name="description" content="The largest residential property management companies in {esc(name)} for 2026, ranked by third-party doors under management, with software, structure, and NARPM, Crane, and Boom status." />
 <link rel="canonical" href="{url}" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="The Largest Property Management Companies in {esc(name)} (2026)" />
+<meta property="og:description" content="The largest residential property management companies in {esc(name)} for 2026, ranked by third-party doors under management." />
+<meta property="og:url" content="{url}" />
+<meta property="og:image" content="{SITE_URL}/images/og-default.png" />
+<meta property="og:site_name" content="Peter Lohmann" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="apple-touch-icon" href="favicon.png" />
@@ -1348,7 +1363,7 @@ def render_state_page(st, rows):
       <div class="rank-cards reveal" aria-label="Company ranking (mobile)">
 {st_cards}
       </div>
-{rest_html}      <p class="rank-note">{esc(name)}'s ranking updates automatically as companies submit. <a href="https://www.peterlohmann.com/largest-pm-companies" target="_blank" rel="noopener">Add your company &rarr;</a></p>
+{rest_html}      <p class="rank-note">{esc(name)}'s ranking updates automatically as companies submit. <a href="https://form.jotform.com/240037996931060" target="_blank" rel="noopener">Add your company &rarr;</a></p>
     </div>
   </section>
   <section class="band tight wash">

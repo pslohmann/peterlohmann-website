@@ -34,12 +34,15 @@ jobs:
           JOTFORM_API_KEY: ${{ secrets.JOTFORM_API_KEY }}
         run: python3 build-largest-list.py
 
+      - name: Refresh sitemap (picks up any new per-state pages)
+        run: python3 build-sitemap.py
+
       - name: Commit and push if the page changed
         run: |
           git config user.name  "PM List Bot"
           git config user.email "actions@users.noreply.github.com"
-          # main list + coming-soon teaser + all per-state pages (pm-*.html) so everything stays in sync
-          git add largest-pm-companies.html largest-pm-companies-coming-soon.html pm-*.html data/company-websites.csv
+          # main list + coming-soon teaser + all per-state pages (pm-*.html) + sitemap so everything stays in sync
+          git add largest-pm-companies.html largest-pm-companies-coming-soon.html pm-*.html data/company-websites.csv sitemap.xml
           if git diff --cached --quiet; then
             echo "No changes today — nothing to commit."
           else
