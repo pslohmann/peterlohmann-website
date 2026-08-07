@@ -840,3 +840,42 @@ a.tile:focus-visible{ z-index:2; }
 .article-body tbody tr:nth-child(even){ background:#f6f9fc; }
 .article-table table a{ color:var(--primary); font-weight:600; }
 @media (max-width:560px){ .article-table table{ font-size:12.5px; } .article-body th, .article-body td{ padding:7px 8px; } }
+
+/* State-page "the rest" list (ranks 11+): name, location, officer only */
+.rank-rest{ margin-top:30px; }
+.rest-h{ font-family:var(--serif); font-weight:400; font-size:20px; color:var(--navy); margin:0 0 10px; }
+.rest-list{ list-style:none; margin:0; padding:0; }
+.rest-row{ display:flex; flex-wrap:wrap; align-items:baseline; gap:3px 12px; padding:11px 4px; border-bottom:1px solid #eef2f5; }
+.rest-rank{ flex:0 0 30px; text-align:right; color:#9aa5ad; font-weight:700; font-variant-numeric:tabular-nums; }
+.rest-co{ font-weight:700; color:var(--navy); }
+.rest-co a{ color:inherit; text-decoration:none; }
+.rest-co a:hover{ text-decoration:underline; }
+.rest-meta{ color:var(--muted); font-size:14px; }
+
+/* Fastest-growing table (matches Peter's format: #, company, 2025, 2026, % growth, +doors) */
+.grow-scroll{ overflow-x:auto; }
+.grow-table{ width:100%; border-collapse:collapse; font-size:15px; }
+.grow-table th, .grow-table td{ padding:11px 14px; border-bottom:1px solid #e7edf1; white-space:nowrap; }
+.grow-table thead th{ background:var(--wash-soft); color:var(--navy); font-weight:700; font-size:12.5px; text-transform:uppercase; letter-spacing:.03em; text-align:right; }
+.grow-table thead th.gt-rank{ text-align:center; }
+.grow-table thead th.gt-co{ text-align:left; }
+.grow-table tbody tr:last-child td{ border-bottom:0; }
+.grow-table tbody tr:nth-child(even){ background:#f6f9fc; }
+.grow-table .gt-rank{ width:38px; text-align:center; color:#9aa5ad; font-weight:700; font-variant-numeric:tabular-nums; }
+.grow-table .gt-co{ font-weight:700; color:var(--navy); white-space:normal; }
+.grow-table .gt-co a{ color:inherit; text-decoration:none; }
+.grow-table .gt-co a:hover{ text-decoration:underline; }
+.grow-table .gt-n{ text-align:right; font-variant-numeric:tabular-nums; }
+.grow-table .gt-up{ color:#2f9e6b; font-weight:700; }
+@media (max-width:560px){ .grow-table th, .grow-table td{ padding:9px 10px; font-size:13.5px; } }
+
+/* Honorable-mention block (Canadian companies that would have placed in the Top 40) */
+.hm-block{ }
+.hm-list{ margin-top:6px; }
+.hm-row{ display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 14px; padding:13px 4px; border-bottom:1px solid #eef2f5; }
+.hm-row:last-child{ border-bottom:0; }
+.hm-co{ font-weight:700; color:var(--navy); font-size:16px; }
+.hm-co a{ color:inherit; text-decoration:none; }
+.hm-co a:hover{ text-decoration:underline; }
+.hm-meta{ color:var(--muted); font-size:14px; flex:1 1 auto; }
+.hm-doors{ font-variant-numeric:tabular-nums; font-weight:700; color:var(--ink); }

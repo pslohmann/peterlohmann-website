@@ -63,6 +63,8 @@ CRANE_MEMBERS_FORCE = {                          # confirmed Crane members (matc
 PRIOR_YEAR_DOORS = {
     "renosy by renters warehouse": 11827,   # was "Renters Warehouse" in 2025
     "jwb": 5300,                            # was "JWB PROPERTY MANAGEMENT" in 2025
+    "auben realty": 2184,                   # submitted as "Auben" in 2025
+    "realiant": 1812,                       # submitted as "Realiant Property Managememt" (typo) in 2025
 }
 BOOM_CUSTOMERS = {                               # Boom customers (matched by raw or display name)
     "on q property management",
@@ -301,13 +303,23 @@ for r in valid:
     if k not in best or r['doors'] > best[k]['doors']:
         best[k] = r
 valid = sorted(best.values(), key=lambda x: -x['doors'])
-overall_rank = {r['name']: i for i, r in enumerate(valid, 1)}  # name -> position on the full ranking
+
+# Canada is excluded from the US Top 40 and the state-by-state structure (Peter's call). Any Canadian
+# company large enough to have placed in the Top 40 is surfaced as an honorable mention at the bottom.
+def _is_canada(r):
+    return 'canada' in (r['loc'] or '').lower()
+canada = sorted([r for r in valid if _is_canada(r)], key=lambda x: -x['doors'])
+valid = [r for r in valid if not _is_canada(r)]
+TOP_N = 40
+canada_honorable = [(r, 1 + sum(1 for u in valid if u['doors'] > r['doors'])) for r in canada]
+canada_honorable = [(r, hyp) for r, hyp in canada_honorable if hyp <= TOP_N]
+
+overall_rank = {r['name']: i for i, r in enumerate(valid, 1)}  # name -> position on the full (US) ranking
 
 n = len(valid)
 total_doors = sum(r['doors'] for r in valid)
 median = sorted(r['doors'] for r in valid)[n//2]
 us_states = sorted({r['state'] for r in valid if r['state'] in STATE_NAME})
-has_canada = any(r['state'] == 'ON' for r in valid)
 
 def _chart_counts(field, keep=6):
     # Exclude 'Unknown' (older submissions predate these questions); lump a long tail into 'Other'.
@@ -528,12 +540,10 @@ def yn_badge(on, label):
 NO_CHIP = '<span class="chip-no">No</span>'
 def render_rows(subset):
     """(desktop table rows, mobile cards) for a list of companies, ranked 1..N in the given order.
-    Shows a subtle national-rank note when a row's national position differs from its rank here
-    (i.e. on the per-state pages). Reused by the main top-40 table and every state page."""
+    Reused by the main top-40 table and every state page."""
     tr, mc = [], []
     for i, r in enumerate(subset, 1):
         natrank = overall_rank.get(r['name'])
-        natnote = f'<span class="r-nat">#{natrank} nationally</span>' if (natrank and natrank != i) else ''
         top1 = (natrank == 1)
         topcls = ' class="top1"' if top1 else ''
         cardtop = ' top1' if top1 else ''
@@ -547,7 +557,7 @@ def render_rows(subset):
         tr.append(
             f'          <tr{topcls}>'
             f'<td class="r-rank">{i}</td>'
-            f'<td class="r-cell"><div class="r-co">{linked_name(r)}{natnote}</div>{id_subline(r)}</td>'
+            f'<td class="r-cell"><div class="r-co">{linked_name(r)}</div>{id_subline(r)}</td>'
             f'<td class="num r-doors">{comma(r["doors"])}</td>'
             f'<td class="chg">{change_cell(r)}</td>'
             f'<td class="hide-sm">{soft_txt}</td>'
@@ -560,7 +570,7 @@ def render_rows(subset):
             f'        <div class="pmcard{cardtop}">\n'
             f'          <div class="pmc-head">\n'
             f'            <span class="pmc-rank">{i}</span>\n'
-            f'            <div class="pmc-id"><div class="pmc-name">{linked_name(r)}{natnote}</div>{id_subline(r)}</div>\n'
+            f'            <div class="pmc-id"><div class="pmc-name">{linked_name(r)}</div>{id_subline(r)}</div>\n'
             f'            <div class="pmc-doors"><span class="pmc-dn">{comma(r["doors"])}</span><span class="pmc-dl">doors</span></div>\n'
             f'          </div>\n'
             f'          <div class="pmc-meta">\n'
@@ -611,18 +621,21 @@ custom_note = (f'<p class="chart-note">Not shown: <strong>custom / in-house</str
                if _custom_med else '')
 org_median_bars  = median_bars(org_medians, ['', 'c2', 'c4', 'c3'])
 
-# fastest-growing ranked list
+# fastest-growing table (columns match the format Peter provided: #, company, 2025, 2026, % growth, +doors)
 if fastest:
     _gr = []
     for i, (r, d25, pct) in enumerate(fastest, 1):
+        delta = r['doors'] - d25
         _gr.append(
-            f'          <li><span class="gl-rank">{i}</span>'
-            f'<span class="gl-co">{linked_name(r)}</span>'
-            f'<span class="gl-pct">+{round(100*pct)}%</span>'
-            f'<span class="gl-detail">{comma(d25)} &rarr; {comma(r["doors"])} doors</span></li>')
-    fastest_list = "\n".join(_gr)
+            f'            <tr><td class="gt-rank">{i}</td>'
+            f'<td class="gt-co">{linked_name(r)}</td>'
+            f'<td class="gt-n">{comma(d25)}</td>'
+            f'<td class="gt-n">{comma(r["doors"])}</td>'
+            f'<td class="gt-n gt-up">+{100*pct:.1f}%</td>'
+            f'<td class="gt-n gt-up">+{comma(delta)}</td></tr>')
+    fastest_rows = "\n".join(_gr)
 else:
-    fastest_list = '          <li style="color:var(--muted)">Not enough year-over-year data yet.</li>'
+    fastest_rows = '            <tr><td colspan="6" style="color:var(--muted)">Not enough year-over-year data yet.</td></tr>'
 
 # state cards
 def top40_note(r):
@@ -709,7 +722,31 @@ for st, rows in state_lists:
     }
 state_modal_json = json.dumps(_modal, separators=(',', ':'))
 
-ca_note = " (plus Canada)" if has_canada else ""
+ca_note = ""
+
+# Honorable-mention block for Canadian companies that would have placed in the Top 40.
+if canada_honorable:
+    _hm = []
+    for r, hyp in canada_honorable:
+        _bits = [esc(r['loc'])]
+        if r.get('exec'): _bits.append(esc(r['exec']))
+        _hm.append(
+            f'          <div class="hm-row"><div class="hm-co">{linked_name(r)}</div>'
+            f'<div class="hm-meta">{" &middot; ".join(_bits)}</div>'
+            f'<div class="hm-doors">{comma(r["doors"])} doors</div></div>')
+    canada_html = (
+        '  <section class="band tight">\n'
+        '    <div class="wrap">\n'
+        '      <div class="hm-block reveal">\n'
+        '        <span class="kicker">Honorable mention</span>\n'
+        '        <h2 class="h-lead">Big operators north of the border.</h2>\n'
+        f'        <p class="sub" style="margin:8px 0 20px;max-width:640px;">These companies are based in Canada, so they sit outside this U.S. ranking. By door count they would place inside the Top {TOP_N}, so they get a mention here.</p>\n'
+        '        <div class="hm-list">\n' + "\n".join(_hm) + "\n        </div>\n"
+        '      </div>\n'
+        '    </div>\n'
+        '  </section>\n')
+else:
+    canada_html = ""
 
 # ---- full page ----
 page = f"""<!--
@@ -730,7 +767,7 @@ page = f"""<!--
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="apple-touch-icon" href="favicon.png" />
-<link rel="stylesheet" href="styles.css?v=23" />
+<link rel="stylesheet" href="styles.css?v=24" />
 <style>
   /* Boom sponsor presentation (scoped to this page) */
   .presented-by{{ display:inline-flex; align-items:center; gap:12px; margin:-2px 0 14px;
@@ -946,9 +983,14 @@ page = f"""<!--
       <div class="card reveal mt-lg grow-card">
         <h3 style="margin-bottom:6px;">Fastest-growing</h3>
         <p style="color:var(--muted);font-size:14.5px;margin-bottom:18px;">Biggest year-over-year jump in self-reported doors, among companies that submitted in both 2025 and 2026 (2025 base of {GROWTH_FLOOR_2025}+ doors).</p>
-        <ol class="grow-list">
-{fastest_list}
-        </ol>
+        <div class="grow-scroll">
+          <table class="grow-table">
+            <thead><tr><th class="gt-rank">#</th><th class="gt-co">Company</th><th class="gt-n">2025</th><th class="gt-n">2026</th><th class="gt-n">Growth</th><th class="gt-n">Change</th></tr></thead>
+            <tbody>
+{fastest_rows}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="fact-grid mt-lg stagger">
         <div class="fact"><div class="f-num">{round(100*narpm_n/n)}%</div><h3>Are NARPM members</h3><p>{narpm_n} of {n} companies belong to the National Association of Residential Property Managers.</p></div>
@@ -995,6 +1037,7 @@ page = f"""<!--
   </div>
   <script id="stateData" type="application/json">{state_modal_json}</script>
 
+{canada_html}
   <!-- GROW THE LIST -->
   <section class="band tight wash">
     <div class="wrap">
@@ -1050,7 +1093,7 @@ page = f"""<!--
   <span>Presented by</span><img src="images/boom-logo.webp" alt="Boom" />
 </a>
 
-<script src="site.js?v=23"></script>
+<script src="site.js?v=24"></script>
 <script>
 (function(){{
   var hero = document.querySelector('.page-hero'),
@@ -1189,7 +1232,21 @@ for _st in by_state:
 def render_state_page(st, rows):
     name = STATE_NAME[st]
     url = f"{SITE_URL}/{state_page_filename(st)}"
-    st_rows, st_cards = render_rows(rows)
+    top10, rest = rows[:10], rows[10:]
+    st_rows, st_cards = render_rows(top10)
+    rest_html = ''
+    if rest:
+        _items = []
+        for j, r in enumerate(rest, 11):
+            _bits = [esc(r['loc'])] if r['loc'] else []
+            if r.get('exec'): _bits.append(esc(r['exec']))
+            _items.append(
+                f'          <li class="rest-row"><span class="rest-rank">{j}</span>'
+                f'<span class="rest-co">{linked_name(r)}</span>'
+                f'<span class="rest-meta">{" &middot; ".join(_bits)}</span></li>')
+        rest_html = ('      <div class="rank-rest reveal">\n'
+                     f'        <h3 class="rest-h">The rest of the {esc(name)} list</h3>\n'
+                     '        <ol class="rest-list">\n' + "\n".join(_items) + "\n        </ol>\n      </div>\n")
     cnt = len(rows)
     tot = sum(r['doors'] for r in rows)
     med = sorted(r['doors'] for r in rows)[cnt//2] if cnt else 0
@@ -1225,7 +1282,7 @@ def render_state_page(st, rows):
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="apple-touch-icon" href="favicon.png" />
-<link rel="stylesheet" href="styles.css?v=23" />
+<link rel="stylesheet" href="styles.css?v=24" />
 <script type="application/ld+json">{jsonld}</script>
 </head>
 <body>
@@ -1263,7 +1320,7 @@ def render_state_page(st, rows):
       <div class="rank-cards reveal" aria-label="Company ranking (mobile)">
 {st_cards}
       </div>
-      <p class="rank-note">{esc(name)}'s ranking updates automatically as companies submit. <a href="https://www.peterlohmann.com/largest-pm-companies" target="_blank" rel="noopener">Add your company &rarr;</a></p>
+{rest_html}      <p class="rank-note">{esc(name)}'s ranking updates automatically as companies submit. <a href="https://www.peterlohmann.com/largest-pm-companies" target="_blank" rel="noopener">Add your company &rarr;</a></p>
     </div>
   </section>
   <section class="band tight wash">
@@ -1286,7 +1343,7 @@ def render_state_page(st, rows):
     <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have consulting agreements with, or financial interests in, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions.</p>
   </div>
 </footer>
-<script src="site.js?v=23"></script>
+<script src="site.js?v=24"></script>
 </body>
 </html>
 """
@@ -1297,7 +1354,8 @@ for _st, _rows in state_all.items():
         f.write(render_state_page(_st, _rows))
     _sp += 1
 print(f"Wrote {_sp} per-state pages.")
-print(f"companies={n}  total_doors={total_doors}  median={median}  states={len(us_states)} canada={has_canada}")
+print(f"companies={n}  total_doors={total_doors}  median={median}  states={len(us_states)}")
+print(f"canada total={len(canada)}  honorable_mentions={[(r['name'], r['doors'], f'~#{hyp}') for r,hyp in canada_honorable]}")
 print(f"software={soft_counts}")
 print(f"org={org_counts}")
 print(f"narpm={narpm_n}/{n}  state_lists={[(s,len(r)) for s,r in state_lists]}")
