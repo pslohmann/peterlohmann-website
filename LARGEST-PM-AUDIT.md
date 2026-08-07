@@ -84,3 +84,4 @@ On Q, JWB, Good Life, Stratton Vantage, PMI Midwest, Tiner Properties.
 - To add one: a line in STATE_BREAKDOWN keyed by lowercased company name, e.g. `"company name": {"ST": units, "ST2": units}`.
 - **Current entries:**
   - **Real Property Management Preferred** (Shawn Wolfswinkel, htownrpm.com): TX 1,423 + NM 633 (total 2,056). Effect: overall Top 40 unchanged at 2,056; Texas now ~#4 at 1,423 (was #2 at 2,056); New Mexico is a new #1 at 633 (this created the New Mexico state page, previously 0 companies).
+  - **On Q Property Management** (onqpm.com, HQ Gilbert AZ): AZ 6,664 + TX 1,445 (total ~8,107; supplied split sums to 8,109). Effect: overall Top 40 unchanged; Arizona #1 at 6,664 (its AZ units); Texas gains On Q at ~#4 with 1,445. (Supplied city detail: AZ = Phoenix 5,940 + Tucson 724; TX = Dallas 1,285 + Austin 160.)

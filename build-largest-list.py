@@ -89,6 +89,7 @@ EXCLUDE_COMPANIES = {                            # scratched from the list (not 
 # Add a one-off with a line like:  "company name": {"ST": units, "ST2": units}
 STATE_BREAKDOWN = {
     "real property management preferred": {"TX": 1423, "NM": 633},   # Shawn Wolfswinkel, htownrpm.com
+    "on q property management": {"AZ": 6664, "TX": 1445},            # onqpm.com; HQ Gilbert AZ (AZ: Phoenix+Tucson, TX: Dallas+Austin)
 }
 
 def _jotform_key():
