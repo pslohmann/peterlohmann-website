@@ -724,29 +724,19 @@ state_modal_json = json.dumps(_modal, separators=(',', ':'))
 
 ca_note = ""
 
-# Honorable-mention block for Canadian companies that would have placed in the Top 40.
+# Canadian honorable mention: a short note appended under the Top 40 list (Canada sits outside the US ranking).
 if canada_honorable:
-    _hm = []
+    _ent = []
     for r, hyp in canada_honorable:
-        _bits = [esc(r['loc'])]
-        if r.get('exec'): _bits.append(esc(r['exec']))
-        _hm.append(
-            f'          <div class="hm-row"><div class="hm-co">{linked_name(r)}</div>'
-            f'<div class="hm-meta">{" &middot; ".join(_bits)}</div>'
-            f'<div class="hm-doors">{comma(r["doors"])} doors</div></div>')
-    canada_html = (
-        '  <section class="band tight">\n'
-        '    <div class="wrap">\n'
-        '      <div class="hm-block reveal">\n'
-        '        <span class="kicker">Honorable mention</span>\n'
-        '        <h2 class="h-lead">Big operators north of the border.</h2>\n'
-        f'        <p class="sub" style="margin:8px 0 20px;max-width:640px;">These companies are based in Canada, so they sit outside this U.S. ranking. By door count they would place inside the Top {TOP_N}, so they get a mention here.</p>\n'
-        '        <div class="hm-list">\n' + "\n".join(_hm) + "\n        </div>\n"
-        '      </div>\n'
-        '    </div>\n'
-        '  </section>\n')
+        _tail = f' &middot; {esc(r["exec"])}' if r.get('exec') else ''
+        _ent.append(f'{linked_name(r)} - {comma(r["doors"])} doors - {esc(r["loc"])}{_tail}')
+    _lead = ('one would have made the top 40, so it gets an honorable mention here: '
+             if len(_ent) == 1 else
+             f'{len(_ent)} would have made the top 40, so they get honorable mentions here: ')
+    canada_note = ('        <p class="rank-note canada-note">We received a handful of Canadian submissions, '
+                   'which sit outside this U.S. ranking. By door count, ' + _lead + "; ".join(_ent) + '.</p>\n')
 else:
-    canada_html = ""
+    canada_note = ""
 
 # ---- full page ----
 page = f"""<!--
@@ -933,6 +923,7 @@ page = f"""<!--
 {mobile_cards}
       </div>
       <p class="rank-note">Showing the top {shown} of {n} companies submitted so far. Something look off, or want to be added? Submissions are open through the end of the month.</p>
+{canada_note}
     </div>
   </section>
 
@@ -1037,7 +1028,6 @@ page = f"""<!--
   </div>
   <script id="stateData" type="application/json">{state_modal_json}</script>
 
-{canada_html}
   <!-- GROW THE LIST -->
   <section class="band tight wash">
     <div class="wrap">
