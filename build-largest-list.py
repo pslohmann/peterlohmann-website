@@ -82,6 +82,14 @@ EXCLUDE_COMPANIES = {                            # scratched from the list (not 
     "movezen, inc",                              # duplicate of "MoveZen Property Management"
     "crofton perdue assoc. inc.",                # removed (also deleted from JotForm)
 }
+# Manual per-state unit splits for multi-state operators, provided directly (by email), independent of
+# JotForm. The overall Top 40 still ranks each company by its TOTAL doors; only the state lists use these
+# per-state counts (the company appears in each listed state at that count, if it qualifies). Baked in
+# here so they persist across daily JotForm refreshes and into the final list. Keyed by lowercased name.
+# Add a one-off with a line like:  "company name": {"ST": units, "ST2": units}
+STATE_BREAKDOWN = {
+    "real property management preferred": {"TX": 1423, "NM": 633},   # Shawn Wolfswinkel, htownrpm.com
+}
 
 def _jotform_key():
     """API key from env (GitHub Action) or a local gitignored .jotform_key file. Never printed/committed."""
@@ -316,10 +324,23 @@ canada_honorable = [(r, hyp) for r, hyp in canada_honorable if hyp <= TOP_N]
 
 overall_rank = {r['name']: i for i, r in enumerate(valid, 1)}  # name -> position on the full (US) ranking
 
+# Per-state placements for the state lists/map. Multi-state operators (STATE_BREAKDOWN) are split into
+# one virtual entry per operated state at their per-state count; everyone else sits in their HQ state.
+# The overall Top 40 above is untouched (each company still ranks by its total doors).
+state_entries = []
+for r in valid:
+    _bd = STATE_BREAKDOWN.get(r['name'].lower().strip())
+    if _bd:
+        for _st, _d in _bd.items():
+            _vr = dict(r); _vr['doors'] = _d; _vr['doors_2025'] = None; _vr['state'] = _st
+            state_entries.append(_vr)
+    else:
+        state_entries.append(r)
+
 n = len(valid)
 total_doors = sum(r['doors'] for r in valid)
 median = sorted(r['doors'] for r in valid)[n//2]
-us_states = sorted({r['state'] for r in valid if r['state'] in STATE_NAME})
+us_states = sorted({r['state'] for r in state_entries if r['state'] in STATE_NAME})
 
 def _chart_counts(field, keep=6):
     # Exclude 'Unknown' (older submissions predate these questions); lump a long tail into 'Other'.
@@ -369,12 +390,12 @@ _custom_med = next((x for x in soft_medians if x[0] == 'Custom (In-House)'), Non
 soft_medians = [x for x in soft_medians if x[0] != 'Custom (In-House)']
 org_medians  = _medians_by('org')
 
-# states with 3-10 clean entries -> mini rankings
-by_state = collections.Counter(r['state'] for r in valid)
+# states with 3-10 clean entries -> mini rankings (uses per-state placements, so multi-state splits count)
+by_state = collections.Counter(r['state'] for r in state_entries)
 state_lists = []
 for st, c in by_state.most_common():
     if st in STATE_NAME and c >= 1:   # every US state with at least one company; show its top 10
-        rows = sorted([r for r in valid if r['state'] == st], key=lambda x: -x['doors'])[:10]
+        rows = sorted([r for r in state_entries if r['state'] == st], key=lambda x: -x['doors'])[:10]
         state_lists.append((st, rows))
 
 def esc(s): return html.escape(s, quote=True)
@@ -1217,7 +1238,7 @@ THEAD = ('<thead><tr><th class="num">#</th><th>Company</th><th class="num doors-
 state_all = {}
 for _st in by_state:
     if _st in STATE_NAME:
-        state_all[_st] = sorted([r for r in valid if r['state'] == _st], key=lambda x: -x['doors'])
+        state_all[_st] = sorted([r for r in state_entries if r['state'] == _st], key=lambda x: -x['doors'])
 
 def render_state_page(st, rows):
     name = STATE_NAME[st]

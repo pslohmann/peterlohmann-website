@@ -76,3 +76,11 @@ On Q, JWB, Good Life, Stratton Vantage, PMI Midwest, Tiner Properties.
 - Peter **deletes** opt-outs from JotForm → they drop off automatically on the next refresh.
 - If an opt-out is still in the form, it goes in EXCLUDE_COMPANIES (section 1) to remove it now.
 - A deletion check (site vs live JotForm) can be run anytime to catch anything stale.
+
+## Manual per-state breakdowns (multi-state operators)
+- `STATE_BREAKDOWN` in build-largest-list.py splits a company across the states it operates in, **for the state lists / map only**. The overall Top 40 is untouched: the company stays as ONE entry ranked by its TOTAL doors.
+- Provided by Andrew directly (by email), independent of JotForm. Baked into the code so they persist across every daily refresh and into the final published list. These are one-offs Andrew prompts; keep this list current so they are not lost or duplicated.
+- The "Change from 2025" cell shows N/A on these per-state rows (only a total prior-year figure exists).
+- To add one: a line in STATE_BREAKDOWN keyed by lowercased company name, e.g. `"company name": {"ST": units, "ST2": units}`.
+- **Current entries:**
+  - **Real Property Management Preferred** (Shawn Wolfswinkel, htownrpm.com): TX 1,423 + NM 633 (total 2,056). Effect: overall Top 40 unchanged at 2,056; Texas now ~#4 at 1,423 (was #2 at 2,056); New Mexico is a new #1 at 633 (this created the New Mexico state page, previously 0 companies).
