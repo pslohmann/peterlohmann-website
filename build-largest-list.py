@@ -255,6 +255,14 @@ def norm_org(s):
     if 'potfolio' in s or 'portfolio' in s: return 'Portfolio'
     return s.title() if s else 'Unknown'
 
+def hq_location(d):
+    """Raw HQ location, matched by label PREFIX so a wording change to the JotForm question
+    (e.g. '(City, State)' -> '(City, STATE please)') can't silently empty it and break the map."""
+    for k, v in d.items():
+        if k.lower().startswith("company hq location"):
+            return (v or "").strip()
+    return ""
+
 # ---- load + clean ----
 raw = load_records()
 
@@ -271,8 +279,8 @@ for d in raw:
     records.append({
         'name': name,
         'raw_name': raw_name,
-        'loc': clean_location(name, d.get('Company HQ Location (City, State)', '')),
-        'state': state_of(clean_location(name, d.get('Company HQ Location (City, State)', ''))),
+        'loc': clean_location(name, hq_location(d)),
+        'state': state_of(clean_location(name, hq_location(d))),
         'doors': doors,
         'soft': norm_soft(d.get('Primary Software Used For Property Accounting?', '')),
         'narpm': (d.get('Is your company a member of NARPM?') or '').strip().lower().startswith('y'),
