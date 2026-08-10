@@ -90,6 +90,7 @@ EXCLUDE_COMPANIES = {                            # scratched from the list (not 
 STATE_BREAKDOWN = {
     "real property management preferred": {"TX": 1423, "NM": 633},   # Shawn Wolfswinkel, htownrpm.com
     "on q property management": {"AZ": 6664, "TX": 1445},            # onqpm.com; HQ Gilbert AZ (AZ: Phoenix+Tucson, TX: Dallas+Austin)
+    "homeservices property management": {"VA": 1280, "MD": 440, "NC": 260, "PA": 150, "DC": 105, "NJ": 60},  # Patrick Bain, homeservicespm.com; HQ Fairfax VA
 }
 
 def _jotform_key():
