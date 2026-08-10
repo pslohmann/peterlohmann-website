@@ -43,6 +43,7 @@ NAME_FIXES = {
     "pacific shpre property management": "Pacific Shore Property Management",  # 'Shpre' typo
     "turbotenant": 'TurboTenant "Autopilot"',   # use their product name
     "20 property management": "206 Property Management",  # WA company; submitted name missing the '6' (they flagged it). Safety net; the JotForm entry now reads "206" already.
+    "johnson property mgmt": "Johnson Property Management",  # merge duplicate submission (was doubled in the Idaho top 10)
 }
 CRANE_MEMBERS_FORCE = {                          # confirmed Crane members (matched by raw or display name)
     "on q property management",
