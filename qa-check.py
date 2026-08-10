@@ -22,8 +22,9 @@ def resolve(src_file, ref):
 broken_links, missing_imgs = [], []
 for f in files:
     h = open(f, encoding="utf-8").read()
-    # strip <script> blocks so JS string-building isn't mistaken for links
+    # strip <script> blocks and HTML comments so JS/notes aren't mistaken for links
     h_nojs = re.sub(r'<script\b.*?</script>', '', h, flags=re.S)
+    h_nojs = re.sub(r'<!--.*?-->', '', h_nojs, flags=re.S)
     for m in re.finditer(r'<a[^>]+href="([^"]+)"', h_nojs):
         p = resolve(f, m.group(1))
         if p and not (os.path.exists(p) or os.path.exists(p + '.html') or os.path.isdir(p)):
