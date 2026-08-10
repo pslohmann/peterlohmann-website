@@ -778,6 +778,19 @@ if canada_honorable:
 else:
     canada_note = ""
 
+# Dataset structured data (schema.org/Dataset) so the ranking is treated as a citable data source
+# by Google Dataset Search and AI systems.
+dataset_ld = '<script type="application/ld+json">' + json.dumps({
+    "@context": "https://schema.org", "@type": "Dataset",
+    "name": "Largest Property Management Companies in America (2026)",
+    "description": "An annual, self-reported ranking of the largest residential property management companies in the United States by third-party doors (units) under management, with a top 10 for every state plus each company's software, organizational structure, and NARPM / Crane / Boom status.",
+    "url": f"{SITE_URL}/largest-pm-companies",
+    "keywords": ["property management", "largest property management companies", "doors under management", "units under management", "NARPM", "property management software"],
+    "creator": {"@type": "Person", "name": "Peter Lohmann", "url": f"{SITE_URL}/"},
+    "isAccessibleForFree": True, "temporalCoverage": "2026",
+    "variableMeasured": ["doors under management", "headquarters location", "primary property accounting software", "organizational structure", "NARPM membership"],
+}, separators=(",", ":"), ensure_ascii=False) + '</script>'
+
 # ---- full page ----
 page = f"""<!--
   PETER LOHMANN - THE LARGEST PM COMPANIES (2026)
@@ -792,6 +805,9 @@ page = f"""<!--
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://use.typekit.net" crossorigin />
 <title>The Largest PM Companies &middot; Peter Lohmann</title>
 <meta name="description" content="Peter Lohmann's 2026 ranking of the largest residential property management companies, with software share, org structure, NARPM membership, and top-10-by-state breakdowns." />
 <link rel="canonical" href="{SITE_URL}/largest-pm-companies" />
@@ -802,6 +818,7 @@ page = f"""<!--
 <meta property="og:image" content="{SITE_URL}/images/og-default.png" />
 <meta property="og:site_name" content="Peter Lohmann" />
 <meta name="twitter:card" content="summary_large_image" />
+{dataset_ld}
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="apple-touch-icon" href="favicon.png" />
@@ -1314,6 +1331,9 @@ def render_state_page(st, rows):
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://use.typekit.net" crossorigin />
 <title>The {cnt} Largest Property Management Companies in {esc(name)} (2026) &middot; Peter Lohmann</title>
 <meta name="description" content="The largest residential property management companies in {esc(name)} for 2026, ranked by third-party doors under management, with software, structure, and NARPM, Crane, and Boom status." />
 <link rel="canonical" href="{url}" />

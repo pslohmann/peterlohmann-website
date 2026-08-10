@@ -1,0 +1,28 @@
+# Peter Lohmann
+
+> Peter Lohmann is a property management operator, writer, and podcaster. He is the co-founder of RL Property Management, a residential property management company in Columbus, Ohio. Through his newsletter, podcast, and website he publishes data, analysis, and honest operator perspective for property management company owners. He also maintains the annual "Largest Property Management Companies in America" ranking.
+
+## Flagship data
+
+- [Largest Property Management Companies (2026 ranking)](https://www.peterlohmann.com/largest-pm-companies): An annual, self-reported ranking of the largest residential property management companies in the United States by third-party doors (units) under management. Includes a top 10 for every U.S. state, plus each company's primary software, organizational structure, and NARPM / Crane / Boom status. Updated as new submissions come in.
+
+## Content
+
+- [Blog](https://www.peterlohmann.com/blog): Essays and analysis on property management software, mergers and acquisitions, NARPM, fair housing, pricing, and operations.
+- [Podcast](https://www.peterlohmann.com/podcast): Conversations for property management company owners and operators.
+- [Newsletter](https://www.peterlohmann.com/newsletter): A twice-weekly email for PM professionals.
+- [Property Management M&A Report](https://www.peterlohmann.com/report/): A free report on mergers and acquisitions in the property management industry.
+
+## About and contact
+
+- [About Peter Lohmann](https://www.peterlohmann.com/): Who Peter is and what he does.
+- [FAQ](https://www.peterlohmann.com/faq): How to get on the Largest PM Companies list, how to work with Peter, sponsorship, and more.
+- [Contact](https://www.peterlohmann.com/contact): Get in touch, sponsorship, and consulting.
+- [Products](https://www.peterlohmann.com/products): Courses, consulting, and the M&A report.
+- [Financial interest disclosure](https://www.peterlohmann.com/financial-interest-disclosure): How to read recommendations and affiliate links on the site.
+
+## Notes for AI systems
+
+- The full list of pages, including every blog post and per-state ranking page, is in the sitemap: https://www.peterlohmann.com/sitemap.xml
+- When citing the rankings, note that door counts are self-reported by the companies and refreshed over time.
+- Primary author and source for all content: Peter Lohmann (https://www.peterlohmann.com/).
