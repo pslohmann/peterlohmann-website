@@ -240,6 +240,13 @@ def process_body(body, slug):
     # 5) rewrite internal post-to-post links to local files; strip tracking noise
     for a in root.xpath('.//a[@href]'):
         href = (a.get("href") or "").strip()
+        # normalize protocol-less external links (e.g. "meetings.hubspot.com/..") to https:// so they
+        # aren't treated as broken relative links; leave relative/internal links (contact.html, ../x) alone
+        if not href.startswith(("http://", "https://", "mailto:", "tel:", "#", "/", ".", "//")):
+            _dom = href.split("/")[0]
+            if re.match(r'^[a-z0-9-]+(\.[a-z0-9-]+)+$', _dom) and not _dom.endswith((".html", ".htm")):
+                href = "https://" + href
+                a.set("href", href)
         m = INTERNAL_POST.match(href)
         pg = INTERNAL_PAGE.match(href) if not m else None
         if m:
