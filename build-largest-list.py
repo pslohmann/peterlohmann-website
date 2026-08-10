@@ -278,11 +278,17 @@ def hq_location(d):
 # ---- load + clean ----
 raw = load_records()
 
+def strip_llc(name):
+    """Naming rule: drop the 'LLC' / 'L.L.C.' suffix from company names (Peter's call). This also
+    merges any '<Name>, LLC' entry with a plain '<Name>' entry, since they dedupe on the cleaned name."""
+    n = re.sub(r',?\s*\bL\.?\s*L\.?\s*C\.?\b\.?', '', name, flags=re.I)
+    return re.sub(r'\s+', ' ', n).strip().strip(',').strip()
+
 records = []
 for d in raw:
     doors = num(d.get('Total 3rd party rental doors under management:', ''))
     raw_name = (d.get('Company Name') or '').strip()
-    name = NAME_FIXES.get(raw_name.lower(), raw_name)
+    name = strip_llc(NAME_FIXES.get(raw_name.lower(), raw_name))
     lraw, lname = raw_name.lower(), name.lower()
     if lraw in EXCLUDE_COMPANIES or lname in EXCLUDE_COMPANIES:
         continue

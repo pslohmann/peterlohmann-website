@@ -72,6 +72,9 @@ On Q, JWB, Good Life, Stratton Vantage, PMI Midwest, Tiner Properties.
 
 ---
 
+## Naming rules
+- **Strip "LLC" / "L.L.C." from all company names** (`strip_llc` in build-largest-list.py, applied after NAME_FIXES). Cosmetic, and it also auto-merges any "<Name>, LLC" entry with a plain "<Name>" entry (they dedupe on the cleaned name). This resolved the Spectrum Realty Services and Zenith Properties NW duplicates automatically.
+
 ## Removals process (reference)
 - Peter **deletes** opt-outs from JotForm → they drop off automatically on the next refresh.
 - If an opt-out is still in the form, it goes in EXCLUDE_COMPANIES (section 1) to remove it now.
