@@ -125,6 +125,9 @@ def fetch_jotform(key):
     ANY of its submissions (any year) said Yes."""
     url = f"https://api.jotform.com/form/{JOTFORM_FORM_ID}/submissions?apiKey={key}&limit=1000"
     data = json.load(urllib.request.urlopen(url, timeout=45)).get("content", [])
+    # The JotForm API still returns submissions that were DELETED (moved to trash), so honor the
+    # status: deleting a submission in JotForm (e.g. an opt-out) now actually drops it from the list.
+    data = [s for s in data if (s.get("status") or "").upper() != "DELETED"]
     all_rows = [_row_from_submission(s) for s in data]
 
     crane_by_name = {}

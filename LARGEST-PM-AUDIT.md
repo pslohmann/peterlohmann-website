@@ -76,8 +76,8 @@ On Q, JWB, Good Life, Stratton Vantage, PMI Midwest, Tiner Properties.
 - **Strip "LLC" / "L.L.C." from all company names** (`strip_llc` in build-largest-list.py, applied after NAME_FIXES). Cosmetic, and it also auto-merges any "<Name>, LLC" entry with a plain "<Name>" entry (they dedupe on the cleaned name). This resolved the Spectrum Realty Services and Zenith Properties NW duplicates automatically.
 
 ## Removals process (reference)
-- Peter **deletes** opt-outs from JotForm → they drop off automatically on the next refresh.
-- If an opt-out is still in the form, it goes in EXCLUDE_COMPANIES (section 1) to remove it now.
+- Peter **deletes** opt-outs from JotForm → they drop off automatically on the next refresh. **(Fixed Aug 10:** the JotForm API still *returns* deleted submissions with `status: DELETED`, and the build now skips them. Before this fix, deleting in JotForm did NOT remove a company from the site, only EXCLUDE_COMPANIES did.)
+- EXCLUDE_COMPANIES (section 1) is still used for entries that should be dropped but are NOT deleted in JotForm (e.g. a legit submission that isn't residential PM), and as a belt-and-suspenders record of formal opt-outs.
 - A deletion check (site vs live JotForm) can be run anytime to catch anything stale.
 
 ## Manual per-state breakdowns (multi-state operators)
