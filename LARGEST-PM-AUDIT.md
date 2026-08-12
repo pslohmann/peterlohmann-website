@@ -81,11 +81,13 @@ On Q, JWB, Good Life, Stratton Vantage, PMI Midwest, Tiner Properties.
 - A deletion check (site vs live JotForm) can be run anytime to catch anything stale.
 
 ## Manual per-state breakdowns (multi-state operators)
-- `STATE_BREAKDOWN` in build-largest-list.py splits a company across the states it operates in, **for the state lists / map only**. The overall Top 40 is untouched: the company stays as ONE entry ranked by its TOTAL doors.
+- `STATE_BREAKDOWN` in build-largest-list.py splits a company across the states it operates in, **for the state lists / map**. The company still stays as ONE entry in the overall Top 40.
+- **Overall total = the sum of the per-state breakdown** (so total always equals the sum of the parts). This is authoritative over the JotForm total for these companies (e.g. Granite's JotForm said 4,668 but the per-state data sums to 4,926, so 4,926 is used; On Q shows 8,109 and HomeServices 2,295, their exact breakdown sums).
 - Provided by Andrew directly (by email), independent of JotForm. Baked into the code so they persist across every daily refresh and into the final published list. These are one-offs Andrew prompts; keep this list current so they are not lost or duplicated.
 - The "Change from 2025" cell shows N/A on these per-state rows (only a total prior-year figure exists).
 - To add one: a line in STATE_BREAKDOWN keyed by lowercased company name, e.g. `"company name": {"ST": units, "ST2": units}`.
 - **Current entries:**
   - **Real Property Management Preferred** (Shawn Wolfswinkel, htownrpm.com): TX 1,423 + NM 633 (total 2,056). Effect: overall Top 40 unchanged at 2,056; Texas now ~#4 at 1,423 (was #2 at 2,056); New Mexico is a new #1 at 633 (this created the New Mexico state page, previously 0 companies).
   - **On Q Property Management** (onqpm.com, HQ Gilbert AZ): AZ 6,664 + TX 1,445 (total ~8,107; supplied split sums to 8,109). Effect: overall Top 40 unchanged; Arizona #1 at 6,664 (its AZ units); Texas gains On Q at ~#4 with 1,445. (Supplied city detail: AZ = Phoenix 5,940 + Tucson 724; TX = Dallas 1,285 + Austin 160.)
-  - **HomeServices Property Management** (Patrick Bain, homeservicespm.com, HQ Fairfax VA): VA 1,280 + MD 440 + NC 260 + PA 150 + DC 105 + NJ 60 (total ~2,300; supplied split sums to 2,295). Effect: overall Top 40 unchanged; VA #2 (1,280), MD #3 (440), DC #2 (105), NJ #3 (60) in their top-10 tables; NC (260) and PA (150) appear in those state pages below the top 10.
+  - **HomeServices Property Management** (Patrick Bain, homeservicespm.com, HQ Fairfax VA): VA 1,280 + MD 440 + NC 260 + PA 150 + DC 105 + NJ 60 (total 2,295).
+  - **Granite Management** (John Rabold, livegranite.com, HQ West Lafayette IN; student housing): IN 3,303 + VA 1,574 + AL 49 (total 4,926). AL = Auburn (Auburn University); VA = Blacksburg + Christiansburg + Radford (Virginia Tech / Radford); IN = the rest (Purdue, IU, IU East/Richmond, Ball State, Indiana State, etc.). City-to-state mapping confirmed via livegranite.com. Effect: overall Top 40 unchanged; VA #2 (1,280), MD #3 (440), DC #2 (105), NJ #3 (60) in their top-10 tables; NC (260) and PA (150) appear in those state pages below the top 10.

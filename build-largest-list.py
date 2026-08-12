@@ -93,6 +93,7 @@ STATE_BREAKDOWN = {
     "real property management preferred": {"TX": 1423, "NM": 633},   # Shawn Wolfswinkel, htownrpm.com
     "on q property management": {"AZ": 6664, "TX": 1445},            # onqpm.com; HQ Gilbert AZ (AZ: Phoenix+Tucson, TX: Dallas+Austin)
     "homeservices property management": {"VA": 1280, "MD": 440, "NC": 260, "PA": 150, "DC": 105, "NJ": 60},  # Patrick Bain, homeservicespm.com; HQ Fairfax VA
+    "granite management": {"IN": 3303, "VA": 1574, "AL": 49},  # John Rabold, livegranite.com; HQ West Lafayette IN. AL=Auburn(49), VA=Blacksburg+Christiansburg+Radford, IN=rest
 }
 
 def _jotform_key():
@@ -294,6 +295,9 @@ for d in raw:
     doors = num(d.get('Total 3rd party rental doors under management:', ''))
     raw_name = (d.get('Company Name') or '').strip()
     name = strip_llc(NAME_FIXES.get(raw_name.lower(), raw_name))
+    _bd = STATE_BREAKDOWN.get(name.lower())
+    if _bd:
+        doors = sum(_bd.values())   # multi-state operator: overall total = the sum of its per-state breakdown
     lraw, lname = raw_name.lower(), name.lower()
     if lraw in EXCLUDE_COMPANIES or lname in EXCLUDE_COMPANIES:
         continue
