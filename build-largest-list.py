@@ -82,6 +82,7 @@ EXCLUDE_COMPANIES = {                            # scratched from the list (not 
     "windermere signature properties",           # duplicate of "Windermere Signature Property Management"
     "movezen, inc",                              # duplicate of "MoveZen Property Management"
     "crofton perdue assoc. inc.",                # removed (also deleted from JotForm)
+    "the joseph group",                          # opt-out (WA); Rebecca Addison, thejosephgroup.com; still in JotForm as of Aug 10
 }
 # Manual per-state unit splits for multi-state operators, provided directly (by email), independent of
 # JotForm. The overall Top 40 still ranks each company by its TOTAL doors; only the state lists use these
