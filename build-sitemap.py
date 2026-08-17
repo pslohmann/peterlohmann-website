@@ -14,7 +14,7 @@ EXCLUDE = {
     "index-bely.html", "index-bodoni.html", "index-sample.html",  # old mockups
     "404.html",
     "largest-pm-companies-coming-soon.html",                       # pre-launch teaser (swap-in only)
-    "products.html", "about.html", "blog-index.html",              # legacy-URL redirect stubs
+    "store.html", "pm-trends-report.html", "about.html", "blog-index.html",              # legacy-URL redirect stubs
     "newsletter-tues-opt-out.html", "crane-promo-opt-out.html", "subscribed.html",  # noindex utility pages
 }
 # blog/ redirect stubs to skip (old slug -> refreshed post)

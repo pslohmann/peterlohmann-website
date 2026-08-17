@@ -146,7 +146,7 @@ INTERNAL_PAGE = re.compile(r'^(?:https?://(?:www\.)?peterlohmann\.com)?/([A-Za-z
 PAGE_MAP = {
     '': '../index.html', 'about': '../index.html', 'contact': '../contact.html',
     'podcast': '../podcast.html', 'newsletter': '../newsletter.html', 'blog': '../blog.html',
-    'products': '../store.html', 'peterbot': '../peterbot.html', 'featured': '../featured.html',
+    'products': '../products.html', 'peterbot': '../peterbot.html', 'featured': '../featured.html',
     'largest-pm-companies': '../largest-pm-companies.html',
 }
 
@@ -328,7 +328,7 @@ NAV = """  <div class="bar">
       <a href="../blog.html" class="active">Blog</a>
       <a href="../report/index.html">M&amp;A Report</a>
       <a href="../peterbot.html">PeterBot</a>
-      <a href="../store.html">Products</a>
+      <a href="../products.html">Products</a>
     </div>
     <a class="btn btn-navy btn-sm cta" href="../contact.html">Contact</a>
   </div>"""
@@ -341,7 +341,7 @@ FOOT = """      <nav class="foot-links" aria-label="Footer">
         <a href="../blog.html">Blog</a>
         <a href="../report/index.html">M&amp;A Report</a>
         <a href="../peterbot.html">PeterBot</a>
-        <a href="../store.html">Products</a>
+        <a href="../products.html">Products</a>
         <a href="../featured.html">Featured</a>
         <a href="../contact.html">Contact</a>
         <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener">LinkedIn</a>
@@ -555,7 +555,7 @@ def write_index(posts):
       <a href="blog.html" class="active">Blog</a>
       <a href="report/index.html">M&amp;A Report</a>
       <a href="peterbot.html">PeterBot</a>
-      <a href="store.html">Products</a>
+      <a href="products.html">Products</a>
     </div>
     <a class="btn btn-navy btn-sm cta" href="contact.html">Contact</a>
   </div>
@@ -597,7 +597,7 @@ def write_index(posts):
         <a href="blog.html">Blog</a>
         <a href="report/index.html">M&amp;A Report</a>
         <a href="peterbot.html">PeterBot</a>
-        <a href="store.html">Products</a>
+        <a href="products.html">Products</a>
         <a href="featured.html">Featured</a>
         <a href="contact.html">Contact</a>
         <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener">LinkedIn</a>

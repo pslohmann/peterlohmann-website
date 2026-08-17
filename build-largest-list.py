@@ -190,6 +190,7 @@ BOOM_CUSTOMERS = {                               # Boom customers (Boom's confir
     "fox group properties",
     "freedom property advantage",
     "good life property management",
+    "granite management",
     "harrisburg property management group",
     "hearthside rentals",
     "hive real estate group & property management, las vegas",
@@ -689,7 +690,7 @@ NAV_LINKS = """      <a href="index.html">About</a>
       <a href="blog.html">Blog</a>
       <a href="report/index.html">M&amp;A Report</a>
       <a href="peterbot.html">PeterBot</a>
-      <a href="store.html">Products</a>"""
+      <a href="products.html">Products</a>"""
 
 FOOT_LINKS = """        <a href="index.html">About</a>
         <a href="newsletter.html">Newsletter</a>
@@ -698,7 +699,7 @@ FOOT_LINKS = """        <a href="index.html">About</a>
         <a href="blog.html">Blog</a>
         <a href="report/index.html">M&amp;A Report</a>
         <a href="peterbot.html">PeterBot</a>
-        <a href="store.html">Products</a>
+        <a href="products.html">Products</a>
         <a href="featured.html">Featured</a>
         <a href="contact.html">Contact</a>
         <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener">LinkedIn</a>
