@@ -185,7 +185,10 @@ def process_body(body, slug):
     #     the video id so the post gets the hero link + platform buttons (see write_post / podcast rule).
     for wrap in root.xpath('.//*[contains(concat(" ", normalize-space(@class), " "), " sqs-video-wrapper ")]'):
         dh = htmlmod.unescape(wrap.get("data-html") or "")
-        vm = re.search(r'youtube(?:-nocookie)?\.com/embed/([A-Za-z0-9_-]{11})', dh) or re.search(r'youtu\.be/([A-Za-z0-9_-]{11})', dh)
+        dh_dec = urllib.parse.unquote(dh)   # some blocks wrap the URL via Embedly (youtube.com%2Fembed%2F..)
+        vm = (re.search(r'youtube(?:-nocookie)?\.com/embed/([A-Za-z0-9_-]{11})', dh_dec)
+              or re.search(r'youtu\.be/([A-Za-z0-9_-]{11})', dh_dec)
+              or re.search(r'youtube\.com/watch\?v=([A-Za-z0-9_-]{11})', dh_dec))
         if not vm:
             continue
         vid = vm.group(1)
