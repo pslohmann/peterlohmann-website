@@ -828,6 +828,21 @@ a.tile:focus-visible{ z-index:2; }
 .sm-ck{ color:#2f9e6b; font-weight:900; }
 .sm-no{ color:#c2ccd4; }
 .sm-full{ width:100%; justify-content:center; }
+/* State modal: company tiles (replaces the horizontal-scroll table so nothing gets cut off) */
+.sm-toplink{ display:inline-block; color:var(--primary); font-size:13px; font-weight:600; text-decoration:none; margin-bottom:16px; }
+.sm-toplink:hover{ text-decoration:underline; }
+.sm-cards{ display:flex; flex-direction:column; gap:10px; margin-bottom:18px; }
+.sm-card{ border:1px solid var(--line); border-radius:12px; padding:12px 14px; background:#fff; }
+.sm-crow{ display:flex; align-items:flex-start; gap:11px; }
+.sm-crow .sm-rk{ font-size:16px; line-height:1.15; flex:none; }
+.sm-cell{ flex:1; min-width:0; }
+.sm-doors{ text-align:right; flex:none; line-height:1.05; }
+.sm-dnum{ font-family:var(--display); font-weight:900; color:var(--navy); font-variant-numeric:tabular-nums; font-size:16px; display:block; white-space:nowrap; }
+.sm-dlbl{ font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+.sm-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.sm-badge{ display:inline-flex; align-items:center; gap:3px; font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:999px; }
+.sm-badge.on{ background:#e7f5ee; color:#2f9e6b; }
+.sm-badge.off{ background:#f0f3f6; color:#9aa5ad; }
 
 .chart-note{ margin:16px 0 0; font-size:13px; color:var(--muted); line-height:1.5; border-top:1px solid var(--line); padding-top:12px; }
 .chart-note strong{ color:var(--navy); }

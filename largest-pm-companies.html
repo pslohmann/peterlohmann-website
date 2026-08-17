@@ -1815,25 +1815,25 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   var CK = '<span class="sm-ck" role="img" aria-label="yes">&#10003;</span>', DASH = '<span class="sm-no" aria-hidden="true">&middot;</span>';
   function render(st){
     var s = data[st]; if (!s) return;
-    var rows = s.co.map(function(c,i){
+    var cards = s.co.map(function(c,i){
       var nm = c.u ? '<a class="co-link" href="'+c.u+'" target="_blank" rel="noopener">'+esc(c.n)+'</a>' : esc(c.n);
       var t40 = c.t ? ' <span class="sm-t40">#'+c.t+' top 40</span>' : '';
       var parts = [];
       if (c.loc) parts.push('<span class="sm-loc">'+esc(c.loc)+'</span>');
       if (c.ex) parts.push('<span class="sm-ex">'+esc(c.ex)+'</span>');
       var sub = parts.length ? '<div class="sm-sub">'+parts.join('<span class="sm-dot">&middot;</span>')+'</div>' : '';
-      return '<tr><td class="sm-rk">'+(i+1)+'</td>'
-        +'<td class="sm-cell"><div class="sm-name">'+nm+t40+'</div>'+sub+'</td>'
-        +'<td class="sm-dn">'+fmt(c.d)+'</td>'
-        +'<td class="sm-yn">'+(c.na?CK:DASH)+'</td>'
-        +'<td class="sm-yn">'+(c.cr?CK:DASH)+'</td>'
-        +'<td class="sm-yn">'+(c.bo?CK:DASH)+'</td></tr>';
+      function bdg(on,label){ return '<span class="sm-badge '+(on?'on':'off')+'">'+(on?'&#10003; ':'')+label+'</span>'; }
+      return '<div class="sm-card">'
+        +'<div class="sm-crow"><span class="sm-rk">'+(i+1)+'</span>'
+        +'<div class="sm-cell"><div class="sm-name">'+nm+t40+'</div>'+sub+'</div>'
+        +'<div class="sm-doors"><span class="sm-dnum">'+fmt(c.d)+'</span><span class="sm-dlbl">doors</span></div></div>'
+        +'<div class="sm-tags">'+bdg(c.na,'NARPM')+bdg(c.cr,'Crane')+bdg(c.bo,'Boom')+'</div>'
+        +'</div>';
     }).join('');
     body.innerHTML = '<div class="sm-head"><h3 id="smTitle">The Largest PM Companies in '+esc(s.n)+'</h3>'
-      +'<p class="sm-stat">'+s.c+' companies &middot; '+fmt(s.d)+' doors under management</p></div>'
-      +'<div class="sm-scroll"><table class="sm-table"><thead><tr><th aria-label="Rank"></th><th>Company</th>'
-      +'<th class="sm-dn">Doors</th><th class="sm-yn">NARPM</th><th class="sm-yn">Crane</th><th class="sm-yn">Boom</th></tr></thead>'
-      +'<tbody>'+rows+'</tbody></table></div>'
+      +'<p class="sm-stat">'+s.c+' companies &middot; '+fmt(s.d)+' doors under management</p>'
+      +'<a class="sm-toplink" href="'+s.p+'">View the full '+esc(s.n)+' page &rarr;</a></div>'
+      +'<div class="sm-cards">'+cards+'</div>'
       +'<a class="btn btn-primary sm-full" href="'+s.p+'">View the full '+esc(s.n)+' page &rarr;</a>';
   }
   function openM(st){ lastFocus=document.activeElement; render(st); modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; closeBtn.focus(); }
