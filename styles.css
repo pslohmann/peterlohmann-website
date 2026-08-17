@@ -360,6 +360,12 @@ ul.feat li::before{ content:"\2713"; position:absolute; left:0; top:0; color:var
 /* ranking table (sticky header, zebra rows, emphasized Doors column) */
 .table-scroll{ overflow:visible; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); background:#fff; }
 .rank-table{ width:100%; border-collapse:collapse; font-size:15px; }
+/* Round the table's own outer corners so its header/last row don't poke past the container's rounded corners
+   (the container stays overflow:visible so the sticky header keeps working) */
+.rank-table thead th:first-child{ border-top-left-radius:var(--radius); }
+.rank-table thead th:last-child{ border-top-right-radius:var(--radius); }
+.rank-table tbody tr:last-child td:first-child{ border-bottom-left-radius:var(--radius); }
+.rank-table tbody tr:last-child td:last-child{ border-bottom-right-radius:var(--radius); }
 .rank-table thead th{ position:sticky; top:58px; z-index:3; background:#eef3f8; text-align:left;
   font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--primary-dark);
   padding:14px 16px; border-bottom:2px solid var(--line); white-space:nowrap; }

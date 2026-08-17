@@ -946,7 +946,7 @@ for st, rows in state_lists:
         "n": STATE_NAME.get(st, st),
         "c": by_state.get(st, 0),
         "d": state_doors.get(st, 0),
-        "p": state_page_filename(st),            # link to the full state page
+        "p": "/" + state_page_filename(st)[:-5],  # clean extensionless URL to the full state page (matches the tiles/canonical)
         "co": [{"t": _top40(x), "n": x['name'], "u": _weburl(x), "loc": x['loc'], "ex": x.get('exec', ''),
                 "d": x['doors'], "cr": 1 if x['crane'] else 0, "bo": 1 if x['boom'] else 0,
                 "na": 1 if x['narpm'] else 0} for x in rows],
