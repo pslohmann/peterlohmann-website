@@ -538,9 +538,7 @@ FOOT_LINKS = """        <a href="index.html">About</a>
         <a href="featured.html">Featured</a>
         <a href="contact.html">Contact</a>
         <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="faq.html">FAQ</a>
-        <a href="privacy-policy.html">Privacy</a>
-        <a href="financial-interest-disclosure.html">Disclosures</a>"""
+        <a href="faq.html">FAQ</a>"""
 
 FOOT_SOCIAL = """    <div class="foot-social" aria-label="Peter Lohmann on social media">
       <a href="https://www.youtube.com/@peterlohmann" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg></a>
@@ -1015,7 +1013,7 @@ page = f"""<!--
       <h2 class="h-lead reveal">What the data says.</h2>
       <div class="stats stats-color g4 reveal mt-md" aria-label="At a glance">
         <div class="stat"><div class="v">{n}</div><div class="k">Companies ranked</div></div>
-        <div class="stat"><div class="v">{comma(round(total_doors, -2))}+</div><div class="k">Doors under management</div></div>
+        <div class="stat"><div class="v">{round(total_doors/1000)}k+</div><div class="k">Doors under management</div></div>
         <div class="stat"><div class="v">{len(us_states)}</div><div class="k">U.S. states on the list{ca_note}</div></div>
         <div class="stat"><div class="v">{comma(median)}</div><div class="k">Median doors per company</div></div>
       </div>
@@ -1155,7 +1153,7 @@ page = f"""<!--
       </nav>
     </div>
 {FOOT_SOCIAL}
-    <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have consulting agreements with, or financial interests in, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions.</p>
+    <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have <a href="financial-interest-disclosure.html">consulting agreements with, or financial interests in</a>, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions. <a href="privacy-policy.html">Privacy Policy</a></p>
   </div>
 </footer>
 
@@ -1420,7 +1418,7 @@ def render_state_page(st, rows):
       </nav>
     </div>
 {FOOT_SOCIAL}
-    <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have consulting agreements with, or financial interests in, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions.</p>
+    <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have <a href="financial-interest-disclosure.html">consulting agreements with, or financial interests in</a>, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions. <a href="privacy-policy.html">Privacy Policy</a></p>
   </div>
 </footer>
 <script src="site.js?v=24"></script>

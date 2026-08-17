@@ -309,15 +309,17 @@ FOOT = """      <nav class="foot-links" aria-label="Footer">
         <a href="../contact.html">Contact</a>
         <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="../faq.html">FAQ</a>
-        <a href="../privacy-policy.html">Privacy</a>
-        <a href="../financial-interest-disclosure.html">Disclosures</a>
       </nav>"""
 
-DISC = ("The content of this website is for informational purposes only and does not constitute "
-        "professional advice. I may have consulting agreements with, or financial interests in, "
-        "companies mentioned on this website. Additionally, some of the links across this site may be "
-        "affiliate links, meaning I may earn a commission if you make a purchase through those links. "
-        "Always perform your own due diligence before making any financial or business decisions.")
+def disc_html(p=""):
+    # p is the relative path prefix to the site root ("" for root pages, "../" for /blog posts).
+    return ('The content of this website is for informational purposes only and does not constitute '
+            'professional advice. I may have <a href="' + p + 'financial-interest-disclosure.html">'
+            'consulting agreements with, or financial interests in</a>, companies mentioned on this '
+            'website. Additionally, some of the links across this site may be affiliate links, meaning '
+            'I may earn a commission if you make a purchase through those links. Always perform your '
+            'own due diligence before making any financial or business decisions. '
+            '<a href="' + p + 'privacy-policy.html">Privacy Policy</a>')
 
 # Social icons (absolute URLs, so identical for blog.html and the posts)
 _SOC_ICONS = (
@@ -410,7 +412,7 @@ def write_post(it, body_html, cover=None):
 {FOOT}
     </div>
 {FOOT_SOCIAL}
-    <p class="disc">{DISC}</p>
+    <p class="disc">{disc_html("../")}</p>
   </div>
 </footer>
 <script src="../site.js?v={ASSET_V}"></script>
@@ -528,11 +530,10 @@ def write_index(posts):
         <a href="contact.html">Contact</a>
         <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="faq.html">FAQ</a>
-        <a href="financial-interest-disclosure.html">Disclosures</a>
       </nav>
     </div>
 {FOOT_SOCIAL}
-    <p class="disc">{DISC}</p>
+    <p class="disc">{disc_html("")}</p>
   </div>
 </footer>
 <script src="site.js?v={ASSET_V}"></script>
