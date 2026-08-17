@@ -418,10 +418,10 @@ def norm_soft(s):
     s = (s or "").strip().lower()
     for key,label in [('appfolio','AppFolio'),('rentvine','Rentvine'),('rentmanager','Rent Manager'),
                       ('rent manager','Rent Manager'),('buildium','Buildium'),('propertyware','Propertyware'),
-                      ('yardi','Yardi'),('rentec','Rentec Direct'),('hostaway','Hostaway')]:
+                      ('rentec','Rentec Direct'),('hostaway','Hostaway')]:
         if key in s: return label
-    # Peter's call: custom / in-house / proprietary / RealPage all roll up into "Other".
-    if 'realpage' in s or 'custom' in s or 'in-house' in s or 'in house' in s or 'proprietary' in s: return 'Other'
+    # Peter's call: Yardi, RealPage, custom / in-house / proprietary all roll up into "Other".
+    if 'yardi' in s or 'realpage' in s or 'custom' in s or 'in-house' in s or 'in house' in s or 'proprietary' in s: return 'Other'
     return s.title() if s else 'Unknown'
 
 def norm_org(s):
