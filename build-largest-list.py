@@ -1149,7 +1149,6 @@ page = f"""<!--
       <div class="hero-jump" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;">
         <a class="btn btn-primary" href="#ranking">Top 40 List</a>
         <a class="btn btn-ghost" href="#by-state">Top 10 by State</a>
-        <a class="btn btn-ghost" href="#fastest-growing">Fastest-Growing</a>
       </div>
     </div>
   </header>
