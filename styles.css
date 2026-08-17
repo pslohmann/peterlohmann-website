@@ -687,7 +687,7 @@ td.yn .chip-no{ display:inline-block; }
 .grow-list .gl-co{ font-weight:700; color:var(--navy); flex:1; min-width:0; }
 .grow-list .gl-pct{ font-weight:800; color:#2f9e6b; font-variant-numeric:tabular-nums; white-space:nowrap; }
 .grow-list .gl-detail{ flex-basis:100%; margin-left:30px; color:var(--muted); font-size:12.5px; font-variant-numeric:tabular-nums; }
-.back-link{ display:inline-flex; align-items:center; gap:6px; color:var(--primary); font-weight:600; font-size:14.5px; margin-bottom:14px; }
+.back-link{ display:flex; width:fit-content; align-items:center; gap:6px; color:var(--primary); font-weight:600; font-size:14.5px; margin-bottom:16px; }
 /* Mobile: swap the horizontal-scroll table for stacked full-width cards */
 .rank-cards{ display:none; }
 .pmcard{ border:1px solid var(--line); border-radius:14px; background:#fff; box-shadow:var(--shadow); padding:16px; }
