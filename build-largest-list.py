@@ -1149,6 +1149,7 @@ page = f"""<!--
       <div class="hero-jump" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;">
         <a class="btn btn-primary" href="#ranking">Top 40 List</a>
         <a class="btn btn-ghost" href="#by-state">Top 10 by State</a>
+        <a class="btn btn-ghost" href="#fastest-growing">Fastest-Growing</a>
       </div>
     </div>
   </header>
@@ -1230,7 +1231,7 @@ page = f"""<!--
           </div>
         </div>
       </div>
-      <div class="card reveal mt-lg grow-card">
+      <div class="card reveal mt-lg grow-card" id="fastest-growing" style="scroll-margin-top:90px;">
         <h3 style="margin-bottom:6px;">Fastest-growing</h3>
         <p style="color:var(--muted);font-size:14.5px;margin-bottom:18px;">Biggest year-over-year jump in self-reported doors, among companies that submitted in both 2025 and 2026 (2025 base of {GROWTH_FLOOR_2025}+ doors).</p>
         <div class="grow-scroll">
