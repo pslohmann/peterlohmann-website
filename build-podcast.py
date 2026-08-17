@@ -200,6 +200,14 @@ def build():
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Podcast &middot; Peter Lohmann</title>
 <meta name="description" content="Peter Lohmann's Podcast: honest, operator-to-operator conversations about property management. Watch the latest episodes, or listen on Apple Podcasts and Spotify." />
+<link rel="canonical" href="https://www.peterlohmann.com/podcast" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Podcast &middot; Peter Lohmann" />
+<meta property="og:description" content="Peter Lohmann's Podcast: honest, operator-to-operator conversations about property management." />
+<meta property="og:url" content="https://www.peterlohmann.com/podcast" />
+<meta property="og:image" content="https://www.peterlohmann.com/images/og-default.png?v=2" />
+<meta property="og:site_name" content="Peter Lohmann" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="apple-touch-icon" href="favicon.png" />
