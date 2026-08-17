@@ -263,6 +263,8 @@ def norm_soft(s):
                       ('rent manager','Rent Manager'),('buildium','Buildium'),('propertyware','Propertyware'),
                       ('yardi','Yardi'),('rentec','Rentec Direct'),('hostaway','Hostaway')]:
         if key in s: return label
+    # Peter's call: custom / in-house / proprietary systems all roll up into "Other".
+    if 'custom' in s or 'in-house' in s or 'in house' in s or 'proprietary' in s: return 'Other'
     return s.title() if s else 'Unknown'
 
 def norm_org(s):
@@ -271,7 +273,8 @@ def norm_org(s):
     if 'pod' in s or 'squad' in s: return 'Pods (Squads)'
     if 'depar' in s: return 'Departmental'
     if 'potfolio' in s or 'portfolio' in s: return 'Portfolio'
-    return s.title() if s else 'Unknown'
+    # Everything else (process-driven, small/family-operated, one-offs) rolls up into "Other".
+    return 'Other' if s else 'Unknown'
 
 def hq_location(d):
     """Raw HQ location, matched by label PREFIX so a wording change to the JotForm question
@@ -380,13 +383,15 @@ def _chart_counts(field, keep=6):
     # Exclude 'Unknown' (older submissions predate these questions); lump a long tail into 'Other'.
     c = [(k, v) for k, v in collections.Counter(r[field] for r in valid).most_common() if k != 'Unknown']
     reported = sum(v for _, v in c)
-    if len(c) > keep:
-        head = c[:keep]
-        tail = sum(v for _, v in c[keep:])
-        if tail:
-            head.append(('Other', tail))
-        c = head
-    return c, reported
+    # Keep the top `keep` NAMED categories; everything else (long tail + anything already
+    # normalized to 'Other', e.g. custom/in-house software) merges into a single 'Other' bar.
+    named = [(k, v) for k, v in c if k != 'Other']
+    other = sum(v for k, v in c if k == 'Other')
+    head = named[:keep]
+    other += sum(v for _, v in named[keep:])
+    if other:
+        head.append(('Other', other))
+    return head, reported
 soft_counts, soft_reported = _chart_counts('soft')
 org_counts,  org_reported  = _chart_counts('org')
 narpm_n = sum(1 for r in valid if r['narpm'])
@@ -409,7 +414,7 @@ fastest = _growers[:10]
 def _medians_by(field, min_n=4):
     groups = collections.defaultdict(list)
     for r in valid:
-        if r[field] and r[field] != 'Unknown':
+        if r[field] and r[field] not in ('Unknown', 'Other'):
             groups[r[field]].append(r['doors'])
     out = []
     for k, arr in groups.items():
@@ -419,9 +424,6 @@ def _medians_by(field, min_n=4):
     out.sort(key=lambda t: -t[1])
     return out
 soft_medians = _medians_by('soft')
-# Peter: pull "Custom (In-House)" out of the software chart (those shops run far larger and skew it) -> footnote
-_custom_med = next((x for x in soft_medians if x[0] == 'Custom (In-House)'), None)
-soft_medians = [x for x in soft_medians if x[0] != 'Custom (In-House)']
 org_medians  = _medians_by('org')
 
 # states with 3-10 clean entries -> mini rankings (uses per-state placements, so multi-state splits count)
@@ -672,9 +674,7 @@ def median_bars(items, klass_cycle):
             f'<div class="db-track"><span class="db-fill" style="--w:{round(100*med/top)}%"></span></div></div>')
     return "\n".join(out)
 soft_median_bars = median_bars(soft_medians, ['', 'c3', 'c4', 'c2'])
-custom_note = (f'<p class="chart-note">Not shown: <strong>custom / in-house</strong> software. The {_custom_med[2]} '
-               f'companies that built their own run far larger (median {comma(_custom_med[1])} doors), which would dwarf the chart.</p>'
-               if _custom_med else '')
+custom_note = ''  # custom / in-house software now folded into "Other"; no separate footnote
 org_median_bars  = median_bars(org_medians, ['', 'c2', 'c4', 'c3'])
 
 # fastest-growing table (columns match the format Peter provided: #, company, 2025, 2026, % growth, +doors)
@@ -755,7 +755,7 @@ for st, (rr, cc) in STATE_GRID.items():
                      f'data-st="{st}" aria-label="{esc(full)}: {cnt} companies"><span class="t-ab">{st}</span>'
                      f'<span class="t-n">{cnt}</span></a>')
     else:
-        tiles.append(f'      <span class="tile t0" {pos} aria-label="{esc(full)}: no submissions yet">'
+        tiles.append(f'      <span class="tile t0" {pos} aria-label="{esc(full)}: no companies on the list">'
                      f'<span class="t-ab">{st}</span><span class="t-n">0</span></span>')
 map_tiles_html = "\n".join(tiles)
 
@@ -967,7 +967,7 @@ page = f"""<!--
       <h1>The Largest Property Management Companies</h1>
       <a class="presented-by" href="https://www.boompay.app/?utm_source=peter-lohmann&amp;utm_medium=plm-largest-pmcs" target="_blank" rel="noopener">Presented by <img src="images/boom-logo.webp" alt="Boom" /></a>
       <div class="hero-rule" aria-hidden="true"></div>
-      <p class="lead">A self-reported ranking of the largest residential property management companies, plus what the data says about software, structure, and how the best operators are built. Submissions are still open, so this list keeps growing.</p>
+      <p class="lead">A self-reported ranking of the largest residential property management companies, plus what the data says about software, structure, and how the best operators are built.</p>
       <div class="hero-jump" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;">
         <a class="btn btn-primary" href="#ranking">Top 40 List</a>
         <a class="btn btn-ghost" href="#by-state">Top 10 by State</a>
@@ -1003,7 +1003,7 @@ page = f"""<!--
       <div class="rank-cards reveal" aria-label="Company ranking (mobile)">
 {mobile_cards}
       </div>
-      <p class="rank-note">Showing the top {shown} of {n} companies submitted so far. Something look off, or want to be added? Submissions are open through the end of the month.</p>
+      <p class="rank-note">Showing the top {shown} of {n} companies submitted for 2026.</p>
 {canada_note}
     </div>
   </section>
@@ -1014,7 +1014,7 @@ page = f"""<!--
       <span class="kicker reveal">By the Numbers</span>
       <h2 class="h-lead reveal">What the data says.</h2>
       <div class="stats stats-color g4 reveal mt-md" aria-label="At a glance">
-        <div class="stat"><div class="v">{n}</div><div class="k">Companies ranked so far</div></div>
+        <div class="stat"><div class="v">{n}</div><div class="k">Companies ranked</div></div>
         <div class="stat"><div class="v">{comma(round(total_doors, -2))}+</div><div class="k">Doors under management</div></div>
         <div class="stat"><div class="v">{len(us_states)}</div><div class="k">U.S. states on the list{ca_note}</div></div>
         <div class="stat"><div class="v">{comma(median)}</div><div class="k">Median doors per company</div></div>
@@ -1080,7 +1080,7 @@ page = f"""<!--
     <div class="wrap">
       <span class="kicker reveal">Top 10 by State</span>
       <h2 class="h-lead reveal">A ranking for every state.</h2>
-      <p class="sub reveal" style="margin-bottom:22px;">Click any state for its top 10, or open its full page. Shaded by how many companies have submitted so far, darker means more.</p>
+      <p class="sub reveal" style="margin-bottom:22px;">Click any state for its top 10, or open its full page. Shaded by how many companies are on the list, darker means more.</p>
       <div class="tilemap-wrap reveal">
         <div class="tilemap" role="group" aria-label="U.S. states, shaded by number of companies">
 {map_tiles_html}
@@ -1093,7 +1093,7 @@ page = f"""<!--
       </div>
 
       <h3 class="reveal" style="margin:44px 0 4px;font-size:22px;">Or browse the full lists</h3>
-      <p class="sub reveal" style="margin-bottom:22px;">Every state with at least one submission. The goal is a full top 10 for all 50.</p>
+      <p class="sub reveal" style="margin-bottom:22px;">Every state with at least one company on the list.</p>
       <div class="state-grid reveal">
 {state_cards}
       </div>
@@ -1108,19 +1108,6 @@ page = f"""<!--
     </div>
   </div>
   <script id="stateData" type="application/json">{state_modal_json}</script>
-
-  <!-- GROW THE LIST -->
-  <section class="band tight wash">
-    <div class="wrap">
-      <div class="cta-final">
-        <span class="tag tag-warn" style="margin-bottom:14px;display:inline-block;">Help me grow it</span>
-        <h2>Get your company on the list.</h2>
-        <p>The goal is the largest 40+ PM companies in the U.S., and a top 10 for every state. If you run a qualifying company, add yours. It's free, and it's the fastest way to benchmark against your peers.</p>
-        <p style="color:#f0a882;font-weight:700;">Submissions are open through the end of the month.</p>
-        <a class="btn btn-primary" href="https://form.jotform.com/240037996931060" target="_blank" rel="noopener">Submit your PM company</a>
-      </div>
-    </div>
-  </section>
 
   <!-- METHODOLOGY -->
   <section class="band">
@@ -1138,7 +1125,7 @@ page = f"""<!--
             <li>Figures are self-reported</li>
             <li>Covers SFR and small multifamily only (under 100 units)</li>
             <li>No HOAs, no big multifamily, no mixed portfolios</li>
-            <li>Data is refreshed as new submissions come in</li>
+            <li>Based on companies submitted for the 2026 ranking</li>
           </ul>
         </div>
       </div>
@@ -1333,7 +1320,7 @@ def render_state_page(st, rows):
     })
     plural = "company" if cnt == 1 else "companies"
     lead = (f"The largest residential property management companies in {name}, ranked by third-party "
-            f"doors under management. {cnt} {plural} listed so far"
+            f"doors under management. {cnt} {plural} listed"
             + (f", managing {comma(tot)} doors combined." if cnt > 1 else "."))
     quick = ('' if cnt < 2 else
         '      <div class="stats stats-color g3 reveal mt-md" aria-label="At a glance">\n'
@@ -1401,7 +1388,7 @@ def render_state_page(st, rows):
       <div class="rank-cards reveal" aria-label="Company ranking (mobile)">
 {st_cards}
       </div>
-{rest_html}      <p class="rank-note">{esc(name)}'s ranking updates automatically as companies submit. <a href="https://form.jotform.com/240037996931060" target="_blank" rel="noopener">Add your company &rarr;</a></p>
+{rest_html}      <p class="rank-note">Part of the 2026 national ranking of the largest residential PM companies.</p>
     </div>
   </section>
   <section class="band tight wash">
