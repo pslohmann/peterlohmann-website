@@ -14,7 +14,11 @@ EXCLUDE = {
     "index-bely.html", "index-bodoni.html", "index-sample.html",  # old mockups
     "404.html",
     "largest-pm-companies-coming-soon.html",                       # pre-launch teaser (swap-in only)
+    "products.html", "about.html", "blog-index.html",              # legacy-URL redirect stubs
+    "newsletter-tues-opt-out.html", "crane-promo-opt-out.html", "subscribed.html",  # noindex utility pages
 }
+# blog/ redirect stubs to skip (old Squarespace slug -> current slug)
+BLOG_EXCLUDE = {"how-to-design-a-process-people-actually-want-to-use.html"}
 
 def clean_url(rel):
     if rel == "index.html":
@@ -28,6 +32,8 @@ for f in sorted(glob.glob(os.path.join(HERE, "*.html"))):
         continue
     urls.append(clean_url(b))
 for f in sorted(glob.glob(os.path.join(HERE, "blog", "*.html"))):
+    if os.path.basename(f) in BLOG_EXCLUDE:
+        continue
     urls.append(clean_url("blog/" + os.path.basename(f)))
 if os.path.exists(os.path.join(HERE, "report", "index.html")):
     urls.append(SITE + "/report/")

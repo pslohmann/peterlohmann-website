@@ -12,6 +12,10 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
 <link rel="apple-touch-icon" href="/favicon.png" />
 <link rel="stylesheet" href="/styles.css?v=24" />
+<script>
+  /* Legacy Squarespace tag archives (/blog/tag/*) are gone; send them to the blog. */
+  (function(){ if (location.pathname.indexOf('/blog/tag/') === 0 || location.pathname.indexOf('/blog/tag/') !== -1) { location.replace('/blog'); } })();
+</script>
 </head>
 <body>
 
@@ -29,7 +33,7 @@
       <a href="/blog.html">Blog</a>
       <a href="/report/index.html">M&amp;A Report</a>
       <a href="/peterbot.html">PeterBot</a>
-      <a href="/products.html">Products</a>
+      <a href="/store.html">Products</a>
     </div>
     <a class="btn btn-navy btn-sm cta" href="/contact.html">Contact</a>
   </div>
@@ -63,7 +67,7 @@
         <a href="/blog.html">Blog</a>
         <a href="/report/index.html">M&amp;A Report</a>
         <a href="/peterbot.html">PeterBot</a>
-        <a href="/products.html">Products</a>
+        <a href="/store.html">Products</a>
         <a href="/featured.html">Featured</a>
         <a href="/contact.html">Contact</a>
         <a href="/faq.html">FAQ</a>
