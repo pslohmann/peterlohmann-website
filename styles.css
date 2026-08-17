@@ -416,7 +416,7 @@ ul.feat li::before{ content:"\2713"; position:absolute; left:0; top:0; color:var
 .sc-title{ display:flex; align-items:center; gap:10px; }
 .sc-name{ font-family:var(--sans); font-weight:700; font-size:21px; color:var(--navy); line-height:1.15;
   width:185px; flex:none; }  /* fixed width so every "N ranked" pill lines up down the columns */
-@media (max-width:560px){ .sc-name{ width:auto; } }
+@media (max-width:560px){ .sc-name{ width:auto; } .sc-title{ flex-direction:column; align-items:flex-start; gap:5px; } }
 .st-count{ font-size:12.5px; font-weight:700; color:var(--muted); background:var(--wash); padding:3px 9px; border-radius:999px; }
 .sc-hint{ display:inline-flex; align-items:center; gap:6px; color:var(--primary); font-size:12px; font-weight:600; white-space:nowrap; }
 .sc-hint-t::after{ content:"Click to expand"; }
@@ -777,6 +777,8 @@ td.yn .chip-no{ display:inline-block; }
 /* =============================================================================
    TILE-GRID STATE MAP + STATE MODAL (largest-pm page, Phase 2)
    ========================================================================== */
+.tilemap-scroll{ position:relative; }
+.map-scroll-hint{ display:none; }
 .tilemap-wrap{ overflow-x:auto; padding-bottom:8px; }
 .tilemap{ display:grid; grid-template-columns:repeat(11,1fr); gap:6px; max-width:720px; margin:0 auto; min-width:520px; }
 .tile{ aspect-ratio:1/1; border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center;
@@ -793,7 +795,11 @@ a.tile:focus-visible{ z-index:2; }
 .tile.t4{ background:#245f88; color:#fff; }
 .tile-legend{ display:flex; align-items:center; gap:7px; justify-content:center; margin-top:34px; font-size:12.5px; color:var(--muted); }
 .tile-legend i{ width:20px; height:20px; border-radius:5px; aspect-ratio:auto; }
-@media (max-width:560px){ .tilemap{ min-width:430px; } .tile .t-ab{ font-size:11px; } .tile .t-n{ font-size:9px; } }
+@media (max-width:560px){ .tilemap{ min-width:430px; } .tile .t-ab{ font-size:11px; } .tile .t-n{ font-size:9px; }
+  .map-scroll-hint{ display:inline-flex; align-items:center; gap:4px; position:absolute; top:-4px; left:50%; transform:translateX(-50%);
+    z-index:6; background:var(--navy); color:#fff; font-size:10.5px; font-weight:700; letter-spacing:.02em; padding:3px 11px;
+    border-radius:999px; box-shadow:0 2px 9px rgba(31,58,77,.3); pointer-events:none; white-space:nowrap; }
+}
 
 .smodal{ position:fixed; inset:0; z-index:1000; display:none; align-items:center; justify-content:center; padding:20px;
   background:rgba(12,20,27,.82); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); }
@@ -871,6 +877,21 @@ a.tile:focus-visible{ z-index:2; }
 .grow-table .gt-n{ text-align:right; font-variant-numeric:tabular-nums; }
 .grow-table .gt-up{ color:#2f9e6b; font-weight:700; }
 @media (max-width:560px){ .grow-table th, .grow-table td{ padding:9px 10px; font-size:13.5px; } }
+/* Fastest-growing: on mobile, swap the horizontal-scroll table for stacked cards */
+.grow-cards{ display:none; }
+.growcard{ border:1px solid var(--line); border-radius:12px; background:#fff; padding:13px 15px; box-shadow:var(--shadow); }
+.gc-head{ display:flex; align-items:center; gap:10px; }
+.gc-rank{ font-family:var(--display); font-weight:900; font-size:16px; color:#9aa5ad; min-width:20px; font-variant-numeric:tabular-nums; }
+.gc-co{ flex:1; min-width:0; font-weight:700; color:var(--navy); font-size:15px; line-height:1.2; }
+.gc-co a{ color:inherit; text-decoration:none; }
+.gc-co a:hover{ text-decoration:underline; }
+.gc-pct{ font-weight:800; color:#2f9e6b; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.gc-meta{ display:flex; gap:8px; margin-top:11px; border-top:1px solid var(--line); padding-top:10px; }
+.gc-cell{ flex:1; display:flex; flex-direction:column; gap:2px; text-align:center; }
+.gc-k{ font-size:10.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.03em; }
+.gc-v{ font-weight:700; color:var(--navy); font-variant-numeric:tabular-nums; font-size:15px; }
+.gc-v.gc-up{ color:#2f9e6b; }
+@media (max-width:560px){ .grow-scroll{ display:none; } .grow-cards{ display:grid; gap:10px; } }
 
 /* Canadian honorable mention: a short note under the Top 40 list */
 .canada-note{ margin-top:10px; padding-top:12px; border-top:1px solid #eef2f5; }

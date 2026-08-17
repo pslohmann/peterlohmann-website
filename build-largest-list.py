@@ -450,6 +450,10 @@ def strip_llc(name):
     n = re.sub(r',?\s*\bL\.?\s*L\.?\s*C\.?\b\.?', '', name, flags=re.I)
     return re.sub(r'\s+', ' ', n).strip().strip(',').strip()
 
+DOORS_OVERRIDE = {                               # manual current-year door corrections (lowercased name -> total doors)
+    "liberty asset group": 1323,                 # Andrew, 08/17: corrected total across all their doors
+}
+
 records = []
 for d in raw:
     doors = num(d.get('Total 3rd party rental doors under management:', ''))
@@ -458,6 +462,8 @@ for d in raw:
     _bd = STATE_BREAKDOWN.get(name.lower())
     if _bd:
         doors = sum(_bd.values())   # multi-state operator: overall total = the sum of its per-state breakdown
+    if name.lower() in DOORS_OVERRIDE:
+        doors = DOORS_OVERRIDE[name.lower()]   # manual correction, wins over the submitted count
     lraw, lname = raw_name.lower(), name.lower()
     if lraw in EXCLUDE_COMPANIES or lname in EXCLUDE_COMPANIES:
         continue
@@ -835,7 +841,7 @@ org_median_bars  = median_bars(org_medians, ['', 'c2', 'c4', 'c3'])
 
 # fastest-growing table (columns match the format Peter provided: #, company, 2025, 2026, % growth, +doors)
 if fastest:
-    _gr = []
+    _gr, _gc = [], []
     for i, (r, d25, pct) in enumerate(fastest, 1):
         delta = r['doors'] - d25
         _gr.append(
@@ -845,9 +851,22 @@ if fastest:
             f'<td class="gt-n">{comma(r["doors"])}</td>'
             f'<td class="gt-n gt-up">+{100*pct:.1f}%</td>'
             f'<td class="gt-n gt-up">+{comma(delta)}</td></tr>')
+        _gc.append(
+            f'          <div class="growcard">\n'
+            f'            <div class="gc-head"><span class="gc-rank">{i}</span>'
+            f'<span class="gc-co">{linked_name(r)}</span>'
+            f'<span class="gc-pct">+{100*pct:.1f}%</span></div>\n'
+            f'            <div class="gc-meta">'
+            f'<span class="gc-cell"><span class="gc-k">2025</span><span class="gc-v">{comma(d25)}</span></span>'
+            f'<span class="gc-cell"><span class="gc-k">2026</span><span class="gc-v">{comma(r["doors"])}</span></span>'
+            f'<span class="gc-cell"><span class="gc-k">Change</span><span class="gc-v gc-up">+{comma(delta)}</span></span>'
+            f'</div>\n'
+            f'          </div>')
     fastest_rows = "\n".join(_gr)
+    fastest_cards = "\n".join(_gc)
 else:
     fastest_rows = '            <tr><td colspan="6" style="color:var(--muted)">Not enough year-over-year data yet.</td></tr>'
+    fastest_cards = '          <p style="color:var(--muted);font-size:14px;margin:0;">Not enough year-over-year data yet.</p>'
 
 # state cards
 def top40_note(r):
@@ -1053,7 +1072,7 @@ page = f"""<!--
   .boom-sticky.show{{ opacity:1; transform:translateY(0); pointer-events:auto; }}
   .boom-sticky img{{ height:18px; width:auto; display:block; }}
   .boom-sticky:hover{{ box-shadow:0 8px 26px rgba(31,58,77,.22); }}
-  @media (max-width:600px){{ .boom-sticky{{ right:10px; bottom:10px; padding:7px 11px; }} .boom-sticky span{{ display:none; }} }}
+  @media (max-width:600px){{ .boom-sticky{{ right:10px; bottom:10px; padding:7px 12px; flex-direction:column; gap:2px; align-items:center; text-align:center; }} .boom-sticky span{{ display:block; font-size:9.5px; line-height:1; }} .boom-sticky img{{ height:16px; }} }}
 
   /* Rank column: centered (header + number aligned), snug to the company name */
   .rank-table td.r-rank{{ width:34px; padding-left:6px; padding-right:6px; text-align:center; }}
@@ -1222,6 +1241,9 @@ page = f"""<!--
             </tbody>
           </table>
         </div>
+        <div class="grow-cards" aria-label="Fastest-growing (mobile)">
+{fastest_cards}
+        </div>
       </div>
       <div class="fact-grid mt-lg stagger">
         <div class="fact"><div class="f-num">{round(100*narpm_n/n)}%</div><h3>Are NARPM members</h3><p>{narpm_n} of {n} companies belong to the National Association of Residential Property Managers.</p></div>
@@ -1240,7 +1262,9 @@ page = f"""<!--
       <span class="kicker reveal">Top 10 by State</span>
       <h2 class="h-lead reveal">A ranking for every state.</h2>
       <p class="sub reveal" style="margin-bottom:22px;">Click any state for its top 10, or open its full page. Shaded by how many companies are on the list, darker means more.</p>
-      <div class="tilemap-wrap reveal">
+      <div class="tilemap-scroll reveal">
+        <span class="map-scroll-hint" aria-hidden="true">Scroll to see more &rarr;</span>
+        <div class="tilemap-wrap">
         <div class="tilemap" role="group" aria-label="U.S. states, shaded by number of companies">
 {map_tiles_html}
         </div>
@@ -1249,6 +1273,7 @@ page = f"""<!--
           <i class="tile t1"></i><i class="tile t2"></i><i class="tile t3"></i><i class="tile t4"></i>
           <span>More companies</span>
         </div>
+      </div>
       </div>
 
       <h3 class="reveal" style="margin:44px 0 4px;font-size:22px;">Or browse the full lists</h3>
