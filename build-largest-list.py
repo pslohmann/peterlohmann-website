@@ -537,6 +537,7 @@ FOOT_LINKS = """        <a href="index.html">About</a>
         <a href="contact.html">Contact</a>
         <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="faq.html">FAQ</a>
+        <a href="privacy-policy.html">Privacy</a>
         <a href="financial-interest-disclosure.html">Disclosures</a>"""
 
 FOOT_SOCIAL = """    <div class="foot-social" aria-label="Peter Lohmann on social media">

@@ -303,6 +303,7 @@ FOOT = """      <nav class="foot-links" aria-label="Footer">
         <a href="../contact.html">Contact</a>
         <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="../faq.html">FAQ</a>
+        <a href="../privacy-policy.html">Privacy</a>
         <a href="../financial-interest-disclosure.html">Disclosures</a>
       </nav>"""
 
