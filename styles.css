@@ -457,7 +457,7 @@ ul.feat li::before{ content:"\2713"; position:absolute; left:0; top:0; color:var
    border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow-lg); color:inherit;
    transition:transform .16s ease, box-shadow .16s ease; }
 a.feature-post:hover{ text-decoration:none; transform:translateY(-3px); box-shadow:0 24px 60px rgba(31,58,77,.16); }
-.feature-post .ph-img{ aspect-ratio:auto; min-height:300px; height:100%; }
+.feature-post .ph-img{ aspect-ratio:16/9; min-height:0; height:auto; align-self:center; }
 .feature-post .fp-body{ padding:34px 34px; display:flex; flex-direction:column; justify-content:center; }
 .feature-post .tag{ align-self:flex-start; margin-bottom:14px; }
 .feature-post .date{ font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--primary-dark); }

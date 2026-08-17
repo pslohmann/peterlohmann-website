@@ -621,7 +621,12 @@ def main():
         except Exception as e:
             print(f"  [{i}/{len(posts)}] {slug}: BODY ERROR {e}")
             body_html, podcast_vid = "<p>(content could not be imported)</p>", None
-        cover = download_image(it.get("assetUrl"), f"{slug}--cover", width=1200)
+        if podcast_vid:   # podcast posts: use the 16:9 YouTube episode thumbnail (no square crop)
+            cover = (download_image(f"https://i.ytimg.com/vi/{podcast_vid}/maxresdefault.jpg", f"{slug}--cover", width=1200)
+                     or download_image(f"https://i.ytimg.com/vi/{podcast_vid}/hq720.jpg", f"{slug}--cover", width=1200)
+                     or download_image(it.get("assetUrl"), f"{slug}--cover", width=1200))
+        else:
+            cover = download_image(it.get("assetUrl"), f"{slug}--cover", width=1200)
         write_post(it, body_html, cover, podcast_vid=podcast_vid)
         excerpt = re.sub(r"<[^>]+>", "", it.get("excerpt") or "").strip()
         if not excerpt:
