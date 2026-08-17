@@ -17,8 +17,8 @@ EXCLUDE = {
     "products.html", "about.html", "blog-index.html",              # legacy-URL redirect stubs
     "newsletter-tues-opt-out.html", "crane-promo-opt-out.html", "subscribed.html",  # noindex utility pages
 }
-# blog/ redirect stubs to skip (old Squarespace slug -> current slug)
-BLOG_EXCLUDE = {"how-to-design-a-process-people-actually-want-to-use.html"}
+# blog/ redirect stubs to skip (old slug -> refreshed post)
+BLOG_EXCLUDE = {"how-to-design-processes-people-actually-use.html"}
 
 def clean_url(rel):
     if rel == "index.html":

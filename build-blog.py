@@ -26,6 +26,12 @@ os.makedirs(BLOGDIR, exist_ok=True)
 LIMIT = int(os.environ.get("LIMIT", "0"))
 ASSET_V = "24"  # cache-bust version for styles.css / site.js (keep in sync with the rest of the site)
 
+# Old post slugs that have been superseded by a refreshed version at a new slug. Skipped on import
+# (so they don't appear as a duplicate post/card); a redirect to the new slug is placed by hand.
+SKIP_SLUGS = {
+    "how-to-design-processes-people-actually-use",  # superseded by the 8/12 refresh "how-to-design-a-process-people-actually-want-to-use"
+}
+
 UA = {"User-Agent": "Mozilla/5.0"}
 
 def fetch_json(url):
@@ -48,7 +54,7 @@ def fetch_all():
     seen, out = set(), []
     for it in sorted(items, key=lambda x: x.get("publishOn", 0), reverse=True):
         slug = it["fullUrl"].rstrip("/").split("/")[-1]
-        if slug in seen:
+        if slug in seen or slug in SKIP_SLUGS:
             continue
         seen.add(slug); it["_slug"] = slug; out.append(it)
     return out
