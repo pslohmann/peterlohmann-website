@@ -1508,7 +1508,6 @@ def render_state_page(st, rows):
   <header class="page-hero">
     <div class="wrap">
       <a class="back-link" href="largest-pm-companies.html">&larr; All states &amp; the national list</a>
-      <span class="kicker">Largest PM Companies &middot; {esc(name)}</span>
       <h1>The Largest Property Management Companies in {esc(name)}</h1>
       <p class="lead">{esc(lead)}</p>
     </div>
