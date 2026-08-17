@@ -144,8 +144,9 @@ PAGE_MAP = {
 }
 
 def process_body(body, slug):
-    """Clean Squarespace body HTML -> our article HTML. Returns an HTML string."""
+    """Clean Squarespace body HTML -> our article HTML. Returns (html_string, podcast_video_id)."""
     root = lxml.html.fromstring("<div>" + body + "</div>")
+    podcast_vid = None
 
     # 1) drop scripts/styles/noscript
     for tag in ("script", "style", "noscript"):
@@ -178,6 +179,32 @@ def process_body(body, slug):
         p = wrap.getparent()
         if p is not None:
             p.replace(wrap, new)
+
+    # 2b) Squarespace video blocks (sqs-video-wrapper w/ an escaped iframe in data-html) don't render
+    #     on a static site -> rebuild as a clean responsive player. If it's a podcast episode, remember
+    #     the video id so the post gets the hero link + platform buttons (see write_post / podcast rule).
+    for wrap in root.xpath('.//*[contains(concat(" ", normalize-space(@class), " "), " sqs-video-wrapper ")]'):
+        dh = htmlmod.unescape(wrap.get("data-html") or "")
+        vm = re.search(r'youtube(?:-nocookie)?\.com/embed/([A-Za-z0-9_-]{11})', dh) or re.search(r'youtu\.be/([A-Za-z0-9_-]{11})', dh)
+        if not vm:
+            continue
+        vid = vm.group(1)
+        tm = re.search(r'title="([^"]*)"', dh)
+        vtitle = htmlmod.unescape(tm.group(1)) if tm else "YouTube video"
+        new = lxml.html.fromstring(
+            '<div class="embed-frame video"><iframe src="https://www.youtube.com/embed/%s" '
+            'title="%s" allow="accelerometer; autoplay; clipboard-write; encrypted-media; '
+            'gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" '
+            'allowfullscreen></iframe></div>' % (vid, htmlmod.escape(vtitle, quote=True)))
+        target = wrap
+        par = target.getparent()
+        if par is not None and "embed-block-wrapper" in (par.get("class") or ""):
+            target = par   # replace the whole Squarespace wrapper, not just the inner div
+        tp = target.getparent()
+        if tp is not None:
+            tp.replace(target, new)
+        if "Peter Lohmann" in vtitle and "Podcast" in vtitle:
+            podcast_vid = vid
 
     # 3) embedded tweet cards (blockquote.twitter-tweet) -> quote + View on X
     for bq in root.xpath('.//blockquote[contains(@class,"twitter-tweet")]'):
@@ -278,7 +305,7 @@ def process_body(body, slug):
     for child in root:
         inner += lxml.html.tostring(child, encoding="unicode")
     # tidy: collapse Squarespace's empty layout wrappers' noise is fine to leave; drop stray &nbsp; runs
-    return inner
+    return inner, podcast_vid
 
 NAV = """  <div class="bar">
     <a class="brand" href="../index.html">Peter <span>Lohmann</span></a>
@@ -335,15 +362,50 @@ POST_FOLLOW = f'        <div class="post-follow">\n          <span class="pf-lab
 def esc(s):
     return htmlmod.escape(s or "", quote=True)
 
-def write_post(it, body_html, cover=None):
+# --- Podcast-episode treatment ----------------------------------------------------------------
+# RULE: any blog post whose body embeds a "Peter Lohmann's Podcast" YouTube video (i.e. a podcast
+# episode turned into a post) gets: a working inline player, a hero image that links to the episode
+# on YouTube, and an Apple/Spotify/YouTube button row that mirrors the podcast page. New episodes
+# publish every other week; this applies automatically as each post is imported.
+# Icons are read from build-podcast.py so the buttons stay 1:1 with the podcast page.
+try:
+    _bp = open(os.path.join(HERE, "build-podcast.py"), encoding="utf-8").read()
+    def _psvg(n): return re.search(n + r" = '(<svg.*?</svg>)'", _bp, re.S).group(1)
+    APPLE_SVG, SPOTIFY_SVG, YT_SVG = _psvg("APPLE_SVG"), _psvg("SPOTIFY_SVG"), _psvg("YT_SVG")
+except Exception:
+    APPLE_SVG = SPOTIFY_SVG = YT_SVG = ""
+APPLE_SHOW = "https://podcasts.apple.com/us/podcast/peter-lohmanns-podcast/id1554806227"
+SPOTIFY_SHOW = "https://open.spotify.com/show/5BLsN2TwI8mDtIhGoKfnZV"
+
+def podcast_buttons(vid):
+    """Watch/listen button row for a podcast-episode blog post (mirrors the podcast page)."""
+    watch = "https://www.youtube.com/watch?v=" + vid
+    return ('<div class="ep-links pod-cta" style="margin:2px 0 28px;max-width:460px;flex-wrap:wrap;">'
+            '<a class="ep-btn apple" href="%s" target="_blank" rel="noopener">%sApple</a>'
+            '<a class="ep-btn spotify" href="%s" target="_blank" rel="noopener">%sSpotify</a>'
+            '<a class="ep-btn youtube" href="%s" target="_blank" rel="noopener">%sYouTube</a>'
+            '</div>') % (APPLE_SHOW, APPLE_SVG, SPOTIFY_SHOW, SPOTIFY_SVG, watch, YT_SVG)
+
+
+def write_post(it, body_html, cover=None, podcast_vid=None):
     slug = it["_slug"]
     title = it.get("title") or slug
     date = fmt_date(it.get("publishOn"))
     author = (it.get("author") or {}).get("displayName") or "Peter Lohmann"
     excerpt = re.sub(r"<[^>]+>", "", it.get("excerpt") or "").strip()
     desc = (excerpt or title)[:180]
-    cover_html = (f'\n        <figure class="article-cover"><img src="../{cover}" alt="" /></figure>'
-                  if cover else "")
+    if cover and podcast_vid:
+        _watch = f"https://www.youtube.com/watch?v={podcast_vid}"
+        cover_html = (f'\n        <figure class="article-cover"><a class="cover-link" href="{_watch}" '
+                      f'target="_blank" rel="noopener" aria-label="Watch this episode on YouTube" '
+                      f'style="display:block"><img src="../{cover}" alt="" /></a></figure>'
+                      f'\n        {podcast_buttons(podcast_vid)}')
+    elif cover:
+        cover_html = f'\n        <figure class="article-cover"><img src="../{cover}" alt="" /></figure>'
+    elif podcast_vid:
+        cover_html = f'\n        {podcast_buttons(podcast_vid)}'
+    else:
+        cover_html = ""
     _SITE = "https://www.peterlohmann.com"
     canon = f"{_SITE}/blog/{slug}"
     og_img = f"{_SITE}/{cover}" if cover else f"{_SITE}/images/og-default.png"
@@ -552,12 +614,12 @@ def main():
     for i, it in enumerate(posts, 1):
         slug = it["_slug"]
         try:
-            body_html = process_body(it.get("body") or "", slug)
+            body_html, podcast_vid = process_body(it.get("body") or "", slug)
         except Exception as e:
             print(f"  [{i}/{len(posts)}] {slug}: BODY ERROR {e}")
-            body_html = "<p>(content could not be imported)</p>"
+            body_html, podcast_vid = "<p>(content could not be imported)</p>", None
         cover = download_image(it.get("assetUrl"), f"{slug}--cover", width=1200)
-        write_post(it, body_html, cover)
+        write_post(it, body_html, cover, podcast_vid=podcast_vid)
         excerpt = re.sub(r"<[^>]+>", "", it.get("excerpt") or "").strip()
         if not excerpt:
             txt = re.sub(r"<[^>]+>", " ", it.get("body") or "")
