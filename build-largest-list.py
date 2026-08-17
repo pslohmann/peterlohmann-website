@@ -806,6 +806,12 @@ dataset_ld = '<script type="application/ld+json">' + json.dumps({
 }, separators=(",", ":"), ensure_ascii=False) + '</script>'
 
 # ---- full page ----
+# Google Analytics (GA4) — injected right before </head> on every generated page.
+GA4 = ('<!-- Google Analytics (GA4) -->\n'
+       '<script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>\n'
+       '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
+       "gtag('js',new Date());gtag('config','G-DRCVXMNK1D');</script>")
+
 page = f"""<!--
   PETER LOHMANN - THE LARGEST PM COMPANIES (2026)
   ============================================================================
@@ -1221,7 +1227,7 @@ page = f"""<!--
 """
 
 with open(OUT, "w") as f:
-    f.write(page)
+    f.write(page.replace("</head>", GA4 + "\n</head>", 1))
 
 print(f"Wrote {OUT}")
 
@@ -1372,7 +1378,7 @@ def render_state_page(st, rows):
 _sp = 0
 for _st, _rows in state_all.items():
     with open(os.path.join(HERE, state_page_filename(_st)), "w") as f:
-        f.write(render_state_page(_st, _rows))
+        f.write(render_state_page(_st, _rows).replace("</head>", GA4 + "\n</head>", 1))
     _sp += 1
 print(f"Wrote {_sp} per-state pages.")
 print(f"companies={n}  total_doors={total_doors}  median={median}  states={len(us_states)}")

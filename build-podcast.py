@@ -15,6 +15,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "podcast.html")
 ASSET_V = "24"   # keep in sync with the site's ?v= cache version
 
+# Google Analytics (GA4) — injected right before </head> on every generated page.
+GA4 = ('<!-- Google Analytics (GA4) -->\n'
+       '<script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>\n'
+       '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
+       "gtag('js',new Date());gtag('config','G-DRCVXMNK1D');</script>")
+
 YT_PLAYLIST = "PLQihvuykg8UaJqy5CnF2Fok8MDdoNuZ66"
 ITUNES_ID = "1554806227"
 APPLE_SHOW = "https://podcasts.apple.com/us/podcast/peter-lohmanns-podcast/id1554806227"
@@ -336,7 +342,7 @@ def build():
 </html>
 """
     with open(OUT, "w") as f:
-        f.write(page)
+        f.write(page.replace("</head>", GA4 + "\n</head>", 1))
     print(f"Wrote {OUT}")
 
 if __name__ == "__main__":

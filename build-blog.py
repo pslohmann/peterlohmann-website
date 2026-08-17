@@ -26,6 +26,12 @@ os.makedirs(BLOGDIR, exist_ok=True)
 LIMIT = int(os.environ.get("LIMIT", "0"))
 ASSET_V = "24"  # cache-bust version for styles.css / site.js (keep in sync with the rest of the site)
 
+# Google Analytics (GA4) — injected right before </head> on every generated page.
+GA4 = ('<!-- Google Analytics (GA4) -->\n'
+       '<script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>\n'
+       '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
+       "gtag('js',new Date());gtag('config','G-DRCVXMNK1D');</script>")
+
 # Old post slugs that have been superseded by a refreshed version at a new slug. Skipped on import
 # (so they don't appear as a duplicate post/card); a redirect to the new slug is placed by hand.
 SKIP_SLUGS = {
@@ -485,7 +491,7 @@ def write_post(it, body_html, cover=None, podcast_vid=None):
 </html>
 """
     with open(os.path.join(BLOGDIR, slug + ".html"), "w") as f:
-        f.write(page)
+        f.write(page.replace("</head>", GA4 + "\n</head>", 1))
 
 def write_index(posts):
     # posts: list of dicts with slug, title, date, excerpt, cover(rel path or None)
@@ -606,7 +612,7 @@ def write_index(posts):
 </html>
 """
     with open(os.path.join(HERE, "blog.html"), "w") as f:
-        f.write(page)
+        f.write(page.replace("</head>", GA4 + "\n</head>", 1))
 
 def main():
     posts = fetch_all()
