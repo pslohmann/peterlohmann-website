@@ -17,6 +17,7 @@ Needs: lxml (already installed). No other deps.
 import json, urllib.request, urllib.parse, time, re, os, html as htmlmod, datetime
 import lxml.html
 from lxml.html import builder as E
+from site_common import finalize
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 IMGDIR = os.path.join(HERE, "images", "blog")
@@ -491,7 +492,7 @@ def write_post(it, body_html, cover=None, podcast_vid=None):
 </html>
 """
     with open(os.path.join(BLOGDIR, slug + ".html"), "w") as f:
-        f.write(page.replace("</head>", GA4 + "\n</head>", 1))
+        f.write(finalize(page, "/blog/" + slug + ".html"))
 
 def write_index(posts):
     # posts: list of dicts with slug, title, date, excerpt, cover(rel path or None)
@@ -612,7 +613,7 @@ def write_index(posts):
 </html>
 """
     with open(os.path.join(HERE, "blog.html"), "w") as f:
-        f.write(page.replace("</head>", GA4 + "\n</head>", 1))
+        f.write(finalize(page, "/blog.html"))
 
 def main():
     posts = fetch_all()

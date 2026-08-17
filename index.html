@@ -46,6 +46,15 @@
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-DRCVXMNK1D');</script>
+<!-- RB2B -->
+<script>!function(key) {
+if (window.reb2b) return;
+window.reb2b = {loaded: true};
+var s = document.createElement("script");
+s.async = true;
+s.src = "https://b2bjsstore.s3.us-west-2.amazonaws.com/b/" + key + "/" + key + ".js.gz";
+document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);
+}("0NW1GH7LKEO4");</script>
 </head>
 <body>
 
@@ -54,19 +63,19 @@
 <!-- ============================== NAV (shared on every page) ============================== -->
 <nav class="top" aria-label="Primary">
   <div class="bar">
-    <a class="brand" href="index.html">Peter <span>Lohmann</span></a>
+    <a class="brand" href="/">Peter <span>Lohmann</span></a>
     <button class="nav-toggle" aria-expanded="false" aria-controls="navlinks">Menu</button>
     <div class="links" id="navlinks">
-      <a href="index.html" class="active">About</a>
-      <a href="newsletter.html">Newsletter</a>
-      <a href="podcast.html">Podcast</a>
-      <a href="largest-pm-companies.html">Largest PM Companies</a>
-      <a href="blog.html">Blog</a>
-      <a href="report/index.html">M&amp;A Report</a>
-      <a href="peterbot.html">PeterBot</a>
-      <a href="store.html">Products</a>
+      <a href="/" class="active">About</a>
+      <a href="/newsletter">Newsletter</a>
+      <a href="/podcast">Podcast</a>
+      <a href="/largest-pm-companies">Largest PM Companies</a>
+      <a href="/blog">Blog</a>
+      <a href="/report/">M&amp;A Report</a>
+      <a href="/peterbot">PeterBot</a>
+      <a href="/store">Products</a>
     </div>
-    <a class="btn btn-navy btn-sm cta" href="contact.html">Contact</a>
+    <a class="btn btn-navy btn-sm cta" href="/contact">Contact</a>
   </div>
 </nav>
 
@@ -82,8 +91,8 @@
         <p class="subtitle reveal">CEO of RL Property Management, owner of Peter Lohmann Media, and co-founder of Crane.</p>
         <p class="tagline reveal">An electrical engineer by training, I bring a systems-first mindset to the operational chaos of property management, and help 20,000+ operators do the same every week.</p>
         <div class="cta-row reveal">
-          <a class="btn btn-primary" href="newsletter.html">Read the Newsletter</a>
-          <a class="btn btn-ghost" href="podcast.html">Listen to the Podcast</a>
+          <a class="btn btn-primary" href="/newsletter">Read the Newsletter</a>
+          <a class="btn btn-ghost" href="/podcast">Listen to the Podcast</a>
         </div>
         <p class="foot reveal" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
           <span class="inline-social">
@@ -92,7 +101,7 @@
             <a href="https://x.com/pslohmann" target="_blank" rel="noopener" aria-label="X (formerly Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-6.9l-5.4-7-6.2 7H1.7l8.1-9.3L.9 2h7.1l4.9 6.5zM17.7 20h1.9L7.1 4H5.1z"/></svg></a>
           </span>
           <span style="color:var(--line);">•</span>
-          <a href="contact.html">Get in touch</a>
+          <a href="/contact">Get in touch</a>
         </p>
       </div>
       <!-- SWAP: replace images/peter-headshot-trans.webp (+ .png fallback) to change the photo.
@@ -187,42 +196,42 @@
       <p class="sub reveal">Everything I publish, in one place.</p>
       <div class="grid g3 stagger mt-md">
 
-        <a class="card" href="newsletter.html">
+        <a class="card" href="/newsletter">
           <svg class="card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           <h3>Peter Lohmann's Newsletter</h3>
           <p>Twice-weekly, real-world insights on running a better PM business. Read by 20,000+ professionals.</p>
           <span class="arrow">Subscribe →</span>
         </a>
 
-        <a class="card" href="podcast.html">
+        <a class="card" href="/podcast">
           <svg class="card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
           <h3>Peter Lohmann's Podcast</h3>
           <p>100+ episodes of honest, operator-to-operator conversations. No fluff, just smart people talking shop.</p>
           <span class="arrow">Listen →</span>
         </a>
 
-        <a class="card" href="peterbot.html">
+        <a class="card" href="/peterbot">
           <svg class="card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
           <h3>PeterBot</h3>
           <p>Chat or talk with my AI clone, trained on 800,000+ words of my writing. PM insights on demand.</p>
           <span class="arrow">Try it →</span>
         </a>
 
-        <a class="card" href="largest-pm-companies.html">
+        <a class="card" href="/largest-pm-companies">
           <svg class="card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>
           <h3>Largest PM Companies</h3>
           <p>The permanent home for my annual list of the largest residential property management companies in the U.S.</p>
           <span class="arrow">See the list →</span>
         </a>
 
-        <a class="card" href="report/index.html">
+        <a class="card" href="/report/">
           <svg class="card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
           <h3>M&amp;A Report</h3>
           <p>The most detailed property management M&amp;A report anywhere, built from 89 closed deals over five years.</p>
           <span class="arrow">Learn more →</span>
         </a>
 
-        <a class="card" href="blog.html">
+        <a class="card" href="/blog">
           <svg class="card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
           <h3>Blog</h3>
           <p>Longer takes on the industry: software, M&amp;A, NARPM, fair housing, and the occasional rant.</p>
@@ -243,7 +252,7 @@
           <span class="crane-eyebrow">Private Community</span>
           <h2 id="crane-h" class="crane-title">Crane</h2>
           <p>I co-founded a private, paid community for experienced property management company owners. You must manage at least 150 doors to qualify. Applications are currently closed, but you can join the waitlist.</p>
-          <a class="btn btn-gold" href="https://form.jotform.com/232273121222036" target="_blank" rel="noopener">Join the waitlist</a>
+          <a class="btn btn-gold" href="https://www.joincrane.co/application/" target="_blank" rel="noopener">Join the waitlist</a>
         </div>
       </div>
     </div>
@@ -263,7 +272,7 @@
         <div class="card">
           <h3>Products &amp; Templates</h3>
           <p style="margin-bottom:12px;">The Notion template we use to run RL Property Management, the M&amp;A Report, a maintenance course, and more.</p>
-          <a class="arrow" href="store.html">Browse products →</a>
+          <a class="arrow" href="/store">Browse products →</a>
         </div>
         <div class="card">
           <h3>60-Minute Consult</h3>
@@ -309,7 +318,7 @@
         </div>
       </div>
       <div class="center mt-lg reveal">
-        <a class="btn btn-ghost" href="featured.html">See all features, press &amp; accolades</a>
+        <a class="btn btn-ghost" href="/featured">See all features, press &amp; accolades</a>
       </div>
     </div>
   </section>
@@ -320,7 +329,7 @@
       <div class="cta-final reveal">
         <h2>Let's connect.</h2>
         <p>Questions, sponsorship, or just want to say hello? I'd love to hear from you.</p>
-        <a class="btn btn-primary" href="contact.html">Get in touch</a>
+        <a class="btn btn-primary" href="/contact">Get in touch</a>
       </div>
     </div>
   </section>
@@ -333,18 +342,18 @@
     <div class="foot-grid">
       <div class="brand" style="font-weight:700;color:var(--navy);">Peter <span style="color:var(--primary);">Lohmann</span></div>
       <nav class="foot-links" aria-label="Footer">
-        <a href="index.html">About</a>
-        <a href="newsletter.html">Newsletter</a>
-        <a href="podcast.html">Podcast</a>
-        <a href="largest-pm-companies.html">Largest PM Companies</a>
-        <a href="blog.html">Blog</a>
-        <a href="report/index.html">M&amp;A Report</a>
-        <a href="peterbot.html">PeterBot</a>
-        <a href="store.html">Products</a>
-        <a href="featured.html">Featured</a>
-        <a href="contact.html">Contact</a>
+        <a href="/">About</a>
+        <a href="/newsletter">Newsletter</a>
+        <a href="/podcast">Podcast</a>
+        <a href="/largest-pm-companies">Largest PM Companies</a>
+        <a href="/blog">Blog</a>
+        <a href="/report/">M&amp;A Report</a>
+        <a href="/peterbot">PeterBot</a>
+        <a href="/store">Products</a>
+        <a href="/featured">Featured</a>
+        <a href="/contact">Contact</a>
         <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="faq.html">FAQ</a>
+        <a href="/faq">FAQ</a>
       </nav>
     </div>
     <div class="foot-social" aria-label="Peter Lohmann on social media">
@@ -354,7 +363,7 @@
       <a href="https://www.facebook.com/lohmann" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7v-3.5h3.1V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.24 2.7.24v3H15.8c-1.5 0-2 .93-2 1.9v2.2h3.4l-.54 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg></a>
       <a href="https://www.instagram.com/peterlohmann_media/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 1.8.25 2.2.42.56.2.96.48 1.38.9.42.42.7.82.9 1.38.17.4.37 1 .42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.05 1.2-.25 1.8-.42 2.2a3.7 3.7 0 0 1-.9 1.38 3.7 3.7 0 0 1-1.38.9c-.4.17-1 .37-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.05-1.8-.25-2.2-.42a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.17-.4-.37-1-.42-2.2-.06-1.3-.07-1.7-.07-4.9s0-3.6.07-4.9c.05-1.2.25-1.8.42-2.2.2-.56.48-.96.9-1.38.42-.42.82-.7 1.38-.9.4-.17 1-.37 2.2-.42C8.4 2.2 8.8 2.2 12 2.2zm0 3.14A6.66 6.66 0 1 0 18.66 12 6.66 6.66 0 0 0 12 5.34zm0 10.98A4.32 4.32 0 1 1 16.32 12 4.32 4.32 0 0 1 12 16.32zm6.9-11.24a1.56 1.56 0 1 1-1.56-1.56 1.56 1.56 0 0 1 1.56 1.56z"/></svg></a>
     </div>
-    <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have <a href="financial-interest-disclosure.html">consulting agreements with, or financial interests in</a>, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions. <a href="privacy-policy.html">Privacy Policy</a></p>
+    <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have <a href="/financial-interest-disclosure">consulting agreements with, or financial interests in</a>, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions. <a href="/privacy-policy">Privacy Policy</a></p>
   </div>
 </footer>
 

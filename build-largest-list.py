@@ -10,6 +10,7 @@ WHEN MORE SUBMISSIONS COME IN:
 No external libraries needed (standard library only).
 """
 import csv, re, collections, html, os, json, urllib.request, ssl, concurrent.futures
+from site_common import finalize
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CSV  = os.path.join(HERE, "data", "largest-pm-2026.csv")
@@ -45,19 +46,124 @@ NAME_FIXES = {
     "20 property management": "206 Property Management",  # WA company; submitted name missing the '6' (they flagged it). Safety net; the JotForm entry now reads "206" already.
     "johnson property mgmt": "Johnson Property Management",  # merge duplicate submission (was doubled in the Idaho top 10)
 }
-CRANE_MEMBERS_FORCE = {                          # confirmed Crane members (matched by raw or display name)
-    "on q property management",
-    "stratton vantage property management",
-    "colorado realty and property management",
+CRANE_MEMBERS_FORCE = {                          # Crane roster (crane members.xlsx, 08/17): website domain == member email domain, or exact name match
+    "1st cavalry homes real estate & property management",
+    "1st choice property management",
+    "3g properties group",
+    "a step ahead management",
+    "action properties, inc.",
+    "allview real estate",
+    "american west realty and management",
+    "athens property management",
+    "athens property management, llc",
     "auben realty",
-    "pacific shore property management",
-    "grove",
-    "tiner properties, inc.",
+    "authority property management",
+    "avalon property management",
+    "axon property management",
+    "beach rental group",
+    "benoit management, llc",
+    "blue door living",
+    "blue door living, llc",
+    "bluesky property management",
+    "brun property management",
+    "brun property management llc",
+    "bullseye property management",
+    "capvest",
     "capvest, llc",
+    "centurion real estate management",
+    "colorado realty and property management",
+    "cornerstone real estate team",
+    "coyote property management",
     "darwin homes",
-    "grace property management & real estate",
-    "gc realty & development",
+    "dmg real estate services",
+    "domain property management",
+    "eaton realty",
+    "ejf rental services",
     "evernest",
+    "evolve property management group",
+    "factor property management",
+    "falcon property company",
+    "foursquare property management",
+    "freedom path property management",
+    "freedom property advantage",
+    "galaxy strategy inc.",
+    "gc realty & development",
+    "gem realty group, llc",
+    "good life property management",
+    "grace property management & real estate",
+    "grove",
+    "happy homes property manager",
+    "hearthside rentals",
+    "hearthside rentals, llc",
+    "henderson properites",
+    "home forward",
+    "honest property management",
+    "integrity property management",
+    "invest idaho management",
+    "invested property management",
+    "jmax property management",
+    "kader property management",
+    "keyrenter boise property management",
+    "kmb property management",
+    "lake michigan property management",
+    "landmark real estate management",
+    "landmark real estate management llc",
+    "lukeman property management",
+    "mainlander property management",
+    "masterkey property management",
+    "maxfield property management",
+    "neighborhood pm",
+    "nest finders property management",
+    "nestwell property management",
+    "next generation property management",
+    "ocean blue property management, inc",
+    "on q property management",
+    "owens management group",
+    "pacific shpre property management",
+    "park property management solutions",
+    "patriot property management",
+    "performance properties, inc.",
+    "performance property management",
+    "pmi arrico realty and pm lakeland",
+    "power properties",
+    "premier property management",
+    "progressive property management, inc.",
+    "pros pm",
+    "rent right",
+    "rent solutions",
+    "riner rentals",
+    "robert c. white and company",
+    "roost real estate co.",
+    "rosenbaum realty group",
+    "rpm pittsburgh",
+    "scudo real estate + property management",
+    "shannon property management",
+    "shultis & worthington property management",
+    "sin city real estate and management llc",
+    "smart move property management",
+    "southwest equity partners",
+    "spectrum realty services llc",
+    "spectrum realty services, llc",
+    "stonelink property management",
+    "stratton vantage property management",
+    "sureway property management llc",
+    "swiss property management group",
+    "tct property management services",
+    "the arena group",
+    "tiner properties, inc.",
+    "touchstone property management",
+    "tower bridge property management",
+    "tpg management",
+    "unlimited re",
+    "uplift property management",
+    "upper management realty",
+    "verraterra property management",
+    "welch randall property management",
+    "welcome home milwaukee",
+    "westrom group",
+    "whitehead rental management, inc",
+    "wits property management",
+    "zeal property management",
 }
 # 2025 door counts for companies whose name changed year-over-year (so "Change from 2025"
 # matches despite the different name). Keyed by the 2026 company name, lowercased.
@@ -67,13 +173,64 @@ PRIOR_YEAR_DOORS = {
     "auben realty": 2184,                   # submitted as "Auben" in 2025
     "realiant": 1812,                       # submitted as "Realiant Property Managememt" (typo) in 2025
 }
-BOOM_CUSTOMERS = {                               # Boom customers (matched by raw or display name)
-    "on q property management",
-    "jwb",
+BOOM_CUSTOMERS = {                               # Boom customers (Boom's confirmed list, 08/17 update; matched by raw or display name)
+    "1836 property management",
+    "a step ahead management",
+    "allstar management",
+    "allview real estate",
+    "america's rental managers",
+    "ameritrue real estate & management",
+    "brandywine homes usa",
+    "bridgestream property management",
+    "c & h property rentals",
+    "crm properties",
+    "elevate property management",
+    "evernest",
+    "foursquare property management",
+    "fox group properties",
+    "freedom property advantage",
     "good life property management",
-    "stratton vantage property management",
+    "harrisburg property management group",
+    "hearthside rentals",
+    "hive real estate group & property management, las vegas",
+    "home ladder",
+    "invested property management",
+    "jwb",
+    "keyrenter austin",
+    "keyrenter boise property management",
+    "keyrenter buxmont",
+    "keyrenter richmond property management",
+    "keyrenter west seattle",
+    "lake michigan property management",
+    "mainlander property management",
+    "masterkey property management",
+    "nestwell property management",
+    "on q property management",
+    "orange realty group",
+    "otter property management",
+    "owens management group",
+    "oz realty",
+    "performance properties, inc.",
+    "performance property management",
+    "pmi arrico realty and pm lakeland",
+    "pmi indianapolis",
     "pmi midwest",
-    "tiner properties, inc.",
+    "prosperkey property management",
+    "real property management insight",
+    "realty consultants property management",
+    "recovery realty",
+    "renosy by renters warehouse",
+    "renu property management",
+    "revolution rental management",
+    "riner rentals",
+    "rl property management",
+    "shamrock property management",
+    "stratton vantage property management",
+    "sureway property management",
+    "traverse property management",
+    "united properties of west michigan",
+    "wrightdavis",
+    "zenith properties nw",
 }
 EXCLUDE_COMPANIES = {                            # scratched from the list (not residential PM, or opt-out requests still in the form)
     "the storage mall management group",
@@ -263,8 +420,8 @@ def norm_soft(s):
                       ('rent manager','Rent Manager'),('buildium','Buildium'),('propertyware','Propertyware'),
                       ('yardi','Yardi'),('rentec','Rentec Direct'),('hostaway','Hostaway')]:
         if key in s: return label
-    # Peter's call: custom / in-house / proprietary systems all roll up into "Other".
-    if 'custom' in s or 'in-house' in s or 'in house' in s or 'proprietary' in s: return 'Other'
+    # Peter's call: custom / in-house / proprietary / RealPage all roll up into "Other".
+    if 'realpage' in s or 'custom' in s or 'in-house' in s or 'in house' in s or 'proprietary' in s: return 'Other'
     return s.title() if s else 'Unknown'
 
 def norm_org(s):
@@ -304,8 +461,9 @@ for d in raw:
     lraw, lname = raw_name.lower(), name.lower()
     if lraw in EXCLUDE_COMPANIES or lname in EXCLUDE_COMPANIES:
         continue
-    crane = ((d.get('Are you (or is someone on your team) a Crane member?') or '').strip().lower().startswith('y')
-             or lraw in CRANE_MEMBERS_FORCE or lname in CRANE_MEMBERS_FORCE)
+    # Crane membership is authoritative from Crane's own roster (CRANE_MEMBERS_FORCE, built from
+    # crane members.xlsx), not the JotForm self-report, per Andrew.
+    crane = lraw in CRANE_MEMBERS_FORCE or lname in CRANE_MEMBERS_FORCE
     records.append({
         'name': name,
         'raw_name': raw_name,
@@ -1227,7 +1385,7 @@ page = f"""<!--
 """
 
 with open(OUT, "w") as f:
-    f.write(page.replace("</head>", GA4 + "\n</head>", 1))
+    f.write(finalize(page, "/largest-pm-companies.html"))
 
 print(f"Wrote {OUT}")
 
@@ -1378,7 +1536,7 @@ def render_state_page(st, rows):
 _sp = 0
 for _st, _rows in state_all.items():
     with open(os.path.join(HERE, state_page_filename(_st)), "w") as f:
-        f.write(render_state_page(_st, _rows).replace("</head>", GA4 + "\n</head>", 1))
+        f.write(finalize(render_state_page(_st, _rows), "/" + state_page_filename(_st)))
     _sp += 1
 print(f"Wrote {_sp} per-state pages.")
 print(f"companies={n}  total_doors={total_doors}  median={median}  states={len(us_states)}")

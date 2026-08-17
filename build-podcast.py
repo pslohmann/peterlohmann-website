@@ -10,6 +10,7 @@ RUN:  python3 build-podcast.py     (then commit + push)
 No external libraries (standard library only). Update the IDs below if the show moves.
 """
 import urllib.request, json, re, html as htmlmod, datetime, os, difflib
+from site_common import finalize
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "podcast.html")
@@ -342,7 +343,7 @@ def build():
 </html>
 """
     with open(OUT, "w") as f:
-        f.write(page.replace("</head>", GA4 + "\n</head>", 1))
+        f.write(finalize(page, "/podcast.html"))
     print(f"Wrote {OUT}")
 
 if __name__ == "__main__":
