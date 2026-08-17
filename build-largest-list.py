@@ -964,7 +964,7 @@ page = f"""<!--
       <div class="ticks" aria-hidden="true"><i></i><i></i><i></i></div>
       <span class="kicker">Industry Research &middot; 2026</span>
       <h1>The Largest Property Management Companies</h1>
-      <a class="presented-by" href="https://www.boompay.app/" target="_blank" rel="noopener">Presented by <img src="images/boom-logo.webp" alt="Boom" /></a>
+      <a class="presented-by" href="https://www.boompay.app/?utm_source=peter-lohmann&amp;utm_medium=plm-largest-pmcs" target="_blank" rel="noopener">Presented by <img src="images/boom-logo.webp" alt="Boom" /></a>
       <div class="hero-rule" aria-hidden="true"></div>
       <p class="lead">A self-reported ranking of the largest residential property management companies, plus what the data says about software, structure, and how the best operators are built. Submissions are still open, so this list keeps growing.</p>
       <div class="hero-jump" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;">
@@ -1159,7 +1159,7 @@ page = f"""<!--
   </div>
 </footer>
 
-<a class="boom-sticky" id="boomSticky" href="https://www.boompay.app/" target="_blank" rel="noopener" aria-label="Presented by Boom">
+<a class="boom-sticky" id="boomSticky" href="https://www.boompay.app/?utm_source=peter-lohmann&amp;utm_medium=plm-largest-pmcs" target="_blank" rel="noopener" aria-label="Presented by Boom">
   <span>Presented by</span><img src="images/boom-logo.webp" alt="Boom" />
 </a>
 
@@ -1253,7 +1253,7 @@ CS_HERO = """  <header class="page-hero cs-hero">
       <div class="ticks" aria-hidden="true"><i></i><i></i><i></i></div>
       <span class="kicker">Industry Research &middot; 2026</span>
       <h1>The 2026 Top 40 Largest Property Management Companies <span class="cs-flag">List coming soon</span></h1>
-      <a class="presented-by" href="https://www.boompay.app/" target="_blank" rel="noopener">Presented by <img src="images/boom-logo.webp" alt="Boom" /></a>
+      <a class="presented-by" href="https://www.boompay.app/?utm_source=peter-lohmann&amp;utm_medium=plm-largest-pmcs" target="_blank" rel="noopener">Presented by <img src="images/boom-logo.webp" alt="Boom" /></a>
       <p class="lead">The 2026 ranking is being compiled from this year's submissions. Check back soon for the full top 40, the data breakdowns, and the state-by-state map. In the meantime:</p>
       <div class="hero-jump" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;">
         <a class="btn btn-primary" href="blog/largest-property-management-companies-2025.html">Click here to see last year's final results</a>
