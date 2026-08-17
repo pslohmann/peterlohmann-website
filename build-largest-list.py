@@ -1109,6 +1109,18 @@ page = f"""<!--
   </div>
   <script id="stateData" type="application/json">{state_modal_json}</script>
 
+  <!-- 2027 NOTIFY -->
+  <section class="band tight wash">
+    <div class="wrap">
+      <div class="cta-final">
+        <span class="tag tag-warn" style="margin-bottom:14px;display:inline-block;">The 2026 list is final</span>
+        <h2>Missed your chance for 2026?</h2>
+        <p>Submissions for this year's ranking are closed. Subscribe to the newsletter and I'll let you know the moment the 2027 list opens, so you can get your company in.</p>
+        <a class="btn btn-primary" href="newsletter.html">Join the newsletter</a>
+      </div>
+    </div>
+  </section>
+
   <!-- METHODOLOGY -->
   <section class="band">
     <div class="wrap">
