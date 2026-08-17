@@ -9,7 +9,7 @@ import os, re, glob, html, datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://www.peterlohmann.com"
-OG_DEFAULT = SITE + "/images/og-default.png"
+OG_DEFAULT = SITE + "/images/og-default.png?v=2"
 
 STATIC = ["index.html","contact.html","newsletter.html","podcast.html","products.html",
           "peterbot.html","featured.html","financial-interest-disclosure.html","blog.html"]

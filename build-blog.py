@@ -418,7 +418,7 @@ def write_post(it, body_html, cover=None, podcast_vid=None):
         cover_html = ""
     _SITE = "https://www.peterlohmann.com"
     canon = f"{_SITE}/blog/{slug}"
-    og_img = f"{_SITE}/{cover}" if cover else f"{_SITE}/images/og-default.png"
+    og_img = f"{_SITE}/{cover}" if cover else f"{_SITE}/images/og-default.png?v=2"
     _ld = {"@context": "https://schema.org", "@type": "BlogPosting", "headline": title, "image": og_img,
            "url": canon, "author": {"@type": "Person", "name": author, "url": _SITE + "/"},
            "publisher": {"@type": "Person", "name": "Peter Lohmann"}, "mainEntityOfPage": canon}
@@ -533,7 +533,7 @@ def write_index(posts):
 <meta property="og:title" content="Blog &middot; Peter Lohmann" />
 <meta property="og:description" content="Peter Lohmann's property management blog: software, M&amp;A, NARPM, fair housing, and honest takes on the industry." />
 <meta property="og:url" content="https://www.peterlohmann.com/blog" />
-<meta property="og:image" content="https://www.peterlohmann.com/images/og-default.png" />
+<meta property="og:image" content="https://www.peterlohmann.com/images/og-default.png?v=2" />
 <meta property="og:site_name" content="Peter Lohmann" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />

@@ -550,7 +550,7 @@ def _chart_counts(field, keep=6):
     if other:
         head.append(('Other', other))
     return head, reported
-soft_counts, soft_reported = _chart_counts('soft')
+soft_counts, soft_reported = _chart_counts('soft', keep=5)   # top 5 named platforms; the rest (incl. Yardi/RealPage/Origin) roll into "Other"
 org_counts,  org_reported  = _chart_counts('org')
 narpm_n = sum(1 for r in valid if r['narpm'])
 biggest = valid[0]
@@ -942,11 +942,8 @@ if canada_honorable:
     for r, hyp in canada_honorable:
         _tail = f' &middot; {esc(r["exec"])}' if r.get('exec') else ''
         _ent.append(f'{linked_name(r)} - {comma(r["doors"])} doors - {esc(r["loc"])}{_tail}')
-    _lead = ('one would have made the top 40, so it gets an honorable mention here: '
-             if len(_ent) == 1 else
-             f'{len(_ent)} would have made the top 40, so they get honorable mentions here: ')
-    canada_note = ('        <p class="rank-note canada-note">We received a handful of Canadian submissions, '
-                   'which sit outside this U.S. ranking. By door count, ' + _lead + "; ".join(_ent) + '.</p>\n')
+    _hm = "Honorable mention: " if len(_ent) == 1 else "Honorable mentions: "
+    canada_note = ('        <p class="rank-note canada-note">' + _hm + "; ".join(_ent) + '.</p>\n')
 else:
     canada_note = ""
 
@@ -993,7 +990,7 @@ page = f"""<!--
 <meta property="og:title" content="The Largest Property Management Companies (2026)" />
 <meta property="og:description" content="The 2026 ranking of the largest residential property management companies in America, plus a top 10 for every state." />
 <meta property="og:url" content="{SITE_URL}/largest-pm-companies" />
-<meta property="og:image" content="{SITE_URL}/images/og-default.png" />
+<meta property="og:image" content="{SITE_URL}/images/og-default.png?v=2" />
 <meta property="og:site_name" content="Peter Lohmann" />
 <meta name="twitter:card" content="summary_large_image" />
 {dataset_ld}
@@ -1461,7 +1458,7 @@ def render_state_page(st, rows):
 <meta property="og:title" content="The Largest Property Management Companies in {esc(name)} (2026)" />
 <meta property="og:description" content="The largest residential property management companies in {esc(name)} for 2026, ranked by third-party doors under management." />
 <meta property="og:url" content="{url}" />
-<meta property="og:image" content="{SITE_URL}/images/og-default.png" />
+<meta property="og:image" content="{SITE_URL}/images/og-default.png?v=2" />
 <meta property="og:site_name" content="Peter Lohmann" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
