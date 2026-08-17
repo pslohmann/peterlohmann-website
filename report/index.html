@@ -1,58 +1,267 @@
-
-<!DOCTYPE html>
+<!-- The 2025 Property Management M&A Report — rebuilt as a native peterlohmann.com page (was a Lovable SPA). -->
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2025 Property Management M&A Report</title>
-    <meta name="description" content="Comprehensive analysis of the Property Management M&A landscape in 2025" />
-    <meta name="author" content="Lovable" />
-    <link rel="icon" href="./lovable-uploads/9bd79aea-823d-4d0c-ae20-f981b3cba6c9.png" type="image/png">
-    <!-- Peter Lohmann brand font (Bely Display) for the site strip wordmark -->
-    <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" />
-
-    <!-- Updated Open Graph tags with new hero image -->
-    <meta property="og:title" content="2025 Property Management M&A Report" />
-    <meta property="og:description" content="Comprehensive analysis of the Property Management M&A landscape in 2025" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://report.peterlohmann.com/" />
-    <meta property="og:image" content="https://report.peterlohmann.com/lovable-uploads/b4ec2a35-4c6c-45af-ab5d-98503d95e5b5.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Property Management M&A Report Cover" />
-
-    <!-- Enhanced LinkedIn specific tags with updated image -->
-    <meta name="image" property="og:image" content="https://report.peterlohmann.com/lovable-uploads/b4ec2a35-4c6c-45af-ab5d-98503d95e5b5.png" />
-    <meta property="linkedin:card" content="summary_large_image" />
-    <meta property="linkedin:title" content="2025 Property Management M&A Report" />
-    <meta property="linkedin:description" content="Comprehensive analysis of the Property Management M&A landscape in 2025" />
-    <meta property="linkedin:image" content="https://report.peterlohmann.com/lovable-uploads/b4ec2a35-4c6c-45af-ab5d-98503d95e5b5.png" />
-
-    <!-- Twitter Card tags with updated image -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:title" content="2025 Property Management M&A Report" />
-    <meta name="twitter:description" content="Comprehensive analysis of the Property Management M&A landscape in 2025" />
-    <meta name="twitter:image" content="https://report.peterlohmann.com/lovable-uploads/b4ec2a35-4c6c-45af-ab5d-98503d95e5b5.png" />
-    <script type="module" crossorigin src="./assets/index-D2tU59eT.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-D9DED6Tc.css">
-  <!-- Google Analytics (GA4) -->
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://use.typekit.net" crossorigin />
+<title>The 2025 Property Management M&amp;A Report &middot; Peter Lohmann</title>
+<meta name="description" content="What is a property management company actually worth? Real-world valuation data from 89 closed PM company transactions, for buyers and sellers." />
+<link rel="canonical" href="https://www.peterlohmann.com/report/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="The 2025 Property Management M&amp;A Report" />
+<meta property="og:description" content="Real-world valuation data from 89 closed property management M&amp;A transactions, for buyers and sellers." />
+<meta property="og:url" content="https://www.peterlohmann.com/report/" />
+<meta property="og:image" content="https://www.peterlohmann.com/images/og-default.png?v=2" />
+<meta property="og:site_name" content="Peter Lohmann" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+<link rel="apple-touch-icon" href="/favicon.png" />
+<link rel="stylesheet" href="/styles.css?v=24" />
+<style>
+  .rep-hero .wrap{ display:grid; grid-template-columns:1.05fr .95fr; gap:44px; align-items:center; }
+  .rep-cover img{ width:100%; max-width:420px; border-radius:16px; border:1px solid var(--line); box-shadow:0 24px 60px rgba(31,58,77,.16); display:block; margin:0 auto; }
+  @media (max-width:820px){ .rep-hero .wrap{ grid-template-columns:1fr; } .rep-cover{ order:-1; } }
+  .num-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  @media (max-width:760px){ .num-grid{ grid-template-columns:1fr; } }
+  .num-card{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:26px 24px; box-shadow:var(--shadow); }
+  .num-card .n{ display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:50%;
+    background:var(--navy); color:#fff; font-family:var(--display); font-weight:900; font-size:19px; margin-bottom:14px; }
+  .num-card h3{ font-size:19px; margin:0 0 8px; color:var(--navy); }
+  .num-card p{ color:var(--muted); margin:0; font-size:15px; }
+  .diff-list{ list-style:none; margin:22px 0 0; padding:0; display:grid; gap:12px; }
+  .diff-list li{ display:flex; gap:13px; align-items:flex-start; background:#fff; border:1px solid var(--line);
+    border-radius:12px; padding:15px 18px; box-shadow:var(--shadow); }
+  .diff-list .ic{ font-size:22px; line-height:1.2; flex:none; }
+  .diff-list p{ margin:0; color:var(--ink); font-size:15.5px; }
+  .rep-quote{ border-left:3px solid var(--primary); padding:6px 0 6px 20px; margin:26px 0 0; }
+  .rep-quote p{ font-family:var(--serif); font-size:20px; color:var(--navy); line-height:1.4; margin:0 0 8px; font-style:italic; }
+  .rep-quote cite{ color:var(--muted); font-weight:600; font-style:normal; font-size:14.5px; }
+  .peek-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; align-items:start; }
+  @media (max-width:760px){ .peek-grid{ grid-template-columns:1fr; } }
+  .peek-grid figure{ margin:0; }
+  .peek-grid img{ width:100%; border-radius:12px; border:1px solid var(--line); box-shadow:var(--shadow); display:block; }
+  .peek-grid figcaption{ margin-top:8px; font-size:13px; color:var(--muted); text-align:center; font-weight:600; }
+  .sponsor{ display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center; }
+  .sponsor .lbl{ font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--soft); }
+  .sponsor img{ height:52px; width:auto; }
+  .aud-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+  @media (max-width:640px){ .aud-grid{ grid-template-columns:1fr; } }
+  .aud-card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:22px; box-shadow:var(--shadow); }
+  .aud-card h3{ margin:0 0 5px; font-size:18px; color:var(--navy); }
+  .aud-card p{ margin:0; color:var(--muted); font-size:14.5px; }
+  .author-split{ display:grid; grid-template-columns:230px 1fr; gap:34px; align-items:start; }
+  @media (max-width:680px){ .author-split{ grid-template-columns:1fr; } }
+  .author-split img{ width:100%; max-width:230px; border-radius:16px; border:1px solid var(--line); box-shadow:var(--shadow); }
+  .inside-list{ list-style:none; margin:18px 0 0; padding:0; display:grid; gap:10px; }
+  .inside-list li{ display:flex; gap:11px; align-items:flex-start; color:var(--ink); font-size:16px; }
+  .inside-list li::before{ content:"\2713"; color:var(--primary); font-weight:900; flex:none; }
+  .rep-legal{ text-align:center; color:var(--soft); font-size:13px; margin:34px auto 0; max-width:640px; }
+</style>
+<!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-DRCVXMNK1D');</script>
-<!-- RB2B -->
-<script>!function(key) {
-if (window.reb2b) return;
-window.reb2b = {loaded: true};
-var s = document.createElement("script");
-s.async = true;
-s.src = "https://b2bjsstore.s3.us-west-2.amazonaws.com/b/" + key + "/" + key + ".js.gz";
-document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);
-}("0NW1GH7LKEO4");</script>
 </head>
+<body>
 
-  <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-  </body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="top" aria-label="Primary">
+  <div class="bar">
+    <a class="brand" href="/">Peter <span>Lohmann</span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="navlinks">Menu</button>
+    <div class="links" id="navlinks">
+      <a href="/">About</a>
+      <a href="/newsletter">Newsletter</a>
+      <a href="/podcast">Podcast</a>
+      <a href="/largest-pm-companies">Largest PM Companies</a>
+      <a href="/blog">Blog</a>
+      <a href="/report/" class="active">M&amp;A Report</a>
+      <a href="/peterbot">PeterBot</a>
+      <a href="/products">Products</a>
+    </div>
+    <a class="btn btn-navy btn-sm cta" href="/contact">Contact</a>
+  </div>
+</nav>
+
+<main id="main">
+
+  <!-- HERO -->
+  <header class="hero rep-hero" aria-labelledby="rep-title">
+    <div class="wrap">
+      <div>
+        <span class="kicker reveal">Industry Research &middot; 2025</span>
+        <h1 id="rep-title" class="reveal" style="font-size:clamp(30px,5vw,52px);margin:12px 0 14px;">What's a Property Management Company Actually Worth?</h1>
+        <p class="lead reveal" style="max-width:52ch;">Discover real-world data from 89 closed PM company transactions. The most detailed M&amp;A (Mergers and Acquisitions) dataset ever shared for both buyers and sellers in the property management industry.</p>
+        <div class="cta-row reveal" style="margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;">
+          <a class="btn btn-primary" href="https://buy.stripe.com/00w9ASfwagYdalc5lD08g0g" target="_blank" rel="noopener">Buy the Report</a>
+          <a class="btn btn-ghost" href="#inside">More Info</a>
+        </div>
+      </div>
+      <div class="rep-cover reveal">
+        <img src="lovable-uploads/b4ec2a35-4c6c-45af-ab5d-98503d95e5b5.png" alt="The 2025 Property Management M&amp;A Report cover" />
+      </div>
+    </div>
+  </header>
+
+  <!-- WHY IT MATTERS -->
+  <section class="band" id="why">
+    <div class="wrap">
+      <span class="kicker reveal">Why This Matters</span>
+      <h2 class="h-lead reveal">Why this report matters.</h2>
+      <div class="num-grid reveal mt-md">
+        <div class="num-card"><span class="n">1</span><h3>Real Data, Not Guesswork</h3><p>This is the first publicly shared dataset of its kind in the PM industry&mdash;based on 89 verified, closed transactions, not hearsay or back-of-the-napkin estimates.</p></div>
+        <div class="num-card"><span class="n">2</span><h3>Clear Valuation Benchmarks</h3><p>See what companies actually sold for&mdash;broken down by size, profit margin, buyer type, region, and more. If you're planning a sale, this helps you price realistically (and strategically).</p></div>
+        <div class="num-card"><span class="n">3</span><h3>Timing, Scale &amp; Profit Insights</h3><p>From the 350-door tipping point to profit-driven pricing and seasonal trends, this report reveals what really drives higher multiples&mdash;and how to leverage that insight whether you're buying or selling.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT MAKES THIS DIFFERENT -->
+  <section class="band wash" id="different">
+    <div class="wrap">
+      <span class="kicker reveal">What Makes This Different</span>
+      <h2 class="h-lead reveal">Past the anecdotes and rumors.</h2>
+      <p class="sub reveal" style="margin-top:8px;">You've probably heard stories&hellip; <em>"You're worth 2&times; revenue." "Rollups will pay anything." "Size is all that matters."</em> This report moves past the anecdotes and rumors. It's the first independent look at what property management companies actually sell for&mdash;and why.</p>
+      <ul class="diff-list reveal">
+        <li><span class="ic">&#127960;</span><p>Based on 89 real, closed transactions (not inflated listings or unverifiable hearsay)</p></li>
+        <li><span class="ic">&#128269;</span><p>Personally reviewed by a fellow PM owner for accuracy, consistency, and realism</p></li>
+        <li><span class="ic">&#128202;</span><p>Breaks down multiples by size, profit margin, buyer type, region, and more</p></li>
+        <li><span class="ic">&#128198;</span><p>Tracks 5 years of deal data (2020&ndash;2025) to show how valuation trends are shifting</p></li>
+        <li><span class="ic">&#128161;</span><p>Includes insights you won't find in any broker pitch or blog post</p></li>
+      </ul>
+      <p class="sub reveal" style="margin-top:20px;">Whether you're a PM company owner, buyer, or advisor, this is the most concrete dataset available to guide valuation decisions on both sides of the table.</p>
+      <div class="rep-quote reveal">
+        <p>"Property managers have been operating in the dark. This report gives us a baseline for real acquisition data."</p>
+        <cite>&mdash; Peter Lohmann, Author</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- A PEEK INSIDE -->
+  <section class="band" id="inside">
+    <div class="wrap">
+      <span class="kicker reveal">Inside the Report</span>
+      <h2 class="h-lead reveal">A peek inside the report.</h2>
+      <div class="peek-grid reveal mt-md">
+        <figure><img src="lovable-uploads/b4ec2a35-4c6c-45af-ab5d-98503d95e5b5.png" alt="Report cover" /><figcaption>Cover &amp; overview</figcaption></figure>
+        <figure><img src="lovable-uploads/88768150-117c-4d05-ab31-0bdc42cf0107.png" alt="Methodology and data overview" /><figcaption>Methodology &amp; data overview</figcaption></figure>
+        <figure><img src="lovable-uploads/9173743d-5220-4b87-afe9-0d067d0e3b5d.png" alt="Profit multiple patterns" /><figcaption>Profit multiple patterns</figcaption></figure>
+      </div>
+      <div class="card reveal mt-lg" style="display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;padding:30px 24px;">
+        <div class="sponsor">
+          <span class="lbl">Sponsored by</span>
+          <img src="lovable-uploads/b460f6ec-f5ef-4e93-a15c-3e21131b51b0.png" alt="Enterprise Bank &amp; Trust" />
+        </div>
+        <div class="rep-quote" style="border:0;padding:0;max-width:640px;">
+          <p style="font-size:19px;">"Whether you're a buyer or seller, this report shines light on the fact that the PM industry is an incredible place to be in 2025!"</p>
+          <cite>&mdash; Allison DiSarro, Senior VP, PM Banking Division</cite>
+        </div>
+        <a class="btn btn-primary" href="https://buy.stripe.com/00w9ASfwagYdalc5lD08g0g" target="_blank" rel="noopener">Buy the Report</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MESSAGE FROM THE AUTHOR + WHAT'S INSIDE -->
+  <section class="band wash">
+    <div class="wrap">
+      <div class="split" style="align-items:center;">
+        <div>
+          <span class="kicker reveal">A Message From the Author</span>
+          <h2 class="h-lead reveal">Straight from Peter.</h2>
+          <div class="embed-frame video reveal" style="margin-top:16px;">
+            <iframe src="https://www.loom.com/embed/091737f84528492cb534effc011e4fc2" title="A message from Peter Lohmann" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+        <div>
+          <h3 class="reveal" style="font-size:20px;margin:0 0 4px;">What's inside the report</h3>
+          <ul class="inside-list reveal">
+            <li>Revenue and profit multiple benchmarks across 89 transactions</li>
+            <li>Key valuation trends by size, region, and buyer type</li>
+            <li>Strategic insights for both buyers and sellers</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO THIS IS FOR -->
+  <section class="band">
+    <div class="wrap">
+      <span class="kicker reveal">Who This Is For</span>
+      <h2 class="h-lead reveal">Built for both sides of the table.</h2>
+      <div class="aud-grid reveal mt-md">
+        <div class="aud-card"><h3>PM Company Owners</h3><p>Planning for a sale or considering an acquisition.</p></div>
+        <div class="aud-card"><h3>Investors &amp; Acquirers</h3><p>Evaluating or actively acquiring property management firms.</p></div>
+        <div class="aud-card"><h3>Industry Advisors</h3><p>Needing up-to-date market benchmarks.</p></div>
+        <div class="aud-card"><h3>Operators</h3><p>Curious how size, margins, or geography impact valuation.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT THE AUTHOR -->
+  <section class="band wash">
+    <div class="wrap">
+      <span class="kicker reveal">About the Author</span>
+      <h2 class="h-lead reveal">About Peter Lohmann.</h2>
+      <div class="author-split reveal mt-md">
+        <img src="lovable-uploads/db211062-db43-474d-950d-e7e992b53129.png" alt="Peter Lohmann" />
+        <div>
+          <p style="margin-top:0;">Peter Lohmann is the co-founder of RL Property Management, a Columbus, Ohio-based company that manages nearly 700 residential rentals. He holds a degree in electrical engineering from Geneva College and brings that same precision to the way he approaches business, data, systems, and valuation.</p>
+          <p>Peter writes a weekly newsletter read by over 15,000 property management professionals, speaks at national industry events, and is the co-founder of CRANE, a private community for PM company owners. Peter has been on both sides of the table&mdash;as a buyer, seller, and advisor in multiple PM transactions. He created this report to bring clarity and credibility to an M&amp;A space that's long relied on hearsay instead of hard numbers (he also just really likes spreadsheets).</p>
+          <a class="btn btn-ghost" href="/">Peter's website &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="band tight">
+    <div class="wrap">
+      <div class="cta-final">
+        <span class="tag tag-warn" style="margin-bottom:14px;display:inline-block;">Get Full Access</span>
+        <h2>Get your copy of the 2025 M&amp;A Report.</h2>
+        <p>The most concrete valuation dataset in property management, for buyers and sellers alike.</p>
+        <a class="btn btn-primary" href="https://buy.stripe.com/00w9ASfwagYdalc5lD08g0g" target="_blank" rel="noopener">Get Your Copy Now</a>
+      </div>
+      <p class="rep-legal">&copy; 2025 Property Management M&amp;A Report. Unauthorized distribution or resale of this report is prohibited.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="brand" style="font-weight:700;color:var(--navy);">Peter <span style="color:var(--primary);">Lohmann</span></div>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="/">About</a>
+        <a href="/newsletter">Newsletter</a>
+        <a href="/podcast">Podcast</a>
+        <a href="/largest-pm-companies">Largest PM Companies</a>
+        <a href="/blog">Blog</a>
+        <a href="/report/">M&amp;A Report</a>
+        <a href="/peterbot">PeterBot</a>
+        <a href="/products">Products</a>
+        <a href="/featured">Featured</a>
+        <a href="/contact">Contact</a>
+        <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="/faq">FAQ</a>
+      </nav>
+    </div>
+    <div class="foot-social" aria-label="Peter Lohmann on social media">
+      <a href="https://www.youtube.com/@peterlohmann" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg></a>
+      <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.3a1.7 1.7 0 1 1 0-3.5 1.7 1.7 0 0 1 0 3.5zM19 19h-3v-4.4c0-1 0-2.4-1.5-2.4S13 13.4 13 14.5V19h-3v-9h2.9v1.2h.04a3.2 3.2 0 0 1 2.9-1.6c3.1 0 3.7 2 3.7 4.7z"/></svg></a>
+      <a href="https://x.com/pslohmann" target="_blank" rel="noopener" aria-label="X (formerly Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-6.9l-5.4-7-6.2 7H1.7l8.1-9.3L.9 2h7.1l4.9 6.5zM17.7 20h1.9L7.1 4H5.1z"/></svg></a>
+      <a href="https://www.facebook.com/lohmann" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7v-3.5h3.1V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.24 2.7.24v3H15.8c-1.5 0-2 .93-2 1.9v2.2h3.4l-.54 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg></a>
+      <a href="https://www.instagram.com/peterlohmann_media/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 1.8.25 2.2.42.56.2.96.48 1.38.9.42.42.7.82.9 1.38.17.4.37 1 .42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.05 1.2-.25 1.8-.42 2.2a3.7 3.7 0 0 1-.9 1.38 3.7 3.7 0 0 1-1.38.9c-.4.17-1 .37-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.05-1.8-.25-2.2-.42a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.17-.4-.37-1-.42-2.2-.06-1.3-.07-1.7-.07-4.9s0-3.6.07-4.9c.05-1.2.25-1.8.42-2.2.2-.56.48-.96.9-1.38.42-.42.82-.7 1.38-.9.4-.17 1-.37 2.2-.42C8.4 2.2 8.8 2.2 12 2.2zm0 3.14A6.66 6.66 0 1 0 18.66 12 6.66 6.66 0 0 0 12 5.34zm0 10.98A4.32 4.32 0 1 1 16.32 12 4.32 4.32 0 0 1 12 16.32zm6.9-11.24a1.56 1.56 0 1 1-1.56-1.56 1.56 1.56 0 0 1 1.56 1.56z"/></svg></a>
+    </div>
+    <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have <a href="/financial-interest-disclosure">consulting agreements with, or financial interests in</a>, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions. <a href="/privacy-policy">Privacy Policy</a></p>
+  </div>
+</footer>
+
+<script src="/site.js?v=24"></script>
+</body>
 </html>
