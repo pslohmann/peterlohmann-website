@@ -466,6 +466,14 @@ for d in raw:
     doors = num(d.get('Total 3rd party rental doors under management:', ''))
     raw_name = (d.get('Company Name') or '').strip()
     name = strip_llc(NAME_FIXES.get(raw_name.lower(), raw_name))
+    # Two DIFFERENT companies both submitted the exact name "Performance Property Management":
+    # Denver, CO (ppmdenver.com, 805 doors) and Lincoln, NE (ppmnebraska.com, 485 doors). They are
+    # unrelated (different owners, domains, states), so disambiguate the Nebraska one by email domain,
+    # otherwise the name-dedupe below silently drops it. This lands it on the Nebraska list. (Andrew, 08/18)
+    _web = ""   # per-record website override (used when the shared-name lookup would resolve wrongly)
+    if name.lower() == "performance property management" and "ppmnebraska" in (d.get('Your Email', '') or '').lower():
+        name = "Performance Property Management (Lincoln, NE)"
+        _web = "https://www.ppmnebraska.com"   # its own site — the shared raw name otherwise grabs Denver's ppmdenver.com
     _bd = STATE_BREAKDOWN.get(name.lower())
     if _bd:
         doors = sum(_bd.values())   # multi-state operator: overall total = the sum of its per-state breakdown
@@ -480,6 +488,7 @@ for d in raw:
     records.append({
         'name': name,
         'raw_name': raw_name,
+        '_web': _web,
         'loc': clean_location(name, hq_location(d)),
         'state': state_of(clean_location(name, hq_location(d))),
         'doors': doors,
@@ -627,7 +636,7 @@ for _nm, _url, _src in WEBSITE_ROWS:
 
 def linked_name(r):
     """Company name, hyperlinked to its website when we have one on file (or auto-discovered)."""
-    url = WEBSITES.get((r.get("raw_name") or r["name"]).lower()) or WEBSITES.get(r["name"].lower())
+    url = r.get("_web") or WEBSITES.get((r.get("raw_name") or r["name"]).lower()) or WEBSITES.get(r["name"].lower())
     nm = esc(r["name"])
     if url:
         return f'<a class="co-link" href="{esc(url)}" target="_blank" rel="noopener">{nm}</a>'
