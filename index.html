@@ -57,6 +57,14 @@
   .announce:focus-visible{ outline:3px solid var(--navy); outline-offset:-3px; }
   /* On phones, drop "Click to view ->" so the message ends cleanly at "Updated for 2026" */
   @media (max-width:600px){ .announce-cta{ display:none; } }
+
+  /* ---- Resources grid: 4 across on desktop, 2 across on smaller screens ---- */
+  .resource-grid{ grid-template-columns:repeat(4,1fr); }
+  @media (max-width:900px){ .resource-grid{ grid-template-columns:repeat(2,1fr); } }
+  /* Crane card watermark: render its emblem in the same faded blue as the other card icons */
+  .card-ic.crane-ic{ background:var(--primary);
+    -webkit-mask:url('images/crane-icon.webp') center/contain no-repeat;
+            mask:url('images/crane-icon.webp') center/contain no-repeat; }
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
@@ -215,7 +223,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
       <span class="kicker reveal">Peter Lohmann Media</span>
       <h2 id="explore-h" class="h-lead reveal">Resources to grow your PM company.</h2>
       <p class="sub reveal">Everything I publish, in one place.</p>
-      <div class="grid g3 stagger mt-md">
+      <div class="grid resource-grid stagger mt-md">
 
         <a class="card" href="/newsletter">
           <svg class="card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -257,6 +265,20 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           <h3>Blog</h3>
           <p>Longer takes on the industry: software, M&amp;A, NARPM, fair housing, and the occasional rant.</p>
           <span class="arrow">Read →</span>
+        </a>
+
+        <a class="card" href="https://pmtrends.com/" target="_blank" rel="noopener">
+          <svg class="card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+          <h3>PM Trends Report</h3>
+          <p>The annual national survey of 500 small landlords on what they really think about property managers. Produced with Harris Poll.</p>
+          <span class="arrow">Read the report →</span>
+        </a>
+
+        <a class="card" href="https://www.joincrane.co/" target="_blank" rel="noopener">
+          <span class="card-ic crane-ic" aria-hidden="true"></span>
+          <h3>Crane</h3>
+          <p>The private community I co-founded for experienced PM company owners. You must manage 150+ doors to qualify.</p>
+          <span class="arrow">Learn more →</span>
         </a>
 
       </div>
