@@ -515,6 +515,17 @@ a.post-card:hover{ text-decoration:none; transform:translateY(-4px); box-shadow:
 .article h1{ font-size:clamp(30px,4.6vw,44px); line-height:1.14; margin-bottom:14px; }
 .article-cover{ margin:6px 0 26px; }
 .article-cover img{ width:100%; height:auto; border-radius:16px; border:1px solid var(--line); box-shadow:var(--shadow); display:block; }
+/* Blog post header: title block + featured image side by side (image ~38%, title ~62%),
+   so the reader lands on the content instead of scrolling past a giant image. */
+.article-head{ margin-bottom:6px; }
+.article-head-text .article-back{ margin-bottom:14px; }
+.article-head-text h1{ margin-bottom:0; }
+.article-head.with-cover{ display:grid; grid-template-columns:62% 1fr; gap:30px; align-items:center; margin-bottom:14px; }
+.article-head.with-cover .article-cover{ margin:0; }
+.article-head.with-cover .article-cover img{ border-radius:14px; }
+@media (max-width:640px){
+  .article-head.with-cover{ grid-template-columns:1fr; gap:16px; }
+}
 .article .dek{ font-size:20px; color:var(--muted); margin-bottom:10px; line-height:1.5; }
 .article-body{ font-size:18px; line-height:1.72; color:var(--ink); margin-top:26px;
                border-top:1px solid var(--line); padding-top:26px; }

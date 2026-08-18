@@ -25,7 +25,7 @@ BLOGDIR = os.path.join(HERE, "blog")
 os.makedirs(IMGDIR, exist_ok=True)
 os.makedirs(BLOGDIR, exist_ok=True)
 LIMIT = int(os.environ.get("LIMIT", "0"))
-ASSET_V = "24"  # cache-bust version for styles.css / site.js (keep in sync with the rest of the site)
+ASSET_V = "25"  # cache-bust version for styles.css / site.js (keep in sync with the rest of the site)
 
 # Google Analytics (GA4) — injected right before </head> on every generated page.
 GA4 = ('<!-- Google Analytics (GA4) -->\n'
@@ -404,18 +404,31 @@ def write_post(it, body_html, cover=None, podcast_vid=None):
     author = (it.get("author") or {}).get("displayName") or "Peter Lohmann"
     excerpt = re.sub(r"<[^>]+>", "", it.get("excerpt") or "").strip()
     desc = (excerpt or title)[:180]
+    # Build the featured image (cover) and podcast-button block separately so the
+    # header can place the title + image SIDE BY SIDE, then any podcast buttons below.
+    cover_fig = ""
+    pod_btns = ""
     if cover and podcast_vid:
         _watch = f"https://www.youtube.com/watch?v={podcast_vid}"
-        cover_html = (f'\n        <figure class="article-cover"><a class="cover-link" href="{_watch}" '
-                      f'target="_blank" rel="noopener" aria-label="Watch this episode on YouTube" '
-                      f'style="display:block"><img src="../{cover}" alt="" /></a></figure>'
-                      f'\n        {podcast_buttons(podcast_vid)}')
+        cover_fig = (f'<figure class="article-cover"><a class="cover-link" href="{_watch}" '
+                     f'target="_blank" rel="noopener" aria-label="Watch this episode on YouTube" '
+                     f'style="display:block"><img src="../{cover}" alt="" /></a></figure>')
+        pod_btns = podcast_buttons(podcast_vid)
     elif cover:
-        cover_html = f'\n        <figure class="article-cover"><img src="../{cover}" alt="" /></figure>'
+        cover_fig = f'<figure class="article-cover"><img src="../{cover}" alt="" /></figure>'
     elif podcast_vid:
-        cover_html = f'\n        {podcast_buttons(podcast_vid)}'
-    else:
-        cover_html = ""
+        pod_btns = podcast_buttons(podcast_vid)
+    head_class = "article-head with-cover" if cover_fig else "article-head"
+    header_html = (
+        f'<header class="{head_class}">\n'
+        f'          <div class="article-head-text">\n'
+        f'            <a class="article-back" href="../blog.html">&larr; All posts</a>\n'
+        f'            <div class="article-meta">{esc(date)} &middot; by {esc(author)}</div>\n'
+        f'            <h1>{esc(title)}</h1>\n'
+        f'          </div>{cover_fig}\n'
+        f'        </header>'
+    )
+    pod_block = (f'\n        {pod_btns}' if pod_btns else "")
     _SITE = "https://www.peterlohmann.com"
     canon = f"{_SITE}/blog/{slug}"
     og_img = f"{_SITE}/{cover}" if cover else f"{_SITE}/images/og-default.png?v=2"
@@ -459,9 +472,7 @@ def write_post(it, body_html, cover=None, podcast_vid=None):
   <article class="band">
     <div class="wrap">
       <div class="article">
-        <a class="article-back" href="../blog.html">&larr; All posts</a>
-        <div class="article-meta">{esc(date)} &middot; by {esc(author)}</div>
-        <h1>{esc(title)}</h1>{cover_html}
+        {header_html}{pod_block}
         <div class="article-body">
 {body_html}
         </div>
