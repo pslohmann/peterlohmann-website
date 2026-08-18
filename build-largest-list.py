@@ -457,6 +457,10 @@ DOORS_OVERRIDE = {                               # manual current-year door corr
     "liberty asset group": 1323,                 # Andrew, 08/17: corrected total across all their doors
 }
 
+EXEC_OVERRIDE = {                                # manual exec name/title corrections (lowercased name -> "Name, Title")
+    "wrightdavis": "Joe Wright, Owner/Broker",   # Andrew, 08/18: was "CEO"
+}
+
 records = []
 for d in raw:
     doors = num(d.get('Total 3rd party rental doors under management:', ''))
@@ -483,7 +487,7 @@ for d in raw:
         'narpm': (d.get('Is your company a member of NARPM?') or '').strip().lower().startswith('y'),
         'crane': crane,
         'boom': lname in BOOM_CUSTOMERS or lraw in BOOM_CUSTOMERS,
-        'exec': (d.get('Name + Title of Highest-Ranking Corporate Officer?') or '').strip(),
+        'exec': EXEC_OVERRIDE.get(lname, (d.get('Name + Title of Highest-Ranking Corporate Officer?') or '').strip()),
         'email_domain': email_domain(d.get('Your Email', '')),
         'doors_2025': d.get('__doors_2025'),
         'org': norm_org(d.get('How is your PM Company Organized?', '')),

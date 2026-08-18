@@ -56,6 +56,8 @@
   .announce-arrow{ font-weight:800; margin-left:2px; }
   .announce:hover .announce-msg{ text-decoration:underline; text-decoration-color:#fff; text-underline-offset:3px; }
   .announce:focus-visible{ outline:3px solid var(--navy); outline-offset:-3px; }
+  /* On phones, drop "Click to view ->" so the message ends cleanly at "Updated for 2026" */
+  @media (max-width:600px){ .announce-cta{ display:none; } }
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
@@ -96,7 +98,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 <!-- ============================== ANNOUNCEMENT MARQUEE ============================== -->
 <a class="announce" href="/largest-pm-companies"
    aria-label="New: Top 40 Largest PM Companies in the U.S. plus Top 10 by State, updated for 2026. Click to view the list.">
-  <span class="announce-msg"><b>NEW</b> Top 40 Largest PM Companies in the U.S. + Top 10 by State &nbsp;&middot;&nbsp; Updated for 2026 &nbsp;&middot;&nbsp; Click to view <span class="announce-arrow">&rarr;</span></span>
+  <span class="announce-msg"><b>NEW</b> Top 40 Largest PM Companies in the U.S. + Top 10 by State &nbsp;&middot;&nbsp; Updated for 2026<span class="announce-cta"> &nbsp;&middot;&nbsp; Click to view <span class="announce-arrow">&rarr;</span></span></span>
 </a>
 
 <main id="main">
