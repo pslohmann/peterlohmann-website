@@ -214,7 +214,7 @@ BOOM_CUSTOMERS = {                               # Boom customers (Boom's confir
     "owens management group",
     "oz realty",
     "performance properties, inc.",
-    "performance property management",
+    "performance property management (lincoln, ne)",  # the Boom customer is the Nebraska company (self-reported Yes; ppmnebraska.com), NOT the Denver, CO company that shares the name
     "pmi arrico realty and pm lakeland",
     "pmi indianapolis",
     "pmi midwest",
