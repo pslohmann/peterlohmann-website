@@ -25,7 +25,7 @@ BLOGDIR = os.path.join(HERE, "blog")
 os.makedirs(IMGDIR, exist_ok=True)
 os.makedirs(BLOGDIR, exist_ok=True)
 LIMIT = int(os.environ.get("LIMIT", "0"))
-ASSET_V = "25"  # cache-bust version for styles.css / site.js (keep in sync with the rest of the site)
+ASSET_V = "26"  # cache-bust version for styles.css / site.js (keep in sync with the rest of the site)
 
 # Google Analytics (GA4) — injected right before </head> on every generated page.
 GA4 = ('<!-- Google Analytics (GA4) -->\n'
@@ -396,6 +396,15 @@ def podcast_buttons(vid):
             '<a class="ep-btn youtube" href="%s" target="_blank" rel="noopener">%sYouTube</a>'
             '</div>') % (APPLE_SHOW, APPLE_SVG, SPOTIFY_SHOW, SPOTIFY_SVG, watch, YT_SVG)
 
+def podcast_icons(vid):
+    """Small circular icon-only platform links, shown under the episode thumbnail."""
+    watch = "https://www.youtube.com/watch?v=" + vid
+    return ('<div class="pod-icons">'
+            '<a class="pod-ic apple" href="%s" target="_blank" rel="noopener" aria-label="Listen on Apple Podcasts">%s</a>'
+            '<a class="pod-ic spotify" href="%s" target="_blank" rel="noopener" aria-label="Listen on Spotify">%s</a>'
+            '<a class="pod-ic youtube" href="%s" target="_blank" rel="noopener" aria-label="Watch on YouTube">%s</a>'
+            '</div>') % (APPLE_SHOW, APPLE_SVG, SPOTIFY_SHOW, SPOTIFY_SVG, watch, YT_SVG)
+
 
 def write_post(it, body_html, cover=None, podcast_vid=None):
     slug = it["_slug"]
@@ -404,28 +413,31 @@ def write_post(it, body_html, cover=None, podcast_vid=None):
     author = (it.get("author") or {}).get("displayName") or "Peter Lohmann"
     excerpt = re.sub(r"<[^>]+>", "", it.get("excerpt") or "").strip()
     desc = (excerpt or title)[:180]
-    # Build the featured image (cover) and podcast-button block separately so the
-    # header can place the title + image SIDE BY SIDE, then any podcast buttons below.
-    cover_fig = ""
-    pod_btns = ""
+    # Build the featured image (cover) and podcast links so the header can place the
+    # title + image SIDE BY SIDE. For podcast episodes, the platform links become small
+    # circular icons stacked UNDER the thumbnail; text posts just show the image.
+    cover_fig = ""      # the <figure> image
+    cover_col = ""      # the whole right-hand column (image, + icons for podcasts)
+    pod_btns = ""       # fallback text buttons (only if a podcast has no cover image)
     if cover and podcast_vid:
         _watch = f"https://www.youtube.com/watch?v={podcast_vid}"
         cover_fig = (f'<figure class="article-cover"><a class="cover-link" href="{_watch}" '
                      f'target="_blank" rel="noopener" aria-label="Watch this episode on YouTube" '
                      f'style="display:block"><img src="../{cover}" alt="" /></a></figure>')
-        pod_btns = podcast_buttons(podcast_vid)
+        cover_col = f'<div class="article-cover-col">{cover_fig}{podcast_icons(podcast_vid)}</div>'
     elif cover:
         cover_fig = f'<figure class="article-cover"><img src="../{cover}" alt="" /></figure>'
+        cover_col = cover_fig
     elif podcast_vid:
         pod_btns = podcast_buttons(podcast_vid)
-    head_class = "article-head with-cover" if cover_fig else "article-head"
+    head_class = "article-head with-cover" if cover_col else "article-head"
     header_html = (
         f'<header class="{head_class}">\n'
         f'          <div class="article-head-text">\n'
         f'            <a class="article-back" href="../blog.html">&larr; All posts</a>\n'
         f'            <div class="article-meta">{esc(date)} &middot; by {esc(author)}</div>\n'
         f'            <h1>{esc(title)}</h1>\n'
-        f'          </div>{cover_fig}\n'
+        f'          </div>{cover_col}\n'
         f'        </header>'
     )
     pod_block = (f'\n        {pod_btns}' if pod_btns else "")

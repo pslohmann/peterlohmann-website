@@ -596,6 +596,17 @@ a.post-card:hover{ text-decoration:none; transform:translateY(-4px); box-shadow:
 .ep-btn.spotify:hover{ background:#1aa74c; }
 .ep-btn.youtube{ background:#FF0000; color:#fff; border-color:#FF0000; }
 .ep-btn.youtube:hover{ background:#e60000; }
+/* Podcast posts: platform links as small circular icon-only buttons, stacked under the thumbnail */
+.article-cover-col{ display:flex; flex-direction:column; gap:14px; }
+.pod-icons{ display:flex; justify-content:center; gap:12px; }
+.pod-ic{ display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px;
+         border-radius:50%; background:#fff; border:1px solid var(--line); color:var(--navy);
+         transition:transform .15s ease, box-shadow .15s ease; }
+.pod-ic svg{ width:18px; height:18px; }
+.pod-ic:hover{ text-decoration:none; transform:translateY(-1px); box-shadow:var(--shadow); }
+.pod-ic.apple{ background:#111; border-color:#111; color:#fff; }
+.pod-ic.spotify{ background:#1DB954; border-color:#1DB954; color:#fff; }
+.pod-ic.youtube{ background:#FF0000; border-color:#FF0000; color:#fff; }
 @media (max-width:900px){ .ep-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:600px){ .ep-grid{ grid-template-columns:1fr; } }
 
