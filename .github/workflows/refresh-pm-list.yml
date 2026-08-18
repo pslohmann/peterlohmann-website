@@ -1,13 +1,11 @@
 name: Refresh Largest PM list
 
 # Rebuilds largest-pm-companies.html from live JotForm submissions.
-# Runs automatically once a day, and can be triggered by hand from the
-# Actions tab (the "Run workflow" button).
+# The 2026 list is FINAL — the daily auto-refresh is intentionally DISABLED.
+# This now only runs on demand (Actions tab -> "Run workflow"), e.g. to build a future year's list.
 
 on:
-  schedule:
-    - cron: '0 10 * * *'   # 10:00 UTC = ~6am US Eastern
-  workflow_dispatch: {}     # allow manual runs
+  workflow_dispatch: {}     # manual only — the daily schedule was removed on purpose (list is final)
 
 permissions:
   contents: write           # lets the job commit the refreshed page
@@ -41,8 +39,8 @@ jobs:
         run: |
           git config user.name  "PM List Bot"
           git config user.email "actions@users.noreply.github.com"
-          # main list + coming-soon teaser + all per-state pages (pm-*.html) + sitemap so everything stays in sync
-          git add largest-pm-companies.html largest-pm-companies-coming-soon.html pm-*.html data/company-websites.csv sitemap.xml
+          # main list + all per-state pages (pm-*.html) + sitemap so everything stays in sync
+          git add largest-pm-companies.html pm-*.html data/company-websites.csv sitemap.xml
           if git diff --cached --quiet; then
             echo "No changes today — nothing to commit."
           else
