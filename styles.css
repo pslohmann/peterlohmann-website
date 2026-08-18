@@ -607,6 +607,16 @@ a.post-card:hover{ text-decoration:none; transform:translateY(-4px); box-shadow:
 .pod-ic.apple{ background:#111; border-color:#111; color:#fff; }
 .pod-ic.spotify{ background:#1DB954; border-color:#1DB954; color:#fff; }
 .pod-ic.youtube{ background:#FF0000; border-color:#FF0000; color:#fff; }
+/* Simple data tables inside a blog post (Top 10, fastest-growing, etc.) */
+.article-body .post-table-wrap{ overflow-x:auto; margin:1.8em 0; -webkit-overflow-scrolling:touch; }
+.article-body table.post-table{ width:100%; border-collapse:collapse; font-size:15.5px; min-width:420px; }
+.article-body table.post-table thead th{ background:var(--wash); color:var(--navy); font-weight:700;
+         font-size:12px; text-transform:uppercase; letter-spacing:.04em; padding:10px 14px; text-align:left; white-space:nowrap; }
+.article-body table.post-table th.num{ text-align:right; }
+.article-body table.post-table td{ padding:10px 14px; border-top:1px solid var(--line); vertical-align:top; }
+.article-body table.post-table td.num{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.article-body table.post-table tbody tr:first-child td{ border-top:0; }
+.article-body table.post-table tbody tr:hover{ background:var(--wash-soft); }
 @media (max-width:900px){ .ep-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:600px){ .ep-grid{ grid-template-columns:1fr; } }
 
