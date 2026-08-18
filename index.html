@@ -43,28 +43,18 @@
   .hero-portrait::before{ background:url('images/main-bg.jpg') center/cover, #fff;
     border:3px solid var(--primary); box-shadow:0 14px 36px rgba(31,58,77,.12); }
 
-  /* ---- Announcement marquee (home page only): links to the Largest PM list ---- */
-  .announce{ display:block; position:relative; overflow:hidden; text-decoration:none;
-    background:#E0703C;
+  /* ---- Announcement bar (home page only): static, centered; links to the Largest PM list ---- */
+  .announce{ display:block; text-decoration:none; color:#fff; background:#E0703C; text-align:center;
     border-bottom:1px solid rgba(31,58,77,.12); box-shadow:0 2px 10px rgba(31,58,77,.10); }
-  .announce-track{ display:flex; width:max-content; will-change:transform;
-    animation:announce-scroll 36s linear infinite; }
-  .announce-msg{ flex:0 0 auto; white-space:nowrap; padding:9px 2.6rem; color:#fff;
-    font-size:13.5px; font-weight:600; letter-spacing:.02em;
-    text-shadow:0 1px 2px rgba(31,58,77,.30); }
+  .announce:hover{ text-decoration:none; }
+  .announce-msg{ display:inline-block; padding:9px 1.4rem; color:#fff; line-height:1.4;
+    font-size:13.5px; font-weight:600; letter-spacing:.02em; text-shadow:0 1px 2px rgba(31,58,77,.30); }
   .announce-msg b{ display:inline-block; background:rgba(255,255,255,.24); color:#fff;
     font-weight:800; font-size:11px; letter-spacing:.1em; padding:2px 8px;
     border-radius:999px; margin-right:8px; vertical-align:middle; }
   .announce-arrow{ font-weight:800; margin-left:2px; }
-  .announce:hover .announce-track{ animation-play-state:paused; }
-  .announce:hover .announce-msg{ text-decoration:underline; text-underline-offset:3px; }
+  .announce:hover .announce-msg{ text-decoration:underline; text-decoration-color:#fff; text-underline-offset:3px; }
   .announce:focus-visible{ outline:3px solid var(--navy); outline-offset:-3px; }
-  @keyframes announce-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
-  @media (prefers-reduced-motion:reduce){
-    .announce-track{ animation:none; justify-content:center; width:100%; }
-    .announce-msg{ text-align:center; }
-    .announce-msg:not(:first-child){ display:none; }
-  }
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
@@ -105,16 +95,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 <!-- ============================== ANNOUNCEMENT MARQUEE ============================== -->
 <a class="announce" href="/largest-pm-companies"
    aria-label="New: Top 40 Largest PM Companies in the U.S. plus Top 10 by State, updated for 2026. Click to view the list.">
-  <div class="announce-track" aria-hidden="true">
-    <span class="announce-msg"><b>NEW</b> Top 40 Largest PM Companies in the U.S. + Top 10 by State &nbsp;&middot;&nbsp; Updated for 2026 &nbsp;&middot;&nbsp; Click to view <span class="announce-arrow">&rarr;</span></span>
-    <span class="announce-msg"><b>NEW</b> Top 40 Largest PM Companies in the U.S. + Top 10 by State &nbsp;&middot;&nbsp; Updated for 2026 &nbsp;&middot;&nbsp; Click to view <span class="announce-arrow">&rarr;</span></span>
-    <span class="announce-msg"><b>NEW</b> Top 40 Largest PM Companies in the U.S. + Top 10 by State &nbsp;&middot;&nbsp; Updated for 2026 &nbsp;&middot;&nbsp; Click to view <span class="announce-arrow">&rarr;</span></span>
-    <span class="announce-msg"><b>NEW</b> Top 40 Largest PM Companies in the U.S. + Top 10 by State &nbsp;&middot;&nbsp; Updated for 2026 &nbsp;&middot;&nbsp; Click to view <span class="announce-arrow">&rarr;</span></span>
-    <span class="announce-msg"><b>NEW</b> Top 40 Largest PM Companies in the U.S. + Top 10 by State &nbsp;&middot;&nbsp; Updated for 2026 &nbsp;&middot;&nbsp; Click to view <span class="announce-arrow">&rarr;</span></span>
-    <span class="announce-msg"><b>NEW</b> Top 40 Largest PM Companies in the U.S. + Top 10 by State &nbsp;&middot;&nbsp; Updated for 2026 &nbsp;&middot;&nbsp; Click to view <span class="announce-arrow">&rarr;</span></span>
-    <span class="announce-msg"><b>NEW</b> Top 40 Largest PM Companies in the U.S. + Top 10 by State &nbsp;&middot;&nbsp; Updated for 2026 &nbsp;&middot;&nbsp; Click to view <span class="announce-arrow">&rarr;</span></span>
-    <span class="announce-msg"><b>NEW</b> Top 40 Largest PM Companies in the U.S. + Top 10 by State &nbsp;&middot;&nbsp; Updated for 2026 &nbsp;&middot;&nbsp; Click to view <span class="announce-arrow">&rarr;</span></span>
-  </div>
+  <span class="announce-msg"><b>NEW</b> Top 40 Largest PM Companies in the U.S. + Top 10 by State &nbsp;&middot;&nbsp; Updated for 2026 &nbsp;&middot;&nbsp; Click to view <span class="announce-arrow">&rarr;</span></span>
 </a>
 
 <main id="main">
