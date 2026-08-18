@@ -617,6 +617,8 @@ a.post-card:hover{ text-decoration:none; transform:translateY(-4px); box-shadow:
 .article-body table.post-table td.num{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
 .article-body table.post-table tbody tr:first-child td{ border-top:0; }
 .article-body table.post-table tbody tr:hover{ background:var(--wash-soft); }
+/* Prominent "go to the full list" call-to-action links inside a post */
+.article-body a.post-cta{ display:inline-block; font-weight:700; font-size:19px; margin-top:2px; }
 @media (max-width:900px){ .ep-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:600px){ .ep-grid{ grid-template-columns:1fr; } }
 
