@@ -136,18 +136,33 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     </div>
   </section>
 
-  <!-- SPONSOR -->
+  <!-- SUBMIT NEWS  +  SPONSOR  (two cards side by side; stack on mobile) -->
   <section class="band">
     <div class="wrap">
-      <div class="panel orange">
-        <span class="tag tag-warn">Sponsor</span>
-        <h2 class="h-lead" style="margin-top:14px;">Sponsor the newsletter or podcast.</h2>
-        <p class="sub">Get targeted exposure to over 20,000 property management professionals every week.</p>
-        <div class="listen-row mt-sm">
-          <!-- SWAP: media kit (may become a page on this site later) -->
-          <a class="btn btn-primary" href="https://sponsor.peterlohmann.com/" target="_blank" rel="noopener">Browse the media kit</a>
-          <a class="listen-btn js-contact" href="mailto:aswensen@rlpmg.com?subject=Newsletter%20%2F%20Podcast%20Sponsorship">Email for pricing &amp; availability</a>
+      <div class="split" style="align-items:stretch; gap:24px;">
+
+        <!-- LEFT: submit property management news -->
+        <div class="panel" style="background:#f2f8fc; border-color:#cfe3f2; border-top:4px solid var(--primary); display:flex; flex-direction:column;">
+          <span class="tag tag-blue">Submit News</span>
+          <h2 style="font-size:clamp(23px,2.6vw,29px); line-height:1.15; margin:14px 0 10px;">Submit your property management news &amp; updates</h2>
+          <p class="sub" style="font-size:17px; max-width:none; margin-bottom:8px;">Something brewing in your business? Got a story worth telling? Fill out the form to share news, updates, product launches, company milestones, or anything PM professionals should know about.</p>
+          <div class="listen-row mt-sm" style="margin-top:auto;">
+            <a class="btn btn-blue" href="https://form.jotform.com/253626707943162" target="_blank" rel="noopener">Submit your news</a>
+          </div>
         </div>
+
+        <!-- RIGHT: sponsor -->
+        <div class="panel orange" style="display:flex; flex-direction:column;">
+          <span class="tag tag-warn">Sponsor</span>
+          <h2 style="font-size:clamp(23px,2.6vw,29px); line-height:1.15; margin:14px 0 10px;">Sponsor the newsletter or podcast.</h2>
+          <p class="sub" style="font-size:17px; max-width:none; margin-bottom:8px;">Get targeted exposure to over 20,000 property management professionals every week.</p>
+          <div class="listen-row mt-sm" style="margin-top:auto;">
+            <!-- SWAP: media kit (may become a page on this site later) -->
+            <a class="btn btn-primary" href="https://sponsor.peterlohmann.com/" target="_blank" rel="noopener">Browse the media kit</a>
+            <a class="listen-btn js-contact" href="mailto:aswensen@rlpmg.com?subject=Newsletter%20%2F%20Podcast%20Sponsorship">Email for pricing &amp; availability</a>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
