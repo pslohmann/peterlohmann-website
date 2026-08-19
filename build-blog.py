@@ -473,6 +473,8 @@ def write_post(it, body_html, cover=None, podcast_vid=None):
 <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
 <link rel="apple-touch-icon" href="../favicon.png" />
+<link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
 <link rel="stylesheet" href="../styles.css?v={ASSET_V}" />
 </head>
 <body>
@@ -562,6 +564,8 @@ def write_index(posts):
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
 <link rel="apple-touch-icon" href="favicon.png" />
+<link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
 <link rel="stylesheet" href="styles.css?v={ASSET_V}" />
 </head>
 <body>

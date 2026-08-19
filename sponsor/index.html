@@ -44,10 +44,10 @@ s.src = "https://b2bjsstore.s3.us-west-2.amazonaws.com/b/" + key + "/" + key + "
 document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);
 }("0NW1GH7LKEO4");</script>
 
+<link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" />
 <style>
-  /* Bely Display — Peter's Adobe logo font, used only for his name (hero + nav wordmark).
-     Falls back to Georgia/serif if the Adobe kit doesn't serve this domain yet. */
-  @import url('https://use.typekit.net/dik1zcl.css');
+  /* Bely Display — Peter's Adobe logo font (hero + nav wordmark). Loaded via the <link> above,
+     not @import, so it downloads in parallel instead of blocking render. Falls back to Georgia/serif. */
 
   /* ---------- DESIGN TOKENS ---------- */
   :root{
@@ -180,7 +180,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
      popping out the top, and a floating stat badge. */
   .hero-portrait{ position:relative; width:236px; height:236px; }
   .hero-portrait::before{ content:""; position:absolute; inset:0; border-radius:50%; z-index:0;
-    background:url('main-bg.jpg') center/cover, #fff;
+    background:url('main-bg.webp') center/cover, #fff;
     border:3px solid var(--primary); box-shadow:0 14px 36px rgba(31,58,77,.12); }
   .hp-clip{ position:absolute; inset:0; border-radius:50%; overflow:hidden; z-index:1; }
   .hp-clip img{ position:absolute; left:50%; bottom:-3%; transform:translateX(-49%); width:114%; max-width:none; height:auto; }

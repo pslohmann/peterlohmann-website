@@ -5,11 +5,9 @@
    with the Inter type family + bolder headings inspired by pmtrends.com.
    ========================================================================== */
 
-/* Inter font family (workhorse: body, labels, all the big stat/rank numbers). */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-/* Bely Display (Peter's LOGO font) via his Adobe Fonts kit — powers every header site-wide.
-   One import here = it applies to every page automatically. Kit ships weight 400 only. */
-@import url('https://use.typekit.net/dik1zcl.css');
+/* Fonts (Inter + Bely Display) load via <link> tags in each page's <head>, NOT @import here,
+   so they download in parallel with this stylesheet instead of on a blocking request chain.
+   (Perf: @import was the top render-blocking cost. Set font-display:swap in the Adobe kit.) */
 
 /* ---------- DESIGN TOKENS ---------- */
 :root{
@@ -22,7 +20,7 @@
   --orange-dark:#c95e2d;
   --ink:#1F3A4D;
   --muted:#5f7280;
-  --muted-2:#8496a2;
+  --muted-2:#647380;
   --line:#dce4ec;
   --card:#ffffff;
   /* accent tints for tasteful splashes of color (all on-brand: blue / orange / navy) */
