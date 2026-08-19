@@ -715,7 +715,7 @@ FOOT_LINKS = """        <a href="index.html">About</a>
         <a href="report/index.html">M&amp;A Report</a>
         <a href="peterbot.html">PeterBot</a>
         <a href="products.html">Products</a>
-        <a href="featured.html">Featured</a><a href="/sponsor">Sponsor</a>
+        <a href="featured.html">Featured</a><a href="/sponsor/">Sponsor</a>
         <a href="contact.html">Contact</a>
         <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="faq.html">FAQ</a>"""

@@ -37,6 +37,8 @@ for f in sorted(glob.glob(os.path.join(HERE, "blog", "*.html"))):
     urls.append(clean_url("blog/" + os.path.basename(f)))
 if os.path.exists(os.path.join(HERE, "report", "index.html")):
     urls.append(SITE + "/report/")
+if os.path.exists(os.path.join(HERE, "sponsor", "index.html")):
+    urls.append(SITE + "/sponsor/")
 
 lines = ['<?xml version="1.0" encoding="UTF-8"?>',
          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
