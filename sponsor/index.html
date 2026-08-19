@@ -991,9 +991,9 @@ const CONFIG = {
   // label come from `products` (never drift). Past dates auto-hide; the day-of-week /
   // issue is derived from each date. Podcast follows CONFIG.podcast.available.
   urgentDeals: {
-    primary:   { product: "primaryNewsletter",   deal: 3000, noun: "primary newsletter ads",   soonest: "November 2026", dates: [] },
-    secondary: { product: "secondaryNewsletter", deal: 1000, noun: "secondary newsletter ads", soonest: "November 2026", dates: ["2026-08-14","2026-08-21","2026-09-04"] },
-    podcast:   { product: "podcastAd",           deal: 1500, noun: "podcast ads",               soonest: "November 2026", dates: [] },
+    primary:   { product: "primaryNewsletter",   deal: 3000, noun: "primary newsletter ads",   soonest: "January 2027", dates: [] },
+    secondary: { product: "secondaryNewsletter", deal: 1000, noun: "secondary newsletter ads", soonest: "November 2026", dates: [] },
+    podcast:   { product: "podcastAd",           deal: 1500, noun: "podcast ads",               soonest: "January 2027", dates: [] },
   },
 };
 
@@ -1402,7 +1402,7 @@ function renderDeals(){
     const unavailable = gated || upcoming.length === 0;
 
     const body = unavailable
-      ? '<p class="deal-note">No discounted slots available right now. Soonest availability for '+d.noun+': '+d.soonest+'.</p>'
+      ? '<p class="deal-note">No discounted slots available right now. No availability until '+d.soonest+'.</p>'
       : '<div class="deal-dates"><div class="deal-date-label">Open dates</div><ul>'
           + upcoming.map(function(x){ return '<li><span class="dd-date">'+prettyDate(x)+'</span><span class="dd-issue">'+dayName(x)+' issue</span></li>'; }).join("")
           + '</ul></div>';
