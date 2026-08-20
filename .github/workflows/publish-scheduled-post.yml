@@ -1,0 +1,88 @@
+name: Publish scheduled blog post
+
+# Publishes any post queued in data/scheduled-posts.json at 8:00 AM Eastern.
+#
+# Why two cron times: GitHub's scheduler only ever fires LATE, never early, and cron
+# here is always UTC (it does not follow daylight saving). 11:45 UTC is 7:45am during
+# EDT (summer); 12:45 UTC is 7:45am during EST (winter). Whichever run lands in the
+# 45-minutes-before-8am window waits for the top of the hour and publishes; the other
+# run sees it is the wrong window and exits immediately. So it is 8:00am ET sharp
+# year-round without anyone touching the schedule twice a year.
+#
+# To publish something right now instead of waiting: Actions tab -> this workflow
+# -> "Run workflow" (ticking force ignores the publish_on date).
+
+on:
+  schedule:
+    - cron: '45 11 * * *'   # 7:45am ET during EDT (summer)
+    - cron: '45 12 * * *'   # 7:45am ET during EST (winter)
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Publish everything queued right now, ignoring the scheduled date'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write           # lets the job commit the published post
+
+concurrency:
+  group: publish-scheduled-post
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Wait until exactly 8:00 AM Eastern
+        # Skipped entirely for a manual run, so "Run workflow" publishes immediately.
+        if: github.event_name == 'schedule'
+        run: |
+          python3 - <<'PY'
+          import sys, time
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+
+          TZ = ZoneInfo("America/New_York")
+          now = datetime.now(TZ)
+          target = now.replace(hour=8, minute=0, second=0, microsecond=0)
+          wait = (target - now).total_seconds()
+
+          if wait > 45 * 60:
+              print(f"{now:%H:%M %Z}: too early (target {target:%H:%M %Z}). This is the "
+                    f"other daylight-saving window, so this run stops here.")
+              sys.exit(78)          # neutral: stop the job without failing it
+          if wait < 0:
+              print(f"{now:%H:%M %Z}: already past 8:00am ET, publishing now (catch-up).")
+          else:
+              print(f"{now:%H:%M %Z}: waiting {int(wait)}s for 8:00am ET...")
+              time.sleep(wait)
+          PY
+
+      - name: Publish anything that is due
+        run: |
+          if [ "${{ inputs.force }}" = "true" ]; then
+            python3 publish-scheduled.py --now
+          else
+            python3 publish-scheduled.py
+          fi
+
+      - name: Commit and push if anything was published
+        run: |
+          git config user.name  "Blog Publish Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add blog.html blog/*.html sitemap.xml data/scheduled-posts.json
+          if git diff --cached --quiet; then
+            echo "Nothing was due — nothing to commit."
+          else
+            git commit -m "Publish scheduled blog post"
+            git push
+          fi
