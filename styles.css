@@ -949,3 +949,74 @@ a.tile:focus-visible{ z-index:2; }
 /* Canadian honorable mention: a short note under the Top 40 list */
 .canada-note{ margin-top:10px; padding-top:12px; border-top:1px solid #eef2f5; }
 .canada-note a{ color:var(--primary); font-weight:600; }
+
+/* ============================================================
+   Newsletter page: latest-issue preview + full-issue reader
+   Content is pulled from the Beehiiv RSS feed by build-newsletter.py.
+   ============================================================ */
+.nl-split{ display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+.nl-editions{ display:flex; flex-direction:column; gap:20px; }
+.nl-live{ display:flex; flex-direction:column; padding:0; overflow:hidden; }
+
+.nl-latest-head{ padding:22px 22px 0; }
+.nl-latest-head h3{ margin:12px 0 2px; font-size:20px; line-height:1.25; }
+.nl-latest-date{ margin:0; color:var(--muted); font-size:14px; font-weight:600; }
+
+/* Clipped "paper" window onto the issue. */
+.nl-preview{ position:relative; margin:16px 0 0; }
+.nl-paper{ height:410px; overflow:hidden; padding:0 22px; }
+.nl-fade{ position:absolute; left:0; right:0; bottom:0; height:110px; pointer-events:none;
+  background:linear-gradient(to bottom, rgba(255,255,255,0), var(--card) 88%); }
+
+.nl-actions{ display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:14px 22px 20px; border-top:1px solid var(--line); margin-top:4px; }
+.nl-zoom{ display:inline-flex; align-items:center; gap:8px; border:0; cursor:pointer;
+  background:var(--navy); color:#fff; font:inherit; font-weight:700; font-size:14px;
+  padding:10px 16px; border-radius:999px; }
+.nl-zoom:hover{ background:#162b3a; }
+.nl-zoom svg{ width:17px; height:17px; }
+.nl-open{ font-size:14px; font-weight:600; color:var(--primary); text-decoration:none; }
+.nl-open:hover{ text-decoration:underline; }
+
+/* Reader modal: wider than the default smodal, and scrolls internally. */
+.nl-modal-card{ max-width:860px; padding:26px 30px 30px; max-height:90vh;
+  display:flex; flex-direction:column; }
+.nl-modal-head h3{ font-size:21px; margin:0 0 14px; padding-right:44px; line-height:1.3; }
+.nl-modal-body{ overflow-y:auto; flex:1 1 auto; padding-right:6px; }
+
+/* --- the issue itself, inheriting site typography --- */
+.nl-doc{ color:var(--ink); font-size:16px; line-height:1.65; }
+.nl-doc > :first-child{ margin-top:0; }
+.nl-doc p{ margin:0 0 1em; }
+.nl-doc h1,.nl-doc h2,.nl-doc h3,.nl-doc h4{
+  font-family:"bely-display",Georgia,serif; color:var(--navy);
+  line-height:1.25; margin:1.5em 0 .5em; }
+.nl-doc h1{ font-size:25px; } .nl-doc h2{ font-size:21px; }
+.nl-doc h3{ font-size:18px; } .nl-doc h4{ font-size:16px; }
+.nl-doc a{ color:var(--primary); text-decoration:underline; text-underline-offset:2px; }
+.nl-doc img{ max-width:100%; height:auto; display:block; margin:1.2em auto; border-radius:10px; }
+.nl-doc ul,.nl-doc ol{ margin:0 0 1em; padding-left:1.25em; }
+.nl-doc li{ margin:.35em 0; }
+.nl-doc hr{ border:0; border-top:1px solid var(--line); margin:1.8em 0; }
+.nl-doc blockquote{ margin:1.2em 0; padding:2px 0 2px 16px; border-left:3px solid var(--wash); color:var(--muted); }
+.nl-doc table{ width:100%; border-collapse:collapse; margin:1.2em 0; font-size:15px; }
+.nl-doc td,.nl-doc th{ border:1px solid var(--line); padding:8px 10px; text-align:left; }
+/* Beehiiv ships some fixed-width email tables; keep them from forcing sideways scroll. */
+.nl-doc table,.nl-doc td,.nl-doc th,.nl-doc div{ max-width:100%; }
+
+/* Newsletters can contain YouTube embeds; make them fluid 16:9 instead of a fixed 300px. */
+.nl-doc iframe{ width:100%; max-width:100%; aspect-ratio:16/9; height:auto; border:0;
+  border-radius:10px; display:block; margin:1.2em 0; }
+/* Long unbroken URLs in email copy are a classic source of sideways scroll. */
+.nl-doc, .nl-doc p, .nl-doc li, .nl-doc a{ overflow-wrap:anywhere; word-break:break-word; }
+/* Final guard: nothing inside the issue may widen its container. */
+.nl-doc{ overflow-x:hidden; }
+
+@media (max-width:900px){
+  .nl-split{ grid-template-columns:1fr; }
+  .nl-paper{ height:300px; }
+}
+@media (max-width:600px){
+  .nl-actions{ flex-direction:column; align-items:stretch; text-align:center; }
+  .nl-modal-card{ padding:22px 18px 24px; }
+}
