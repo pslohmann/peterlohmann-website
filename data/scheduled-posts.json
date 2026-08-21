@@ -1,13 +1,4 @@
 {
   "_comment": "Blog posts queued to go live automatically. The workflow .github/workflows/publish-scheduled-post.yml runs each morning and publishes any post whose publish_on date has arrived, at 8:00 AM America/New_York. Once a post is published its entry is removed from this list automatically. To queue a new post: write the post file in blog/ with the noindex line, then add an entry here.",
-  "posts": [
-    {
-      "slug": "servicetitan-ai-agent-restrictions",
-      "publish_on": "2026-08-21",
-      "date_label": "Aug 21, 2026",
-      "title": "ServiceTitan Just Restricted AI Agent Access. Property Management Software Is Next.",
-      "description": "ServiceTitan restricted AI agent access and banned credential sharing. What the new terms actually say, why Podium got cut off, and what it means for property management.",
-      "card_image": "images/blog/servicetitan-ai-agent-restrictions--04-software-journey.png"
-    }
-  ]
+  "posts": []
 }
