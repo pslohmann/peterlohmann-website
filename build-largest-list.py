@@ -107,7 +107,10 @@ CRANE_MEMBERS_FORCE = {                          # Crane roster (crane members.x
     "kmb property management",
     "lake michigan property management",
     "lukeman property management",
+    "landmark real estate management",           # Crane member; same Landmark as Top-40 #14 (Andrew, 08/20)
+    "landmark real estate management llc",
     "mainlander property management",
+    "mark brower properties",                     # late add 08/20, approved by Peter; Crane + Boom confirmed by Andrew
     "masterkey property management",
     "maxfield property management",
     "neighborhood pm",
@@ -206,6 +209,7 @@ BOOM_CUSTOMERS = {                               # Boom customers (Boom's confir
     "keyrenter west seattle",
     "lake michigan property management",
     "mainlander property management",
+    "mark brower properties",                     # late add 08/20, approved by Peter; Crane + Boom confirmed by Andrew
     "masterkey property management",
     "nestwell property management",
     "on q property management",
