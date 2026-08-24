@@ -1142,6 +1142,10 @@ page = f"""<!--
     .rank-cards{{ display:grid; gap:14px; }}
     .grow-list{{ grid-template-columns:1fr; }}
   }}
+
+  /* Hero subtitle: 64ch (the site default) breaks this sentence onto three lines and
+     leaves a short dangler. Widen it here only, so the other page heroes are untouched. */
+  .page-hero .lead{{ max-width:82ch; }}
 </style>
 </head>
 <body>
@@ -1204,7 +1208,7 @@ page = f"""<!--
       <div class="rank-cards reveal" aria-label="Company ranking (mobile)">
 {mobile_cards}
       </div>
-      <p class="rank-note">Showing the top {shown} of {n} companies submitted for 2026.</p>
+      <p class="rank-note">Showing the top {shown} of {n} companies submitted for 2026. Click to see submissions for <a href="/blog/top-20-largest-property-management-companies">2024</a> and <a href="/blog/largest-property-management-companies-2025">2025</a>.</p>
 {canada_note}
     </div>
   </section>
@@ -1347,6 +1351,18 @@ page = f"""<!--
             <li>Based on companies submitted for the 2026 ranking</li>
           </ul>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREVIOUS YEARS -->
+  <section class="band tight wash">
+    <div class="wrap center">
+      <h2 class="h-lead">See previous years&#x27; rankings.</h2>
+      <p class="sub" style="margin:8px auto 20px;">The list has run since 2024. Earlier editions are archived on the blog.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+        <a class="btn btn-navy" href="/blog/largest-property-management-companies-2025">2025 Rankings</a>
+        <a class="btn btn-navy" href="/blog/top-20-largest-property-management-companies">2024 Rankings</a>
       </div>
     </div>
   </section>

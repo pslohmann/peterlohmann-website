@@ -133,6 +133,10 @@
     .rank-cards{ display:grid; gap:14px; }
     .grow-list{ grid-template-columns:1fr; }
   }
+
+  /* Hero subtitle: 64ch (the site default) breaks this sentence onto three lines and
+     leaves a short dangler. Widen it here only, so the other page heroes are untouched. */
+  .page-hero .lead{ max-width:82ch; }
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
@@ -789,7 +793,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           <div class="pmc-tags"><span class="pmc-tag on"><svg viewBox="0 0 16 16" class="pmc-tick" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>NARPM</span><span class="pmc-tag off">Crane</span><span class="pmc-tag off">Boom customer</span></div>
         </div>
       </div>
-      <p class="rank-note">Showing the top 40 of 393 companies submitted for 2026.</p>
+      <p class="rank-note">Showing the top 40 of 393 companies submitted for 2026. Click to see submissions for <a href="/blog/top-20-largest-property-management-companies">2024</a> and <a href="/blog/largest-property-management-companies-2025">2025</a>.</p>
         <p class="rank-note canada-note">Honorable mention: <a class="co-link" href="https://www.axonproperties.ca" target="_blank" rel="noopener">Axon Property Management</a> - 2,550 doors - Kingston, ON, Canada &middot; David Worsley, Managing Director.</p>
 
     </div>
@@ -1752,6 +1756,18 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
             <li>Based on companies submitted for the 2026 ranking</li>
           </ul>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREVIOUS YEARS -->
+  <section class="band tight wash">
+    <div class="wrap center">
+      <h2 class="h-lead">See previous years&#x27; rankings.</h2>
+      <p class="sub" style="margin:8px auto 20px;">The list has run since 2024. Earlier editions are archived on the blog.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+        <a class="btn btn-navy" href="/blog/largest-property-management-companies-2025">2025 Rankings</a>
+        <a class="btn btn-navy" href="/blog/top-20-largest-property-management-companies">2024 Rankings</a>
       </div>
     </div>
   </section>
