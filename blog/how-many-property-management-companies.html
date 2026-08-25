@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://use.typekit.net" crossorigin />
+<title>How Many Property Management Companies Actually Exist? I Went and Found Out. &middot; Peter Lohmann</title>
+<meta name="description" content="There&#x27;s no reliable count of how many property management companies exist in the US. I built one by hand, and the number holds up: roughly 31,000." />
+<link rel="canonical" href="https://www.peterlohmann.com/blog/how-many-property-management-companies" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="How Many Property Management Companies Actually Exist? I Went and Found Out." />
+<meta property="og:description" content="There&#x27;s no reliable count of how many property management companies exist in the US. I built one by hand, and the number holds up: roughly 31,000." />
+<meta property="og:url" content="https://www.peterlohmann.com/blog/how-many-property-management-companies" />
+<meta property="og:image" content="https://www.peterlohmann.com/images/blog/how-many-property-management-companies--company-size-breakdown.webp" />
+<meta property="og:site_name" content="Peter Lohmann" />
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How Many Property Management Companies Actually Exist? I Went and Found Out.","image":"https://www.peterlohmann.com/images/blog/how-many-property-management-companies--company-size-breakdown.webp","url":"https://www.peterlohmann.com/blog/how-many-property-management-companies","author":{"@type":"Person","name":"Peter Lohmann","url":"https://www.peterlohmann.com/"},"publisher":{"@type":"Person","name":"Peter Lohmann"},"mainEntityOfPage":"https://www.peterlohmann.com/blog/how-many-property-management-companies","datePublished":"2026-08-25"}</script>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
+<link rel="apple-touch-icon" href="../favicon.png" />
+<link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
+<link rel="stylesheet" href="../styles.css?v=26" />
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-DRCVXMNK1D');</script>
+<!-- RB2B -->
+<script>!function(key) {
+if (window.reb2b) return;
+window.reb2b = {loaded: true};
+var s = document.createElement("script");
+s.async = true;
+s.src = "https://b2bjsstore.s3.us-west-2.amazonaws.com/b/" + key + "/" + key + ".js.gz";
+document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);
+}("0NW1GH7LKEO4");</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="top" aria-label="Primary">
+  <div class="bar">
+    <a class="brand" href="/">Peter <span>Lohmann</span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="navlinks">Menu</button>
+    <div class="links" id="navlinks">
+      <a href="/">About</a>
+      <a href="/newsletter">Newsletter</a>
+      <a href="/podcast">Podcast</a>
+      <a href="/largest-pm-companies">Largest PM Companies</a>
+      <a href="/blog" class="active">Blog</a>
+      <a href="/report/">M&amp;A Report</a>
+      <a href="/peterbot">PeterBot</a>
+      <a href="/products">Products</a>
+    </div>
+    <a class="btn btn-navy btn-sm cta" href="/contact">Contact</a>
+  </div>
+</nav>
+<main id="main">
+  <article class="band">
+    <div class="wrap">
+      <div class="article">
+        <header class="article-head">
+          <div class="article-head-text">
+            <a class="article-back" href="/blog">&larr; All posts</a>
+            <div class="article-meta">Aug 25, 2026 &middot; by Peter Lohmann</div>
+            <h1>How Many Property Management Companies Actually Exist? I Went and Found Out.</h1>
+          </div>
+        </header>
+        <div class="article-body">
+<p>Ever wonder how many property management companies there are in the United States? I <a href="https://lnkd.in/p/gtst_hbN" target="_blank" rel="noopener">polled</a> my LinkedIn followers to see what they'd think:</p>
+
+<figure><img src="../images/blog/how-many-property-management-companies--linkedin-poll.webp" alt="LinkedIn poll asking how many residential property management companies there are in the United States. Results from 168 votes: under 20,000 got 17%, 20,000 to 35,000 got 22%, 35,000 to 50,000 got 28%, and 50,000+ got 32%." loading="lazy" /><figcaption>168 votes, and no consensus anywhere in sight.</figcaption></figure>
+
+<p>As you can see, nobody agreed. Not even the people whose job it is to know this stuff. That tracks, because the number gets repeated constantly <em>without</em> a source attached to it.</p>
+
+<blockquote><p>"There are 20,000 to 50,000 property management companies in the US."</p></blockquote>
+
+<p>You've heard it at a conference, on a podcast, in a vendor's pitch deck. I've said it myself, more than once.</p>
+
+<p>So this year I decided to actually answer the question instead of repeating the guess.</p>
+
+<h2>The Stat Everyone Cites and Nobody Sourced</h2>
+<p>I went looking for where that range comes from. Every citation chain I traced dead-ended. No study, no dataset, no government count that isolates our specific corner of the industry. As far as I can tell, nobody has ever actually counted the residential property management companies operating in America.</p>
+<p>The scope matters here. I'm only interested in companies whose core business is managing long-term single-family and small multifamily rentals (under 100 units) for third-party owners. Companies like my own, RL Property Management. Not HOA managers, not institutional apartment giants, not short-term rental operators, and not brokerages where property management is a side hustle bolted onto a sales business.</p>
+<p>Once you draw that box correctly, the government's own numbers get confusing fast. The Census Bureau's NAICS code for us, 531311 ("Residential Property Managers"), counted 39,404 employer firms in the 2022 Economic Census. That sounds like a real number until you notice the code also swallows HOA management companies, on-site apartment offices, and vacation rental managers, while missing thousands of real PM companies that got classified as brokerages instead. The official number is simultaneously too big and too small.</p>
+<p>And the "300,000 companies" figure floating around online is worse. That's every tax filing with a property-management flavor, including hundreds of thousands of self-managing landlords running a side gig. I pulled the actual nonemployer filings: 252,918 solo "property manager" returns in 2022. Nearly half reported under $25,000 in receipts. Exactly ten cleared $1 million. Ten, nationwide.</p>
+
+<h2>Building a Real Estimate From Scratch</h2>
+<p>Since nothing usable existed, I built it. I pointed a set of AI research agents, running on Fable, at every relevant data source I could think of: Census data, SEC filings, HUD surveys, state license rolls, vendor customer counts, industry directories, and more. I had them cross-check each other's work, then verified every important number against its primary source. It took a while, but a wrong number here doesn't just sit around as an interesting mistake. It gets repeated for another decade.</p>
+
+<h2>Three Independent Roads to the Same Number</h2>
+<p>A single method wasn't going to be trustworthy on its own, so I triangulated with three separate approaches.</p>
+
+<h3>Down From the Census</h3>
+<p>Start with the 39,404 employer firms in the Census category. Subtract HOA-only companies (the community association trade group puts that at 9,000 to 10,000). Subtract institutional apartment managers (Harvard's Joint Center for Housing Studies counts roughly 12,000 firms managing properties of 50-plus units). Subtract vacation-only managers. Then add back the real PM companies hiding under brokerage codes, plus legitimate solo operators actually running a business rather than a side gig. That lands you in the high 20,000s to mid 30,000s.</p>
+
+<h3>Up From the Software Vendors</h3>
+<p>AppFolio's most recent 10-K reports 22,096 property management customers, by itself. Layer in Buildium, Rent Manager, Rentvine, and the rest of the platforms, strip out their HOA, big-multifamily, and DIY-landlord customers, and gross up for the companies that aren't on any major platform at all. This path lands in the low 20,000s to high 30,000s.</p>
+
+<h3>Up From the Doors</h3>
+<p>This is the path I trust most, because it runs on data that didn't exist until this year. The 2024 Rental Housing Finance Survey, released in February, separates for the first time properties managed by a management company from properties the owner staffs directly. It shows 22.3% of single-unit rentals and 14.3% of 2-4 unit properties are managed by a third-party company. Work that percentage through the actual housing stock and you get roughly 6.9 million third-party-managed doors in our segment. Divide by average doors per company and you land right at approximately 31,000.</p>
+
+<div class="stat" style="max-width:460px;margin:2.4em auto;">
+  <div class="k" style="margin:0 0 6px;text-transform:uppercase;letter-spacing:.07em;font-size:11.5px;font-weight:800;">The answer</div>
+  <div class="v">31,000</div>
+  <div class="k">Residential property management companies<br />Confidence range: 26,000 to 36,000</div>
+</div>
+
+<p>Three different starting points, three different data sources: Census filings, software vendor customer counts, and a brand-new federal housing survey. All three converge on the same number.</p>
+
+<h2>What a 31,000-Company Industry Actually Looks Like</h2>
+<p>Break the 31,000 down by size and the fragmentation gets stark:</p>
+<ul>
+<li>Under 25 doors: ~9,000 companies (30%)</li>
+<li>25 to 99 doors: ~8,000 companies (26%)</li>
+<li>100 to 499 doors: ~10,000 companies (33%)</li>
+<li>500 to 1,999 doors: ~2,800 companies (9%)</li>
+<li>2,000+ doors: only a few hundred companies in the entire country</li>
+</ul>
+
+<figure><img src="../images/blog/how-many-property-management-companies--company-size-breakdown.webp" alt="Stacked bar chart titled 'The whole industry in one bar: ~31,000 companies, sorted by portfolio size.' Segments show under 25 doors at 9,000 firms (30%), 25 to 99 at 8,000 (26%), 100 to 499 at 10,000 (33%), 500 to 1,999 at 2,800 (9%), and 2,000+ doors at roughly 300 firms, under 1%." loading="lazy" /><figcaption>89% of property management companies manage fewer than 500 doors.</figcaption></figure>
+
+<p>About 6.9 million doors spread across those 31,000 companies averages out to roughly 220 doors per company. But the median company runs fewer than 100. Even after years of roll-ups and private equity money flowing into the space, the largest firm in the country holds well under 1% of the national market. There is no consolidation endgame in sight.</p>
+
+<h2>Why the Real Number Matters</h2>
+<p>If you're a software vendor sizing your addressable market, "20,000 to 50,000 potential customers" is basically a coin flip dressed up as a range (and a pretty broad one at that). Interestingly, 32% of my LinkedIn audience thought the number was <em>50,000+</em> which is approaching double the actual stat.</p>
+<p>If you're evaluating an acquisition or thinking about your own exit, understanding just how fragmented this industry still is changes how you think about growth, valuation, and where the actual opportunity sits. And if you've ever felt like an outlier for running things a certain way, remember: there's no "typical" property management company. At under 100 doors for the median firm, most of us are the norm.</p>
+<p>The blurriest line in the whole exercise is deciding when a broker managing a handful of doors becomes a company in its own right. Draw that line differently and the total moves by a few thousand in either direction. But the range holds. Nobody running a PM business today needs to keep repeating a number that was never true in the first place.</p>
+<p>If you want to see who's actually operating at scale within that 31,000, check out the <a href="/largest-pm-companies">2026 Top 40 Largest PM Companies in the U.S. List</a>.</p>
+<p>-Peter</p>
+        </div>
+        <div class="post-follow">
+          <span class="pf-label">Follow Peter for more:</span>
+          <span class="inline-social"><a href="https://www.youtube.com/@peterlohmann" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg></a><a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.3a1.7 1.7 0 1 1 0-3.5 1.7 1.7 0 0 1 0 3.5zM19 19h-3v-4.4c0-1 0-2.4-1.5-2.4S13 13.4 13 14.5V19h-3v-9h2.9v1.2h.04a3.2 3.2 0 0 1 2.9-1.6c3.1 0 3.7 2 3.7 4.7z"/></svg></a><a href="https://x.com/pslohmann" target="_blank" rel="noopener" aria-label="X (formerly Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-6.9l-5.4-7-6.2 7H1.7l8.1-9.3L.9 2h7.1l4.9 6.5zM17.7 20h1.9L7.1 4H5.1z"/></svg></a><a href="https://www.facebook.com/lohmann" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7v-3.5h3.1V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.24 2.7.24v3H15.8c-1.5 0-2 .93-2 1.9v2.2h3.4l-.54 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg></a><a href="https://www.instagram.com/peterlohmann_media/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 1.8.25 2.2.42.56.2.96.48 1.38.9.42.42.7.82.9 1.38.17.4.37 1 .42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.05 1.2-.25 1.8-.42 2.2a3.7 3.7 0 0 1-.9 1.38 3.7 3.7 0 0 1-1.38.9c-.4.17-1 .37-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.05-1.8-.25-2.2-.42a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.17-.4-.37-1-.42-2.2-.06-1.3-.07-1.7-.07-4.9s0-3.6.07-4.9c.05-1.2.25-1.8.42-2.2.2-.56.48-.96.9-1.38.42-.42.82-.7 1.38-.9.4-.17 1-.37 2.2-.42C8.4 2.2 8.8 2.2 12 2.2zm0 3.14A6.66 6.66 0 1 0 18.66 12 6.66 6.66 0 0 0 12 5.34zm0 10.98A4.32 4.32 0 1 1 16.32 12 4.32 4.32 0 0 1 12 16.32zm6.9-11.24a1.56 1.56 0 1 1-1.56-1.56 1.56 1.56 0 0 1 1.56 1.56z"/></svg></a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+  <section class="band tight wash">
+    <div class="wrap center">
+      <h2 class="h-lead">Get posts like this in your inbox.</h2>
+      <p class="sub" style="margin:8px auto 20px;">Twice a week, read by 20,000+ property management professionals.</p>
+      <a class="btn btn-primary" href="/newsletter">Subscribe to the newsletter</a>
+    </div>
+  </section>
+</main>
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="brand" style="font-weight:700;color:var(--navy);">Peter <span style="color:var(--primary);">Lohmann</span></div>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="/">About</a>
+        <a href="/newsletter">Newsletter</a>
+        <a href="/podcast">Podcast</a>
+        <a href="/largest-pm-companies">Largest PM Companies</a>
+        <a href="/blog">Blog</a>
+        <a href="/report/">M&amp;A Report</a>
+        <a href="/peterbot">PeterBot</a>
+        <a href="/products">Products</a>
+        <a href="/featured">Featured</a><a href="/sponsor/">Sponsor</a>
+        <a href="/contact">Contact</a>
+        <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="/faq">FAQ</a>
+      </nav>
+    </div>
+    <div class="foot-social" aria-label="Peter Lohmann on social media">
+      <a href="https://www.youtube.com/@peterlohmann" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg></a>
+      <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.3a1.7 1.7 0 1 1 0-3.5 1.7 1.7 0 0 1 0 3.5zM19 19h-3v-4.4c0-1 0-2.4-1.5-2.4S13 13.4 13 14.5V19h-3v-9h2.9v1.2h.04a3.2 3.2 0 0 1 2.9-1.6c3.1 0 3.7 2 3.7 4.7z"/></svg></a>
+      <a href="https://x.com/pslohmann" target="_blank" rel="noopener" aria-label="X (formerly Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-6.9l-5.4-7-6.2 7H1.7l8.1-9.3L.9 2h7.1l4.9 6.5zM17.7 20h1.9L7.1 4H5.1z"/></svg></a>
+      <a href="https://www.facebook.com/lohmann" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7v-3.5h3.1V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.24 2.7.24v3H15.8c-1.5 0-2 .93-2 1.9v2.2h3.4l-.54 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg></a>
+      <a href="https://www.instagram.com/peterlohmann_media/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 1.8.25 2.2.42.56.2.96.48 1.38.9.42.42.7.82.9 1.38.17.4.37 1 .42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.05 1.2-.25 1.8-.42 2.2a3.7 3.7 0 0 1-.9 1.38 3.7 3.7 0 0 1-1.38.9c-.4.17-1 .37-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.05-1.8-.25-2.2-.42a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.17-.4-.37-1-.42-2.2-.06-1.3-.07-1.7-.07-4.9s0-3.6.07-4.9c.05-1.2.25-1.8.42-2.2.2-.56.48-.96.9-1.38.42-.42.82-.7 1.38-.9.4-.17 1-.37 2.2-.42C8.4 2.2 8.8 2.2 12 2.2zm0 3.14A6.66 6.66 0 1 0 18.66 12 6.66 6.66 0 0 0 12 5.34zm0 10.98A4.32 4.32 0 1 1 16.32 12 4.32 4.32 0 0 1 12 16.32zm6.9-11.24a1.56 1.56 0 1 1-1.56-1.56 1.56 1.56 0 0 1 1.56 1.56z"/></svg></a>
+    </div>
+    <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have <a href="/financial-interest-disclosure">consulting agreements with, or financial interests in</a>, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions. <a href="/privacy-policy">Privacy Policy</a></p>
+  </div>
+</footer>
+<script src="../site.js?v=26"></script>
+</body>
+</html>
