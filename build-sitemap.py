@@ -17,7 +17,6 @@ EXCLUDE = {
     "store.html", "pm-trends-report.html", "about.html", "blog-index.html",              # legacy-URL redirect stubs
     "newsletter-tues-opt-out.html", "crane-promo-opt-out.html", "subscribed.html",  # noindex utility pages
     "api-grader-guide.html",                                       # hidden tester guide; URL shared directly, must stay unlisted
-    "pm-api-grader.html",                                          # API report card; hidden while in draft, REMOVE THIS LINE AT LAUNCH
 }
 # blog/ redirect stubs to skip (old slug -> refreshed post)
 BLOG_EXCLUDE = {"how-to-design-processes-people-actually-use.html"}
