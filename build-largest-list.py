@@ -165,6 +165,7 @@ CRANE_MEMBERS_FORCE = {                          # Crane roster (crane members.x
     "verraterra property management",
     "welch randall property management",
     "welcome home milwaukee",
+    "west usa property management",              # Crane member; Top-40 #16, Phoenix AZ (Andrew, 08/25)
     "westrom group",
     "whitehead rental management, inc",
     "wits property management",
