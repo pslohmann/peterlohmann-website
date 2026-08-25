@@ -46,6 +46,12 @@
   .todo.video{ aspect-ratio:16/9; display:flex; flex-direction:column;
                align-items:center; justify-content:center; }
 
+  /* "Tester Guide:" overline. Styled like a slightly oversized h3, but it is a <p>
+     on purpose: the page's real <h1> is the title below it, and an <h3> above the
+     <h1> would break the heading order for screen readers. */
+  .guide-label{ font-family:var(--serif); font-size:26px; font-weight:400; line-height:1.2;
+                color:var(--primary); margin:0 0 4px; }
+
   /* Hero video card: a real button that opens the walkthrough in the site's
      standard .smodal overlay. */
   .vid-card{ display:block; width:100%; text-align:left; padding:0; border:0; cursor:pointer;
@@ -112,6 +118,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <header class="page-hero">
     <div class="wrap">
       <div class="ticks" aria-hidden="true"><i></i><i></i><i></i></div>
+      <p class="guide-label">Tester Guide:</p>
       <h1>Property Management API Grader</h1>
       <p class="lead">Help the industry test and grade PM platform API data access.</p>
 
