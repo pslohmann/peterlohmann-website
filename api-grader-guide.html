@@ -7,12 +7,12 @@
   stays out of sitemap.xml. If you ever want it public: remove the robots tag AND
   remove it from that EXCLUDE list.
 
-  SWAP POINTS on this page (search "SWAP:") - all three are placeholders that must be
-  wired up before this goes to testers:
-    1. SWAP: grader-file  - the .md download (currently points to #)
-    2. SWAP: jotform      - the results form (placeholder box, no form yet)
-    3. SWAP: loom         - the walkthrough video, inside the hero's video modal
-                            (placeholder box, not recorded yet)
+  SWAP POINTS on this page (search "SWAP:"):
+    1. SWAP: grader-file  - DONE, serves /files/pm-api-report-card-methodology-v1.1.md.
+                            Update the href when a new methodology version ships.
+    2. SWAP: jotform      - STILL A PLACEHOLDER. The results form does not exist yet.
+    3. SWAP: loom         - STILL A PLACEHOLDER. The walkthrough has not been recorded;
+                            lives inside the hero's video modal.
 -->
 <!doctype html>
 <html lang="en">
@@ -111,13 +111,14 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 
   <header class="page-hero">
     <div class="wrap">
-      <div class="split">
+      <div class="ticks" aria-hidden="true"><i></i><i></i><i></i></div>
+      <span class="kicker">Tester Guide</span>
+      <h1>Property Management API Grader</h1>
+      <p class="lead">Help the industry test and grade PM platform API data access.</p>
+
+      <div class="split" style="margin-top:32px;">
         <div>
-          <div class="ticks" aria-hidden="true"><i></i><i></i><i></i></div>
-          <span class="kicker">Tester Guide</span>
-          <h1>Property Management API Grader</h1>
-          <p class="lead">Help the industry test and grade PM platform API data access.</p>
-          <p class="sub" style="margin-top:18px;">Property managers should be able to get their own data out of the software they pay for, and right now some platforms make that easy and some make it nearly impossible. We&#x27;re grading the APIs of the major PM platforms and point solutions to find out which is which, and we can&#x27;t personally test every product ourselves.</p>
+          <p class="sub" style="margin-top:0;">Property managers should be able to get their own data out of the software they pay for, and right now some platforms make that easy and some make it nearly impossible. We&#x27;re grading the APIs of the major PM platforms and point solutions to find out which is which, and we can&#x27;t personally test every product ourselves.</p>
           <p class="sub" style="margin-top:14px;">This takes about 15 to 20 minutes. All submissions will remain anonymous on the final API Grader page. Click below to get started.</p>
           <p style="margin-top:18px;font-size:14px;color:var(--muted);">Inspired by SaaStr&#x27;s <a href="https://saastr.ai/api-report-card" target="_blank" rel="noopener">AI Agent API Report Card</a>.</p>
           <div class="hero-jump" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;">
@@ -161,12 +162,11 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
             <span class="tag tag-blue">The grading file</span>
             <h3 style="margin:14px 0 8px;font-size:21px;">PM API Grader</h3>
             <p class="sub" style="margin-bottom:20px;">The same prompt we run against every platform.</p>
-            <!-- SWAP: grader-file - point href at the real .md once it is uploaded
-                 (e.g. /files/pm-api-grader.md) and delete the download-disabled note below. -->
-            <a class="btn btn-primary" href="#" download>Download the .md file</a>
-            <p style="margin:14px 0 0;font-size:13px;color:var(--muted);">
-              <strong>Placeholder:</strong> file not uploaded yet.
-            </p>
+            <!-- SWAP: grader-file - when a new methodology version ships, drop the file in
+                 /files/ and update this href (the version is in the filename on purpose, so
+                 testers can tell which rubric they ran). -->
+            <a class="btn btn-primary" href="/files/pm-api-report-card-methodology-v1.1.md" download>Download the .md file</a>
+            <p style="margin:14px 0 0;font-size:13px;color:var(--muted);">Methodology v1.1</p>
           </div>
         </div>
       </div>
