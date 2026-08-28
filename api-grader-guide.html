@@ -81,6 +81,38 @@
   .panel.submit-panel{ background:var(--card); border-top:4px solid var(--orange);
                        box-shadow:var(--shadow-lg); }
 
+  /* The anonymity promise is the thing testers actually worry about, so it gets
+     its own visual treatment rather than sitting in the bullet list. */
+  .anon-note{ background:#f2f8f4; border:1px solid #cfe6d8; border-left:4px solid #2f9e6b;
+              border-radius:10px; padding:14px 16px; margin:16px 0 0; }
+  .anon-note p{ margin:0; font-size:14.5px; color:var(--navy); line-height:1.55; }
+  .anon-note p + p{ margin-top:7px; color:var(--muted); }
+
+  /* Sponsor treatment, mirroring the Boom setup on the Largest PM Companies page:
+     an inline "Presented by" lockup in the hero, plus a corner pill that fades in
+     once the hero scrolls out of view. */
+  .presented-by{ display:inline-flex; align-items:center; gap:10px; margin:2px 0 0;
+                 color:var(--muted); font-size:14px; font-weight:600; text-decoration:none; }
+  .presented-by img{ height:clamp(22px,2.6vw,27px); width:auto; display:block; }
+  .presented-by:hover{ text-decoration:none; opacity:.82; }
+
+  .col-sticky{ position:fixed; right:18px; bottom:18px; z-index:60;
+    display:inline-flex; align-items:center; gap:7px; padding:8px 13px;
+    background:#fff; border:1px solid var(--line); border-radius:999px;
+    box-shadow:0 6px 20px rgba(31,58,77,.16);
+    font-size:12px; font-weight:600; color:var(--muted); text-decoration:none;
+    opacity:0; transform:translateY(12px); pointer-events:none;
+    transition:opacity .35s ease, transform .35s ease; }
+  .col-sticky.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .col-sticky img{ height:16px; width:auto; display:block; }
+  .col-sticky:hover{ box-shadow:0 8px 26px rgba(31,58,77,.22); }
+  @media (max-width:600px){
+    .col-sticky{ right:10px; bottom:10px; padding:7px 12px; flex-direction:column;
+                 gap:2px; align-items:center; text-align:center; }
+    .col-sticky span{ display:block; font-size:9.5px; line-height:1; }
+    .col-sticky img{ height:14px; }
+  }
+
   /* Steps read as a numbered sequence, so the badge sits inline with the heading. */
   .step-head{ display:flex; align-items:center; gap:12px; margin-bottom:8px; }
   .step-head .num-badge{ margin-bottom:0; flex:none; }
@@ -129,11 +161,13 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
       <p class="guide-label">Tester Guide:</p>
       <h1>Property Management API Grader</h1>
       <p class="lead">Help the industry test and grade PM platform API data access.</p>
+      <!-- SWAP: sponsor-url - confirm Column's tracked link before this goes wide. -->
+      <a class="presented-by" href="https://column.com/?utm_source=peter-lohmann&amp;utm_medium=plm-api-grader" target="_blank" rel="noopener">Presented by <img src="images/column-logo.png" alt="Column" /></a>
 
       <div class="split" style="margin-top:32px;">
         <div>
           <p class="sub" style="margin-top:0;">Property managers should be able to get their own data out of the software they pay for, and right now some platforms make that easy and some make it nearly impossible. We&#x27;re grading the APIs of the major PM platforms and point solutions to find out which is which, and we can&#x27;t personally test every product ourselves.</p>
-          <p class="sub" style="margin-top:14px;">This takes about 15 to 20 minutes. All submissions will remain anonymous on the final API Grader page. Click below to get started.</p>
+          <p class="sub" style="margin-top:14px;">This takes about 15 to 20 minutes. <strong>You will never be named in the published report</strong>, so there&#x27;s no risk of blowback from a vendor. Click below to get started.</p>
           <p style="margin-top:18px;font-size:14px;color:var(--muted);">Inspired by SaaStr&#x27;s <a href="https://saastr.ai/api-report-card" target="_blank" rel="noopener">AI Agent API Report Card</a>.</p>
           <div class="hero-jump" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;">
             <a class="btn btn-primary" href="#what-you-need">Get started &darr;</a>
@@ -200,6 +234,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <div class="card">
           <div class="step-head"><div class="num-badge">2</div><h3>Open Claude Code</h3></div>
           <p>If you don&#x27;t already have it set up, go to <a href="https://claude.com/claude-code" target="_blank" rel="noopener">claude.com/claude-code</a> and follow the install instructions. If you&#x27;re already using Claude Code for anything else, you&#x27;re good to go.</p>
+          <p style="margin-top:10px;"><strong>Important:</strong> set the model to <strong>Opus 4.8 or higher</strong> and the reasoning effort to <strong>Max</strong>. Scores from smaller models or lower effort settings aren&#x27;t comparable, so we can&#x27;t use them.</p>
         </div>
 
         <div class="card">
@@ -209,7 +244,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
             <li style="margin-bottom:6px;">The <code>.md</code> grading file you downloaded</li>
             <li>A link to (or copy of) the platform&#x27;s public API/developer documentation</li>
           </ol>
-          <p>Ask it to run the grading criteria in the <code>.md</code> file against the documentation you&#x27;ve provided.</p>
+          <p>Ask it to run the test.</p>
         </div>
 
         <div class="card">
@@ -230,8 +265,13 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <ul class="feat" style="margin-top:0;">
           <li>Platform name</li>
           <li>The completed grading output</li>
-          <li>Your name and company <em>(optional, totally fine to submit anonymously if you&#x27;d rather not be named as a contributor)</em></li>
+          <li>Your name and company <em>(so we can follow up if we have a question or need a re-run; never published)</em></li>
         </ul>
+        <div class="anon-note">
+          <p><strong>You will never be named in the published report.</strong> We identify the platform being graded, never the operator who graded it. No vendor will know the score came from you.</p>
+          <p>We do need your name on the submission itself, so we can come back to you with a question or ask for a re-run if something looks off. That stays between us.</p>
+        </div>
+
         <div class="jf-embed mt-md">
           <!-- SWAP: jotform - replace this whole .todo block with the JotForm embed once the
                form exists, matching how contact.html does it:
@@ -308,7 +348,24 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </div>
 </footer>
 
+<a class="col-sticky" id="colSticky" href="https://column.com/?utm_source=peter-lohmann&amp;utm_medium=plm-api-grader" target="_blank" rel="noopener" aria-label="Presented by Column">
+  <span>Presented by</span><img src="images/column-logo.png" alt="Column" />
+</a>
+
 <script src="site.js?v=24"></script>
+<script>
+/* Reveal the sponsor pill once the hero has scrolled past, same behaviour as the
+   Boom badge on the Largest PM Companies page. */
+(function(){
+  var hero = document.querySelector('.page-hero'),
+      badge = document.getElementById('colSticky');
+  if (!hero || !badge) return;
+  if (!('IntersectionObserver' in window)) { badge.classList.add('show'); return; }
+  new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ badge.classList.toggle('show', !e.isIntersecting); });
+  }, { threshold: 0 }).observe(hero);
+})();
+</script>
 <script>
 /* Hero video card -> modal. Uses the site's existing .smodal pattern.
    The iframe (once added) is loaded from data-src on open and unloaded on close, so the
