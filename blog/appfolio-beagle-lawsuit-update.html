@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://use.typekit.net" crossorigin />
+<title>What Beagle Was Actually Doing Inside AppFolio (And Why Every PM Vendor Should Care) &middot; Peter Lohmann</title>
+<meta name="description" content="An August 2026 update on AppFolio vs. Beagle: new filings reveal exactly how Beagle operated inside AppFolio&#x27;s platform, and why the case matters industry-wide." />
+<link rel="canonical" href="https://www.peterlohmann.com/blog/appfolio-beagle-lawsuit-update" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="What Beagle Was Actually Doing Inside AppFolio (And Why Every PM Vendor Should Care)" />
+<meta property="og:description" content="An August 2026 update on AppFolio vs. Beagle: new filings reveal exactly how Beagle operated inside AppFolio&#x27;s platform, and why the case matters industry-wide." />
+<meta property="og:url" content="https://www.peterlohmann.com/blog/appfolio-beagle-lawsuit-update" />
+<meta property="og:image" content="https://www.peterlohmann.com/images/blog/appfolio-beagle-lawsuit-update--card.webp" />
+<meta property="og:site_name" content="Peter Lohmann" />
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"What Beagle Was Actually Doing Inside AppFolio (And Why Every PM Vendor Should Care)","image":"https://www.peterlohmann.com/images/blog/appfolio-beagle-lawsuit-update--card.webp","url":"https://www.peterlohmann.com/blog/appfolio-beagle-lawsuit-update","author":{"@type":"Person","name":"Peter Lohmann","url":"https://www.peterlohmann.com/"},"publisher":{"@type":"Person","name":"Peter Lohmann"},"mainEntityOfPage":"https://www.peterlohmann.com/blog/appfolio-beagle-lawsuit-update","datePublished":"2026-08-28"}</script>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
+<link rel="apple-touch-icon" href="../favicon.png" />
+<link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
+<link rel="stylesheet" href="../styles.css?v=26" />
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-DRCVXMNK1D');</script>
+<!-- RB2B -->
+<script>!function(key) {
+if (window.reb2b) return;
+window.reb2b = {loaded: true};
+var s = document.createElement("script");
+s.async = true;
+s.src = "https://b2bjsstore.s3.us-west-2.amazonaws.com/b/" + key + "/" + key + ".js.gz";
+document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);
+}("0NW1GH7LKEO4");</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="top" aria-label="Primary">
+  <div class="bar">
+    <a class="brand" href="/">Peter <span>Lohmann</span></a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="navlinks">Menu</button>
+    <div class="links" id="navlinks">
+      <a href="/">About</a>
+      <a href="/newsletter">Newsletter</a>
+      <a href="/podcast">Podcast</a>
+      <a href="/largest-pm-companies">Largest PM Companies</a>
+      <a href="/blog" class="active">Blog</a>
+      <a href="/report/">M&amp;A Report</a>
+      <a href="/peterbot">PeterBot</a>
+      <a href="/products">Products</a>
+    </div>
+    <a class="btn btn-navy btn-sm cta" href="/contact">Contact</a>
+  </div>
+</nav>
+<main id="main">
+  <article class="band">
+    <div class="wrap">
+      <div class="article">
+        <header class="article-head with-cover">
+          <div class="article-head-text">
+            <a class="article-back" href="/blog">&larr; All posts</a>
+            <div class="article-meta">Aug 28, 2026 &middot; by Peter Lohmann</div>
+            <h1>What Beagle Was Actually Doing Inside AppFolio (And Why Every PM Vendor Should Care)</h1>
+          </div><figure class="article-cover"><img src="../images/blog/appfolio-beagle-lawsuit-update--cover.webp" alt="An illustration of the AppFolio wordmark with a beagle in a necktie chewing the letter A out of it." /></figure>
+        </header>
+        <div class="article-body">
+<p>Every property manager running AppFolio has handed a vendor a login at some point. A leasing bot, a maintenance coordinator, a compliance tool: something that needed to reach into your PM software and touch real data. Most of the time, nobody thinks twice about it.</p>
+
+<p>Beagle built an entire company on that assumption. For the better part of a year now, AppFolio has been trying to prove the assumption was wrong, and the fight has turned into one of the more revealing lawsuits in proptech.</p>
+
+<p>I've covered this story as it's developed. Since my <a href="https://peter.beehiiv.com/p/peter-lohmann-s-newsletter-tuesday-edition-13" target="_blank" rel="noopener">last update</a>, a lot more of the actual mechanics have surfaced, including exactly how Beagle operated inside AppFolio's platform, step by step. It's worth walking through the whole thing, because however this case ends, it's going to set the tone for every add-on vendor sitting on top of a property management system of record. Not just this one.</p>
+
+<h2>The Short Version, If You're Just Catching Up</h2>
+<p>Beagle sells insurance compliance services to property managers: chasing down proof of renters insurance, auto-enrolling non-compliant tenants in liability waivers, that kind of thing. More than 80% of its customers run on AppFolio, and until recently, Beagle got into those accounts the way a lot of point solutions do when there's no real integration. Property managers created a login for Beagle and let it work inside their AppFolio account directly.</p>
+<p>In December, AppFolio decided that had to stop. It sued Beagle, told property managers by mass email that Beagle's setup created "serious security risks," and moved to cut off access within five business days. Beagle sued back, alleging AppFolio was running "a systematic campaign to destroy Beagle's business," and asked for an emergency order forcing AppFolio to restore access. That request was denied, and so was Beagle's motion to reconsider, and a second motion to reconsider. Beagle appealed to the Ninth Circuit on April 7. (I covered that first stretch of the case in more detail <a href="https://peter.beehiiv.com/p/peter-lohmann-s-newsletter-tuesday-edition-13" target="_blank" rel="noopener">here</a>.)</p>
+<p>As of this writing, the appeal is fully briefed, though notably, Beagle isn't even asking the appellate court to rule on the merits. It's asking for a hearing where the engineers on both sides can be cross-examined about what AppFolio's alternatives can actually do. That alone tells you how technical this case has become, and it's what's new since my last check-in: a much clearer picture of what Beagle was actually doing inside AppFolio's platform, and why "just use the alternatives" isn't the clean answer AppFolio wants it to be.</p>
+
+<h2>What Beagle Was Actually Doing In There</h2>
+<p>For a long time, the honest answer to "what was Beagle doing inside AppFolio" was murky, even to the lawyers arguing about it. That changed when a property manager forwarded AppFolio his full correspondence with Beagle, including an AI notetaker's summary of an onboarding call. (If you're using a meeting bot on vendor calls, that transcript doesn't just evaporate. File that away.)</p>
+<p>Once that surfaced, the process turned out to be pretty methodical:</p>
+<p><strong>Provisioning.</strong> A Beagle rep walks the property manager through creating a new user on a live call: first name "Compliance," last name "Reports," role set to Accounting/Accountant. The invite gets routed to a custom domain, essentially a reports inbox.</p>
+<p><strong>The audit.</strong> Beagle pulls the tenant roster, checks it against policy data, and produces a list of who's out of compliance on renters insurance.</p>
+<p><strong>Notice and enrollment.</strong> Beagle emails the non-compliant tenants from its own domain, verifies any policy they upload, and auto-enrolls the rest in a monthly liability waiver.</p>
+<p><strong>The write.</strong> This is the part that matters legally. Beagle doesn't just read data, it writes it. It posts recurring charges against non-compliant tenants directly, and where the property manager has a competing product like AppFolio's own FolioGuard, it disables that subscription.</p>
+<p><strong>Money routing.</strong> Beagle has the customer open a support ticket with AppFolio asking to suppress those line items from owner statements, so the waiver income shows up as the property manager's revenue rather than getting passed through to the owner.</p>
+<p><strong>Exit.</strong> About five days later, Beagle's account manager follows up and suggests deleting the user account they just created, since Beagle can run off scheduled reports going forward.</p>
+<p>That last step is the one AppFolio has leaned on hardest. A "temporary" login that gets deleted after a handful of days, on a pattern repeated across more than 800 accounts by AppFolio's count (57 of them renamed mid-dispute, across eight domains, according to the court's own findings), is a hard thing to wave off as routine vendor access.</p>
+
+<h2>Why "Alternatives" Isn't a Clean Answer</h2>
+<p>AppFolio's defense, in large part, is that Beagle had legitimate options and chose the risky one instead. There are technically three paths:</p>
+<ul>
+<li><strong>Scheduled Reports.</strong> Any customer can configure these in a few minutes, delivered to any inbox. The catch: read-only. A CSV report can't write a charge back to the ledger, which is the entire second half of what Beagle's service does.</li>
+<li><strong>Database API.</strong> The customer's own programmatic access to their data. Read access requires AppFolio's Plus tier; write access requires Max. Even on the top tier, this still runs through the customer, which, if you squint, looks a lot like the exact account-sharing arrangement AppFolio is suing over in the first place.</li>
+<li><strong>Stack API.</strong> The actual partner marketplace, and the only path with real write access to things like recurring charges. It requires AppFolio's approval, at AppFolio's discretion.</li>
+</ul>
+<p>It's worth knowing AppFolio isn't neutral on Beagle's category to begin with. It sells its own competing product, FolioGuard, and holds a minority stake in Second Nature, one of Beagle's direct rivals in the renters-insurance-compliance space (background on that investment <a href="https://peter.beehiiv.com/p/peter-lohmann-s-newsletter-issue-204" target="_blank" rel="noopener">here</a>). None of that makes AppFolio wrong on the legal merits. But it's useful context for why "just apply to our marketplace" hasn't exactly been a warm welcome here.</p>
+<p>Beagle argues none of the three paths were viable at the time it needed them. AppFolio argues Beagle didn't try hard enough, and points to Beagle's own CEO undercutting the emergency-order request by telling a customer the fix was "simple." That contradiction, the "simple fix" email versus the "no viable alternative" court filing, is a big part of why the January restraining order got denied.</p>
+
+<h2>Where the Law Actually Sits</h2>
+<p>On the antitrust piece, Beagle has a real headwind. AppFolio says it has roughly 9 million units on its platform, out of about 52 million residential rental units nationally, which is under 17% of the market, and behind both RealPage and Yardi. That's well short of the roughly 30% threshold courts generally treat as a floor for a monopolization claim, and AppFolio isn't even the market leader in its own category.</p>
+<p>On the computer-misuse side, AppFolio is showing up with real evidence: internal emails, and a sample of just three accounts tied to 633 recurring resident charges worth roughly $9,575 a month. That's not a smoking gun on its own, but it's the kind of specific number that's hard to argue around.</p>
+<p>Beagle's best argument is simpler than any of that: the data belongs to the property manager, and the property manager chose to let Beagle in. A terms-of-service violation isn't automatically the same thing as unauthorized access under federal computer fraud law. Beagle is leaning on the <em>hiQ v. LinkedIn</em> line of reasoning here, the same argument that's protected scrapers and other vendors in prior cases. Whether it holds up when the access method looks this deliberate is the actual question in front of the Ninth Circuit.</p>
+
+<h2>No Cures Act for Property Management</h2>
+<p>Here's the part I find most interesting, and credit belongs to Brendan Keeler, whose <a href="https://healthapiguy.substack.com/p/the-dogs-of-platform-war" target="_blank" rel="noopener">deep dive on this case</a> is genuinely worth your full attention if the topic interests you at all. Keeler covers healthcare software for a living, and he pointed out that this exact fight, a point solution locked out of a system of record, plays out constantly in healthcare too. The difference is that healthcare has the 21st Century Cures Act, which spells out when a system of record has to let a vendor in, on what terms, and for what fee.</p>
+<p>Property management has none of that. AppFolio said as much, more or less, in its own court filing: there's no law requiring a private company to share property data with anyone it doesn't want to. As Keeler frames it, healthcare got its rules because Congress legislated them. Property management, and honestly most industries outside healthcare, is running the same fight with no rulebook at all.</p>
+<p>That's not a knock on AppFolio specifically. Any system of record in our industry, whether that's AppFolio, Buildium, Rentvine, or anyone else, operates under the same legal obligation to let outside vendors in, which is to say: none.</p>
+
+<h2>What This Means If You're Not AppFolio</h2>
+<p>You don't need to be running AppFolio or using Beagle for this to be relevant. Every PM company has some version of this stack: a core system of record, plus a handful of point solutions bolted on through logins, screen-scraping, or half-supported integrations because a "real" partnership never got approved.</p>
+<p>Ask yourself two questions about every vendor in that category. What data are they actually touching, and would you be comfortable if your PM software's legal team read the honest answer? And second: if that vendor got cut off tomorrow, what would actually break in your operation?</p>
+<p>I don't think most operators have a clean answer to either question right now. This case is a pretty expensive way to find out yours.</p>
+
+<h2>Where This Goes From Here</h2>
+<p>The judge has already ordered both sides into private mediation, due by November 2. Given that neither side has won a single emergency motion and a trial this complex is genuinely expensive to run, I'd bet on some negotiated outcome before this ever reaches a jury: a sanctioned form of access, a fee arrangement, or the two companies just walking away from each other. If it doesn't settle, jury trial is scheduled for September 28, 2027, which tells you everything about how slow this kind of case actually moves.</p>
+<p>Either way, Beagle stays cut off from AppFolio's data in the meantime. That part isn't up for negotiation until one side blinks.</p>
+
+<p>-Peter</p>
+
+<p style="color:var(--muted); font-size:15px; border-top:1px solid var(--line); padding-top:14px; margin-top:1.8em;"><em>Further reading: Brendan Keeler's full case breakdown, <a href="https://healthapiguy.substack.com/p/the-dogs-of-platform-war" target="_blank" rel="noopener">"The Dogs of (Platform) War,"</a> covers the legal timeline in more technical detail than I have room for here.</em></p>
+        </div>
+        <div class="post-follow">
+          <span class="pf-label">Follow Peter for more:</span>
+          <span class="inline-social"><a href="https://www.youtube.com/@peterlohmann" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg></a><a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.3a1.7 1.7 0 1 1 0-3.5 1.7 1.7 0 0 1 0 3.5zM19 19h-3v-4.4c0-1 0-2.4-1.5-2.4S13 13.4 13 14.5V19h-3v-9h2.9v1.2h.04a3.2 3.2 0 0 1 2.9-1.6c3.1 0 3.7 2 3.7 4.7z"/></svg></a><a href="https://x.com/pslohmann" target="_blank" rel="noopener" aria-label="X (formerly Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-6.9l-5.4-7-6.2 7H1.7l8.1-9.3L.9 2h7.1l4.9 6.5zM17.7 20h1.9L7.1 4H5.1z"/></svg></a><a href="https://www.facebook.com/lohmann" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7v-3.5h3.1V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.24 2.7.24v3H15.8c-1.5 0-2 .93-2 1.9v2.2h3.4l-.54 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg></a><a href="https://www.instagram.com/peterlohmann_media/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 1.8.25 2.2.42.56.2.96.48 1.38.9.42.42.7.82.9 1.38.17.4.37 1 .42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.05 1.2-.25 1.8-.42 2.2a3.7 3.7 0 0 1-.9 1.38 3.7 3.7 0 0 1-1.38.9c-.4.17-1 .37-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.05-1.8-.25-2.2-.42a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.17-.4-.37-1-.42-2.2-.06-1.3-.07-1.7-.07-4.9s0-3.6.07-4.9c.05-1.2.25-1.8.42-2.2.2-.56.48-.96.9-1.38.42-.42.82-.7 1.38-.9.4-.17 1-.37 2.2-.42C8.4 2.2 8.8 2.2 12 2.2zm0 3.14A6.66 6.66 0 1 0 18.66 12 6.66 6.66 0 0 0 12 5.34zm0 10.98A4.32 4.32 0 1 1 16.32 12 4.32 4.32 0 0 1 12 16.32zm6.9-11.24a1.56 1.56 0 1 1-1.56-1.56 1.56 1.56 0 0 1 1.56 1.56z"/></svg></a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+  <section class="band tight wash">
+    <div class="wrap center">
+      <h2 class="h-lead">Get posts like this in your inbox.</h2>
+      <p class="sub" style="margin:8px auto 20px;">Twice a week, read by 20,000+ property management professionals.</p>
+      <a class="btn btn-primary" href="/newsletter">Subscribe to the newsletter</a>
+    </div>
+  </section>
+</main>
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="brand" style="font-weight:700;color:var(--navy);">Peter <span style="color:var(--primary);">Lohmann</span></div>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="/">About</a>
+        <a href="/newsletter">Newsletter</a>
+        <a href="/podcast">Podcast</a>
+        <a href="/largest-pm-companies">Largest PM Companies</a>
+        <a href="/blog">Blog</a>
+        <a href="/report/">M&amp;A Report</a>
+        <a href="/peterbot">PeterBot</a>
+        <a href="/products">Products</a>
+        <a href="/featured">Featured</a><a href="/sponsor/">Sponsor</a>
+        <a href="/contact">Contact</a>
+        <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="/faq">FAQ</a>
+      </nav>
+    </div>
+    <div class="foot-social" aria-label="Peter Lohmann on social media">
+      <a href="https://www.youtube.com/@peterlohmann" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg></a>
+      <a href="https://www.linkedin.com/in/pslohmann/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5v-9h3zM6.5 8.3a1.7 1.7 0 1 1 0-3.5 1.7 1.7 0 0 1 0 3.5zM19 19h-3v-4.4c0-1 0-2.4-1.5-2.4S13 13.4 13 14.5V19h-3v-9h2.9v1.2h.04a3.2 3.2 0 0 1 2.9-1.6c3.1 0 3.7 2 3.7 4.7z"/></svg></a>
+      <a href="https://x.com/pslohmann" target="_blank" rel="noopener" aria-label="X (formerly Twitter)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-6.9l-5.4-7-6.2 7H1.7l8.1-9.3L.9 2h7.1l4.9 6.5zM17.7 20h1.9L7.1 4H5.1z"/></svg></a>
+      <a href="https://www.facebook.com/lohmann" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7v-3.5h3.1V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.24 2.7.24v3H15.8c-1.5 0-2 .93-2 1.9v2.2h3.4l-.54 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg></a>
+      <a href="https://www.instagram.com/peterlohmann_media/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 1.8.25 2.2.42.56.2.96.48 1.38.9.42.42.7.82.9 1.38.17.4.37 1 .42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.05 1.2-.25 1.8-.42 2.2a3.7 3.7 0 0 1-.9 1.38 3.7 3.7 0 0 1-1.38.9c-.4.17-1 .37-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.05-1.8-.25-2.2-.42a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.17-.4-.37-1-.42-2.2-.06-1.3-.07-1.7-.07-4.9s0-3.6.07-4.9c.05-1.2.25-1.8.42-2.2.2-.56.48-.96.9-1.38.42-.42.82-.7 1.38-.9.4-.17 1-.37 2.2-.42C8.4 2.2 8.8 2.2 12 2.2zm0 3.14A6.66 6.66 0 1 0 18.66 12 6.66 6.66 0 0 0 12 5.34zm0 10.98A4.32 4.32 0 1 1 16.32 12 4.32 4.32 0 0 1 12 16.32zm6.9-11.24a1.56 1.56 0 1 1-1.56-1.56 1.56 1.56 0 0 1 1.56 1.56z"/></svg></a>
+    </div>
+    <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have <a href="/financial-interest-disclosure">consulting agreements with, or financial interests in</a>, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions. <a href="/privacy-policy">Privacy Policy</a></p>
+  </div>
+</footer>
+<script src="../site.js?v=26"></script>
+</body>
+</html>
