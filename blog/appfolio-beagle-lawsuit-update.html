@@ -85,12 +85,15 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 <h2>What Beagle Was Actually Doing In There</h2>
 <p>For a long time, the honest answer to "what was Beagle doing inside AppFolio" was murky, even to the lawyers arguing about it. That changed when a property manager forwarded AppFolio his full correspondence with Beagle, including an AI notetaker's summary of an onboarding call. (If you're using a meeting bot on vendor calls, that transcript doesn't just evaporate. File that away.)</p>
 <p>Once that surfaced, the process turned out to be pretty methodical:</p>
-<p><strong>Provisioning.</strong> A Beagle rep walks the property manager through creating a new user on a live call: first name "Compliance," last name "Reports," role set to Accounting/Accountant. The invite gets routed to a custom domain, essentially a reports inbox.</p>
-<p><strong>The audit.</strong> Beagle pulls the tenant roster, checks it against policy data, and produces a list of who's out of compliance on renters insurance.</p>
-<p><strong>Notice and enrollment.</strong> Beagle emails the non-compliant tenants from its own domain, verifies any policy they upload, and auto-enrolls the rest in a monthly liability waiver.</p>
-<p><strong>The write.</strong> This is the part that matters legally. Beagle doesn't just read data, it writes it. It posts recurring charges against non-compliant tenants directly, and where the property manager has a competing product like AppFolio's own FolioGuard, it disables that subscription.</p>
-<p><strong>Money routing.</strong> Beagle has the customer open a support ticket with AppFolio asking to suppress those line items from owner statements, so the waiver income shows up as the property manager's revenue rather than getting passed through to the owner.</p>
-<p><strong>Exit.</strong> About five days later, Beagle's account manager follows up and suggests deleting the user account they just created, since Beagle can run off scheduled reports going forward.</p>
+<ul>
+<li><strong>Provisioning.</strong> A Beagle rep walks the property manager through creating a new user on a live call: first name "Compliance," last name "Reports," role set to Accounting/Accountant. The invite gets routed to a custom domain, essentially a reports inbox.</li>
+<li><strong>The audit.</strong> Beagle pulls the tenant roster, checks it against policy data, and produces a list of who's out of compliance on renters insurance.</li>
+<li><strong>Notice and enrollment.</strong> Beagle emails the non-compliant tenants from its own domain, verifies any policy they upload, and auto-enrolls the rest in a monthly liability waiver.</li>
+<li><strong>The write.</strong> This is the part that matters legally. Beagle doesn't just read data, it writes it. It posts recurring charges against non-compliant tenants directly, and where the property manager has a competing product like AppFolio's own FolioGuard, it disables that subscription.</li>
+<li><strong>Money routing.</strong> Beagle has the customer open a support ticket with AppFolio asking to suppress those line items from owner statements, so the waiver income shows up as the property manager's revenue rather than getting passed through to the owner.</li>
+<li><strong>Exit.</strong> About five days later, Beagle's account manager follows up and suggests deleting the user account they just created, since Beagle can run off scheduled reports going forward.</li>
+</ul>
+
 <p>That last step is the one AppFolio has leaned on hardest. A "temporary" login that gets deleted after a handful of days, on a pattern repeated across more than 800 accounts by AppFolio's count (57 of them renamed mid-dispute, across eight domains, according to the court's own findings), is a hard thing to wave off as routine vendor access.</p>
 
 <h2>Why "Alternatives" Isn't a Clean Answer</h2>
@@ -110,7 +113,11 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 
 <h2>No Cures Act for Property Management</h2>
 <p>Here's the part I find most interesting, and credit belongs to Brendan Keeler, whose <a href="https://healthapiguy.substack.com/p/the-dogs-of-platform-war" target="_blank" rel="noopener">deep dive on this case</a> is genuinely worth your full attention if the topic interests you at all. Keeler covers healthcare software for a living, and he pointed out that this exact fight, a point solution locked out of a system of record, plays out constantly in healthcare too. The difference is that healthcare has the 21st Century Cures Act, which spells out when a system of record has to let a vendor in, on what terms, and for what fee.</p>
-<p>Property management has none of that. AppFolio said as much, more or less, in its own court filing: there's no law requiring a private company to share property data with anyone it doesn't want to. As Keeler frames it, healthcare got its rules because Congress legislated them. Property management, and honestly most industries outside healthcare, is running the same fight with no rulebook at all.</p>
+<p>Property management has none of that. AppFolio said as much, more or less, in its own court filing. He unearthed this notable quote:</p>
+
+<blockquote><p>&hellip;There is no statutory scheme here that governs data sharing among property managers. There is no body of law that regulates the exchange of data among property managers. There is no public policy reason that a privately-held company should be required to share its property management data with third-parties. AppFolio, like virtually all companies in the United States, is free to determine with whom it wants to do business.</p></blockquote>
+
+<p>As Keeler frames it, healthcare got its rules because Congress legislated them. Property management, and honestly most industries outside healthcare, is running the same fight with no rulebook at all.</p>
 <p>That's not a knock on AppFolio specifically. Any system of record in our industry, whether that's AppFolio, Buildium, Rentvine, or anyone else, operates under the same legal obligation to let outside vendors in, which is to say: none.</p>
 
 <h2>What This Means If You're Not AppFolio</h2>
