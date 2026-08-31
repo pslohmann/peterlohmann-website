@@ -13,7 +13,7 @@
                             overwrites this one file so there is only ever one current
                             version live, and no stale copy or dead link. The version
                             number lives inside the file and in the label below.
-    2. SWAP: jotform      - STILL A PLACEHOLDER. The results form does not exist yet.
+    2. SWAP: jotform      - DONE, embeds JotForm 262425496176162 in step 5.
     3. SWAP: loom         - STILL A PLACEHOLDER. The walkthrough has not been recorded;
                             lives inside the hero's video modal.
 -->
@@ -276,13 +276,10 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         </div>
 
         <div class="jf-embed mt-md">
-          <!-- SWAP: jotform - replace this whole .todo block with the JotForm embed once the
-               form exists, matching how contact.html does it:
-               <script type="text/javascript" src="https://form.jotform.com/jsform/FORM_ID"></script> -->
-          <div class="todo">
-            <strong>Placeholder: results form</strong>
-            <p>The JotForm submission form has not been built yet. Drop the embed script in here when it is ready.</p>
-          </div>
+          <!-- Results submission form, JotForm 262425496176162. Same embed style as
+               contact.html: JotForm's jsform script writes the form in place and sizes
+               its own iframe, so there is no height to maintain here. -->
+          <script type="text/javascript" src="https://form.jotform.com/jsform/262425496176162"></script>
         </div>
       </div>
     </div>
