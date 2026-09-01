@@ -14,8 +14,9 @@
                             version live, and no stale copy or dead link. The version
                             number lives inside the file and in the label below.
     2. SWAP: jotform      - DONE, embeds JotForm 262425496176162 in step 5.
-    3. SWAP: loom         - STILL A PLACEHOLDER. The walkthrough has not been recorded;
-                            lives inside the hero's video modal.
+    3. SWAP: video        - DONE, embeds youtu.be/ZcxFtO-mWJw in the hero's video modal.
+                            Loaded from data-src on open, unloaded on close.
+    All SWAP points on this page are now resolved.
 -->
 <!doctype html>
 <html lang="en">
@@ -38,16 +39,6 @@
   /* JotForm results embed (same treatment as the contact page's form) */
   .jf-embed{ margin-top:6px; }
   .jf-embed iframe{ width:1px; min-width:100%; max-width:100%; border:0; }
-
-  /* Placeholder boxes for content that does not exist yet. Delete this block once
-     all three SWAP points below are wired up. */
-  .todo{ border:2px dashed #c9b18a; background:#fdf8ef; border-radius:var(--radius);
-         padding:26px; text-align:center; color:#7a6440; }
-  .todo strong{ display:block; font-size:15px; letter-spacing:.04em; text-transform:uppercase;
-                margin-bottom:6px; color:#8a6d3b; }
-  .todo p{ margin:0; font-size:14.5px; color:#7a6440; }
-  .todo.video{ aspect-ratio:16/9; display:flex; flex-direction:column;
-               align-items:center; justify-content:center; }
 
   /* "Tester Guide:" overline. Styled like a slightly oversized h3, but it is a <p>
      on purpose: the page's real <h1> is the title below it, and an <h3> above the
@@ -212,7 +203,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
             </span>
             <span class="vid-meta">
               <strong>Watch the tutorial first</strong>
-              <span>We run the grader against Buildium and Property Meld, end to end.</span>
+              <span>We run the grader against Buildium, start to finish.</span>
             </span>
           </button>
         </div>
@@ -347,19 +338,17 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <div class="smodal-card vid-modal-card" role="dialog" aria-modal="true" aria-labelledby="vidModalTitle">
     <button class="smodal-close" id="vidClose" aria-label="Close">&times;</button>
     <h3 id="vidModalTitle">Watch it in action</h3>
-    <p class="sub" style="margin-bottom:18px;">We recorded ourselves running this exact process against Buildium and Property Meld. Worth a watch if you want to see it end to end before you start.</p>
+    <p class="sub" style="margin-bottom:18px;">Peter runs this exact process against Buildium, start to finish, including the three-run step. Worth a watch before you start.</p>
 
-    <!-- SWAP: loom - replace the .todo block below with the real embed. Put the Loom URL
-         on data-src (NOT src) so the video only loads when the modal is opened and stops
-         when it is closed; the script at the bottom of this page handles both:
-         <div class="embed-frame video">
-           <iframe id="vidFrame" data-src="https://www.loom.com/embed/VIDEO_ID"
-                   title="Running the PM API Grader against Buildium and Property Meld"
-                   allowfullscreen></iframe>
-         </div> -->
-    <div class="todo video">
-      <strong>Placeholder: walkthrough video</strong>
-      <p>Loom recording of the grader running against Buildium and Property Meld. Not recorded yet.</p>
+    <!-- The URL sits on data-src rather than src on purpose: the video only loads when
+         the modal is opened, and the script at the bottom of this page removes src on
+         close so playback stops instead of continuing behind the overlay. -->
+    <div class="embed-frame video">
+      <iframe id="vidFrame"
+              data-src="https://www.youtube.com/embed/ZcxFtO-mWJw?rel=0"
+              title="API Grader Walkthrough"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
   </div>
 </div>
