@@ -46,26 +46,15 @@
   .guide-label{ font-family:var(--serif); font-size:26px; font-weight:400; line-height:1.2;
                 color:var(--primary); margin:0 0 4px; }
 
-  /* Hero video card: a real button that opens the walkthrough in the site's
-     standard .smodal overlay. */
-  .vid-card{ display:block; width:100%; text-align:left; padding:0; border:0; cursor:pointer;
              background:transparent; font:inherit; color:inherit; }
-  .vid-thumb{ position:relative; display:flex; align-items:center; justify-content:center;
               aspect-ratio:16/9; border-radius:var(--radius); overflow:hidden;
               background:linear-gradient(135deg,var(--primary),var(--navy));
               box-shadow:var(--shadow-lg); transition:transform .16s ease, box-shadow .16s ease; }
-  .vid-card:hover .vid-thumb{ transform:translateY(-3px); box-shadow:0 24px 60px rgba(31,58,77,.22); }
-  .vid-card:focus-visible .vid-thumb{ outline:3px solid var(--primary); outline-offset:3px; }
-  .vid-play{ width:66px; height:66px; border-radius:50%; background:rgba(255,255,255,.94);
              display:flex; align-items:center; justify-content:center; }
-  .vid-play svg{ width:24px; height:24px; margin-left:4px; color:var(--navy); }
   .vid-meta{ display:block; margin-top:14px; }
   .vid-meta strong{ display:block; color:var(--navy); font-size:16px; }
   .vid-meta span{ display:block; color:var(--muted); font-size:14px; margin-top:2px; }
 
-  /* Wider than the default .smodal card, since it holds a 16:9 video. */
-  .vid-modal-card{ max-width:880px; }
-  .vid-modal-card h3{ font-size:22px; margin:0 0 6px; padding-right:40px; }
 
   /* Step 5 is the one that matters: it carries the orange accent and a larger
      heading so it reads as the payoff, not just another step in the list. */
@@ -200,17 +189,17 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 
         <div>
           <!-- Opens the walkthrough in the site's standard .smodal overlay (X to close). -->
-          <button type="button" class="vid-card" id="vidOpen">
-            <span class="vid-thumb">
-              <span class="vid-play" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              </span>
-            </span>
-            <span class="vid-meta">
-              <strong>Watch the tutorial first</strong>
-              <span>The whole process, start to finish.</span>
-            </span>
-          </button>
+          <div class="embed-frame video">
+            <iframe src="https://www.youtube.com/embed/ZcxFtO-mWJw?rel=0"
+                    title="API Grader Walkthrough"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="vid-meta">
+            <strong>Watch the tutorial first</strong>
+            <span>The whole process, start to finish.</span>
+          </div>
+          <p class="vid-link"><a href="https://youtu.be/ZcxFtO-mWJw" target="_blank" rel="noopener">Click to watch on YouTube &rarr;</a></p>
         </div>
       </div>
     </div>
@@ -308,9 +297,9 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <div class="step-head submit"><div class="num-badge">5</div><h3>Submit your results</h3></div>
         <p class="sub" style="margin-bottom:6px;">Drop in:</p>
         <ul class="feat" style="margin-top:0;">
+          <li>Your name and email <em>(so we can follow up if we have a question or need a re-run; never published)</em></li>
           <li>Platform name</li>
-          <li>The completed grading output</li>
-          <li>Your name and company <em>(so we can follow up if we have a question or need a re-run; never published)</em></li>
+          <li>The completed grading output, as the <code>.md</code> file</li>
         </ul>
         <div class="anon-note">
           <p><strong>You will never be named in the published report.</strong> We identify the platform being graded, never the operator who graded it. No vendor will know the score came from you.</p>
@@ -338,26 +327,6 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 </main>
 
 
-<!-- WALKTHROUGH VIDEO (opened from the hero card) -->
-<div class="smodal" id="vidModal" aria-hidden="true">
-  <div class="smodal-card vid-modal-card" role="dialog" aria-modal="true" aria-labelledby="vidModalTitle">
-    <button class="smodal-close" id="vidClose" aria-label="Close">&times;</button>
-    <h3 id="vidModalTitle">Watch it in action</h3>
-    <p class="sub" style="margin-bottom:18px;">Peter runs through this exact process start to finish, including the three-run step. Worth a watch before you begin.</p>
-
-    <!-- The URL sits on data-src rather than src on purpose: the video only loads when
-         the modal is opened, and the script at the bottom of this page removes src on
-         close so playback stops instead of continuing behind the overlay. -->
-    <div class="embed-frame video">
-      <iframe id="vidFrame"
-              data-src="https://www.youtube.com/embed/ZcxFtO-mWJw?rel=0"
-              title="API Grader Walkthrough"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
-    <p class="vid-link"><a href="https://youtu.be/ZcxFtO-mWJw" target="_blank" rel="noopener">Click to open in YouTube &rarr;</a></p>
-  </div>
-</div>
 
 <footer class="site">
   <div class="wrap">
@@ -406,45 +375,6 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   new IntersectionObserver(function(entries){
     entries.forEach(function(e){ badge.classList.toggle('show', !e.isIntersecting); });
   }, { threshold: 0 }).observe(hero);
-})();
-</script>
-<script>
-/* Hero video card -> modal. Uses the site's existing .smodal pattern.
-   The iframe (once added) is loaded from data-src on open and unloaded on close, so the
-   video never plays behind the overlay and costs nothing until someone asks for it. */
-(function () {
-  var openBtn = document.getElementById('vidOpen'),
-      modal   = document.getElementById('vidModal'),
-      closeBt = document.getElementById('vidClose'),
-      lastFocus = null;
-  if (!openBtn || !modal) return;
-
-  function frame() { return document.getElementById('vidFrame'); }
-
-  function open() {
-    lastFocus = document.activeElement;
-    var f = frame();
-    if (f && f.dataset.src && f.src !== f.dataset.src) f.src = f.dataset.src;
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    closeBt.focus();
-  }
-  function close() {
-    var f = frame();
-    if (f && f.dataset.src) f.removeAttribute('src');   // stops playback
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    if (lastFocus) lastFocus.focus();
-  }
-
-  openBtn.addEventListener('click', open);
-  closeBt.addEventListener('click', close);
-  modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && modal.classList.contains('open')) close();
-  });
 })();
 </script>
 
