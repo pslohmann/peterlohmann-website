@@ -120,6 +120,30 @@
   .step-head{ display:flex; align-items:center; gap:12px; margin-bottom:8px; }
   .step-head .num-badge{ margin-bottom:0; flex:none; }
   .step-head h3{ margin:0; font-size:20px; }
+  /* Copy-paste prompts, collapsed by default so the steps stay short.
+     Native <details>, so no JavaScript and it still works if scripts fail. */
+  .prompt-box{ border:1px solid var(--line); border-radius:10px;
+               background:var(--wash-soft); margin:12px 0 0; }
+  .prompt-box summary{ cursor:pointer; padding:11px 14px; font-size:14px; font-weight:700;
+                       color:var(--primary-dark); list-style:none; }
+  .prompt-box summary::-webkit-details-marker{ display:none; }
+  /* Border triangle rather than a text glyph: the body font renders U+25B8 thin
+     and inconsistently, and this inherits currentColor and stays crisp. */
+  .prompt-box summary::before{ content:""; display:inline-block; width:0; height:0;
+                               margin-right:9px; vertical-align:1.5px;
+                               border-left:6px solid currentColor;
+                               border-top:4.5px solid transparent;
+                               border-bottom:4.5px solid transparent;
+                               transition:transform .15s ease; }
+  .prompt-box[open] summary::before{ transform:rotate(90deg); }
+  .prompt-box summary:hover{ color:var(--primary); }
+  .prompt-box .pb-body{ padding:0 14px 14px; }
+  .prompt-quote{ background:var(--card); border:1px solid var(--line);
+                 border-left:3px solid var(--primary); border-radius:8px;
+                 padding:12px 14px; margin:0 0 10px; font-size:14.5px; line-height:1.6;
+                 color:var(--navy); }
+  .prompt-box .pb-body p{ margin:0; font-size:13.5px; line-height:1.6; color:var(--muted); }
+  .prompt-box .pb-body p + p{ margin-top:7px; }
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
@@ -241,18 +265,40 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         </div>
 
         <div class="card">
-          <div class="step-head"><div class="num-badge">3</div><h3>Point it at the platform&#x27;s API docs</h3></div>
-          <p style="margin-bottom:10px;">Open Claude Code and give it two things:</p>
+          <div class="step-head"><div class="num-badge">3</div><h3>Start a fresh session and point it at the API</h3></div>
+          <p style="margin-bottom:10px;">Start a <strong>brand new</strong> Claude Code session, and give it three things:</p>
           <ol style="margin:0 0 10px;padding-left:20px;color:var(--muted);font-size:15.5px;">
             <li style="margin-bottom:6px;">The <code>.md</code> grading file you downloaded</li>
-            <li>A link to (or copy of) the platform&#x27;s public API/developer documentation</li>
+            <li style="margin-bottom:6px;">A link to (or copy of) the platform&#x27;s API/developer documentation</li>
+            <li>Your live API credentials</li>
           </ol>
-          <p>Ask it to run the test.</p>
+          <p>Ask it to run the test, and tell it you have access to the live API and will provide the credentials.</p>
+
+          <details class="prompt-box">
+            <summary>Click to see the prompt we use</summary>
+            <div class="pb-body">
+              <p class="prompt-quote">This is a fresh session. I want you to ignore all previous API grader runs and data and treat this as a clean room. Please run this MD file against Buildium using my actual API credentials, which I will give to you.</p>
+              <p>Swap in whichever platform you&#x27;re grading. If you&#x27;re testing more than one, start a separate session for each and repeat the clean-room line, so an earlier score can&#x27;t colour a later one.</p>
+              <p><strong>Two things that noticeably improve accuracy.</strong> A screenshot of the screen where you generate API keys: Claude often can&#x27;t tell what key types exist (read-only versus read-write, or whether you can issue more than one), and that feeds several checks directly. And the API documentation itself if it&#x27;s downloadable, rather than just a link to it.</p>
+            </div>
+          </details>
         </div>
 
         <div class="card">
-          <div class="step-head"><div class="num-badge">4</div><h3>Let it run and review the output</h3></div>
-          <p>Claude will work through each grading category and return a score with reasoning. Skim it. If something looks off or the documentation was incomplete, note that. We&#x27;d rather know than get a false score.</p>
+          <div class="step-head"><div class="num-badge">4</div><h3>Let it run, then ask for runs 2 and 3</h3></div>
+          <p>The first pass takes about 15 to 20 minutes. Claude will work through each category and hand you a score with its reasoning.</p>
+          <p style="margin-top:10px;"><strong>You&#x27;re not done there.</strong> The grading file calls for three independent runs, and Claude won&#x27;t start the other two on its own. Once the first score comes back, remind it to complete runs 2 and 3 with a subagent, per the instructions.</p>
+
+          <details class="prompt-box">
+            <summary>Click to see the prompt for runs 2 and 3</summary>
+            <div class="pb-body">
+              <p class="prompt-quote">Now do runs 2 and 3 with a subagent (independent grader) per the instructions.</p>
+              <p>Stay in the <strong>same chat window</strong>, and don&#x27;t change the model or effort settings partway through. This step does not hit your API again: it re-grades the evidence already collected, then resolves any disagreements between the runs instead of averaging them. That&#x27;s what catches a bad assumption in a single run, and it&#x27;s why we ask for it.</p>
+              <p>If it doesn&#x27;t hand you a new file at the end, ask for one: <em>&#x22;I&#x27;m ready for the final report card MD file.&#x22;</em></p>
+            </div>
+          </details>
+
+          <p style="margin-top:14px;">Skim the final output. If something looks off, or the documentation was incomplete, tell us. We&#x27;d rather know than publish a false score.</p>
         </div>
 
       </div>
