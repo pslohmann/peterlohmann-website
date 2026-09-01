@@ -9,3 +9,8 @@
 2025-pm-ma-report/dist/
 __pycache__/
 .migration-old-squarespace-sitemap.txt
+
+# API grader submissions (local only, never published)
+# These contain operator details: org names, tenant ids, key labels.
+# Both repos are public, so this folder must stay out of git.
+grader-reports/
