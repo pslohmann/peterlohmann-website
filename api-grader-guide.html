@@ -129,6 +129,36 @@
      is almost the same colour, so the box dissolved into the background. White
      plus the card shadow lifts it off the section. */
   .panel.download-panel{ background:var(--card); box-shadow:var(--shadow); }
+  /* Hero thumbnail. A link, not a button, so it degrades to YouTube. */
+  .vid-open{ position:relative; display:block; aspect-ratio:16/9; overflow:hidden;
+             border-radius:var(--radius); box-shadow:var(--shadow-lg);
+             background:var(--navy); transition:transform .16s ease, box-shadow .16s ease; }
+  .vid-open img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .vid-open:hover{ transform:translateY(-3px); box-shadow:0 24px 60px rgba(31,58,77,.22); }
+  .vid-open:focus-visible{ outline:3px solid var(--primary); outline-offset:3px; }
+  .vid-play{ position:absolute; inset:0; margin:auto; width:66px; height:66px;
+             border-radius:50%; background:rgba(255,255,255,.94);
+             display:flex; align-items:center; justify-content:center;
+             transition:transform .16s ease; }
+  .vid-open:hover .vid-play{ transform:scale(1.06); }
+  .vid-play svg{ width:24px; height:24px; margin-left:4px; color:var(--navy); }
+
+  /* Lightbox: the video and an X, nothing else. Sized to the larger of the two
+     constraints so it fills as much of the screen as 16:9 allows either way. */
+  .vlight{ position:fixed; inset:0; z-index:1000; display:none;
+           align-items:center; justify-content:center;
+           background:rgba(8,14,20,.92); backdrop-filter:blur(4px);
+           -webkit-backdrop-filter:blur(4px); }
+  .vlight.open{ display:flex; }
+  .vlight-frame{ width:min(94vw, calc(86vh * 16 / 9)); aspect-ratio:16/9;
+                 background:#000; border-radius:12px; overflow:hidden;
+                 box-shadow:0 30px 90px rgba(0,0,0,.55); }
+  .vlight-frame iframe{ width:100%; height:100%; border:0; display:block; }
+  .vlight-close{ position:absolute; top:18px; right:20px; width:44px; height:44px;
+                 border:0; border-radius:50%; cursor:pointer; font-size:26px; line-height:1;
+                 background:rgba(255,255,255,.16); color:#fff; }
+  .vlight-close:hover{ background:rgba(255,255,255,.28); }
+  .vlight-close:focus-visible{ outline:3px solid #fff; outline-offset:2px; }
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
@@ -189,12 +219,18 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 
         <div>
           <!-- Opens the walkthrough in the site's standard .smodal overlay (X to close). -->
-          <div class="embed-frame video">
-            <iframe src="https://www.youtube.com/embed/ZcxFtO-mWJw?rel=0"
-                    title="API Grader Walkthrough"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          </div>
+          <!-- Base state is a plain link to YouTube, so mobile and any
+               no-JavaScript visitor gets a working video with no special casing.
+               On wider screens the script below intercepts the click and opens
+               the lightbox instead. -->
+          <a class="vid-open" id="vidOpen" href="https://youtu.be/ZcxFtO-mWJw"
+             target="_blank" rel="noopener" aria-label="Play the walkthrough video">
+            <img src="https://i.ytimg.com/vi/ZcxFtO-mWJw/maxresdefault.jpg"
+                 alt="" width="1280" height="720" fetchpriority="high" />
+            <span class="vid-play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+          </a>
           <div class="vid-meta">
             <strong>Watch the tutorial first</strong>
             <a class="vid-link" href="https://youtu.be/ZcxFtO-mWJw" target="_blank" rel="noopener">Click to watch on YouTube &rarr;</a>
@@ -361,6 +397,61 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 <a class="col-sticky" id="colSticky" href="https://column.com/?utm_source=peter-lohmann&amp;utm_medium=plm-api-grader" target="_blank" rel="noopener" aria-label="Presented by Column">
   <span>Presented by</span><img src="images/column-logo.png" alt="Column" />
 </a>
+
+<!-- Walkthrough lightbox. Deliberately just the video and a close button: the
+     hero already carries the caption, so repeating it here only shrinks the video. -->
+<div class="vlight" id="vidLight" aria-hidden="true">
+  <button class="vlight-close" id="vidClose" aria-label="Close video">&times;</button>
+  <div class="vlight-frame" role="dialog" aria-modal="true" aria-label="API Grader Walkthrough">
+    <iframe id="vidFrame"
+            data-src="https://www.youtube.com/embed/ZcxFtO-mWJw?rel=0&amp;autoplay=1"
+            title="API Grader Walkthrough"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script>
+/* The thumbnail is a link to YouTube. On a narrow screen we leave it alone, so
+   phones go straight to the YouTube app. Wider than that, we cancel the
+   navigation and open the lightbox instead. The iframe loads from data-src on
+   open and has its src removed on close, so playback stops rather than
+   continuing behind the overlay. */
+(function () {
+  var link  = document.getElementById('vidOpen'),
+      light = document.getElementById('vidLight'),
+      close = document.getElementById('vidClose'),
+      frame = document.getElementById('vidFrame'),
+      wide  = window.matchMedia('(min-width: 769px)'),
+      last  = null;
+  if (!link || !light) return;
+
+  function open(e) {
+    if (!wide.matches) return;          // phone: let the link go to YouTube
+    e.preventDefault();
+    last = document.activeElement;
+    if (frame.dataset.src && frame.src !== frame.dataset.src) frame.src = frame.dataset.src;
+    light.classList.add('open');
+    light.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    close.focus();
+  }
+  function shut() {
+    frame.removeAttribute('src');       // stops playback
+    light.classList.remove('open');
+    light.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (last) last.focus();
+  }
+
+  link.addEventListener('click', open);
+  close.addEventListener('click', shut);
+  light.addEventListener('click', function (e) { if (e.target === light) shut(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && light.classList.contains('open')) shut();
+  });
+})();
+</script>
 
 <script src="site.js?v=24"></script>
 <script>
