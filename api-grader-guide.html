@@ -48,14 +48,8 @@
   .guide-label{ font-family:var(--serif); font-size:26px; font-weight:400; line-height:1.2;
                 color:var(--primary); margin:0 0 4px; }
 
-             background:transparent; font:inherit; color:inherit; }
-              aspect-ratio:16/9; border-radius:var(--radius); overflow:hidden;
-              background:linear-gradient(135deg,var(--primary),var(--navy));
-              box-shadow:var(--shadow-lg); transition:transform .16s ease, box-shadow .16s ease; }
-             display:flex; align-items:center; justify-content:center; }
-  .vid-meta{ display:block; margin-top:14px; }
+  .vid-meta{ display:block; margin-top:26px; }
   .vid-meta strong{ display:block; color:var(--navy); font-size:16px; }
-  .vid-meta span{ display:block; color:var(--muted); font-size:14px; margin-top:2px; }
 
 
   /* Step 5 is the one that matters: it carries the orange accent and a larger
@@ -125,9 +119,13 @@
                  padding:12px 14px; margin:0 0 10px; font-size:14.5px; line-height:1.6;
                  color:var(--navy); }
   .prompt-box .pb-body p{ margin:0; font-size:13.5px; line-height:1.6; color:var(--muted); }
-  .prompt-box .pb-body p + p{ margin-top:7px; }  .vid-link{ margin:12px 0 0; text-align:right; font-size:13.5px; }
-  .vid-link a{ color:var(--muted); font-weight:600; text-decoration:none; }
-  .vid-link a:hover{ color:var(--primary); text-decoration:underline; }  /* This panel sits on a .band.wash section, and .panel's default wash-soft fill
+  .prompt-box .pb-body p + p{ margin-top:7px; }
+
+  .vid-link{ display:inline-block; margin-top:5px; font-size:13.5px;
+             color:var(--muted); font-weight:600; text-decoration:none; }
+  .vid-link:hover{ color:var(--primary); text-decoration:underline; }
+
+  /* This panel sits on a .band.wash section, and .panel's default wash-soft fill
      is almost the same colour, so the box dissolved into the background. White
      plus the card shadow lifts it off the section. */
   .panel.download-panel{ background:var(--card); box-shadow:var(--shadow); }
@@ -199,9 +197,8 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           </div>
           <div class="vid-meta">
             <strong>Watch the tutorial first</strong>
-            <span>The whole process, start to finish.</span>
+            <a class="vid-link" href="https://youtu.be/ZcxFtO-mWJw" target="_blank" rel="noopener">Click to watch on YouTube &rarr;</a>
           </div>
-          <p class="vid-link"><a href="https://youtu.be/ZcxFtO-mWJw" target="_blank" rel="noopener">Click to watch on YouTube &rarr;</a></p>
         </div>
       </div>
     </div>
@@ -264,8 +261,8 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           <details class="prompt-box">
             <summary>Click to see the prompt we use</summary>
             <div class="pb-body">
-              <p class="prompt-quote">This is a fresh session. I want you to ignore all previous API grader runs and data and treat this as a clean room. Please run this MD file against Buildium using my actual API credentials, which I will give to you if you don&#x27;t have access already.</p>
-              <p>Swap in whichever platform you&#x27;re grading. If you&#x27;re testing more than one, start a separate session for each and repeat the clean-room line, so an earlier score can&#x27;t colour a later one.</p>
+              <p class="prompt-quote">This is a fresh session. I want you to ignore all previous API grader runs and data and treat this as a clean room. Please run this MD file against [PLATFORM] using my actual API credentials, which I will give to you if you don&#x27;t have access already.</p>
+              <p>If you&#x27;re testing more than one platform, start a separate session for each and repeat the clean-room line, so an earlier score can&#x27;t colour a later one.</p>
               <p><strong>Two things that noticeably improve accuracy.</strong> A screenshot of the screen where you generate API keys: Claude often can&#x27;t tell what key types exist (read-only versus read-write, or whether you can issue more than one), and that feeds several checks directly. And the API documentation itself if it&#x27;s downloadable, rather than just a link to it.</p>
             </div>
           </details>
