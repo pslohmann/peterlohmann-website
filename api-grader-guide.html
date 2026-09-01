@@ -136,7 +136,10 @@
   .prompt-box .pb-body p{ margin:0; font-size:13.5px; line-height:1.6; color:var(--muted); }
   .prompt-box .pb-body p + p{ margin-top:7px; }  .vid-link{ margin:12px 0 0; text-align:right; font-size:13.5px; }
   .vid-link a{ color:var(--muted); font-weight:600; text-decoration:none; }
-  .vid-link a:hover{ color:var(--primary); text-decoration:underline; }
+  .vid-link a:hover{ color:var(--primary); text-decoration:underline; }  /* This panel sits on a .band.wash section, and .panel's default wash-soft fill
+     is almost the same colour, so the box dissolved into the background. White
+     plus the card shadow lifts it off the section. */
+  .panel.download-panel{ background:var(--card); box-shadow:var(--shadow); }
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
@@ -226,7 +229,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           </ul>
         </div>
         <div>
-          <div class="panel" style="text-align:center;">
+          <div class="panel download-panel" style="text-align:center;">
             <h3 style="margin:0 0 8px;font-size:21px;">PM API Grader</h3>
             <p class="sub" style="margin-bottom:20px;">The same prompt we run against every platform.</p>
             <!-- SWAP: grader-file - when a new methodology version ships, drop the file in
