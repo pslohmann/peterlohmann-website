@@ -134,7 +134,9 @@
                  padding:12px 14px; margin:0 0 10px; font-size:14.5px; line-height:1.6;
                  color:var(--navy); }
   .prompt-box .pb-body p{ margin:0; font-size:13.5px; line-height:1.6; color:var(--muted); }
-  .prompt-box .pb-body p + p{ margin-top:7px; }
+  .prompt-box .pb-body p + p{ margin-top:7px; }  .vid-link{ margin:12px 0 0; text-align:right; font-size:13.5px; }
+  .vid-link a{ color:var(--muted); font-weight:600; text-decoration:none; }
+  .vid-link a:hover{ color:var(--primary); text-decoration:underline; }
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
@@ -203,7 +205,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
             </span>
             <span class="vid-meta">
               <strong>Watch the tutorial first</strong>
-              <span>We run the grader against Buildium, start to finish.</span>
+              <span>The whole process, start to finish.</span>
             </span>
           </button>
         </div>
@@ -338,7 +340,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <div class="smodal-card vid-modal-card" role="dialog" aria-modal="true" aria-labelledby="vidModalTitle">
     <button class="smodal-close" id="vidClose" aria-label="Close">&times;</button>
     <h3 id="vidModalTitle">Watch it in action</h3>
-    <p class="sub" style="margin-bottom:18px;">Peter runs this exact process against Buildium, start to finish, including the three-run step. Worth a watch before you start.</p>
+    <p class="sub" style="margin-bottom:18px;">Peter runs through this exact process start to finish, including the three-run step. Worth a watch before you begin.</p>
 
     <!-- The URL sits on data-src rather than src on purpose: the video only loads when
          the modal is opened, and the script at the bottom of this page removes src on
@@ -350,6 +352,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
+    <p class="vid-link"><a href="https://youtu.be/ZcxFtO-mWJw" target="_blank" rel="noopener">Click to open in YouTube &rarr;</a></p>
   </div>
 </div>
 
