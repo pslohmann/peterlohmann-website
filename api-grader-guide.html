@@ -172,6 +172,42 @@ s.async = true;
 s.src = "https://b2bjsstore.s3.us-west-2.amazonaws.com/b/" + key + "/" + key + ".js.gz";
 document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);
 }("0NW1GH7LKEO4");</script>
+<script>
+(function () {
+  var wide = window.matchMedia('(min-width: 769px)');
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest && e.target.closest('#vidOpen');
+    if (!link || !wide.matches) return;      // phone: let it go to YouTube
+    var light = document.getElementById('vidLight'),
+        frame = document.getElementById('vidFrame'),
+        close = document.getElementById('vidClose');
+    if (!light || !frame) return;            // markup absent: link still works
+    e.preventDefault();
+    if (frame.dataset.src && frame.src !== frame.dataset.src) frame.src = frame.dataset.src;
+    light.classList.add('open');
+    light.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (close) close.focus();
+  });
+
+  function shut() {
+    var light = document.getElementById('vidLight'),
+        frame = document.getElementById('vidFrame');
+    if (!light || !light.classList.contains('open')) return;
+    frame.removeAttribute('src');             // stops playback
+    light.classList.remove('open');
+    light.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    var link = document.getElementById('vidOpen');
+    if (link) link.focus();
+  }
+  document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('#vidClose')) return shut();
+    if (e.target.id === 'vidLight') shut();   // backdrop
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') shut(); });
+})();
+</script>
 </head>
 <body>
 
@@ -411,47 +447,6 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </div>
 </div>
 
-<script>
-/* The thumbnail is a link to YouTube. On a narrow screen we leave it alone, so
-   phones go straight to the YouTube app. Wider than that, we cancel the
-   navigation and open the lightbox instead. The iframe loads from data-src on
-   open and has its src removed on close, so playback stops rather than
-   continuing behind the overlay. */
-(function () {
-  var link  = document.getElementById('vidOpen'),
-      light = document.getElementById('vidLight'),
-      close = document.getElementById('vidClose'),
-      frame = document.getElementById('vidFrame'),
-      wide  = window.matchMedia('(min-width: 769px)'),
-      last  = null;
-  if (!link || !light) return;
-
-  function open(e) {
-    if (!wide.matches) return;          // phone: let the link go to YouTube
-    e.preventDefault();
-    last = document.activeElement;
-    if (frame.dataset.src && frame.src !== frame.dataset.src) frame.src = frame.dataset.src;
-    light.classList.add('open');
-    light.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    close.focus();
-  }
-  function shut() {
-    frame.removeAttribute('src');       // stops playback
-    light.classList.remove('open');
-    light.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    if (last) last.focus();
-  }
-
-  link.addEventListener('click', open);
-  close.addEventListener('click', shut);
-  light.addEventListener('click', function (e) { if (e.target === light) shut(); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && light.classList.contains('open')) shut();
-  });
-})();
-</script>
 
 <script src="site.js?v=24"></script>
 <script>
