@@ -401,22 +401,17 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   .addon-name{ font-weight:600; color:var(--navy); font-size:15.5px; }
   .addon-price{ font-weight:700; color:var(--navy); font-size:21px; letter-spacing:-.02em; }
   .addon-desc{ margin:5px 0 0; color:var(--muted); font-size:13.5px; }
-  .mix-wrap{ text-align:center; margin-top:32px; }
+  .mix-wrap{ display:flex; flex-wrap:wrap; justify-content:center; align-items:stretch;
+             gap:14px; margin-top:32px; }
   .mix-pill{ display:inline-block; background:var(--orange); color:#fff; font-weight:700;
-             font-size:clamp(16px,2vw,20px); line-height:1.35; padding:15px 30px; border-radius:999px;
+             font-size:clamp(14px,1.45vw,17px); line-height:1.35; padding:14px 26px; border-radius:999px;
              box-shadow:0 8px 22px rgba(224,112,60,.28); max-width:100%; }
-  /* The startup offer reads as a secondary tab hanging off the flat bottom edge
-     of the pill above it: square top corners so the two look joined, outlined
-     rather than filled so the pill stays the primary object. */
-  .mix-wrap.has-startup .mix-pill{ border-bottom-left-radius:0; border-bottom-right-radius:0; }
-  .season-2027{ margin-top:4px; font-size:12px; color:var(--muted); font-weight:600; }
-  .startup-tag{ display:block; width:fit-content; max-width:100%; margin:0 auto;
-                background:var(--card); color:var(--orange-dark);
-                border:2px solid var(--orange); border-top:0;
-                border-radius:0 0 12px 12px; padding:11px 26px;
-                font-weight:700; font-size:clamp(13px,1.5vw,15px); line-height:1.4; }
-  .startup-tag small{ display:block; font-weight:600; font-size:.86em; color:var(--muted);
-                      margin-top:2px; }
+  /* Same pill, outlined instead of filled: the offers are peers, so they get the
+     same size and shape. Padding drops by the 2px border so both render the
+     same height. */
+  .mix-pill.outline{ background:var(--card); color:var(--orange-dark);
+                     border:2px solid var(--orange); padding:12px 24px;
+                     box-shadow:0 8px 22px rgba(224,112,60,.14); }
 
   /* ---------- DISCOUNTS & EXTRAS: three cards ---------- */
   .extra-card .extra-v{ font-size:33px; font-weight:700; color:var(--navy); letter-spacing:-.02em; }
@@ -1346,10 +1341,8 @@ function renderAlaCarte(){
 
   // Mix & match — prominent orange pill
   document.getElementById("mixMatchNote").innerHTML =
-    '<span class="mix-pill">Save '+Math.round(CONFIG.extras.mixMatchDiscount*100)+'% when you mix and match 6 or more of any newsletter or podcast ad</span>'
-    + '<span class="startup-tag">Startup discount: '+Math.round(CONFIG.extras.startupDiscount*100)+'% off any placement'
-    +   '<small>For companies under '+CONFIG.extras.startupMaxAgeMonths+' months old</small></span>';
-  document.getElementById("mixMatchNote").classList.add("has-startup");
+    '<span class="mix-pill">Save '+Math.round(CONFIG.extras.mixMatchDiscount*100)+'% when you mix and match 6 or more ads</span>'
+    + '<span class="mix-pill outline">Startup discount: save '+Math.round(CONFIG.extras.startupDiscount*100)+'% for companies under '+CONFIG.extras.startupMaxAgeMonths+' months old</span>';
 }
 
 // ----- Season programs (§4.11) -----
