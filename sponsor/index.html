@@ -426,6 +426,9 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   .eg-head{ margin-bottom:16px; }
   .eg-head h3{ font-size:21px; }
   .eg-price{ color:var(--primary-dark); font-weight:700; }
+  .rise-2027{ margin-top:10px; font-size:12.5px; line-height:1.45; color:var(--orange-dark);
+              background:#fff3ec; border:1px solid #f6d3c1; border-radius:8px; padding:7px 10px; }
+  .startup-pill{ background:#eef6f1; border-color:#cfe6d8; color:#2b7a55; }
   .eg-soldout{ color:var(--orange-dark); font-weight:600; font-size:0.8em; }
   .eg-meta{ display:block; color:var(--muted); font-size:14px; margin-top:4px; }
   .eg-hint{ display:block; color:var(--muted-2); font-size:13px; font-style:italic; margin-top:2px; }
@@ -883,8 +886,8 @@ const CONFIG = {
   // Flip `available` to true on/after returnDate to re-enable podcast EVERYWHERE
   // (standalone products, season programs, and podcast line items inside bundles).
   podcast: {
-    available: false,
-    returnDate: "2026-11-12",          // displayed as "November 12, 2026"
+    available: true,
+    returnDate: "2026-11-12",          // kept for reference; unused while available
   },
 
   // ---- DISPLAY ----
@@ -892,9 +895,12 @@ const CONFIG = {
 
   // ---- A LA CARTE PRODUCTS (standard/rack pricing) ----
   products: {
-    primaryNewsletter:   { label: "Primary Newsletter Ad",       price: 3500 },
+    // `price` is the 2026 rate and is what every calculation uses. `price2027` is
+    // display only: it renders a "rises to X in 2027" line on the card and never
+    // enters a bundle, deal or discount. Omit it where the rate is not changing.
+    primaryNewsletter:   { label: "Primary Newsletter Ad",       price: 3500, price2027: 3750 },
     secondaryNewsletter: { label: "Secondary Newsletter Ad",     price: 1250 },
-    podcastAd:           { label: "Podcast Ad Slot",             price: 1835, requiresPodcast: true },
+    podcastAd:           { label: "Podcast Ad Slot",             price: 1835, price2027: 1975, requiresPodcast: true },
     podcastRead:         { label: "Podcast Ad Read by Peter",    price: 250,  requiresPodcast: true },
     // LinkedIn is defined for future use but currently NOT sold and NOT in any bundle.
     // Set active:true (and add it to a bundle's components) to bring it back.
@@ -956,6 +962,8 @@ const CONFIG = {
   // ---- EXTRAS / STANDING DISCOUNTS ----
   extras: {
     mixMatchDiscount: 0.15,        // 15% off when mixing/matching 6+ à-la-carte ads
+    startupDiscount: 0.20,         // 20% off any placement, companies under 24 months old
+    startupMaxAgeMonths: 24,
     sixMonthDiscount: 0.10,        // 10% off monthly for a 6-month commitment
     exclusivityAddon: 1000,        // per month
     podcastGuestAppearance: 4000,  // Peter guests on YOUR podcast; waived with Market Domination
@@ -1268,6 +1276,12 @@ function renderAlaCarte(){
 
   const podGated = P.podcastAd.requiresPodcast && !CONFIG.podcast.available;
   const chip = podGated ? '<div style="margin-top:12px;"><span class="chip chip-soldout">Sold out until '+returnDateStr()+'</span></div>' : "";
+  // Display-only 2027 signal. Never enters a calculation; omitted where a rate holds.
+  function rise(prod){
+    return prod.price2027
+      ? '<div class="rise-2027">Rises to '+money(prod.price2027)+' in 2027 &middot; book now at 2026 pricing</div>'
+      : "";
+  }
 
   let html = "";
   // 1. Primary Newsletter Ad
@@ -1275,18 +1289,21 @@ function renderAlaCarte(){
         +   title("Primary","Newsletter Ad")
         +   '<div class="amt">'+money(P.primaryNewsletter.price)+'</div>'
         +   bl(bullets.primary)
+        +   rise(P.primaryNewsletter)
         + '</div>';
   // 2. Secondary Newsletter Ad
   html += '<div class="price-card">'
         +   title("Secondary","Newsletter Ad")
         +   '<div class="amt">'+money(P.secondaryNewsletter.price)+'</div>'
         +   bl(bullets.secondary)
+        +   rise(P.secondaryNewsletter)
         + '</div>';
   // 3. Podcast Ad Slot  (+ Podcast Ad Read add-on pinned to the bottom)
   html += '<div class="price-card">'
         +   title("Podcast","Ad Slot")
         +   '<div class="amt">'+money(P.podcastAd.price)+'</div>'
         +   bl(bullets.podcast)
+        +   rise(P.podcastAd)
         +   chip
         +   '<div class="addon">'
         +     '<div class="addon-tag">Add-on</div>'
@@ -1298,7 +1315,8 @@ function renderAlaCarte(){
 
   // Mix & match — prominent orange pill
   document.getElementById("mixMatchNote").innerHTML =
-    '<span class="mix-pill">Save '+Math.round(CONFIG.extras.mixMatchDiscount*100)+'% when you mix and match 6 or more of any newsletter or podcast ad</span>';
+    '<span class="mix-pill">Save '+Math.round(CONFIG.extras.mixMatchDiscount*100)+'% when you mix and match 6 or more of any newsletter or podcast ad</span>'
+    + '<span class="mix-pill startup-pill">Startup discount: '+Math.round(CONFIG.extras.startupDiscount*100)+'% off any placement for companies under '+CONFIG.extras.startupMaxAgeMonths+' months old</span>';
 }
 
 // ----- Season programs (§4.11) -----
@@ -1331,7 +1349,9 @@ function renderBundles(){
       const note = l.pending ? ' <span class="ret">begins Nov 12</span>' : "";
       return '<li><span class="q">'+l.qty+'×</span><span class="name">'+l.label+'</span>'+note+'</li>';
     }).join("");
-    const rejoin = r.hasPending ? '<div class="rejoin">Podcast placements are included in this price and begin delivering '+returnDateStr()+' (currently sold out).</div>' : "";
+    // This box used to explain the podcast sell-out. It now carries the
+    // 2026-pricing notice and always shows, rather than being conditional.
+    const rejoin = '<div class="rejoin">Reflects 2026 pricing. Rates increase in 2027. Book now to lock in 2026 pricing. Very limited availability remaining for 2026.</div>';
     return '<div class="bundle'+orange+'">'
          +   '<div class="b-top"><h3>'+b.name+'</h3><span class="save">'+r.savingsPct+'% savings</span></div>'
          +   '<div class="price">'+money(r.price)+'<small> /mo</small></div>'
@@ -1402,7 +1422,7 @@ function renderDeals(){
     const unavailable = gated || upcoming.length === 0;
 
     const body = unavailable
-      ? '<p class="deal-note">No discounted slots available right now. No availability until '+d.soonest+'.</p>'
+      ? '<p class="deal-note">No discounted slots open right now. Very limited availability remaining for 2026.</p>'
       : '<div class="deal-dates"><div class="deal-date-label">Open dates</div><ul>'
           + upcoming.map(function(x){ return '<li><span class="dd-date">'+prettyDate(x)+'</span><span class="dd-issue">'+dayName(x)+' issue</span></li>'; }).join("")
           + '</ul></div>';
@@ -1430,8 +1450,9 @@ function renderConsulting(){
 // ----- What-you-can-book podcast tag (§4.8) -----
 function renderBookTag(){
   const t = document.getElementById("podcastBookTag");
-  t.innerHTML = CONFIG.podcast.available ? "" :
-    '<span class="tag tag-warn">Currently sold out, newsletter &amp; bundles available now</span>';
+  t.innerHTML = CONFIG.podcast.available
+    ? '<span class="tag tag-warn">Very limited availability remaining for 2026</span>'
+    : '<span class="tag tag-warn">Currently sold out, newsletter &amp; bundles available now</span>';
 }
 
 // ----- Wire up all contact links from CONFIG -----
