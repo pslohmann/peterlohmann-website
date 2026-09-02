@@ -384,6 +384,18 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   .mix-pill{ display:inline-block; background:var(--orange); color:#fff; font-weight:700;
              font-size:clamp(16px,2vw,20px); line-height:1.35; padding:15px 30px; border-radius:999px;
              box-shadow:0 8px 22px rgba(224,112,60,.28); max-width:100%; }
+  /* The startup offer reads as a secondary tab hanging off the flat bottom edge
+     of the pill above it: square top corners so the two look joined, outlined
+     rather than filled so the pill stays the primary object. */
+  .mix-wrap.has-startup .mix-pill{ border-bottom-left-radius:0; border-bottom-right-radius:0; }
+  .season-2027{ margin-top:4px; font-size:12px; color:var(--muted); font-weight:600; }
+  .startup-tag{ display:block; width:fit-content; max-width:100%; margin:0 auto;
+                background:var(--card); color:var(--orange-dark);
+                border:2px solid var(--orange); border-top:0;
+                border-radius:0 0 12px 12px; padding:11px 26px;
+                font-weight:700; font-size:clamp(13px,1.5vw,15px); line-height:1.4; }
+  .startup-tag small{ display:block; font-weight:600; font-size:.86em; color:var(--muted);
+                      margin-top:2px; }
 
   /* ---------- DISCOUNTS & EXTRAS: three cards ---------- */
   .extra-card .extra-v{ font-size:33px; font-weight:700; color:var(--navy); letter-spacing:-.02em; }
@@ -428,7 +440,6 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   .eg-price{ color:var(--primary-dark); font-weight:700; }
   .rise-2027{ margin-top:10px; font-size:12.5px; line-height:1.45; color:var(--orange-dark);
               background:#fff3ec; border:1px solid #f6d3c1; border-radius:8px; padding:7px 10px; }
-  .startup-pill{ background:#eef6f1; border-color:#cfe6d8; color:#2b7a55; }
   .eg-soldout{ color:var(--orange-dark); font-weight:600; font-size:0.8em; }
   .eg-meta{ display:block; color:var(--muted); font-size:14px; margin-top:4px; }
   .eg-hint{ display:block; color:var(--muted-2); font-size:13px; font-style:italic; margin-top:2px; }
@@ -596,7 +607,6 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <!-- ============================== ABOUT (§4.2) ============================== -->
   <section id="about" class="band" aria-labelledby="about-h">
     <div class="wrap">
-      <span class="kicker reveal">About Peter</span>
       <div class="about-body reveal mt-sm">
         <h2 id="about-h" class="sr-only" style="position:absolute;left:-9999px;">About Peter Lohmann</h2>
         <p class="lead">Peter Lohmann is one of the most trusted and influential voices in property management today.</p>
@@ -610,7 +620,6 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <!-- ============================== WHY PARTNER (§4.3) ============================== -->
   <section class="band wash" aria-labelledby="why-h">
     <div class="wrap">
-      <span class="kicker reveal">Why Partner With Peter</span>
       <h2 id="why-h" class="h-lead reveal">Reach property management decision makers.</h2>
       <div class="grid g4 stagger mt-md">
         <div class="card"><div class="num-badge">1</div><h3>Hyper-Targeted</h3><p>Property management decision makers are our core audience, not a broad, diluted list.</p></div>
@@ -624,8 +633,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <!-- ============================== AUDIENCE (§4.4) ============================== -->
   <section id="audience" class="band" aria-labelledby="aud-h">
     <div class="wrap">
-      <span class="kicker reveal">Our Audience</span>
-      <h2 id="aud-h" class="h-lead reveal">A room full of operators and buyers.</h2>
+      <h2 id="aud-h" class="h-lead reveal">Our audience: a room full of operators and buyers.</h2>
       <p class="sub reveal">A snapshot of who reads, listens, and acts on Peter's work.</p>
       <div class="charts mt-md">
         <div class="card chart-card reveal">
@@ -651,8 +659,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <!-- ============================== ENGAGEMENT (§4.5) ============================== -->
   <section class="band wash" aria-labelledby="eng-h">
     <div class="wrap">
-      <span class="kicker reveal">Engagement</span>
-      <h2 id="eng-h" class="sr-only" style="position:absolute;left:-9999px;">Engagement</h2>
+      <h2 id="eng-h" class="h-lead reveal">Engagement stats.</h2>
       <div class="stat-hero reveal">
         <div class="big countup" data-target="250000" data-suffix="+">0</div>
         <div class="lbl">total monthly impressions across all channels</div>
@@ -671,8 +678,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <!-- ============================== PHILOSOPHY (§4.6) ============================== -->
   <section class="band" aria-labelledby="phil-h">
     <div class="wrap">
-      <span class="kicker reveal">Advertising Philosophy</span>
-      <h2 id="phil-h" class="h-lead reveal">Brand equity, not banner noise.</h2>
+      <h2 id="phil-h" class="h-lead reveal">Advertising philosophy: brand equity, not banner noise.</h2>
       <div class="grid g3 stagger mt-md">
         <div class="card">
           <h3>Build brand equity, not just clicks</h3>
@@ -693,8 +699,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <!-- ============================== PARTNERS (§4.7) ============================== -->
   <section class="band wash" aria-labelledby="part-h">
     <div class="wrap">
-      <span class="kicker reveal">Past &amp; Current Partners</span>
-      <h2 id="part-h" class="h-lead reveal">In good company.</h2>
+      <h2 id="part-h" class="h-lead reveal">Past &amp; current partners.</h2>
       <!-- Rendered from the LOGOS array in the script. Drop image files into /logos to replace the text fallbacks. -->
       <div id="logoGrid" class="logos stagger mt-md"></div>
     </div>
@@ -703,8 +708,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <!-- ============================== WHAT YOU CAN BOOK (§4.8) ============================== -->
   <section id="book" class="band" aria-labelledby="book-h">
     <div class="wrap">
-      <span class="kicker reveal">What You Can Book</span>
-      <h2 id="book-h" class="h-lead reveal">Three ways to show up.</h2>
+      <h2 id="book-h" class="h-lead reveal">Partnership and sponsorship opportunities.</h2>
       <div class="grid g3 stagger mt-md">
         <div class="card book-col">
           <h3>Newsletter</h3>
@@ -743,9 +747,9 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <!-- Placeholders are filled from MEDIA_EXAMPLES in the script. Drop in real screenshots / YouTube IDs there. -->
   <section id="examples" class="band wash" aria-labelledby="fmt-h">
     <div class="wrap">
-      <span class="kicker reveal">Ad Examples</span>
       <h2 id="fmt-h" class="h-lead reveal">See the placements in action.</h2>
       <p class="sub reveal">A few real examples of each format. Sample slots are shown below; live examples drop in here.</p>
+      <p class="sub reveal" style="margin-top:6px;color:var(--orange-dark);font-weight:600;">Pricing increases in 2027 for primary newsletter and podcast placements.</p>
 
       <div class="example-group reveal">
         <div class="eg-head">
@@ -936,7 +940,7 @@ const CONFIG = {
   // ---- SEASON PROGRAMS (podcast-gated) ----
   seasonPrograms: [
     {
-      id: "presenting", name: "Presenting Partner", price: 35000,
+      id: "presenting", name: "Presenting Partner", price2026: 35000, is2027: true,
       valueNote: "$50,000+ value", requiresPodcast: true,
       blurb: "Full-season sponsorship (25 episodes).",
       features: [
@@ -949,7 +953,7 @@ const CONFIG = {
       ],
     },
     {
-      id: "halfseason", name: "Half-Season Sponsorship", price: 16500,
+      id: "halfseason", name: "Half-Season Sponsorship", price2026: 16500, is2027: true,
       valueNote: "$22,000+ value", requiresPodcast: true,
       blurb: "12 episodes.",
       features: [
@@ -1041,6 +1045,17 @@ function computeBundle(bundle){
   const price = roundUpTo(sum * (1 - bundle.discount), CONFIG.bundleRounding);
   const savingsPct = Math.round(bundle.discount * 100);
   return { sum:sum, price:price, savingsPct:savingsPct, hasPending:hasPending, lines:lines };
+}
+
+// Season programs move with the podcast rate rather than carrying their own
+// hardcoded 2027 number, so one edit to podcastAd keeps everything in step.
+function podcastUplift(){
+  const p = CONFIG.products.podcastAd;
+  return p.price2027 ? p.price2027 / p.price : 1;
+}
+function seasonPrice(s){
+  if (!s.is2027) return s.price;
+  return roundUpTo(s.price2026 * podcastUplift(), 50);
 }
 
 // Discount % for an urgent deal.
@@ -1316,7 +1331,9 @@ function renderAlaCarte(){
   // Mix & match — prominent orange pill
   document.getElementById("mixMatchNote").innerHTML =
     '<span class="mix-pill">Save '+Math.round(CONFIG.extras.mixMatchDiscount*100)+'% when you mix and match 6 or more of any newsletter or podcast ad</span>'
-    + '<span class="mix-pill startup-pill">Startup discount: '+Math.round(CONFIG.extras.startupDiscount*100)+'% off any placement for companies under '+CONFIG.extras.startupMaxAgeMonths+' months old</span>';
+    + '<span class="startup-tag">Startup discount: '+Math.round(CONFIG.extras.startupDiscount*100)+'% off any placement'
+    +   '<small>For companies under '+CONFIG.extras.startupMaxAgeMonths+' months old</small></span>';
+  document.getElementById("mixMatchNote").classList.add("has-startup");
 }
 
 // ----- Season programs (§4.11) -----
@@ -1331,8 +1348,9 @@ function renderSeasons(){
     return '<div class="card season-card'+feat+'">'
          +   '<h3>'+s.name+'</h3>'
          +   '<p style="color:var(--muted);font-size:15px;margin:2px 0 8px;">'+s.blurb+'</p>'
-         +   '<div class="amt" style="font-size:34px;font-weight:700;color:var(--navy);letter-spacing:-.02em;">'+money(s.price)+'</div>'
+         +   '<div class="amt" style="font-size:34px;font-weight:700;color:var(--navy);letter-spacing:-.02em;">'+money(seasonPrice(s))+'</div>'
          +   '<div class="value-note">'+s.valueNote+'</div>'
+         +   (s.is2027 ? '<div class="season-2027">Reflects 2027 pricing</div>' : "")
          +   feats
          +   avail
          + '</div>';
@@ -1450,8 +1468,9 @@ function renderConsulting(){
 // ----- What-you-can-book podcast tag (§4.8) -----
 function renderBookTag(){
   const t = document.getElementById("podcastBookTag");
-  t.innerHTML = CONFIG.podcast.available
-    ? '<span class="tag tag-warn">Very limited availability remaining for 2026</span>'
+  // Availability copy deliberately does not run in this section; scarcity is
+  // signalled on the pricing cards and bundles, not here.
+  t.innerHTML = CONFIG.podcast.available ? ""
     : '<span class="tag tag-warn">Currently sold out, newsletter &amp; bundles available now</span>';
 }
 
