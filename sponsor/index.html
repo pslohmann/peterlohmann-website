@@ -231,6 +231,27 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 
   /* ---------- ENGAGEMENT STATS ---------- */
   .stat-hero{ text-align:center; margin-bottom:34px; }
+  /* ---------- SECTION RHYTHM ----------
+     One rule so every section heading gets the same breathing room before its
+     content, instead of each section relying on whatever utility class it
+     happened to carry. Beats .mt-md on specificity, so it governs. A lead
+     paragraph is the exception and stays tucked under its heading. */
+  /* Scoped with .band so it outranks the .mt-md utility, which ties on
+     specificity and would otherwise win on source order. */
+  .band .h-lead + *{ margin-top:34px; }
+  .band .h-lead + .sub{ margin-top:12px; }
+  .sub + .grid, .sub + .charts, .sub + .stats, .sub + .deal-grid{ margin-top:34px; }
+  /* The 2027 note is a second .sub under the examples heading; it belongs with
+     the sentence above it, and the first example group should not sit 58px away. */
+  .sub + .sub{ margin-top:6px; }
+  .sub + .example-group{ margin-top:26px; }
+
+  /* The headline stat had no frame while the six below it did, so it read as
+     loose text rather than the top of the set. */
+  .stat-hero{ background:var(--card); border:1px solid var(--line);
+              border-radius:var(--radius); box-shadow:var(--shadow);
+              padding:26px 22px; margin-bottom:18px; }
+
   .stat-hero .big{ font-size:clamp(46px,9vw,92px); font-weight:700; color:var(--navy); letter-spacing:-.03em; line-height:1;
                    background:linear-gradient(90deg,var(--primary),var(--navy)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
   .stat-hero .lbl{ color:var(--muted); font-size:18px; margin-top:8px; }
@@ -783,8 +804,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <!-- ============================== A LA CARTE PRICING (§4.10) ============================== -->
   <section id="pricing" class="band" aria-labelledby="price-h">
     <div class="wrap">
-      <span class="kicker reveal">À-la-carte Pricing</span>
-      <h2 id="price-h" class="h-lead reveal">Pick exactly what you need.</h2>
+      <h2 id="price-h" class="h-lead reveal">À-la-carte pricing: pick exactly what you need.</h2>
       <div id="alacarte" class="grid g3 stagger mt-md"></div>
       <div id="mixMatchNote" class="mix-wrap"></div>
     </div>
@@ -793,8 +813,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <!-- ============================== SEASON PROGRAMS (§4.11) ============================== -->
   <section class="band wash" aria-labelledby="season-h">
     <div class="wrap">
-      <span class="kicker reveal">Season Partnership Programs</span>
-      <h2 id="season-h" class="h-lead reveal">Own the whole season.</h2>
+      <h2 id="season-h" class="h-lead reveal">Season partnership programs: own the whole season.</h2>
       <div id="seasons" class="grid g2 stagger mt-md"></div>
     </div>
   </section>
@@ -802,8 +821,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <!-- ============================== MULTI-CHANNEL BUNDLES (§4.12) ============================== -->
   <section id="bundles" class="band" aria-labelledby="bund-h">
     <div class="wrap">
-      <span class="kicker reveal">Multi-Channel Bundles</span>
-      <h2 id="bund-h" class="h-lead reveal">More channels, better economics.</h2>
+      <h2 id="bund-h" class="h-lead reveal">Bundle, commit, and save.</h2>
       <p class="sub reveal">Prices and savings are calculated live from the line items, so they never drift.</p>
       <div id="bundleCards" class="grid g2 stagger mt-md"></div>
       <div class="mt-lg">
@@ -818,7 +836,6 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <!-- ============================== URGENT DEALS (§4.13) ============================== -->
   <section id="deals" class="band deals-band" aria-labelledby="deals-h">
     <div class="wrap">
-      <span class="kicker reveal" style="background:#fbe1d3;color:var(--orange-dark);">Urgent Deals</span>
       <h2 id="deals-h" class="h-lead reveal">Discounted, soon-to-air slots.</h2>
       <p class="sub reveal">Open inventory at a discount. First to email locks it in.</p>
       <div id="dealsBoard" class="grid g3 stagger mt-md"></div>
@@ -828,8 +845,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <!-- ============================== CONSULTING (§4.14) ============================== -->
   <section class="band" aria-labelledby="consult-h">
     <div class="wrap">
-      <span class="kicker reveal">Consulting &amp; Coaching</span>
-      <h2 id="consult-h" class="h-lead reveal">Strategic insights from a proven operator.</h2>
+      <h2 id="consult-h" class="h-lead reveal">Consulting and coaching.</h2>
       <p class="consult-lead reveal mt-sm">From executive coaching to tactical deep dives. Peter helps you find clarity, build momentum, and leave with practical next steps.</p>
       <div id="consulting" class="grid g3 stagger mt-md"></div>
     </div>
