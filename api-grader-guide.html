@@ -125,10 +125,13 @@
              color:var(--muted); font-weight:600; text-decoration:none; }
   .vid-link:hover{ color:var(--primary); text-decoration:underline; }
 
-  /* This panel sits on a .band.wash section, and .panel's default wash-soft fill
-     is almost the same colour, so the box dissolved into the background. White
-     plus the card shadow lifts it off the section. */
-  .panel.download-panel{ background:var(--card); box-shadow:var(--shadow); }
+  /* RULE: bordered content must never sit on the same background as the band
+     around it, or the outline reads as a stray box instead of a card. .panel and
+     .card default to the wash fill, which is right on a white band and invisible
+     on a wash one, so on a wash band they flip to the white card fill. Written as
+     a rule rather than a one-off so anything bordered added later inherits it. */
+  .band.wash .panel,
+  .band.wash .card{ background:var(--card); box-shadow:var(--shadow); }
   /* Hero thumbnail. A link, not a button, so it degrades to YouTube. */
   .vid-open{ position:relative; display:block; aspect-ratio:16/9; overflow:hidden;
              border-radius:var(--radius); box-shadow:var(--shadow-lg);
@@ -289,7 +292,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           </ul>
         </div>
         <div>
-          <div class="panel download-panel" style="text-align:center;">
+          <div class="panel" style="text-align:center;">
             <h3 style="margin:0 0 8px;font-size:21px;">PM API Grader</h3>
             <p class="sub" style="margin-bottom:20px;">The same prompt we run against every platform.</p>
             <!-- SWAP: grader-file - when a new methodology version ships, drop the file in
