@@ -11,7 +11,7 @@ SITE = "https://www.peterlohmann.com"
 
 # Pages that should not be indexed / listed.
 EXCLUDE = {
-    "index-bely.html", "index-bodoni.html", "index-sample.html",  # old mockups
+    "index-bely.html", "index-bodoni.html", "index-sample.html",  # old font mockups, now redirects to /
     "404.html",
     "largest-pm-companies-coming-soon.html",                       # pre-launch teaser (swap-in only)
     "store.html", "pm-trends-report.html", "about.html", "blog-index.html",              # legacy-URL redirect stubs
