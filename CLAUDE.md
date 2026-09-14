@@ -96,6 +96,18 @@ functional breaks. These are marked in each page.
   `cd <project> && old=2 new=3; for f in *.html blog/*.html build-largest-list.py; do sed -i '' "s/?v=$old/?v=$new/g" "$f"; done && python3 build-largest-list.py`
   then commit + push. (Current version: v=2.)
 
+## Social share images for blog posts (IMPORTANT for new posts)
+- Every blog post shares with `images/blog/<slug>--og.jpg` (1200x630 JPG), not its WebP cover.
+  LinkedIn needs roughly 1.91:1 and handles WebP unreliably, and covers come in every shape.
+- AFTER WRITING OR COPYING A NEW POST, run: `python3 make-og-share-images.py <slug>`
+  It builds the JPG from whatever og:image the post points at (usually the cover), then
+  repoints og:image and adds og:image:width/height. Near-widescreen images are lightly
+  cropped; everything else is placed whole on a blurred copy of itself, so nothing is cut.
+- The original source image per post is remembered in `data/og-share-sources.json`, so
+  re-running the script is always safe. To change a post's share image, set that post's
+  entry in the JSON to the new image and re-run.
+- Test a share with LinkedIn Post Inspector: https://www.linkedin.com/post-inspector/
+
 ## Writing rules
 - **No em dashes or en dashes** anywhere (Andrew's standing rule). Use commas, parentheses,
   hyphens, colons, or a sentence split instead.
