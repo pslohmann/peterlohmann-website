@@ -14,3 +14,7 @@ __pycache__/
 # These contain operator details: org names, tenant ids, key labels.
 # Both repos are public, so this folder must stay out of git.
 grader-reports/
+
+# Local-only archive of source code that must not be published on the live site.
+# The 2025 M&A report's Lovable source lives here; the built report is served from report/.
+_archive/
