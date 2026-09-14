@@ -16,7 +16,8 @@ EXCLUDE = {
     "largest-pm-companies-coming-soon.html",                       # pre-launch teaser (swap-in only)
     "store.html", "pm-trends-report.html", "about.html", "blog-index.html",              # legacy-URL redirect stubs
     "newsletter-tues-opt-out.html", "crane-promo-opt-out.html", "subscribed.html",  # noindex utility pages
-    "api-grader-guide.html",                                       # hidden tester guide; URL shared directly, must stay unlisted
+    "api-grader-guide.html",
+    "terms.html",                                                  # DRAFT awaiting Peter; remove from this list at launch                                       # hidden tester guide; URL shared directly, must stay unlisted
 }
 # blog/ redirect stubs to skip (old slug -> refreshed post)
 BLOG_EXCLUDE = {"how-to-design-processes-people-actually-use.html"}
