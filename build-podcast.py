@@ -14,7 +14,7 @@ from site_common import finalize
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "podcast.html")
-ASSET_V = "24"   # keep in sync with the site's ?v= cache version
+ASSET_V = "27"   # keep in sync with the site's ?v= cache version
 
 # Google Analytics (GA4) — injected right before </head> on every generated page.
 GA4 = ('<!-- Google Analytics (GA4) -->\n'
@@ -211,7 +211,8 @@ def build():
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
-<link rel="apple-touch-icon" href="favicon.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="styles.css?v={ASSET_V}" />

@@ -95,7 +95,11 @@ functional breaks. These are marked in each page.
   (otherwise visitors see a stale cached stylesheet for up to 10 min). One-liner:
   `cd <project> && old=2 new=3; for f in *.html blog/*.html build-largest-list.py; do sed -i '' "s/?v=$old/?v=$new/g" "$f"; done && python3 build-largest-list.py`
   then commit + push. styles.css and site.js share ONE version number on every page and in
-  build-largest-list.py; keep them in step. (Current version: v=27, set 2026-09-14.)
+  build-largest-list.py, and in the ASSET_V constant at the top of build-podcast.py; keep them
+  all in step. (Current version: v=27, set 2026-09-14.)
+- Icons: favicon.svg + favicon-32.png (tabs), favicon.ico (root, auto-requested),
+  apple-touch-icon.png (iOS), icon-192/512.png via site.webmanifest (Android). Regenerate all
+  from `python3 make-icons.py` if the mark ever changes.
 
 ## Social share images for blog posts (IMPORTANT for new posts)
 - Every blog post shares with `images/blog/<slug>--og.jpg` (1200x630 JPG), not its WebP cover.
