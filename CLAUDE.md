@@ -94,7 +94,8 @@ functional breaks. These are marked in each page.
   site.js, BUMP the number `N` everywhere so browsers fetch the new file immediately
   (otherwise visitors see a stale cached stylesheet for up to 10 min). One-liner:
   `cd <project> && old=2 new=3; for f in *.html blog/*.html build-largest-list.py; do sed -i '' "s/?v=$old/?v=$new/g" "$f"; done && python3 build-largest-list.py`
-  then commit + push. (Current version: v=2.)
+  then commit + push. styles.css and site.js share ONE version number on every page and in
+  build-largest-list.py; keep them in step. (Current version: v=27, set 2026-09-14.)
 
 ## Social share images for blog posts (IMPORTANT for new posts)
 - Every blog post shares with `images/blog/<slug>--og.jpg` (1200x630 JPG), not its WebP cover.
