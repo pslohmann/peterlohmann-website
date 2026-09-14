@@ -18,3 +18,6 @@ grader-reports/
 # Local-only archive of source code that must not be published on the live site.
 # The 2025 M&A report's Lovable source lives here; the built report is served from report/.
 _archive/
+
+# Local-only drafts awaiting Peter's approval (for example legal pages). Never published.
+_drafts/
