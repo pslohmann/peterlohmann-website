@@ -112,6 +112,10 @@ functional breaks. These are marked in each page.
   re-running the script is always safe. To change a post's share image, set that post's
   entry in the JSON to the new image and re-run.
 - Test a share with LinkedIn Post Inspector: https://www.linkedin.com/post-inspector/
+- ALSO run `python3 make-blog-thumbs.py <slug>` for a new post. blog.html cards load a small
+  800x450 `--thumb.webp` instead of the full cover (cut the list page's card images from
+  10.4 MB to 4.1 MB). publish-scheduled.py uses the thumbnail when it demotes the featured
+  post to a card, and falls back to the full image if the thumbnail is missing.
 
 ## Writing rules
 - **No em dashes or en dashes** anywhere (Andrew's standing rule). Use commas, parentheses,

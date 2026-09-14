@@ -98,9 +98,17 @@ def publish(entry, idx_html):
     if not m:
         fail("could not find the featured-post block on blog.html; blog.html was not changed.")
 
+    # A card only needs the small 800px thumbnail (made by make-blog-thumbs.py). Use it when it
+    # exists; otherwise fall back to the featured image so publishing never breaks.
+    card_img = m.group("img")
+    demoted_slug = m.group("href").rstrip("/").rsplit("/", 1)[-1]
+    thumb_rel = f"images/blog/{demoted_slug}--thumb.webp"
+    if os.path.exists(os.path.join(HERE, thumb_rel)):
+        card_img = thumb_rel
+
     demoted = (
         f'        <a class="post-card" href="{m.group("href")}">\n'
-        f'          <div class="ph-img"><img src="{m.group("img")}" alt="" loading="lazy"></div>\n'
+        f'          <div class="ph-img"><img src="{card_img}" alt="" loading="lazy"></div>\n'
         f'          <div class="pc-body"><div class="date">{m.group("date")}</div>'
         f'<h3>{m.group("title")}</h3><p>{m.group("desc")}</p>'
         f'<span class="arrow">Read &rarr;</span></div>\n'
