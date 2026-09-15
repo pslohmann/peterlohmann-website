@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Regenerates podcast.html from live sources (re-runnable):
-  - YouTube playlist RSS  -> newest episode (hero) + the next 9 (cards), with video embeds
+  - YouTube RSS (the podcast channel + the original playlist) -> newest episode (hero)
+    + the next 9 (cards), with video embeds
   - iTunes lookup API     -> per-episode Apple Podcasts links (matched by title)
   Spotify links point to the show (per-episode needs their API).
 
@@ -23,6 +24,7 @@ GA4 = ('<!-- Google Analytics (GA4) -->\n'
        "gtag('js',new Date());gtag('config','G-DRCVXMNK1D');</script>")
 
 YT_PLAYLIST = "PLQihvuykg8UaJqy5CnF2Fok8MDdoNuZ66"
+YT_PODCAST_CHANNEL = "UCITYGVYEWOdxrEpkFp7k8ag"   # @PeterLohmannsPodcast, where full episodes publish since Sep 2026
 ITUNES_ID = "1554806227"
 APPLE_SHOW = "https://podcasts.apple.com/us/podcast/peter-lohmanns-podcast/id1554806227"
 SPOTIFY_SHOW = "https://open.spotify.com/show/5BLsN2TwI8mDtIhGoKfnZV?si=be32f2f710c84d67"
@@ -66,19 +68,41 @@ def clean_title(t):
     t = re.split(r"\s*\|\s*", t)[0]                    # drop any trailing "| ..."
     return t.strip()
 
-def fetch_youtube():
-    xml = get(f"https://www.youtube.com/feeds/videos.xml?playlist_id={YT_PLAYLIST}")
-    entries = re.findall(r"<entry>(.*?)</entry>", xml, re.S)
+def _feed_entries(url):
+    xml = get(url)
     eps = []
-    for e in entries:
-        vid = (re.search(r"<yt:videoId>([^<]+)</yt:videoId>", e) or [None, None])
+    for e in re.findall(r"<entry>(.*?)</entry>", xml, re.S):
         vid = re.search(r"<yt:videoId>([^<]+)</yt:videoId>", e)
-        title = re.search(r"<media:title>([^<]+)</media:title>", e) or re.search(r"<title>([^<]+)</title>", e)
-        pub = re.search(r"<published>([^<]+)</published>", e)
         if not vid:
             continue
+        link = re.search(r'<link rel="alternate" href="([^"]+)"', e)
+        if link and "/shorts/" in link.group(1):      # skip Shorts clips; keep full episodes
+            continue
+        title = re.search(r"<media:title>([^<]+)</media:title>", e) or re.search(r"<title>([^<]+)</title>", e)
+        pub = re.search(r"<published>([^<]+)</published>", e)
         eps.append({"id": vid.group(1), "title": clean_title(title.group(1) if title else ""),
                     "date": pub.group(1)[:10] if pub else ""})
+    return eps
+
+def fetch_youtube():
+    """Full episodes, newest first.
+
+    Since Sep 2026 the show publishes on its own channel (@PeterLohmannsPodcast); older
+    episodes live in the original playlist on Peter's main channel. Both RSS feeds are read,
+    merged, de-duplicated by video id and sorted by publish date, so new episodes appear
+    automatically while the older ones still fill out the list."""
+    eps, seen = [], set()
+    for url in (f"https://www.youtube.com/feeds/videos.xml?channel_id={YT_PODCAST_CHANNEL}",
+                f"https://www.youtube.com/feeds/videos.xml?playlist_id={YT_PLAYLIST}"):
+        try:
+            entries = _feed_entries(url)
+        except Exception as ex:
+            print(f"  ! could not read {url}: {ex}")
+            continue
+        for ep in entries:
+            if ep["id"] not in seen:
+                seen.add(ep["id"]); eps.append(ep)
+    eps.sort(key=lambda e: e["date"], reverse=True)
     return eps
 
 def fetch_apple():
