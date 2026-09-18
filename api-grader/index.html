@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v=28" />
-<link rel="stylesheet" href="/api-grader/report.css?v=6" />
+<link rel="stylesheet" href="/api-grader/report.css?v=7" />
 <style>
   /* Letter-grade chip. Colour tracks the band, so the table scans at a glance. */
   .grade{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
@@ -76,12 +76,20 @@
      from the same RESULTS, in the same order, so they can never disagree. The
      shared stylesheet already hides .table-scroll below 760px. */
   .tbl-hint{ display:none; }
-  /* .pill-row.x, not .x: the plain .pill-row rule further down would otherwise win. */
+  /* .pill-row.x, not .x: the plain .pill-row rule further down would otherwise win.
+     1019px, not the site's usual 760px: below about 1020px the eight table columns
+     no longer fit and their headings get cut off, so tablets and narrow laptop
+     windows get the cards too (two across when there is room). */
   .mcards, .pill-row.pills-mob{ display:none; }
-  @media (max-width:760px){
+  @media (max-width:1019px){
+    #results .table-scroll{ display:none; }
     .pill-row.pills-desk{ display:none; }
     .pill-row.pills-mob{ display:flex; }
     .mcards{ display:grid; grid-template-columns:minmax(0,1fr); gap:12px; }
+  }
+  @media (min-width:620px) and (max-width:1019px){
+    .mcards{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .mcards > .mc-grp, .mcards > .mc-add{ grid-column:1 / -1; }
   }
   @media (max-width:360px){ .mc-lab{ display:none; } .mc-head{ flex-wrap:wrap; } }
   .mc-grp{ display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 10px;
