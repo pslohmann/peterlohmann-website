@@ -977,13 +977,14 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 <div class="vlight" id="vidLight" aria-hidden="true">
   <button class="vlight-close" id="vidClose" aria-label="Close video">&times;</button>
   <div class="vlight-frame" role="dialog" aria-modal="true" aria-label="The PM API Report Card intro">
-    <!-- cc_load_policy=0 asks YouTube not to turn captions on. YouTube documents
-         this as following the viewer's own preference rather than forcing them
-         off, so a viewer who has captions switched on globally may still see
-         them. The video is burned-in captioned, so the durable fix is removing
-         the auto-generated caption track in YouTube Studio. -->
+    <!-- cc_load_policy=0 asks YouTube not to turn captions on, but YouTube treats it
+         as a hint: a viewer who switched captions on before still gets them. So the
+         script below also tells the player to unload its captions once it starts
+         (enablejsapi=1 lets the page send it that command). The video has captions
+         burned in, so the durable fix is unpublishing the auto-generated caption
+         track in YouTube Studio, which also covers phones (they open YouTube itself). -->
     <iframe id="vidFrame"
-            data-src="https://www.youtube.com/embed/Go39ZQyuyjo?rel=0&amp;autoplay=1&amp;cc_load_policy=0"
+            data-src="https://www.youtube.com/embed/Go39ZQyuyjo?rel=0&amp;autoplay=1&amp;cc_load_policy=0&amp;enablejsapi=1"
             title="The PM API Report Card intro"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -1003,12 +1004,30 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         close = document.getElementById('vidClose');
     if (!light || !frame) return;                // markup absent: link still works
     e.preventDefault();
-    if (frame.dataset.src && frame.src !== frame.dataset.src) frame.src = frame.dataset.src;
+    if (frame.dataset.src && frame.src !== frame.dataset.src) {
+      frame.addEventListener('load', captionsOff, { once: true });
+      frame.src = frame.dataset.src;
+    }
     light.classList.add('open');
     light.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     if (close) close.focus();
   });
+
+  /* The captions module loads a moment after playback starts, so the "off" command
+     is repeated for the first several seconds rather than sent once. */
+  function captionsOff() {
+    var frame = document.getElementById('vidFrame'), n = 0;
+    var send = function (msg) {
+      if (frame && frame.contentWindow) frame.contentWindow.postMessage(JSON.stringify(msg), '*');
+    };
+    send({ event: 'listening', id: 'vidFrame' });
+    var t = setInterval(function () {
+      if (!frame || !frame.getAttribute('src') || ++n > 20) return clearInterval(t);
+      send({ event: 'command', func: 'unloadModule', args: ['captions'] });
+      send({ event: 'command', func: 'unloadModule', args: ['cc'] });
+    }, 500);
+  }
 
   function shut() {
     var light = document.getElementById('vidLight'),
