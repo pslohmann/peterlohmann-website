@@ -8,7 +8,7 @@ links as OK if the .html file exists (GitHub Pages serves both).
 import glob, re, os
 
 ROOT = os.getcwd()
-files = glob.glob("*.html") + glob.glob("blog/*.html") + glob.glob("report/index.html")
+files = glob.glob("*.html") + glob.glob("blog/*.html") + glob.glob("report/index.html") + glob.glob("api-grader/*.html")
 
 def resolve(src_file, ref):
     ref = ref.split('#')[0].split('?')[0].strip()

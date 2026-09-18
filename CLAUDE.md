@@ -19,6 +19,12 @@ anywhere (Squarespace embed, GitHub Pages, Netlify, etc.).
 7. `peterbot.html` ......... PeterBot
 8. `products.html` ......... Products
 9. `contact.html` .......... Contact
+10. `api-grader/` .......... The PM API Report Card (index + one page per platform)
+
+MENU (since 2026-09-18): About is NOT in the top menu (the "Peter Lohmann" logo is the home link);
+API Grader sits between Largest PM Companies and Blog. The footer keeps About and also lists API Grader.
+The menu is written into every page and into the templates in build-blog.py, build-podcast.py,
+build-largest-list.py (NAV_LINKS / FOOT_LINKS) and build-api-grader.py, so a menu change touches all of them.
 
 ## How it's structured (plain English)
 - **`styles.css`** — ONE shared stylesheet for the whole site. Change a color, font, or
@@ -86,6 +92,27 @@ anywhere (Squarespace embed, GitHub Pages, Netlify, etc.).
   misformatted, copy-edit it — add the city to CITY_STATE if unambiguous, else add a LOCATION_FIXES entry.
 - PeterBot: Delphi widget (scripts inside the embed section; Delphi injects #delphi-container there)
 
+## PM API Report Card (/api-grader/), launched 2026-09-18
+Moved here from the preview repo (andrewmswensen-hue/plm-api-grader-preview), which now only redirects.
+DELICATE AREA: make no edits to the grader pages, scores, copy or the methodology file unless Andrew asks.
+- `api-grader/index.html` .... main page. Hand-maintained EXCEPT the blocks between START/END markers
+  (results table, pills, banner, corrections note, rerun copy, and the SEO block in <head>).
+- `api-grader/<slug>.html` ... one page per platform, GENERATED. Graded platforms are indexable and in the
+  sitemap; not-yet-graded platforms carry noindex (thin placeholders) until their report lands.
+- `api-grader/reports/*.md` .. the published (redacted) reports each page offers for download.
+- `api-grader/report.css` .... grader-only styles. `/files/pm-api-report-card-methodology.md` = the grading file.
+- `images/api-grader/og-*.png` 1200x630 share cards (one per graded platform + og-api-grader.png), generated.
+- `data/api-grader-checks.json` per-check detail extracted from the published reports.
+- Local, gitignored: `grader-reports/reports/` (raw archived reports) and `grader-reports/runs/`.
+TO PUBLISH A NEW OR UPDATED REPORT CARD:
+  1. archive the report as grader-reports/reports/<slug>-<date>.md and point SOURCES at it in
+     publish-api-grader-reports.py (plus any REDACT / CORRECTIONS entries)
+  2. `python3 publish-api-grader-reports.py && python3 extract-api-grader-checks.py`
+  3. add/replace the RESULTS entry in build-api-grader.py, then `python3 build-api-grader.py`
+     (it checks the math, rebuilds every page, the SEO tags/JSON-LD and the share cards)
+  4. `python3 build-sitemap.py && python3 qa-check.py`, then commit + push.
+Company names live in CATEGORIES in build-api-grader.py (Lula removed 2026-09-18: no API).
+
 ## Interactive features
 Per Andrew's decision, buttons for PeterBot chat, Products checkout, the M&A Report purchase,
 and individual blog posts **link out to the existing live peterlohmann.com pages** so nothing
@@ -95,10 +122,11 @@ functional breaks. These are marked in each page.
 - Every page links `styles.css?v=N` and `site.js?v=N`. When you change styles.css or
   site.js, BUMP the number `N` everywhere so browsers fetch the new file immediately
   (otherwise visitors see a stale cached stylesheet for up to 10 min). One-liner:
-  `cd <project> && old=2 new=3; for f in *.html blog/*.html build-largest-list.py; do sed -i '' "s/?v=$old/?v=$new/g" "$f"; done && python3 build-largest-list.py`
+  `cd <project> && old=2 new=3; for f in *.html blog/*.html report/index.html api-grader/*.html build-largest-list.py; do sed -i '' "s/?v=$old/?v=$new/g" "$f"; done`
+  (do NOT rerun build-largest-list.py just for this: it pulls live JotForm data and the 2026 list is final)
   then commit + push. styles.css and site.js share ONE version number on every page and in
-  build-largest-list.py, and in the ASSET_V constant at the top of build-podcast.py; keep them
-  all in step. (Current version: v=27, set 2026-09-14.)
+  build-largest-list.py, and in the ASSET_V constants at the top of build-podcast.py, build-blog.py and
+  build-api-grader.py; keep them all in step. (Current version: v=28, set 2026-09-18.)
 - Icons: favicon.svg + favicon-32.png (tabs), favicon.ico (root, auto-requested),
   apple-touch-icon.png (iOS), icon-192/512.png via site.webmanifest (Android). Regenerate all
   from `python3 make-icons.py` if the mark ever changes.

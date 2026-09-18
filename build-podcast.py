@@ -15,7 +15,7 @@ from site_common import finalize
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "podcast.html")
-ASSET_V = "27"   # keep in sync with the site's ?v= cache version
+ASSET_V = "28"   # keep in sync with the site's ?v= cache version
 
 # Google Analytics (GA4) — injected right before </head> on every generated page.
 GA4 = ('<!-- Google Analytics (GA4) -->\n'
@@ -248,10 +248,10 @@ def build():
     <a class="brand" href="index.html">Peter <span>Lohmann</span></a>
     <button class="nav-toggle" aria-expanded="false" aria-controls="navlinks">Menu</button>
     <div class="links" id="navlinks">
-      <a href="index.html">About</a>
       <a href="newsletter.html">Newsletter</a>
       <a href="podcast.html" class="active">Podcast</a>
       <a href="largest-pm-companies.html">Largest PM Companies</a>
+      <a href="api-grader/index.html">API Grader</a>
       <a href="blog.html">Blog</a>
       <a href="report/index.html">M&amp;A Report</a>
       <a href="peterbot.html">PeterBot</a>
@@ -361,6 +361,7 @@ def build():
         <a href="newsletter.html">Newsletter</a>
         <a href="podcast.html">Podcast</a>
         <a href="largest-pm-companies.html">Largest PM Companies</a>
+        <a href="api-grader/index.html">API Grader</a>
         <a href="blog.html">Blog</a>
         <a href="report/index.html">M&amp;A Report</a>
         <a href="peterbot.html">PeterBot</a>

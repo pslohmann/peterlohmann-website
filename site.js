@@ -40,12 +40,13 @@
 
   /* ---- 3. Sticky newsletter bar (phones only; CSS hides it on wider screens) ----
      Skipped on hidden utility pages (noindex), on PeterBot (its chat box types at the
-     bottom of the screen) and on the M&A Report checkout page (its own buy buttons).
+     bottom of the screen), on the M&A Report checkout page (its own buy buttons) and on
+     the API Report Card (its sponsor pill and back-to-top button sit at the bottom).
      Appears once the reader scrolls past the first screen, steps aside while the
      subscribe box itself is visible, and stays closed for the visit once dismissed. */
   (function () {
     var path = location.pathname.replace(/index\.html$/, "").replace(/\.html$/, "");
-    var skip = ["/peterbot", "/report/"];
+    var skip = ["/peterbot", "/report/", "/api-grader/"];
     var robots = document.querySelector('meta[name="robots"]');
     if (skip.indexOf(path) !== -1) return;
     if (robots && /noindex/i.test(robots.getAttribute("content") || "")) return;

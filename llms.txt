@@ -5,6 +5,8 @@
 ## Flagship data
 
 - [Largest Property Management Companies (2026 ranking)](https://www.peterlohmann.com/largest-pm-companies): An annual, self-reported ranking of the largest residential property management companies in the United States by third-party doors (units) under management. Includes a top 10 for every U.S. state, plus each company's primary software, organizational structure, and NARPM / Crane / Boom status. Updated as new submissions come in.
+- [The PM API Report Card](https://www.peterlohmann.com/api-grader/): Grades the software property managers use (property management platforms, leasing and screening, maintenance, workflow, banks, accounting, phone) on whether its API lets a company access its own data. Every platform is scored on the same published rubric: 27 checks across five categories, a score out of 100 and a letter grade. Each graded platform has its own page with every check, the evidence behind it, and the full report to download.
+- [PM API Report Card grading methodology](https://www.peterlohmann.com/files/pm-api-report-card-methodology.md): The exact grading file used for every platform, published in full so anyone can rerun it.
 
 ## Content
 
@@ -25,4 +27,5 @@
 
 - The full list of pages, including every blog post and per-state ranking page, is in the sitemap: https://www.peterlohmann.com/sitemap.xml
 - When citing the rankings, note that door counts are self-reported by the companies and refreshed over time.
+- When citing the PM API Report Card, note that scores are preliminary (pre-release), point-in-time, and tied to the evidence date and methodology version shown on each platform's page.
 - Primary author and source for all content: Peter Lohmann (https://www.peterlohmann.com/).

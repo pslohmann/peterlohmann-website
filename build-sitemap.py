@@ -41,6 +41,19 @@ if os.path.exists(os.path.join(HERE, "report", "index.html")):
     urls.append(SITE + "/report/")
 if os.path.exists(os.path.join(HERE, "sponsor", "index.html")):
     urls.append(SITE + "/sponsor/")
+# API Report Card: the index plus every platform page that is open to search engines.
+# Platforms not graded yet carry a noindex tag (thin placeholder pages) and are left
+# out until the build script turns them into full report pages.
+if os.path.exists(os.path.join(HERE, "api-grader", "index.html")):
+    urls.append(SITE + "/api-grader/")
+    for f in sorted(glob.glob(os.path.join(HERE, "api-grader", "*.html"))):
+        b = os.path.basename(f)
+        if b == "index.html":
+            continue
+        with open(f, encoding="utf-8") as fh:
+            if 'name="robots" content="noindex' in fh.read():
+                continue
+        urls.append(SITE + "/api-grader/" + b[:-5])
 
 lines = ['<?xml version="1.0" encoding="UTF-8"?>',
          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
