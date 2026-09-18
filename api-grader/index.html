@@ -1014,19 +1014,36 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     if (close) close.focus();
   });
 
-  /* The captions module loads a moment after playback starts, so the "off" command
-     is repeated for the first several seconds rather than sent once. */
+  /* Captions off. YouTube has no embed setting that forces captions off (only one
+     that forces them on), and it remembers a viewer who once switched them on. So
+     the page uses YouTube's own player API: whenever the player loads its captions,
+     the page unloads them again. If the API script cannot load, the video still
+     plays normally; only this extra step is skipped. */
+  var ytPlayer = null;
+  function withYT(cb) {
+    if (window.YT && YT.Player) return cb();
+    var prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function () { if (prev) prev(); cb(); };
+    if (!document.getElementById('ytApi')) {
+      var sc = document.createElement('script');
+      sc.id = 'ytApi'; sc.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(sc);
+    }
+  }
+  function killCaptions() {
+    if (!ytPlayer) return;
+    try { ytPlayer.setOption('captions', 'track', {}); } catch (e) {}
+    try { ytPlayer.unloadModule('captions'); } catch (e) {}
+    try { ytPlayer.unloadModule('cc'); } catch (e) {}
+  }
   function captionsOff() {
-    var frame = document.getElementById('vidFrame'), n = 0;
-    var send = function (msg) {
-      if (frame && frame.contentWindow) frame.contentWindow.postMessage(JSON.stringify(msg), '*');
-    };
-    send({ event: 'listening', id: 'vidFrame' });
-    var t = setInterval(function () {
-      if (!frame || !frame.getAttribute('src') || ++n > 20) return clearInterval(t);
-      send({ event: 'command', func: 'unloadModule', args: ['captions'] });
-      send({ event: 'command', func: 'unloadModule', args: ['cc'] });
-    }, 500);
+    withYT(function () {
+      ytPlayer = new YT.Player('vidFrame', { events: {
+        onReady: killCaptions,
+        onApiChange: killCaptions,                 // fires when the captions module loads
+        onStateChange: function (e) { if (e.data === 1) killCaptions(); }   // 1 = playing
+      } });
+    });
   }
 
   function shut() {
