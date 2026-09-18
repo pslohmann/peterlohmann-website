@@ -1,0 +1,55 @@
+name: Homepage announcement (API Report Card, Tue Sep 22, 4am ET)
+
+# ONE-TIME job, approved by Andrew on 2026-09-18. At 4:00am Eastern on Tuesday
+# 2026-09-22 it swaps the orange "NEW" bar on the homepage from the Top 40 list to
+# the PM API Report Card (swap-announcement.py).
+#
+# GitHub's scheduler often fires late, so it gets a chance every 20 minutes from
+# 4:00am ET onward; the first run at or after 4:00am makes the change and every
+# later run finds nothing to do. Cron is UTC: 08:00 UTC is 4:00am EDT.
+#
+# To make the change right now instead: Actions tab -> this workflow -> "Run workflow".
+# Delete this file and swap-announcement.py once the bar has changed.
+
+on:
+  schedule:
+    - cron: '0,20,40 8,9,10,11,12 22 9 *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: announce-api-grader
+  cancel-in-progress: false
+
+jobs:
+  swap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Swap the announcement bar (if it is time)
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python3 swap-announcement.py --now
+          else
+            python3 swap-announcement.py
+          fi
+      - name: Commit, push and rebuild the site
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name  "Site Publish Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+          else
+            git commit -m "Homepage announcement bar: the PM API Report Card"
+            git push
+            gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "Pages will rebuild from the push."
+          fi
