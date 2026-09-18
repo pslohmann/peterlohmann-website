@@ -2603,10 +2603,13 @@ def fmt_pts(v):
     return str(int(v)) if float(v) == int(v) else str(v)
 
 
-def build_pills():
-    out = ['<div class="pill-row" aria-label="Jump to a category">']
+def build_pills(prefix="cat", extra=" pills-desk"):
+    """Category jump pills. Built twice: one row targets the desktop table's group
+    rows (#cat-...), the other the phone cards' group headings (#mcat-...). Only
+    one row is visible at a time, so each always jumps to something on screen."""
+    out = [f'<div class="pill-row{extra}" aria-label="Jump to a category">']
     for s, _, _ in CATEGORIES:
-        out.append(f'<a class="jump-pill" href="#cat-{s}">{PILL_LABELS[s]}</a>')
+        out.append(f'<a class="jump-pill" href="#{prefix}-{s}">{PILL_LABELS[s]}</a>')
     out.append("</div>")
     return "\n        ".join(out)
 
@@ -2706,6 +2709,63 @@ def build_rows():
             f'<span>&rarr;</span></a></td></tr>'
         )
     return "\n            ".join(rows)
+
+
+def build_cards():
+    """The same results as build_rows(), laid out as one card per platform for
+    phones (the table is hidden below 760px). Built from the same RESULTS in the
+    same order, so the two views can never disagree."""
+    maxes = [m for _, m in CAT_LABELS]
+    out = ['<div class="mcards" aria-label="Results by category">']
+    for s, heading, companies in CATEGORIES:
+        companies = order_by_grade(companies)
+        out.append(f'<h3 class="mc-grp" id="mcat-{s}">{heading}'
+                   f'<span class="grp-n">{len(companies)} listed</span></h3>')
+        for co in companies:
+            r = RESULTS.get(co)
+            if co in NO_API:
+                out.append(f'<div class="mcard is-muted"><div class="mc-head">'
+                           f'<span class="mc-name">{co}</span></div>'
+                           f'<p class="mc-note">No API available</p></div>')
+                continue
+            if co in LOOKING:
+                out.append(f'<a class="mcard is-muted" href="{GUIDE_URL}"><div class="mc-head">'
+                           f'<span class="mc-name">{co}</span>'
+                           f'<span class="pend-tag look"><i></i>Looking for a customer</span></div>'
+                           f'<span class="mc-link">Are you a {co} customer? Click here to grade &rarr;</span></a>')
+                continue
+            if not r:
+                out.append(f'<a class="mcard is-muted" href="{slug(co)}.html"><div class="mc-head">'
+                           f'<span class="mc-name">{co}</span>'
+                           f'<span class="pend-tag"><i></i>Scoring in progress</span></div>'
+                           f'<span class="mc-link">What we grade &rarr;</span></a>')
+                continue
+            flag = ' <span class="row-flag">v2.0</span>' if r.get("legacy") else ""
+            if r.get("legacy"):
+                cats = ('<p class="mc-note">Category scores were graded on the older v2.0 scale, '
+                        'see details</p>')
+            else:
+                rows = []
+                for i, (p, _, _) in enumerate(r["cats"]):
+                    pct = max(0.0, min(100.0, float(p) / maxes[i] * 100))
+                    t = tier(p, maxes[i])
+                    rows.append(
+                        f'<div class="mc-cat"><span class="mc-k">{CAT_LABELS[i][0]}</span>'
+                        f'<span class="mc-v"><span class="cat-score {t}">{fmt_pts(p)}</span>'
+                        f'<i> / {maxes[i]}</i></span>'
+                        f'<span class="mc-bar"><b class="{t}" style="width:{pct:.0f}%"></b></span></div>')
+                cats = '<div class="mc-cats">' + "".join(rows) + '</div>'
+            out.append(
+                f'<a class="mcard" href="{slug(co)}.html"><div class="mc-head">'
+                f'<span class="mc-name">{co}{flag}</span>'
+                f'<span class="mc-score"><span class="mc-lab">Preliminary</span>'
+                f'<span class="mc-num">{r["score"]}<i>/100</i></span>'
+                f'<span class="grade {grade_class(r["grade"])}">{r["grade"]}</span></span></div>'
+                f'{cats}<span class="mc-link">Full report &rarr;</span></a>')
+        out.append(f'<a class="mc-add" href="{GUIDE_URL}">Add a platform to '
+                   f'{re.sub("&amp;", "&", heading)}<span>&rarr;</span></a>')
+    out.append("</div>")
+    return "\n        ".join(out)
 
 
 def build_stats():
@@ -2923,7 +2983,7 @@ SUB_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=5" />
+<link rel="stylesheet" href="/api-grader/report.css?v=6" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -3221,7 +3281,7 @@ PENDING_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=5" />
+<link rel="stylesheet" href="/api-grader/report.css?v=6" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -3838,6 +3898,7 @@ def main():
       <p class="disclosure-note"><strong>Note:</strong> Peter may have consulting agreements with, or financial interests in, companies mentioned on this page. However, there are <strong>NO affiliate links</strong> on this page or the individual results pages. <a href="/financial-interest-disclosure">Click here for more information</a>.</p>
 
         {build_pills()}
+        {build_pills("mcat", " pills-mob")}
 
       <p class="tbl-hint">Scroll the table sideways to see every category &rarr;</p>
       <div class="table-scroll">
@@ -3857,6 +3918,8 @@ def main():
           </tbody>
         </table>
       </div>
+
+      {build_cards()}
 
       <p class="tbl-note small">Scores are point-in-time and tied to the evidence access date. Methodology v1.1.</p>
       <p class="tbl-note"><strong>Categories still to come:</strong> Market Rent &amp; Property Data, Inspections, Pets, Security Deposits, Insurance, E-sign, and Other. Platforms in those categories are not graded yet and are not counted anywhere on this page.</p>"""

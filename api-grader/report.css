@@ -17,7 +17,7 @@
 /* Block, not flex: as flex items the pill and the sentence were separate boxes
    and the sentence wrapped away onto its own line. Inline, the pill sits in the
    first line of the text and the whole thing runs to two lines. */
-.pre-bar .wrap{ padding:11px 0; }
+.pre-bar .wrap{ padding-top:11px; padding-bottom:11px; }   /* sides come from .wrap, so the text lines up with the page */
 /* The site's base p carries a 14.5px bottom margin, which was landing inside
    the bar and pushing the text off centre: 10px of space above it against 24.5
    below. Reset so the wrap's own padding is the only vertical space. */
@@ -201,8 +201,24 @@
 .rc-dl p{ margin:0 0 16px; color:var(--muted); font-size:16.5px; line-height:1.55; }
 
 @media (max-width:720px){
-  .rc-slab{ grid-template-columns:1fr; }
-  .rc-chk{ grid-template-columns:1fr; }
+  /* minmax(0,1fr), not 1fr: a plain 1fr track grows to fit its longest word, which
+     pushed the score panel and long endpoint names past the right edge on phones. */
+  .rc-slab{ grid-template-columns:minmax(0,1fr); }
+  .rc-meta{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .rc-meta > div{ padding:14px 16px; border-top:1px solid var(--line); }
+  .rc-meta > div:nth-child(odd){ border-left:0; }
+  .rc-meta > div:nth-child(-n+2){ border-top:0; }
+  .rc-meta .k{ font-size:10.5px; letter-spacing:.06em; }
+  .rc-meta .v{ font-size:15px; }
+  .rc-score{ padding:22px 20px; border-bottom:1px solid var(--line); }
+  .rc-chk{ grid-template-columns:minmax(0,1fr); padding:14px 16px; }
+  .rc-chk p, .rc-chk h4, .rc-chk code, .rc-read p{ overflow-wrap:anywhere; }
+  .rc-chead{ padding:13px 16px; }
+  /* The preview bar scrolls away on phones: pinned, its four lines covered a
+     quarter of the screen the whole way down the page. */
+  .pre-bar{ position:static; font-size:13.5px; }
+  .rc-dl{ grid-template-columns:minmax(0,1fr); }
+  #main .btn{ white-space:normal; text-align:center; max-width:100%; }   /* long labels, e.g. "Download the QuickBooks Online report", wrap instead of overflowing */
   .rc-chk .id{ padding-top:0; }
   .rc-chk .mark{ justify-self:start; }
 }
@@ -230,7 +246,7 @@
    track. A vendor with no run note renders one panel, which fills the row. */
 .rc-pair{ display:grid; gap:18px; grid-template-columns:1fr 1fr; align-items:stretch; }
 .rc-pair:has(> :only-child){ grid-template-columns:1fr; }
-@media (max-width:760px){ .rc-pair{ grid-template-columns:1fr; } }
+@media (max-width:760px){ .rc-pair{ grid-template-columns:minmax(0,1fr); } }
 .rc-pair .panel{ height:100%; }
 /* Tinted rather than rail-and-white, and scoped to the panel itself rather than
    to .rc-pair. The bottom-line panel stopped being half of a pair when "About
