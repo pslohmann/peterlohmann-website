@@ -62,8 +62,9 @@
   @media (max-width:600px){ .announce-cta{ display:none; } }
 
   /* ---- Resources grid: 4 across on desktop, 2 across on smaller screens ---- */
-  .resource-grid{ grid-template-columns:repeat(4,1fr); }
-  @media (max-width:900px){ .resource-grid{ grid-template-columns:repeat(2,1fr); } }
+  .resource-grid{ grid-template-columns:repeat(3,1fr); }   /* 9 cards: three even rows */
+  @media (max-width:900px){ .resource-grid{ grid-template-columns:repeat(2,1fr); }
+    .resource-grid > .card:last-child:nth-child(odd){ grid-column:1 / -1; } }   /* odd card count: last one spans both columns instead of sitting alone */
   /* Crane card watermark: render its emblem in the same faded blue as the other card icons */
   .card-ic.crane-ic{ background:var(--primary);
     -webkit-mask:url('images/crane-icon.webp') center/contain no-repeat;
@@ -282,6 +283,13 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           <h3>Largest PM Companies</h3>
           <p>My annual list of the 40 largest residential property management companies in the U.S. + top 10 by state.</p>
           <span class="arrow">See the list →</span>
+        </a>
+
+        <a class="card" href="/api-grader/">
+          <svg class="card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>
+          <h3>PM API Report Card</h3>
+          <p>The software PMs rely on, graded on whether its API actually lets you get to your own data. Same public rubric for every platform.</p>
+          <span class="arrow">See the grades →</span>
         </a>
 
       </div>
