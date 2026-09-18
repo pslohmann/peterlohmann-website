@@ -1382,7 +1382,7 @@ page = f"""<!--
       </nav>
     </div>
 {FOOT_SOCIAL}
-    <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have <a href="financial-interest-disclosure.html">consulting agreements with, or financial interests in</a>, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions. <a href="privacy-policy.html">Privacy Policy</a></p>
+    <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have <a href="financial-interest-disclosure.html">consulting agreements with, or financial interests in</a>, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions. <a href="privacy-policy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms and Conditions</a></p>
   </div>
 </footer>
 
@@ -1592,7 +1592,7 @@ def render_state_page(st, rows):
       </nav>
     </div>
 {FOOT_SOCIAL}
-    <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have <a href="financial-interest-disclosure.html">consulting agreements with, or financial interests in</a>, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions. <a href="privacy-policy.html">Privacy Policy</a></p>
+    <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have <a href="financial-interest-disclosure.html">consulting agreements with, or financial interests in</a>, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions. <a href="privacy-policy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms and Conditions</a></p>
   </div>
 </footer>
 <script src="site.js?v=28"></script>

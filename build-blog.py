@@ -357,7 +357,8 @@ def disc_html(p=""):
             'website. Additionally, some of the links across this site may be affiliate links, meaning '
             'I may earn a commission if you make a purchase through those links. Always perform your '
             'own due diligence before making any financial or business decisions. '
-            '<a href="' + p + 'privacy-policy.html">Privacy Policy</a>')
+            '<a href="' + p + 'privacy-policy.html">Privacy Policy</a> &middot; '
+            '<a href="' + p + 'terms.html">Terms and Conditions</a>')
 
 # Social icons (absolute URLs, so identical for blog.html and the posts)
 _SOC_ICONS = (
