@@ -25,10 +25,10 @@
 <link rel="stylesheet" href="styles.css?v=28" />
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-DRCVXMNK1D');</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());/* Count clean URLs: a visit to /x.html or /x/index.html is recorded as /x or /x/. */(function(){try{var p=location.pathname,c=p.replace(/(^|\/)index\.html$/,'$1').replace(/\.html$/,'');if(c!==p)history.replaceState(null,'',c+location.search+location.hash);}catch(e){}})();/* Live site only, so local previews and test copies stay out of the numbers. */if(/(^|\.)peterlohmann\.com$/.test(location.hostname))gtag('config','G-DRCVXMNK1D');</script>
 <!-- RB2B -->
 <script>!function(key) {
-if (window.reb2b) return;
+if (window.reb2b || !/(^|\.)peterlohmann\.com$/.test(location.hostname)) return;   /* live site only */
 window.reb2b = {loaded: true};
 var s = document.createElement("script");
 s.async = true;

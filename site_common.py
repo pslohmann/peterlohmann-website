@@ -7,11 +7,11 @@ from urllib.parse import urljoin
 GA4 = ('<!-- Google Analytics (GA4) -->\n'
        '<script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>\n'
        '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
-       "gtag('js',new Date());gtag('config','G-DRCVXMNK1D');</script>")
+       "gtag('js',new Date());/* Count clean URLs: a visit to /x.html or /x/index.html is recorded as /x or /x/. */(function(){try{var p=location.pathname,c=p.replace(/(^|\\/)index\\.html$/,'$1').replace(/\\.html$/,'');if(c!==p)history.replaceState(null,'',c+location.search+location.hash);}catch(e){}})();/* Live site only, so local previews and test copies stay out of the numbers. */if(/(^|\\.)peterlohmann\\.com$/.test(location.hostname))gtag('config','G-DRCVXMNK1D');</script>")
 
 RB2B = ('<!-- RB2B -->\n'
         '<script>!function(key) {\n'
-        'if (window.reb2b) return;\n'
+        'if (window.reb2b || !/(^|\\.)peterlohmann\\.com$/.test(location.hostname)) return;   /* live site only */\n'
         'window.reb2b = {loaded: true};\n'
         'var s = document.createElement("script");\n'
         's.async = true;\n'

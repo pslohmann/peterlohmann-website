@@ -1008,7 +1008,7 @@ dataset_ld = '<script type="application/ld+json">' + json.dumps({
 GA4 = ('<!-- Google Analytics (GA4) -->\n'
        '<script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>\n'
        '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
-       "gtag('js',new Date());gtag('config','G-DRCVXMNK1D');</script>")
+       "gtag('js',new Date());/* Count clean URLs: a visit to /x.html or /x/index.html is recorded as /x or /x/. */(function(){try{var p=location.pathname,c=p.replace(/(^|\\/)index\\.html$/,'$1').replace(/\\.html$/,'');if(c!==p)history.replaceState(null,'',c+location.search+location.hash);}catch(e){}})();/* Live site only, so local previews and test copies stay out of the numbers. */if(/(^|\\.)peterlohmann\\.com$/.test(location.hostname))gtag('config','G-DRCVXMNK1D');</script>")
 
 page = f"""<!--
   PETER LOHMANN - THE LARGEST PM COMPANIES (2026)

@@ -2996,8 +2996,7 @@ SUB_PAGE = """<!--
   .band.wash .panel, .band.wash .card,
   .band.wash .rc-checks, .band.wash .fix-note{{ background:var(--card); box-shadow:var(--shadow); }}
 </style>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-DRCVXMNK1D');</script>
+<!-- Analytics and RB2B are injected by site_common.finalize(), same as every other page. -->
 </head>
 <body>
 
@@ -3295,8 +3294,7 @@ PENDING_PAGE = """<!--
   .band.wash .panel, .band.wash .card,
   .band.wash .rc-checks, .band.wash .fix-note{{ background:var(--card); box-shadow:var(--shadow); }}
 </style>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-DRCVXMNK1D');</script>
+<!-- Analytics and RB2B are injected by site_common.finalize(), same as every other page. -->
 </head>
 <body>
 
