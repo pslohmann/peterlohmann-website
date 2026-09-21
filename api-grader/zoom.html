@@ -190,18 +190,8 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     </div>
   </section>
 
-  <!-- VERDICT + PROVENANCE, side by side -->
-  <section class="band tight">
-    <div class="wrap">
-      <div class="panel t-blue">
-        <h2>The bottom line for a property manager</h2>
-        <p>Zoom's API is a solid, genuinely buildable B, and its strengths sit exactly where an operator automating with AI would want them: you can create a scoped, read-only key in minutes without talking to anyone, Zoom enforces those scopes properly, and the entire reference is published in a machine-readable form an AI coding tool can consume without guessing. Zoom even runs its own MCP servers that create and update meetings directly. Everything the product does, the API does too. What holds it to a B is production plumbing rather than features. There is no idempotency, proven by sending the identical scheduling request three times and getting three meetings, and no concurrency control, so retry-safe multi-writer automation is your job rather than Zoom's. The API also tends to accept bad input with a cheerful 200 instead of an error, which turns your bugs into quietly wrong data. Budget for defensive code and a record of what you have already created. The more important caveat is fit rather than quality. Zoom is general-purpose, not a property management system, and nothing in its 64 API groups knows what a property, unit, lease, tenant or owner is. It is not a bank, holds no client funds, and documents no trust, security-deposit or escrow workflow, so a high API score here says nothing about its suitability for any of that. Its real role is the conversation layer: owner calls, tenant meetings and recorded walkthroughs, with the attendance record and transcript pulled out automatically and filed against the right property in the PMS or CRM you still need alongside it.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- DOWNLOADS -->
-  <section class="band tight wash">
+  <section class="band tight">
     <div class="wrap">
       <h2 class="h-lead">Check it yourself.</h2>
       <p class="sub" style="margin:10px 0 22px;">Both files behind this page, in full.</p>
@@ -221,7 +211,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </section>
 
   <!-- CORRECTIONS -->
-  <section class="band tight">
+  <section class="band tight wash">
     <div class="wrap">
       <div class="fix-note" id="correct">
         <h3>Found a factual error in your grade?</h3>

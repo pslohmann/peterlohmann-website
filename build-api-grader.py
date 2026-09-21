@@ -3099,18 +3099,8 @@ SUB_PAGE = """<!--
     </div>
   </section>
 
-  <!-- VERDICT + PROVENANCE, side by side -->
-  <section class="band tight">
-    <div class="wrap">
-      <div class="panel t-blue">
-        <h2>The bottom line for a property manager</h2>
-        <p>{bottom}</p>
-      </div>
-    </div>
-  </section>
-
   <!-- DOWNLOADS -->
-  <section class="band tight wash">
+  <section class="band tight">
     <div class="wrap">
       <h2 class="h-lead">Check it yourself.</h2>
       <p class="sub" style="margin:10px 0 22px;">Both files behind this page, in full.</p>
@@ -3130,7 +3120,7 @@ SUB_PAGE = """<!--
   </section>
 
   <!-- CORRECTIONS -->
-  <section class="band tight">
+  <section class="band tight wash">
     <div class="wrap">
       {fixnote}
     </div>

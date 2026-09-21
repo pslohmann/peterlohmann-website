@@ -190,18 +190,8 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     </div>
   </section>
 
-  <!-- VERDICT + PROVENANCE, side by side -->
-  <section class="band tight">
-    <div class="wrap">
-      <div class="panel t-blue">
-        <h2>The bottom line for a property manager</h2>
-        <p>You can build real automation on this today, and the useful half of it is not SimpleVoIP's engineering, it is the 2600Hz platform underneath, which SimpleVoIP operates and points you at. Through it you can read your full call history, page and export it reliably, keep extensions and phones in step with staffing, change call routing and office hours in code, and subscribe to webhooks covering essentially every change the phone system makes. SimpleVoIP's own thin layer on top adds bulk hours changes across many sites and outbound texting, but is noticeably rougher: empty error bodies, no request identifiers, and call-record webhooks the vendor confirms are unauthenticated, so treat anything arriving on that endpoint as unverified input. The two things that should govern your plans are access control and lead time. There is no read-only key, no way to scope a credential to a single action, one key per account, and no test environment, which together mean any credential you issue can delete users and re-route calls against live phones. Keep the key in a secret store, prefer a lower account's key over the parent's, and put your own read-only wrapper in front of anything you would not trust with the phone system. Separately, both credentials in this assessment took a project manager and about a week, so request access well before you need it and confirm in writing that it carries no charge, since no pricing is published. This is a phone system with a usable API, not a system of record. It does not touch tenant ledgers, deposits or trust accounting. Its property-management value is as a data source and a control surface alongside your property management system: call history for response-time reporting and staff accountability, and routing changes driven by your own calendar or staffing data rather than by hand. The 67 reflects excellent functional reach dragged down hard by weak credential controls, thin machine-readable documentation, and API documentation that has gone a year or more without an update while the platform it describes has moved on a full minor version. Three independent graders working from the same frozen evidence each arrived at 65 before reconciliation, so treat the grade band rather than the exact number as the finding.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- DOWNLOADS -->
-  <section class="band tight wash">
+  <section class="band tight">
     <div class="wrap">
       <h2 class="h-lead">Check it yourself.</h2>
       <p class="sub" style="margin:10px 0 22px;">Both files behind this page, in full.</p>
@@ -221,7 +211,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </section>
 
   <!-- CORRECTIONS -->
-  <section class="band tight">
+  <section class="band tight wash">
     <div class="wrap">
       <div class="fix-note" id="correct">
         <h3>Found a factual error in your grade?</h3>

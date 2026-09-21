@@ -190,18 +190,8 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     </div>
   </section>
 
-  <!-- VERDICT + PROVENANCE, side by side -->
-  <section class="band tight">
-    <div class="wrap">
-      <div class="panel t-blue">
-        <h2>The bottom line for a property manager</h2>
-        <p>Latchel's API is easy to get into and pleasant to read, and then it stops short of the thing you would most want to automate. Getting a key takes about thirty seconds in Account Settings with no sales call and no upgrade, the reference is public, there is a real sandbox, and there is even an MCP connector that lets Claude or ChatGPT create work orders conversationally. Using it, you can push maintenance requests in from your own systems, assign a vendor at the moment you create the job, approve or deny budgets, cancel jobs, and pull work orders, residents, properties, vendors and invoices back out with working date filters. What you cannot do is mark a work order complete, move it to a different vendor after it exists, or reschedule it, and all three were confirmed against the live sandbox rather than inferred from the documentation. That is a deliberate product boundary as much as an API gap, because Latchel's whole proposition is that its coordinators run the job to completion for you, but it means the API cannot be the control plane for your maintenance operation, only its front door and its reporting window. Three other things to plan around. There is exactly one API key per company and it can do everything, so you cannot hand a limited or read-only credential to an AI agent or a contractor. A retried write creates a duplicate work order, because there is no idempotency of any kind. And when the API will not apply a change you asked for, it does not tell you: it returns 200 OK and quietly drops the field, which means your automation cannot distinguish a real success from a silent no-op without reading the record back every time. Build that read-back in from day one. Latchel is not a bank and not a PMS, and says so itself, so you will still need your accounting and trust-accounting system underneath it; nothing in this API changes that.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- DOWNLOADS -->
-  <section class="band tight wash">
+  <section class="band tight">
     <div class="wrap">
       <h2 class="h-lead">Check it yourself.</h2>
       <p class="sub" style="margin:10px 0 22px;">Both files behind this page, in full.</p>
@@ -221,7 +211,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </section>
 
   <!-- CORRECTIONS -->
-  <section class="band tight">
+  <section class="band tight wash">
     <div class="wrap">
       <div class="fix-note" id="correct">
         <h3>Found a factual error in your grade?</h3>

@@ -190,18 +190,8 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     </div>
   </section>
 
-  <!-- VERDICT + PROVENANCE, side by side -->
-  <section class="band tight">
-    <div class="wrap">
-      <div class="panel t-blue">
-        <h2>The bottom line for a property manager</h2>
-        <p>Propertyware's API reaches nearly everything your business actually runs on and lets you write to it: leases, tenants, charges, payments, bills, owners and work orders. Its access controls are strong: you can mint a read-only or narrowly scoped key yourself, hand it to a vendor or an AI agent, and revoke it just as fast. The documentation is solid enough to build from, the versioning contract is clear, and a real status page tracks the Open API separately from the platform. What holds the score to a low C- is the operational plumbing underneath. There are no webhooks, so every integration is a scheduled poll that quietly misses deletions. There is no idempotency, so a retried request can post a charge or a payment twice. There is no concurrency control, so two integrations editing the same lease overwrite each other. And there is no request id, so when something breaks you have nothing but a timestamp to give support. Two access facts belong in your budgeting: the API is a paid add-on at $1 per unit per month, which doubles the per-unit cost on the Basic package, and API access does not include deleting or closing records, which sits behind an opt-in beta you have to ask support to join. Propertyware is a property-management-specialized system of record, not a bank: its bank accounts are general-ledger accounts inside the accounting system. Security-deposit segregation is configurable, but no first-party documentation describes trust accounting or reconciliation as an API workflow, so bank reconciliation stays a manual job inside the product. Workable for syncing and reporting, but it needs your own safety rails before you let it write money.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- DOWNLOADS -->
-  <section class="band tight wash">
+  <section class="band tight">
     <div class="wrap">
       <h2 class="h-lead">Check it yourself.</h2>
       <p class="sub" style="margin:10px 0 22px;">Both files behind this page, in full.</p>
@@ -221,7 +211,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </section>
 
   <!-- CORRECTIONS -->
-  <section class="band tight">
+  <section class="band tight wash">
     <div class="wrap">
       <div class="fix-note" id="correct">
         <h3>Found a factual error in your grade?</h3>

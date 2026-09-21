@@ -190,18 +190,8 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     </div>
   </section>
 
-  <!-- VERDICT + PROVENANCE, side by side -->
-  <section class="band tight">
-    <div class="wrap">
-      <div class="panel t-blue">
-        <h2>The bottom line for a property manager</h2>
-        <p>MagicDoor has a genuinely capable API hiding behind almost no documentation. Nearly everything the product does is reachable from code across roughly 1,500 operations, and it is not just readable: the run created, renamed and deleted a property live, and you can post rent charges and payments to a lease ledger, run renewals and move-outs, and drive maintenance from request through work order to vendor bill. Access is the easiest of any platform in this category, included on every plan from $1.50 per unit per month on an annual contract, with self-serve keys and a real staging environment to build against. The two things you cannot rely on today are event-driven automation and safe delegation. There are no webhooks and no what-changed-since filter, so integrations must poll, and the audit feed that looks like it could fill the gap is undocumented and untested. There is no idempotency protection, so a retried payment call will duplicate. Most seriously, the run created an API key scoped to read-only and it created a property and read every tenant, so treat every key you issue as a full-access admin credential and do not hand one to a third-party app or an AI agent expecting it to be limited. MagicDoor is not evidenced as a bank and does not hold your money. It is the software and the ledger of record; your funds sit in your own trust and operating bank accounts, connected through Plaid, with card and ACH processing run by Payabli and Stripe. Its trust accounting is unusually well specified for a platform at this price, and the API exposes the matching reconciliation, journal-entry and owner-distribution workflows, though this run verified the object surface rather than the accounting behaviour itself. The 73 reflects a strong, buildable product surface held back by an operability and documentation gap rather than by missing features: enforce the key scopes that already exist, add webhooks and idempotency, publish a developer reference, and this would be among the better property management APIs available. Until then, plan on asking MagicDoor directly for the specification files and base URLs, budget for polling, and keep your keys tightly held.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- DOWNLOADS -->
-  <section class="band tight wash">
+  <section class="band tight">
     <div class="wrap">
       <h2 class="h-lead">Check it yourself.</h2>
       <p class="sub" style="margin:10px 0 22px;">Both files behind this page, in full.</p>
@@ -221,7 +211,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </section>
 
   <!-- CORRECTIONS -->
-  <section class="band tight">
+  <section class="band tight wash">
     <div class="wrap">
       <div class="fix-note" id="correct">
         <h3>Found a factual error in your grade?</h3>

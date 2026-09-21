@@ -190,18 +190,8 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     </div>
   </section>
 
-  <!-- VERDICT + PROVENANCE, side by side -->
-  <section class="band tight">
-    <div class="wrap">
-      <div class="panel t-blue">
-        <h2>The bottom line for a property manager</h2>
-        <p>Showdigs has a real, first-party REST API that is easy to get into, with a self-serve token, a single plan and no upsell, and it covers its core leasing-showing job well. You can sync properties and listings, push prospects into its self-scheduling funnel, order condition-report inspections, and receive webhooks across the inquiry, tour and inspection lifecycle. What you can build today is solid listing sync and lead and inspection automation with event-driven notifications. What you cannot build well is anything that needs to read or manage tours through the API, since they are webhook-only, anything that needs to query inquiries or inspections back, or anything running at mission-critical scale. The API lacks consistent typing, request ids, concurrency control, documented idempotency, signed and retried webhooks, a status page, and any working spec or SDK. The most serious limitation is access control: a single all-powerful token with no read-only or scoped keys and no self-serve rotation or revocation, so guard it carefully. Showdigs is not a bank, not a PMS and not a trust-accounting system, and it does not handle applications, leases or funds. It is a leasing and showing layer that sits on top of your PMS, which you still need for the rest. Net: a genuinely useful integration surface for leasing automation, held to a failing grade by production-hardening and credential-security gaps. One non-scopable, non-revocable token, thin operability, one-directional change notification, and no working specification or SDK.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- DOWNLOADS -->
-  <section class="band tight wash">
+  <section class="band tight">
     <div class="wrap">
       <h2 class="h-lead">Check it yourself.</h2>
       <p class="sub" style="margin:10px 0 22px;">Both files behind this page, in full.</p>
@@ -221,7 +211,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </section>
 
   <!-- CORRECTIONS -->
-  <section class="band tight">
+  <section class="band tight wash">
     <div class="wrap">
       <div class="fix-note" id="correct">
         <h3>Found a factual error in your grade?</h3>
