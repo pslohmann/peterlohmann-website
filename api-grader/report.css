@@ -147,6 +147,12 @@
                font-size:13px; color:var(--muted); }
 .rc-read p{ margin:10px 0 0; color:var(--muted); font-size:17px; line-height:1.65; }
 
+/* ---- Quiet "NOTE:" disclosure line, matching the one on the index ---------- */
+.disclosure-note{ margin:0 0 22px; max-width:96ch; font-size:14.5px; line-height:1.6; color:var(--muted); }
+.disclosure-note strong{ color:var(--navy); }
+.disclosure-note a{ color:var(--primary); font-weight:700; text-decoration:underline; text-underline-offset:2px; }
+.disclosure-note a:hover{ color:var(--primary-dark); }
+
 /* ---- The 27-check breakdown --------------------------------------------- */
 .rc-checks{ border:1px solid var(--line); border-radius:var(--radius);
             background:var(--card); box-shadow:var(--shadow); overflow:hidden; }

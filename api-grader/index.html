@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v=28" />
-<link rel="stylesheet" href="/api-grader/report.css?v=7" />
+<link rel="stylesheet" href="/api-grader/report.css?v=8" />
 <style>
   /* Letter-grade chip. Colour tracks the band, so the table scans at a glance. */
   .grade{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
@@ -536,7 +536,10 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
            On desktop the grid areas below put the video in the right column
            spanning both rows, so the copy and buttons stack on the left. -->
       <div class="hero-vidgrid">
-        <p class="sub hg-copy">Grading the property management platforms we all use, on whether they&#x27;ll actually let you access your own data. Same rubric for every platform: five weighted categories totalling 100 points. No cherry-picking, no platform-specific tuning, and the grading file is yours to download and check.</p>
+        <div class="hg-copy">
+          <p class="sub" style="margin-top:0;">Grading the property management platforms we all use, on whether they&#x27;ll actually let you access your own data. Same rubric for every platform: five weighted categories totalling 100 points. No cherry-picking, no platform-specific tuning, and the grading file is yours to download and check.</p>
+          <p class="disclosure-note" style="margin:14px 0 0;"><strong>NOTE:</strong> Results are about API access only, not the software overall.</p>
+        </div>
 
         <div class="hg-video">
           <!-- Base state is a plain link to YouTube, so mobile and any
@@ -567,7 +570,9 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     <div class="wrap">
       <!-- RESULTS:START -->
       <h2 class="h-lead">The results.</h2>
-      <p class="sub" style="margin:10px 0 18px;">Scores are point-in-time, based on first-party documentation and, where available, live testing. Open any graded platform for its own page: all 27 checks, the evidence behind each mark, and the full report to download.</p>
+      <p class="sub" style="margin:10px 0 14px;">Scores are point-in-time, based on first-party documentation and, where available, live testing. Open any graded platform for its own page: all 27 checks, the evidence behind each mark, and the full report to download.</p>
+
+      <p class="sub" style="margin:0 0 18px;">Every grade on this page is produced by an AI analysis run against the same published grading file, which you can <a href="/files/pm-api-report-card-methodology.md" download>download and check here</a>. The scope is deliberately narrow: API and data access. A grade is not Peter Lohmann&#x27;s opinion of a company, and it does not reflect any financial interest in, or professional relationship with, it. It also says nothing about a platform&#x27;s features, reliability, interface, support, or standing in the industry.</p>
 
       <p class="disclosure-note"><strong>Note:</strong> Peter may have consulting agreements with, or financial interests in, companies mentioned on this page. However, there are <strong>NO affiliate links</strong> on this page or the individual results pages. <a href="/financial-interest-disclosure">Click here for more information</a>.</p>
 
@@ -734,6 +739,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           <h2 class="h-lead">The method.</h2>
           <p class="sub" style="margin-top:12px;">One fixed grading prompt, run against every platform below. Same criteria, same process, every time.</p>
           <p class="sub" style="margin-top:14px;">Download it and check it yourself; every result traces back to it. If you think there&#x27;s a better way to grade this, I want to hear it.</p>
+          <p class="disclosure-note" style="margin:16px 0 0;"><strong>NOTE:</strong> Every grade is produced by an AI analysis run against this file. The scope is API and data access only, not a platform&#x27;s features, reliability, interface, support, or standing in the industry.</p>
         </div>
         <div>
           <div class="panel" style="text-align:center;">

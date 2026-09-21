@@ -2983,7 +2983,7 @@ SUB_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=7" />
+<link rel="stylesheet" href="/api-grader/report.css?v=8" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -3048,6 +3048,8 @@ SUB_PAGE = """<!--
           <div><div class="k">Checks</div><div class="v">{nchecks} of 27 scored</div></div>
         </div>
       </div>
+
+      <p class="disclosure-note" style="margin:18px 0 0;"><strong>NOTE:</strong> This grade is produced by an AI analysis run against the same published grading file, which you can <a href="/files/pm-api-report-card-methodology.md" download>download and check here</a>. The scope is deliberately narrow: API and data access. It is not Peter Lohmann&#x27;s opinion of {name} as a software platform, and it says nothing about {name}&#x27;s features, reliability, interface, support, or standing in the industry.</p>
     </div>
   </section>
 
@@ -3083,7 +3085,7 @@ SUB_PAGE = """<!--
   <section class="band tight wash" id="checks">
     <div class="wrap">
       <h2 class="h-lead">Every check, and why it scored that way.</h2>
-      <p class="sub" style="margin:10px 0 24px;">The same 27 checks are applied to every platform. What changes is which are N-A and what the core objects mean for that kind of software. Each mark below is quoted from the run's own report.</p>
+      <p class="sub" style="margin:10px 0 24px;">The same 27 checks are applied to every platform. What changes is which are N-A and what the core objects mean for that kind of software. Each mark below is quoted from the run's own report. Marks are AI-generated and cover API access only.</p>
       {checkblocks}
 
       <div class="rc-pair" style="margin-top:26px;">
@@ -3103,7 +3105,8 @@ SUB_PAGE = """<!--
   <section class="band tight">
     <div class="wrap">
       <h2 class="h-lead">Check it yourself.</h2>
-      <p class="sub" style="margin:10px 0 22px;">Both files behind this page, in full.</p>
+      <p class="sub" style="margin:10px 0 10px;">Both files behind this page, in full.</p>
+      <p class="disclosure-note" style="margin:0 0 22px;"><strong>NOTE:</strong> Grades are AI-generated from the published grading file, and cover API access only.</p>
       <div class="rc-dl">
         <div class="card">
           <h3>{name}&rsquo;s full report</h3>
@@ -3270,7 +3273,7 @@ PENDING_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=7" />
+<link rel="stylesheet" href="/api-grader/report.css?v=8" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -3336,6 +3339,8 @@ PENDING_PAGE = """<!--
           <div><div class="k">Category</div><div class="v">{cat}</div></div>
         </div>
       </div>
+
+      <p class="disclosure-note" style="margin:18px 0 0;"><strong>NOTE:</strong> Grades on this site are produced by an AI analysis run against the same published grading file, and cover API access only. They are not Peter Lohmann&#x27;s opinion of a platform, its features, reliability, interface, support, or standing in the industry.</p>
 
       <p class="sub" style="margin-top:24px;max-width:70ch;">{intro}</p>
     </div>
@@ -3880,7 +3885,9 @@ def main():
     html = PAGE.read_text(encoding="utf-8")
 
     results_block = f"""      <h2 class="h-lead">The results.</h2>
-      <p class="sub" style="margin:10px 0 18px;">Scores are point-in-time, based on first-party documentation and, where available, live testing. Open any graded platform for its own page: all 27 checks, the evidence behind each mark, and the full report to download.</p>
+      <p class="sub" style="margin:10px 0 14px;">Scores are point-in-time, based on first-party documentation and, where available, live testing. Open any graded platform for its own page: all 27 checks, the evidence behind each mark, and the full report to download.</p>
+
+      <p class="sub" style="margin:0 0 18px;">Every grade on this page is produced by an AI analysis run against the same published grading file, which you can <a href="/files/pm-api-report-card-methodology.md" download>download and check here</a>. The scope is deliberately narrow: API and data access. A grade is not Peter Lohmann&#x27;s opinion of a company, and it does not reflect any financial interest in, or professional relationship with, it. It also says nothing about a platform&#x27;s features, reliability, interface, support, or standing in the industry.</p>
 
       <p class="disclosure-note"><strong>Note:</strong> Peter may have consulting agreements with, or financial interests in, companies mentioned on this page. However, there are <strong>NO affiliate links</strong> on this page or the individual results pages. <a href="/financial-interest-disclosure">Click here for more information</a>.</p>
 
