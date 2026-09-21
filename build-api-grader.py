@@ -65,7 +65,7 @@ CATEGORIES = [
     ("maintenance",  "Maintenance",
         ["Property Meld", "Vendoroo", "Mason", "Latchel"]),
     ("banks",        "Banks",
-        ["Column", "Enterprise Bank"]),
+        ["Column"]),
     ("accounting",   "Corporate Accounting",
         ["Xero", "QuickBooks Online"]),
     ("phone",        "Phone",
@@ -74,7 +74,7 @@ CATEGORIES = [
 
 # Platforms with no API to grade at all. The row says so across the score columns
 # rather than showing dashes, which would imply "not graded yet".
-NO_API = {"Enterprise Bank"}
+NO_API = set()          # e.g. {"Some Bank"} for a platform with no API to grade at all
 
 # Platforms we cannot grade until an operator who uses one runs the file against
 # their own account. Distinct from "scoring in progress", which means the run is
@@ -3698,7 +3698,6 @@ def seo_vendor(co, r, cat_heading):
                          "bestRating": 100, "worstRating": 0},
         "author": AUTHOR,
         "publisher": AUTHOR,
-        "reviewBody": _plain(r["bottom"]),
         "isPartOf": {"@type": "WebPage", "name": "The PM API Report Card", "url": INDEX_URL},
     }
     d = _iso(r["meta"].get("run", ""))
