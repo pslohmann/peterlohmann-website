@@ -31,6 +31,7 @@ SOURCES = {
     "Latchel":             "latchel.md",
     "LeadSimple":          "leadsimple.md",
     "Magic Door":          "magic-door.md",
+    "Mason":               "mason.md",
     "Process Street":      "process-street.md",
     "Property Meld":       "property-meld.md",
     "Propertyware":        "propertyware.md",

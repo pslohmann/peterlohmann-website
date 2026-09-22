@@ -31,6 +31,7 @@ SOURCES = {
     "latchel":           "latchel-2026-09-10.md",
     "leadsimple":        "leadsimple-2026-08-28.md",
     "magic-door":        "magic-door-2026-09-10.md",
+    "mason":             "mason-2026-09-21.md",
     "process-street":    "process-street-2026-08-31.md",
     "property-meld":     "property-meld-2026-09-01.md",
     "propertyware":      "propertyware-2026-09-14.md",
@@ -57,6 +58,11 @@ REDACT = [
     # Propertyware: the operator's live org number and the IDs of its test-fixture contacts
     (r"\b610009088\b",                    "[org id withheld]"),
     (r"\b(8483110918|8483569669|8477179913)\b", "[test contact id withheld]"),
+    # Mason: the operator's credential-delivery mail ids and password-manager item id
+    (r"`1a06c6986575955a`", "`[mail thread id withheld]`"),
+    (r"thread `1a06c6986575955a`", "thread `[id withheld]`"),
+    (r"message `1a0c66b6a11cd434`", "message `[id withheld]`"),
+    (r"item `vobntdzmapgyvdqpbt5jd7qbba`", "item `[id withheld]`"),
 ]
 
 

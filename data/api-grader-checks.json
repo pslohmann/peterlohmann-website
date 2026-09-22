@@ -1607,6 +1607,207 @@
    }
   ]
  },
+ "Mason": {
+  "source": "mason.md",
+  "meta": {
+   "tier": "Fully verified — controlled live (read path). Write-path steps 6–8 are not applicable: the published contract contains only `GET` endpoints, documents no idempotency mechanism, and offers no webhooks. See the labeling note under \"Unresolved evaluator disagreements.\"",
+   "battery": "steps 1–5 complete. Step 6 N-A (no write endpoints in the contract; operator prohibited live writes). Step 7 N-A (no idempotency documented). Step 8 N-A (no webhooks documented).",
+   "date": "Monday 2026-09-21 (live battery executed 2026-09-22 01:49 UTC = 2026-09-21 19:49 MDT)",
+   "model": "Claude Fable 5.1 (claude-fable-5-1)",
+   "coverage": "100% (23 of 23 applicable checks verified; gate: no category Unable to verify; overall ≥ 80% — passed)"
+  },
+  "checks": [
+   {
+    "id": "C1.1",
+    "cat": 1,
+    "title": "Object coverage",
+    "mark": "no",
+    "why": "weighted coverage = 47.6% (10 present-read-only × 0.5 = 10.0 ÷ Σweight 21). Every critical and important object is present but read-only where writes are operationally expected; tags absent. Citations in the table above (OpenAPI paths). Falls just under the 0.50 `partial` floor."
+   },
+   {
+    "id": "C1.2",
+    "cat": 1,
+    "title": "Core operational actions",
+    "mark": "no",
+    "why": "weighted coverage = 0%. No create/update operation exists for any object or workflow; all 25 operations are `GET` (openapi.json `paths`; api.md \"read-only GET endpoints\"). Documentation-graded: nothing to observe."
+   },
+   {
+    "id": "C1.3",
+    "cat": 1,
+    "title": "Delete or lifecycle actions",
+    "mark": "no",
+    "why": "weighted coverage = 0%. Status change, cancel, close, approve, reject are all visible as fields but none is invocable (no `PATCH`/`POST`/`DELETE` in the contract). Documentation-graded."
+   },
+   {
+    "id": "C1.4",
+    "cat": 1,
+    "title": "Change notification",
+    "mark": "partial",
+    "why": "no webhooks or events are offered; the only mechanism is incremental polling, which is efficient and was live-verified: `updatedAfter` on `/work-orders` (api.md line 38; live: `updatedAfter=<3 days ago>` honoured, 0 records, all `lastUpdated ≥ bound`), plus `GET /work-order-activity-logs` with `createdAfter` as an event stream (live: 5 records, fields `eventType`, `internalWorkOrderId`, `timestamp`). Documented limitation: \"Related-record changes do not necessarily advance this timestamp\" and \"Incremental date bounds… do not provide complete historical changes\" (api.md lines 27, 38)."
+   },
+   {
+    "id": "C2.1",
+    "cat": 2,
+    "title": "Modern API conventions",
+    "mark": "yes",
+    "why": "resource-oriented REST over HTTPS, JSON envelopes `{data, pagination}`, standard `GET` on collections and `/{id}`, query-string filters (openapi.json; live 2026-09-22: `/work-orders?limit=5` → 200)."
+   },
+   {
+    "id": "C2.2",
+    "cat": 2,
+    "title": "Consistent typing",
+    "mark": "partial",
+    "why": "live-vs-schema check across work-orders, invoices, contacts, properties, units (250 records, 126 fields): 0 mismatches, 0 undeclared fields; nulls declared explicitly via `anyOf [type, null]`; money is `integer` cents (`Invoice.totalAmount/subtotal/tax`, `Estimate.estimateAmount/approvedAmount`). Limitation: two documented numeric-as-string fields — `Invoice.selectedMarkupPercentage` and `Invoice.selectedDiscountPercentage`, \"decimal string; 10 means ten percent\" — a number that does not stay a number, confined to non-core fields."
+   },
+   {
+    "id": "C2.3",
+    "cat": 2,
+    "title": "Structured errors",
+    "mark": "partial",
+    "why": "correct status semantics and a consistent JSON envelope, but no machine-readable error code. Schema `Error` = `{error: string}` only (\"Human-readable error message\"). Observed: 401 `{\"error\":\"Invalid API token\"}`, 401 `{\"error\":\"Missing or invalid Authorization header\"}`, 404 `{\"error\":\"Not found\"}` (random UUID and malformed ID alike), 404 `{\"error\":\"Unknown resource \\\"…\\\"\"}`, 400 on `/on-call-coverage` without `start`/`end`."
+   },
+   {
+    "id": "C2.4",
+    "cat": 2,
+    "title": "Duplicate prevention",
+    "mark": "na",
+    "why": "purely read-only API."
+   },
+   {
+    "id": "C2.5",
+    "cat": 2,
+    "title": "Graceful handling under load",
+    "mark": "no",
+    "why": "no 429, `Retry-After`, or backoff guidance anywhere in openapi.json or api.md (keyword scan: 0 hits). Live: 40 sequential requests → 40 × 200, no rate-limit headers of any kind. Throttling behaviour is undocumented and unobservable."
+   },
+   {
+    "id": "C2.6",
+    "cat": 2,
+    "title": "Pagination for large collections",
+    "mark": "yes",
+    "why": "documented opaque-cursor pagination with `hasMore`/`nextCursor`, a stated ordering guarantee (\"ordered by createdAt descending, then by ID descending\"), and a documented cap (`limit` clamped 1–100, default 50) (api.md lines 17, 27, 31–32; `Pagination` schema). Live: 3 pages, `createdAt` non-increasing, 0 duplicate IDs; narrow filter → `hasMore=false` and `nextCursor` omitted exactly as documented; `limit=abc`→50, `limit=1000`→100, `limit=0`→50 all as documented."
+   },
+   {
+    "id": "C2.7",
+    "cat": 2,
+    "title": "Bulk or incremental export",
+    "mark": "partial",
+    "why": "incremental sync is possible on standard list endpoints (`updatedAfter`+`updatedBefore` on 7 of 12 list endpoints; `createdAfter` on 11) with cursor pagination, but there is no dedicated bulk/export path, and the docs state the incremental bounds \"do not provide complete historical changes or a snapshot across pages\" and that related-record changes may not advance the timestamp (api.md line 27, 38)."
+   },
+   {
+    "id": "C2.8",
+    "cat": 2,
+    "title": "Webhook security and delivery",
+    "mark": "na",
+    "why": "no webhooks or events offered (already penalised in C1.4)."
+   },
+   {
+    "id": "C2.9",
+    "cat": 2,
+    "title": "Concurrency and conflict control",
+    "mark": "na",
+    "why": "purely read-only API."
+   },
+   {
+    "id": "C2.10",
+    "cat": 2,
+    "title": "Versioning and backward compatibility",
+    "mark": "partial",
+    "why": "explicit path version `/api/external/v2`, a v1 contract referenced (\"v1 retains its legacy numeric-or-null priority contract\"), and a contract-revision identifier `2-b0dfb930aad19685` (api.md line 5; openapi `info.version`). No compatibility policy, no definition of breaking vs non-breaking, no deprecation window."
+   },
+   {
+    "id": "C2.11",
+    "cat": 2,
+    "title": "Request traceability",
+    "mark": "partial",
+    "why": "every response carries `X-Vercel-Id` (e.g. `sfo1::pdx1::s7x5x-1790041782825-8ae9427d5609`, live headers 2026-09-22) but it is undocumented and is the hosting platform's identifier; whether Mason support can use it is unverified."
+   },
+   {
+    "id": "C2.12",
+    "cat": 2,
+    "title": "Service availability and status transparency",
+    "mark": "partial",
+    "why": "no public status page (`status.thisismason.com` / `status.enduring-labs.com` do not resolve; no link on the docs page). Terms §5: \"We strive to maintain 99.9% uptime for the Service. Scheduled maintenance windows will be communicated in advance.\" Scored as an availability commitment that exists only inside the contract; it is a target, not a remedy-backed SLA."
+   },
+   {
+    "id": "C3.1",
+    "cat": 3,
+    "title": "Read-only credentials",
+    "mark": "na",
+    "why": "the whole API is read-only."
+   },
+   {
+    "id": "C3.2",
+    "cat": 3,
+    "title": "Scoped credentials",
+    "mark": "no",
+    "why": "one token \"scoped to your property management account\" (openapi `securitySchemes.bearerAuth`; api.md line 7). No resource, action, or role scoping exists; the vendor's own issuance note warns the token \"can access a lot of data.\""
+   },
+   {
+    "id": "C3.3",
+    "cat": 3,
+    "title": "Multiple keys",
+    "mark": "no",
+    "why": "no documented way to obtain more than one token; the docs describe a single vendor-provided token and the product has no key-management surface (item 7)."
+   },
+   {
+    "id": "C3.4",
+    "cat": 3,
+    "title": "Rotation and revocation",
+    "mark": "partial",
+    "why": "no self-serve mechanism; tokens are issued by the vendor by e-mail (item 9). Server-side deactivation demonstrably exists — the 401 response is documented for an \"inactive, or expired bearer token\" (openapi `/work-orders` 401 description) — so revocation is a support-mediated process, not an absent one."
+   },
+   {
+    "id": "C3.5",
+    "cat": 3,
+    "title": "Test and production isolation",
+    "mark": "partial",
+    "why": "a separate Test workspace exists in the product (\"Switch to Test / Toggle Test/Live PM\", item 7), but no test credential is documented, the docs never mention a sandbox, and whether the production token can reach the test workspace is undocumented. Mason itself warns \"Mailboxes are shared with your test workspace.\""
+   },
+   {
+    "id": "C4.1",
+    "cat": 4,
+    "title": "Complete self-serve reference",
+    "mark": "partial",
+    "why": "the public reference is complete on authentication, every endpoint, every parameter (with semantics such as clamping and invalid-date behaviour), and response schemas, plus one worked `curl` request (docs page; api.md). Limitation: zero worked response examples — openapi.json contains no `example`/`examples` keys and api.md gives response shapes only as `{ data: WorkOrder[], pagination: Pagination }`."
+   },
+   {
+    "id": "C4.2",
+    "cat": 4,
+    "title": "Reliable machine-consumable integration path",
+    "mark": "yes",
+    "why": "public OpenAPI 3.1 specification, complete for all 25 operations, served without a token, and verified against live responses with zero type or field drift (typing check above). No SDK or MCP server found (not required for yes)."
+   },
+   {
+    "id": "C4.3",
+    "cat": 4,
+    "title": "AI-readable documentation",
+    "mark": "yes",
+    "why": "`api.md` is a single Markdown corpus of the entire API, published with explicit \"give the docs to your agent… Copy docs as Markdown\" affordances and an \"Agent guidance\" section (docs page; api.md line 10)."
+   },
+   {
+    "id": "C4.4",
+    "cat": 4,
+    "title": "Kept current",
+    "mark": "partial",
+    "why": "the contract carries a revision identifier (`2-b0dfb930aad19685`) so change is detectable, but there is no changelog, release notes, or deprecation notice (probes for `/docs/changelog` → 404; `/openapi.json` served `cache-control: no-store` with no `ETag`/`Last-Modified` despite the spec's own note that \"ETag supports identifying the published document\")."
+   },
+   {
+    "id": "C5.1",
+    "cat": 5,
+    "title": "Self-serve API key",
+    "mark": "no",
+    "why": "credentials are manually provisioned by the vendor. Docs: \"Mason provides a bearer token\" (passive, vendor-issued); the product's Settings page has no API or developer section (item 7); the operator's token arrived by e-mail from the vendor's founder a week after asking (items 9; thread `[mail thread id withheld]`, asked 2026-09-04, promised 2026-09-15, delivered 2026-09-22 UTC)."
+   },
+   {
+    "id": "C5.3",
+    "cat": 5,
+    "title": "Not commercially gated",
+    "mark": "yes",
+    "why": "the token was issued on the operator's existing subscription with no tier change and no charge mentioned; neither the docs nor the \"Plans\" section (After-Hours / Intake / Full Suite / In-House) ties API access to a tier; the specification is public (\"Public documentation requires no token\")."
+   }
+  ]
+ },
  "Process Street": {
   "source": "process-street.md",
   "meta": {

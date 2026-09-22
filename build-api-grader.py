@@ -2570,6 +2570,115 @@ RESULTS = {
             "or a trust accounting system.",
 },
 
+"Mason": {
+  "score": 40, "grade": "F",
+  "meta": {"run": "Sep 21, 2026", "method": "1.1", "model": "Claude Fable 5.1",
+           "tier": "Fully verified, controlled live", "raw": "19.93 / 50"},
+  "note": "The read path was exercised live end to end: authentication, three "
+          "cursor pages, incremental and invalid filters, seven deliberate errors, "
+          "a 40-request burst, and a live-against-schema typing check of 126 fields "
+          "across 250 records. The write checks were graded from documentation "
+          "because there is no write surface to observe: every one of the 25 "
+          "published operations is a GET. Four evaluator disagreements were "
+          "recorded and disclosed in the report, over tags, two string-typed "
+          "percentage fields, and whether an uptime target inside the terms counts "
+          "as an availability commitment. Their full range is 38 to 45, an F in "
+          "every case.",
+  "cats": [
+    (1.9, 15, "You can see everything Mason knows about a work order, but you "
+              "cannot do anything to it through the API. All 25 published "
+              "operations are GET requests, so there is no creating, assigning, "
+              "approving, or closing, and Mason's own guide says so in as many "
+              "words: use only the documented read-only endpoints, and do not "
+              "infer write capabilities from response fields. Ten of the eleven "
+              "core objects are there to read, work orders, status, assignment, "
+              "vendors, scheduling, residents, units and properties, estimates, "
+              "invoices and owner approval, with tags the one absentee. To catch "
+              "changes you poll an updated-since filter or read the activity log, "
+              "both confirmed live. There is no push."),
+    (5.6, 10, "The technical build is clean and predictable. A live check of 126 "
+              "fields across 250 records found zero type mismatches and zero "
+              "undeclared fields, money arrives as integer cents rather than "
+              "floating point, and cursor pagination held its documented ordering "
+              "across three pages with no duplicates and no surprises at the last "
+              "page. What is missing is everything you would want when something "
+              "goes wrong. Forty requests in a row produced no rate-limit headers "
+              "and the docs mention no limits at all, so throttling is a mystery "
+              "until you hit it. Errors return one human-readable sentence with no "
+              "machine-readable code to branch on. The version sits in the path "
+              "with no compatibility policy behind it, the only request id on a "
+              "response belongs to the hosting platform rather than to Mason, and "
+              "there is no status page to check when it is down."),
+    (1.3, 5,  "One all-or-nothing token for your whole account, issued by Mason "
+              "over e-mail. There is no scoping by resource, action or role, no "
+              "documented way to hold a second key, and no self-serve rotation, so "
+              "anything you hand the token to sees every call, text, e-mail, "
+              "invoice and contact Mason has. Revocation does exist, just not in "
+              "your hands: the documented 401 covers an inactive or expired token, "
+              "which means shutting one off is a support request. A separate test "
+              "workspace exists inside the product, but no test credential is "
+              "documented and nothing says whether a production token can reach "
+              "it."),
+    (3.8, 5,  "This is the API's strongest area. The whole contract is published "
+              "as an OpenAPI 3.1 specification that serves without a token and "
+              "matched live responses exactly, alongside a single Markdown guide "
+              "of the entire API written with AI agents in mind, right down to a "
+              "copy-the-docs-as-Markdown affordance and an agent guidance section. "
+              "Point a coding tool at either one and it should build correctly the "
+              "first time. Two gaps keep it from full marks: there is not one "
+              "worked response example anywhere, and there is no changelog or "
+              "release note, so you can tell that the contract changed but not "
+              "what changed."),
+    (7.5, 15, "Nothing about the API is gated or billed. The token came with the "
+              "operator's existing subscription, no tier change and no charge, the "
+              "plan tiers say nothing about API access, and the specification is "
+              "public with no token required. What you cannot do is get the key "
+              "yourself. There is no API or developer section in the product, so "
+              "you ask Mason and wait for a person to send you one."),
+  ],
+  "strengths": [
+    "A public OpenAPI 3.1 specification, complete for all 25 operations and served without a token",
+    "Zero type or field drift: 126 fields across 250 live records matched the schema exactly",
+    "Money is integer cents, and nulls are declared explicitly rather than implied",
+    "Cursor pagination with a documented ordering guarantee, verified across three pages",
+    "A single Markdown guide of the whole API, published for AI agents to read",
+    "Incremental polling works: updated-since and created-since filters honoured live",
+    "Correct status codes on every deliberate error, including 400, 401 and 404",
+    "An activity log endpoint that reads as an event stream of work-order changes",
+    "No tier gate: the token came with the existing subscription at no extra charge",
+  ],
+  "watch": [
+    "Read-only: all 25 operations are GET, so nothing can be created, assigned, approved or closed",
+    "No webhooks, so every change has to be found by polling",
+    "Mason's own docs warn that incremental filters miss complete historical changes",
+    "One vendor-issued token per account, with no scoping and no second key",
+    "No self-serve key: you e-mail Mason and wait for a person to send one",
+    "No self-serve rotation either, so cutting off access is a support request",
+    "No rate limits documented, and 40 requests in a row returned no limit headers",
+    "Errors carry a sentence but no machine-readable code to branch on",
+    "No changelog or release notes, so you cannot see what changed between revisions",
+    "No status page: neither status subdomain resolves",
+    "No worked response examples in the docs or the specification",
+    "Two percentage fields are typed as decimal strings while all money is integer cents",
+  ],
+  "bottom": "You can build read-only tools on Mason today, dashboards, KPI pulls, a "
+            "nightly sync into your own database, an agent that answers what "
+            "happened on this work order, and the documentation is good enough that "
+            "an AI coding tool will get it right the first time. You cannot build "
+            "anything that acts: no creating, assigning, approving, or closing work "
+            "orders through the API, and no webhook to tell you when something "
+            "changed, so everything is polling. The biggest strength is a clean, "
+            "fully typed, well-paginated contract with a public OpenAPI spec and a "
+            "Markdown guide written for agents. The biggest limitations are the "
+            "read-only surface, which alone costs most of Category 1, a single "
+            "vendor-issued all-access token you cannot scope, rotate, or duplicate "
+            "yourself, and no rate-limit, error-code, changelog, or status-page "
+            "signals. Mason is not a bank, holds no client funds, and documents no "
+            "trust or deposit workflows; it is a maintenance layer that still needs "
+            "your PMS as the system of record for properties, leases, residents, "
+            "and money. The F is a grade for buildability, not for the product.",
+},
+
 }
 
 
