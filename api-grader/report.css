@@ -146,6 +146,12 @@
 .rc-read .pts{ font-family:var(--mono, ui-monospace, SFMono-Regular, Menlo, monospace);
                font-size:13px; color:var(--muted); }
 .rc-read p{ margin:10px 0 0; color:var(--muted); font-size:17px; line-height:1.65; }
+/* The category cards jump here, so keep the heading clear of the sticky nav. */
+.rc-read{ scroll-margin-top:90px; }
+/* Hand-off from the plain-language read to that category's 27-check detail. */
+.rc-more{ display:inline-flex; align-items:center; gap:7px; margin-top:12px;
+          font-size:15px; font-weight:700; color:var(--primary); }
+.rc-more:hover{ color:var(--primary-dark); text-decoration:underline; }
 
 /* ---- Quiet "NOTE:" disclosure line, matching the one on the index ---------- */
 .disclosure-note{ margin:0 0 22px; max-width:96ch; font-size:14.5px; line-height:1.6; color:var(--muted); }

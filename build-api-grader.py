@@ -2983,7 +2983,7 @@ SUB_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=8" />
+<link rel="stylesheet" href="/api-grader/report.css?v=9" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -3273,7 +3273,7 @@ PENDING_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=8" />
+<link rel="stylesheet" href="/api-grader/report.css?v=9" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -3536,7 +3536,7 @@ def build_subpages(checks_data):
             for i, (p, _, _) in enumerate(r["cats"]):
                 pct = float(p) / maxima[i] * 100
                 cards.append(
-                    f'<a class="rc-cat" href="#checks-c{i+1}">'
+                    f'<a class="rc-cat" href="#read-c{i+1}">'
                     f'<div class="rc-cat-top">'
                     f'<div><div class="n">Category {i+1}</div>'
                     f'<h3>{CAT_LABELS[i][0]}</h3></div>'
@@ -3551,10 +3551,13 @@ def build_subpages(checks_data):
             reads = []
             for i, (p, _, txt) in enumerate(r["cats"]):
                 reads.append(
-                    f'<div class="rc-read">'
+                    f'<div class="rc-read" id="read-c{i+1}">'
                     f'<h3>{i+1} &middot; {CAT_LABELS[i][0]}</h3>'
                     f'<div class="pts">{fmt_pts(p)} / {maxima[i]} points</div>'
-                    f'<p>{txt}</p></div>')
+                    f'<p>{txt}</p>'
+                    f'<a class="rc-more" href="#checks-c{i+1}">See technical details'
+                    f'<span aria-hidden="true">&rarr;</span></a>'
+                    f'</div>')
 
             # --- the 27 checks, grouped by category -----------------------
             blocks = []
