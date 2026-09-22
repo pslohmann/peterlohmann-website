@@ -3241,7 +3241,7 @@ SUB_PAGE = """<!--
   <section class="band tight">
     <div class="wrap center">
       <p class="sponsor-note" style="justify-content:center;">
-        Methodology inspired by <a href="https://saastr.ai/api-report-card" target="_blank" rel="noopener">SaaStr&rsquo;s AI Agent API Report Card</a>. Sponsored by <a href="https://column.com/property-management/?utm_source=peter-lohmann&amp;utm_medium=plm-api-grader" target="_blank" rel="noopener">Column</a>.
+        Methodology inspired by <a href="https://saastr.ai/api-report-card" target="_blank" rel="noopener">SaaStr&rsquo;s AI Agent API Report Card</a>.
       </p>
     </div>
   </section>
@@ -3511,7 +3511,7 @@ PENDING_PAGE = """<!--
   <section class="band tight">
     <div class="wrap center">
       <p class="sponsor-note" style="justify-content:center;">
-        Methodology inspired by <a href="https://saastr.ai/api-report-card" target="_blank" rel="noopener">SaaStr&rsquo;s AI Agent API Report Card</a>. Sponsored by <a href="https://column.com/property-management/?utm_source=peter-lohmann&amp;utm_medium=plm-api-grader" target="_blank" rel="noopener">Column</a>.
+        Methodology inspired by <a href="https://saastr.ai/api-report-card" target="_blank" rel="noopener">SaaStr&rsquo;s AI Agent API Report Card</a>.
       </p>
     </div>
   </section>

@@ -529,7 +529,6 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
       <div class="ticks" aria-hidden="true"><i></i><i></i><i></i></div>
       <p class="hero-kicker">Preview Version</p>
       <h1>The PM API Report Card</h1>
-      <a class="presented-by" href="https://column.com/property-management/?utm_source=peter-lohmann&amp;utm_medium=plm-api-grader" target="_blank" rel="noopener">Presented by <img src="/images/column-logo.png" alt="Column" /></a>
       <div class="hero-rule" aria-hidden="true"></div>
 
       <!-- DOM order is paragraph, video, buttons, which IS the phone order.
@@ -809,22 +808,8 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     </div>
   </section>
 
-  <!-- CONFLICT OF INTEREST -->
-  <section class="band tight wash">
-    <div class="wrap">
-      <div class="panel" style="max-width:1000px;margin-inline:auto;">
-        <h2 class="h-lead" style="font-size:clamp(24px,3.2vw,32px);">Fair and transparent, on purpose.</h2>
-        <p class="sub" style="margin-top:12px;">Doesn&#x27;t a sponsor on this page create a conflict? Let&#x27;s address it directly.</p>
-        <!-- SWAP: sponsor - confirm the Column partnership and add their logo if wanted
-             before launch. If the sponsor changes, this whole section changes with it. -->
-        <p class="sub" style="margin-top:14px;">This report is sponsored by <strong>Column</strong>, whose support makes it possible. Column is graded by the same process as everything else here, and their sponsorship did not influence their ranking.</p>
-        <p class="sub" style="margin-top:14px;">The grading file contains no instruction to grade them favorably. Read it and confirm. Same goes for every platform here, sponsor or not.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- WHY FREE -->
-  <section class="band tight band-pair-top">
+  <section class="band tight wash band-pair-top">
     <div class="wrap">
       <div>
         <h2 class="h-lead">Why I&#x27;m giving this away.</h2>
@@ -834,7 +819,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </section>
 
   <!-- PREVIEW / RERUN POLICY -->
-  <section class="band tight band-pair-btm" id="preview">
+  <section class="band tight wash band-pair-btm" id="preview">
     <div class="wrap">
       <div style="max-width:1000px;">
         <!-- RERUN:START -->
@@ -849,7 +834,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </section>
 
   <!-- CORRECTIONS -->
-  <section class="band tight wash" id="rescore">
+  <section class="band tight" id="rescore">
     <div class="wrap">
       <div style="max-width:1000px;margin-inline:auto;">
         <!-- FIXNOTE:START -->
@@ -865,10 +850,10 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </section>
 
   <!-- CREDIT -->
-  <section class="band tight">
+  <section class="band tight wash">
     <div class="wrap center">
       <p class="sponsor-note" style="justify-content:center;">
-        Methodology inspired by <a href="https://saastr.ai/api-report-card" target="_blank" rel="noopener">SaaStr&#x27;s AI Agent API Report Card</a>. Sponsored by <a href="https://column.com/property-management/?utm_source=peter-lohmann&amp;utm_medium=plm-api-grader" target="_blank" rel="noopener">Column</a>.
+        Methodology inspired by <a href="https://saastr.ai/api-report-card" target="_blank" rel="noopener">SaaStr&#x27;s AI Agent API Report Card</a>.
       </p>
     </div>
   </section>
@@ -912,29 +897,19 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <span>Top of results</span>
 </a>
 
-<a class="col-sticky" id="colSticky" href="https://column.com/property-management/?utm_source=peter-lohmann&amp;utm_medium=plm-api-grader" target="_blank" rel="noopener" aria-label="Presented by Column">
-  <span>Presented by</span><img src="/images/column-logo.png" alt="Column" />
-</a>
-
 <!-- DATA:START -->
 <!-- DATA:END -->
 
 <script src="/site.js?v=28"></script>
 <script>
-/* Reveal the sponsor pill once the hero scrolls past (same as the Top 40 page). */
+/* Reveal the back-to-top button once the hero scrolls past. */
 (function () {
   var hero = document.querySelector('.page-hero'),
-      badge = document.getElementById('colSticky'),
-      top   = document.getElementById('toTop');
-  if (!hero || !badge) return;
-  if (!('IntersectionObserver' in window)) {
-    badge.classList.add('show'); if (top) top.classList.add('show'); return;
-  }
+      top  = document.getElementById('toTop');
+  if (!hero || !top) return;
+  if (!('IntersectionObserver' in window)) { top.classList.add('show'); return; }
   new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      badge.classList.toggle('show', !e.isIntersecting);
-      if (top) top.classList.toggle('show', !e.isIntersecting);
-    });
+    entries.forEach(function (e) { top.classList.toggle('show', !e.isIntersecting); });
   }, { threshold: 0 }).observe(hero);
 })();
 </script>

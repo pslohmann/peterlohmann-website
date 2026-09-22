@@ -243,7 +243,6 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
       <p class="guide-label">Tester Guide:</p>
       <h1>Property Management API Grader</h1>
       <p class="lead">Help the industry test and grade PM platform API data access.</p>
-      <a class="presented-by" href="https://column.com/property-management/?utm_source=peter-lohmann&amp;utm_medium=plm-api-grader" target="_blank" rel="noopener">Presented by <img src="images/column-logo.png" alt="Column" /></a>
 
       <div class="split" style="margin-top:32px;">
         <div>
@@ -434,10 +433,6 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </div>
 </footer>
 
-<a class="col-sticky" id="colSticky" href="https://column.com/property-management/?utm_source=peter-lohmann&amp;utm_medium=plm-api-grader" target="_blank" rel="noopener" aria-label="Presented by Column">
-  <span>Presented by</span><img src="images/column-logo.png" alt="Column" />
-</a>
-
 <!-- Walkthrough lightbox. Deliberately just the video and a close button: the
      hero already carries the caption, so repeating it here only shrinks the video. -->
 <div class="vlight" id="vidLight" aria-hidden="true">
@@ -453,19 +448,5 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 
 
 <script src="site.js?v=28"></script>
-<script>
-/* Reveal the sponsor pill once the hero has scrolled past, same behaviour as the
-   Boom badge on the Largest PM Companies page. */
-(function(){
-  var hero = document.querySelector('.page-hero'),
-      badge = document.getElementById('colSticky');
-  if (!hero || !badge) return;
-  if (!('IntersectionObserver' in window)) { badge.classList.add('show'); return; }
-  new IntersectionObserver(function(entries){
-    entries.forEach(function(e){ badge.classList.toggle('show', !e.isIntersecting); });
-  }, { threshold: 0 }).observe(hero);
-})();
-</script>
-
 </body>
 </html>
