@@ -121,7 +121,9 @@
              display:inline-block; }
 .rc-cat:hover .go{ opacity:1; transform:translateX(2px); }
 /* Landing from a category link, so the group is not hidden under the nav. */
-.rc-checks{ scroll-margin-top:90px; }
+/* Jump targets clear the pinned nav and preview bar, measured at runtime, plus a
+   little breathing room so the heading is not flush against the bar. */
+.rc-checks{ scroll-margin-top:calc(var(--nav-h, 59px) + var(--prebar-h, 0px) + 22px); }
 .rc-cat-top{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
 .rc-cat .n{ font-family:var(--mono, ui-monospace, SFMono-Regular, Menlo, monospace);
             font-size:11.5px; letter-spacing:.1em; color:var(--muted); }
@@ -146,8 +148,8 @@
 .rc-read .pts{ font-family:var(--mono, ui-monospace, SFMono-Regular, Menlo, monospace);
                font-size:13px; color:var(--muted); }
 .rc-read p{ margin:10px 0 0; color:var(--muted); font-size:17px; line-height:1.65; }
-/* The category cards jump here, so keep the heading clear of the sticky nav. */
-.rc-read{ scroll-margin-top:90px; }
+/* The category cards jump here, so keep the heading clear of the pinned bars. */
+.rc-read{ scroll-margin-top:calc(var(--nav-h, 59px) + var(--prebar-h, 0px) + 22px); }
 /* Hand-off from the plain-language read to that category's 27-check detail. */
 .rc-more{ display:inline-flex; align-items:center; gap:7px; margin-top:12px;
           font-size:15px; font-weight:700; color:var(--primary); }

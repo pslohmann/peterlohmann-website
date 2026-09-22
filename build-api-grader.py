@@ -2983,7 +2983,7 @@ SUB_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=9" />
+<link rel="stylesheet" href="/api-grader/report.css?v=10" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -3178,15 +3178,24 @@ SUB_PAGE = """<!--
     var o=t.getAttribute('aria-expanded')==='true';
     t.setAttribute('aria-expanded',String(!o)); l.classList.toggle('open',!o);
   }});}}
-  /* Pin the preview bar directly under the sticky nav. The nav's height changes
-     with the viewport, so it is measured rather than assumed. */
-  var nav=document.querySelector('nav.top');
+  /* Measure what is pinned to the top of the screen: the nav, plus the preview
+     bar when it is pinned (on phones it scrolls away instead). Both feed the
+     jump targets' scroll-margin, so a heading never lands under the bar. */
+  var nav=document.querySelector('nav.top'), bar=document.querySelector('.pre-bar');
   if(nav){{
     var sync=function(){{
-      document.documentElement.style.setProperty('--nav-h', nav.offsetHeight+'px');
+      var stuck = bar && getComputedStyle(bar).position === 'sticky';
+      var root=document.documentElement.style;
+      root.setProperty('--nav-h', nav.offsetHeight+'px');
+      root.setProperty('--prebar-h', (stuck ? bar.offsetHeight : 0)+'px');
     }};
-    sync(); window.addEventListener('resize', sync);
-    if(window.ResizeObserver) new ResizeObserver(sync).observe(nav);
+    sync();
+    window.addEventListener('resize', sync);
+    window.addEventListener('orientationchange', sync);
+    window.addEventListener('load', sync);
+    if(window.ResizeObserver){{
+      var ro=new ResizeObserver(sync); ro.observe(nav); if(bar) ro.observe(bar);
+    }}
   }}
 }})();
 </script>
@@ -3273,7 +3282,7 @@ PENDING_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=9" />
+<link rel="stylesheet" href="/api-grader/report.css?v=10" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -3439,15 +3448,24 @@ PENDING_PAGE = """<!--
     var o=t.getAttribute('aria-expanded')==='true';
     t.setAttribute('aria-expanded',String(!o)); l.classList.toggle('open',!o);
   }});}}
-  /* Pin the preview bar directly under the sticky nav. The nav's height changes
-     with the viewport, so it is measured rather than assumed. */
-  var nav=document.querySelector('nav.top');
+  /* Measure what is pinned to the top of the screen: the nav, plus the preview
+     bar when it is pinned (on phones it scrolls away instead). Both feed the
+     jump targets' scroll-margin, so a heading never lands under the bar. */
+  var nav=document.querySelector('nav.top'), bar=document.querySelector('.pre-bar');
   if(nav){{
     var sync=function(){{
-      document.documentElement.style.setProperty('--nav-h', nav.offsetHeight+'px');
+      var stuck = bar && getComputedStyle(bar).position === 'sticky';
+      var root=document.documentElement.style;
+      root.setProperty('--nav-h', nav.offsetHeight+'px');
+      root.setProperty('--prebar-h', (stuck ? bar.offsetHeight : 0)+'px');
     }};
-    sync(); window.addEventListener('resize', sync);
-    if(window.ResizeObserver) new ResizeObserver(sync).observe(nav);
+    sync();
+    window.addEventListener('resize', sync);
+    window.addEventListener('orientationchange', sync);
+    window.addEventListener('load', sync);
+    if(window.ResizeObserver){{
+      var ro=new ResizeObserver(sync); ro.observe(nav); if(bar) ro.observe(bar);
+    }}
   }}
 }})();
 </script>
