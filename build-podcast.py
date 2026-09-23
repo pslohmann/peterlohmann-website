@@ -222,6 +222,15 @@ def build():
     hero = yt[0]
     cards = yt[1:10]
     print(f"Hero: {hero['title']} ({hero['id']})")
+    # Round icon-only buttons for the featured episode, same style as the episode blog posts.
+    # Apple links to the matched episode; Spotify has no per-episode lookup, so it opens the show.
+    hero_apple = match_apple(hero["title"], apple) or APPLE_SHOW
+    big = 'style="width:44px;height:44px;"'
+    hero_icons = (f'<a class="pod-ic apple" {big} href="{esc(hero_apple)}" target="_blank" rel="noopener" '
+                  f'aria-label="Listen on Apple Podcasts">{APPLE_SVG}</a>'
+                  f'<a class="pod-ic spotify" {big} href="{esc(SPOTIFY_SHOW)}" target="_blank" rel="noopener" '
+                  f'aria-label="Listen on Spotify">{SPOTIFY_SVG}</a>')
+    print(f"Hero Apple link: {'episode' if hero_apple != APPLE_SHOW else 'show (no match)'}")
     cards_html = "\n".join(card(ep, match_apple(ep["title"], apple)) for ep in cards)
     matched = sum(1 for ep in cards if match_apple(ep["title"], apple))
     print(f"Cards: {len(cards)}  (Apple per-episode matches: {matched}/{len(cards)})")
@@ -295,6 +304,7 @@ def build():
           <p class="sub">Fresh conversations drop regularly. Hit play, or catch the full back catalog on the platform of your choice.</p>
           <div class="listen-row mt-sm">
             <a class="btn btn-yt" href="https://www.youtube.com/@PeterLohmannsPodcast?sub_confirmation=1" target="_blank" rel="noopener">{YT_SVG} Subscribe on YouTube</a>
+            <span style="display:inline-flex;align-items:center;gap:10px;">{hero_icons}</span>
           </div>
           <p style="margin:16px 0 0;font-size:15px;"><a href="{YT_PLAYLIST_URL}" target="_blank" rel="noopener" style="font-weight:700;color:var(--primary);">YouTube Episode Archive, 2021 to August 2026 &rarr;</a></p>
         </div>
