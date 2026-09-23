@@ -286,7 +286,7 @@ def build():
   </header>
 
   <!-- LATEST EPISODE (newest video) -->
-  <section class="band">
+  <section class="band" style="padding-bottom:44px;">
     <div class="wrap">
       <div class="split" style="align-items:center;">
         <div>
@@ -295,8 +295,8 @@ def build():
           <p class="sub">Fresh conversations drop regularly. Hit play, or catch the full back catalog on the platform of your choice.</p>
           <div class="listen-row mt-sm">
             <a class="btn btn-yt" href="https://www.youtube.com/@PeterLohmannsPodcast?sub_confirmation=1" target="_blank" rel="noopener">{YT_SVG} Subscribe on YouTube</a>
-            <a class="btn btn-ghost" href="{YT_PLAYLIST_URL}" target="_blank" rel="noopener">Episode archive (2021 to Aug 2026)</a>
           </div>
+          <p style="margin:16px 0 0;font-size:15px;"><a href="{YT_PLAYLIST_URL}" target="_blank" rel="noopener" style="font-weight:700;color:var(--primary);">YouTube Episode Archive, 2021 to August 2026 &rarr;</a></p>
         </div>
         <div>
           <div class="embed-frame video">
@@ -310,7 +310,7 @@ def build():
   </section>
 
   <!-- RECENT EPISODES (cards) -->
-  <section class="band tight">
+  <section class="band tight wash">
     <div class="wrap">
       <span class="kicker">Recent Episodes</span>
       <h2 class="h-lead">More to watch and hear.</h2>
@@ -325,7 +325,7 @@ def build():
   </section>
 
   <!-- STATS -->
-  <section class="band tight wash" aria-label="At a glance">
+  <section class="band tight" aria-label="At a glance">
     <div class="wrap">
       <div class="stats stats-color">
         <div class="stat"><div class="v">100+</div><div class="k">Episodes published</div></div>
@@ -336,7 +336,7 @@ def build():
   </section>
 
   <!-- LISTEN ANYWHERE -->
-  <section class="band">
+  <section class="band wash">
     <div class="wrap center">
       <span class="kicker">Listen &amp; Subscribe</span>
       <h2 class="h-lead">Catch it wherever you listen.</h2>
