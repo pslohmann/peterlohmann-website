@@ -28,7 +28,9 @@ YT_PODCAST_CHANNEL = "UCITYGVYEWOdxrEpkFp7k8ag"   # @PeterLohmannsPodcast, where
 ITUNES_ID = "1554806227"
 APPLE_SHOW = "https://podcasts.apple.com/us/podcast/peter-lohmanns-podcast/id1554806227"
 SPOTIFY_SHOW = "https://open.spotify.com/show/5BLsN2TwI8mDtIhGoKfnZV?si=be32f2f710c84d67"
-YT_CHANNEL = "https://www.youtube.com/@peterlohmann/podcasts"
+# Full episodes publish on the podcast channel from Sep 2026. Everything before that stays on
+# Peter's main channel and is linked as the archive (YT_PLAYLIST_URL); it is not being re-uploaded.
+YT_CHANNEL = "https://www.youtube.com/@PeterLohmannsPodcast"
 YT_PLAYLIST_URL = f"https://www.youtube.com/playlist?list={YT_PLAYLIST}"
 UA = {"User-Agent": "Mozilla/5.0"}
 
@@ -68,7 +70,12 @@ def clean_title(t):
     t = re.split(r"\s*\|\s*", t)[0]                    # drop any trailing "| ..."
     return t.strip()
 
-def _feed_entries(url):
+EPISODE_SUFFIX = "Peter Lohmann's Podcast"   # every full episode's YouTube title ends with this
+
+def _feed_entries(url, episodes_only=False):
+    """episodes_only: keep only videos titled "... | Peter Lohmann's Podcast". The podcast
+    channel also carries the odd non-episode upload (for example the API Report Card intro
+    on Sep 21, 2026), which must not be featured as the latest episode."""
     xml = get(url)
     eps = []
     for e in re.findall(r"<entry>(.*?)</entry>", xml, re.S):
@@ -80,6 +87,9 @@ def _feed_entries(url):
             continue
         title = re.search(r"<media:title>([^<]+)</media:title>", e) or re.search(r"<title>([^<]+)</title>", e)
         pub = re.search(r"<published>([^<]+)</published>", e)
+        raw = htmlmod.unescape(title.group(1)) if title else ""
+        if episodes_only and not raw.rstrip().endswith(EPISODE_SUFFIX):
+            continue
         eps.append({"id": vid.group(1), "title": clean_title(title.group(1) if title else ""),
                     "date": pub.group(1)[:10] if pub else ""})
     return eps
@@ -92,10 +102,10 @@ def fetch_youtube():
     merged, de-duplicated by video id and sorted by publish date, so new episodes appear
     automatically while the older ones still fill out the list."""
     eps, seen = [], set()
-    for url in (f"https://www.youtube.com/feeds/videos.xml?channel_id={YT_PODCAST_CHANNEL}",
-                f"https://www.youtube.com/feeds/videos.xml?playlist_id={YT_PLAYLIST}"):
+    for url, only_eps in ((f"https://www.youtube.com/feeds/videos.xml?channel_id={YT_PODCAST_CHANNEL}", True),
+                          (f"https://www.youtube.com/feeds/videos.xml?playlist_id={YT_PLAYLIST}", False)):
         try:
-            entries = _feed_entries(url)
+            entries = _feed_entries(url, episodes_only=only_eps)
         except Exception as ex:
             print(f"  ! could not read {url}: {ex}")
             continue
@@ -284,8 +294,8 @@ def build():
           <h2 class="h-lead" style="margin:14px 0 10px;">{esc(hero['title'])}</h2>
           <p class="sub">Fresh conversations drop regularly. Hit play, or catch the full back catalog on the platform of your choice.</p>
           <div class="listen-row mt-sm">
-            <a class="btn btn-primary" href="{YT_PLAYLIST_URL}" target="_blank" rel="noopener">Full episode playlist</a>
-            <a class="btn btn-yt" href="https://www.youtube.com/@peterlohmann?sub_confirmation=1" target="_blank" rel="noopener">{YT_SVG} Subscribe on YouTube</a>
+            <a class="btn btn-yt" href="https://www.youtube.com/@PeterLohmannsPodcast?sub_confirmation=1" target="_blank" rel="noopener">{YT_SVG} Subscribe on YouTube</a>
+            <a class="btn btn-ghost" href="{YT_PLAYLIST_URL}" target="_blank" rel="noopener">Episode archive (2021 to Aug 2026)</a>
           </div>
         </div>
         <div>
@@ -309,7 +319,7 @@ def build():
 {cards_html}
       </div>
       <div class="center mt-lg">
-        <a class="btn btn-ghost" href="{YT_CHANNEL}" target="_blank" rel="noopener">See all episodes on YouTube</a>
+        <a class="btn btn-ghost" href="{YT_CHANNEL}" target="_blank" rel="noopener">Watch on the podcast&#x27;s YouTube channel</a>
       </div>
     </div>
   </section>
