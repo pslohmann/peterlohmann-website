@@ -296,6 +296,11 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   .price-card h3{ font-size:19px; margin-bottom:2px; }
   .price-card .desc{ color:var(--muted); font-size:14.5px; margin-bottom:16px; }
   .price-card .amt{ font-size:38px; font-weight:700; color:var(--navy); letter-spacing:-.02em; }
+  .price-card .amt-note{ font-size:15px; font-weight:500; color:var(--muted); letter-spacing:0; }
+  /* A la carte 2x2: pin the ad-read row to the bottom so Podcast and YouTube line up side by side */
+  #alacarte .price-card{ display:flex; flex-direction:column; }
+  #alacarte .price-card > .addon{ margin-top:auto; }
+  #alacarte .price-card > :nth-last-child(2){ margin-bottom:18px; }
   .price-card .amt small{ font-size:15px; font-weight:600; color:var(--muted); letter-spacing:0; }
   .chip{ display:inline-block; font-size:12.5px; font-weight:600; padding:4px 11px; border-radius:999px; }
   .chip-soldout{ background:#f0f3f6; color:#8496a2; border:1px solid #e2e8ee; }
@@ -528,6 +533,9 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   @media (max-width:560px){ .example-grid{ grid-template-columns:1fr; } }
 
   /* ---------- RESPONSIVE ---------- */
+  @media (max-width:1060px){
+    nav.top .links{ display:none; }   /* the in-page links ran off the right edge on tablets */
+  }
   @media (max-width:960px){
     .charts{ grid-template-columns:1fr; }
     .about-grid{ grid-template-columns:1fr; gap:26px; justify-items:center; text-align:center; }
@@ -726,7 +734,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <section id="book" class="band" aria-labelledby="book-h">
     <div class="wrap">
       <h2 id="book-h" class="h-lead reveal">Partnership and sponsorship opportunities.</h2>
-      <div class="grid g3 stagger mt-md">
+      <div class="grid g2 stagger mt-md">
         <div class="card book-col">
           <h3>Newsletter</h3>
           <p>Twice-weekly insights (Tuesday &amp; Friday) on PM news, events, and Peter's perspectives.</p>
@@ -745,6 +753,16 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
             <li>Airs every other Thursday</li>
           </ul>
           <span id="podcastBookTag"></span>
+        </div>
+        <div class="card book-col">
+          <h3>Long-form YouTube Videos</h3>
+          <p>Peter&#x27;s in-depth videos on running and growing a property management company.</p>
+          <ul>
+            <li>A 30-second ad plus a ~5-second intro, read by Peter</li>
+            <li>On screen, or over a screen recording of your product</li>
+            <li>A link of your choice in the video description</li>
+            <li><a href="#youtube-videos">See an example</a></li>
+          </ul>
         </div>
         <div class="card book-col">
           <h3>Bundles &amp; Extras</h3>
@@ -1317,7 +1335,7 @@ function renderAlaCarte(){
     primary:   ["Runs in the Friday &amp; Tuesday issues","A large standout unit with your logo, images, and CTA","Emailed and published online"],
     secondary: ["Friday issue only","A 1-2 sentence plug with an embedded link","Placed in the most-clicked section"],
     podcast:   ["Two ad slots per episode (up to 90 seconds each)","Placed in the first two-thirds of the episode","Airs every other Thursday"],
-    youtube:   ["A 30-second ad plus a ~5-second intro","Your script or outline","A link of your choice in the video description","Ask about upcoming video topics to find the right fit"],
+    youtube:   ["A 30-second ad plus a ~5-second intro","Your script or outline","A link of your choice in the video description","Ask about upcoming video topics to find the right fit",'<a href="#youtube-videos">See an example &rarr;</a>'],
   };
   function bl(arr){ return '<ul class="pc-bullets">'+arr.map(function(b){return "<li>"+b+"</li>";}).join("")+'</ul>'; }
   function title(first, rest){ return '<div class="pc-title"><span class="pc-kicker">'+first+'</span><span class="pc-rest">'+rest+'</span></div>'; }
@@ -1354,7 +1372,6 @@ function renderAlaCarte(){
         +   rise(P.podcastAd)
         +   chip
         +   '<div class="addon">'
-        +     '<div class="addon-tag">Add-on</div>'
         +     '<div class="addon-row"><span class="addon-name">'+P.podcastRead.label+'</span><span class="addon-price">'+money(P.podcastRead.price)+'</span></div>'
         +     '<p class="addon-desc">Have Peter read your ad for extra credibility.</p>'
         +   '</div>'
@@ -1362,13 +1379,11 @@ function renderAlaCarte(){
   // 4. Long-form YouTube Video  (ad read by Peter is included, shown in the same spot as the podcast add-on)
   html += '<div class="price-card">'
         +   title("Long-form","YouTube Video")
-        +   '<div class="amt">'+money(P.youtubeVideo.price)+'</div>'
+        +   '<div class="amt">'+money(P.youtubeVideo.price)+' <span class="amt-note">(preliminary pricing)</span></div>'
         +   bl(bullets.youtube)
-        +   '<div class="rise-2027">Preliminary pricing &middot; introductory rate while we roll these out</div>'
         +   '<div class="addon">'
-        +     '<div class="addon-tag">Included</div>'
         +     '<div class="addon-row"><span class="addon-name">Ad Read by Peter</span><span class="addon-price">Included</span></div>'
-        +     '<p class="addon-desc">Read on screen, or over a screen recording of your product or platform. <a href="#youtube-videos">See an example &rarr;</a></p>'
+        +     '<p class="addon-desc">Read on screen or over a screen recording.</p>'
         +   '</div>'
         + '</div>';
   document.getElementById("alacarte").innerHTML = html;
@@ -1762,7 +1777,21 @@ function landOnHash(){
   if (!id || id === "podcast-guest") return;          // the guest offer handles its own hash
   var el = document.getElementById(id);
   if (!el) return;
-  setTimeout(function(){ el.scrollIntoView({ behavior:"instant", block:"start" }); }, 80);
+  var first = null;
+  function go(){
+    // The section slides up 20px as it reveals; measuring mid-slide landed the jump 20px low
+    // and tucked the heading under the bar. Show it in its final place, then measure layout
+    // (offsetTop ignores the slide), leaving room below the sticky bar.
+    el.classList.add("in");
+    var top = 0, n = el;
+    while (n){ top += n.offsetTop; n = n.offsetParent; }
+    var bar = document.querySelector("nav.top");
+    var clear = (bar ? bar.getBoundingClientRect().height : 58) + 28;
+    window.scrollTo({ top: Math.max(0, top - clear), behavior:"instant" });
+  }
+  setTimeout(function(){ go(); first = window.scrollY; }, 80);
+  // Once more after late images and charts settle, unless the reader has already scrolled.
+  setTimeout(function(){ if (first !== null && Math.abs(window.scrollY - first) < 4) go(); }, 900);
 }
 
 if (typeof document !== "undefined"){
