@@ -503,7 +503,7 @@ def write_post(it, body_html, cover=None, podcast_vid=None):
   <section class="band tight wash">
     <div class="wrap center">
       <h2 class="h-lead">Get posts like this in your inbox.</h2>
-      <p class="sub" style="margin:8px auto 20px;">Twice a week, read by 24,000+ property management professionals.</p>
+      <p class="sub" style="margin:8px auto 20px;">Twice a week, read by 25,000+ property management professionals.</p>
       <a class="btn btn-primary" href="../newsletter.html">Subscribe to the newsletter</a>
     </div>
   </section>
@@ -614,7 +614,7 @@ def write_index(posts):
   <section class="band tight wash">
     <div class="wrap center">
       <h2 class="h-lead">Never miss a post.</h2>
-      <p class="sub" style="margin:8px auto 20px;">The best of the blog lands in the newsletter twice a week, read by 24,000+ PM professionals.</p>
+      <p class="sub" style="margin:8px auto 20px;">The best of the blog lands in the newsletter twice a week, read by 25,000+ PM professionals.</p>
       <a class="btn btn-primary" href="newsletter.html">Subscribe to the newsletter</a>
     </div>
   </section>
