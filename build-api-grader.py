@@ -337,10 +337,11 @@ RESULTS = {
               "or reject with your own reasons, and have Boom push the approved "
               "applicant into your PMS. You can also enroll residents in rent "
               "reporting, keep lease terms current, and close them out at "
-              "move-out. What you cannot do is manage a lease, since there is no "
-              "lease record here at all, configure the screening rules, upload or "
-              "sign a document, or undo a decision through the API even though a "
-              "person can do it in the portal. Plan on a person in the Boom "
+              "move-out. Leases are not part of this API by design: Boom hands "
+              "the approved applicant to your PMS, and the lease lives there. "
+              "What you cannot do through the API is configure the screening "
+              "rules, upload a document, or undo a decision, even though a person "
+              "can undo one in the portal. Plan on a person in the Boom "
               "portal for setup and reversals, and your code for everything in "
               "between."),
     (5.0, 10, "The API works, and the parts you touch first are pleasant: clean "
@@ -405,7 +406,7 @@ RESULTS = {
     "No concurrency control, so two jobs can silently overwrite each other",
     "No request id on any successful response, so there is nothing to quote to support",
     "No Retry-After on any response, even though a 429 is documented",
-    "No lease record, no document upload and no e-signature anywhere in the API",
+    "Documents can be read but not uploaded through the API",
     "No endpoint reverses a decision, though a person can undo one in the portal",
     "Owner scoping does not cover billing, so a read-only key can still read payout account details",
   ],
