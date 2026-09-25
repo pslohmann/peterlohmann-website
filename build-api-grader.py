@@ -59,7 +59,7 @@ CATEGORIES = [
          "DoorLoop", "Revela", "Rentec Direct", "Yardi Breeze", "Magic Door"]),
     ("listings",     "Listings, Applications &amp; Tenant Screening",
         ["Boom", "ShowMojo", "Tenant Turner", "RentEngine", "Rently",
-         "Showdigs", "Findigs", "RentSpree"]),
+         "Showdigs", "Findigs", "RentSpree", "Rent Butter", "AmRent"]),
     ("workflow",     "Workflow &amp; CRM",
         ["LeadSimple", "Aptly", "Process Street"]),
     ("maintenance",  "Maintenance",
@@ -80,7 +80,7 @@ NO_API = set()          # e.g. {"Some Bank"} for a platform with no API to grade
 # their own account. Distinct from "scoring in progress", which means the run is
 # under way: these are waiting on a customer, and saying so is how we get one.
 LOOKING = {"DoorLoop", "Revela", "Rentec Direct", "Yardi Breeze",
-           "Findigs", "RentSpree"}
+           "Findigs", "RentSpree", "Rent Butter", "AmRent"}
 
 GUIDE_URL = "/api-grader-guide"
 
@@ -2739,6 +2739,11 @@ def order_by_grade(companies):
     return sorted(companies, key=key)
 
 
+def article(name):
+    """"a" or "an" for the name that follows ("an AmRent customer", "a DoorLoop customer")."""
+    return "an" if name[:1].lower() in "aeiou" else "a"
+
+
 def build_rows():
     rows = []
     for s, heading, companies in CATEGORIES:
@@ -2768,7 +2773,7 @@ def build_rows():
                     f'<span class="co-name">{co}</span></a></td>'
                     f'<td class="num" colspan="7">'
                     f'<a class="look-cta" href="{GUIDE_URL}">'
-                    f'Are you a {co} customer? Click here to grade &rarr;</a>'
+                    f'Are you {article(co)} {co} customer? Click here to grade &rarr;</a>'
                     f'</td></tr>'
                 )
                 continue
@@ -2841,7 +2846,7 @@ def build_cards():
                 out.append(f'<a class="mcard is-muted" href="{GUIDE_URL}"><div class="mc-head">'
                            f'<span class="mc-name">{co}</span>'
                            f'<span class="pend-tag look"><i></i>Looking for a customer</span></div>'
-                           f'<span class="mc-link">Are you a {co} customer? Click here to grade &rarr;</span></a>')
+                           f'<span class="mc-link">Are you {article(co)} {co} customer? Click here to grade &rarr;</span></a>')
                 continue
             if not r:
                 out.append(f'<a class="mcard is-muted" href="{slug(co)}.html"><div class="mc-head">'
