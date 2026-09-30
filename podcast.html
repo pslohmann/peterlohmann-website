@@ -21,6 +21,31 @@
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="styles.css?v=28" />
+<style>
+  /* Season 7 presenting partner: hero lockup, same treatment as the sponsor on the Largest PM page */
+  .presented-by{ display:inline-flex; align-items:center; flex-wrap:wrap; gap:6px 12px; margin:-2px 0 14px;
+    font-size:clamp(18px,2.2vw,22px); font-weight:400; color:var(--muted); text-decoration:none; }
+  .presented-by img{ height:clamp(24px,3vw,31px); width:auto; display:block; transform:translateY(2px); }
+  .presented-by:hover{ text-decoration:none; opacity:.82; }
+  .hero-rule{ width:56px; height:3px; background:var(--primary); border-radius:2px; margin:0 0 18px; }
+  /* Season 7 presenting partner: banner in AppFolio's own colours (navy #05094F, sky #CDE9F9, yellow #FFE754) */
+  .af-banner{ display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr); gap:28px 44px; align-items:center;
+    background:#05094F; color:#fff; border-radius:var(--radius); padding:40px 44px; text-decoration:none;
+    box-shadow:0 18px 40px rgba(5,9,79,.22); transition:transform .15s ease, box-shadow .15s ease; }
+  .af-banner:hover{ text-decoration:none; color:#fff; transform:translateY(-2px); box-shadow:0 24px 48px rgba(5,9,79,.28); }
+  .af-side{ display:flex; flex-direction:column; align-items:flex-start; gap:18px; }
+  .af-chip{ display:inline-block; background:#FFE754; color:#05094F; font-size:12px; font-weight:800;
+    letter-spacing:.08em; text-transform:uppercase; padding:6px 12px; border-radius:999px; }
+  .af-logo{ width:min(100%,260px); height:auto; display:block; }
+  .af-copy h2{ font-family:var(--display); font-weight:800; font-size:clamp(22px,2.6vw,29px); line-height:1.2;
+    letter-spacing:-.01em; color:#fff; margin:0 0 12px; text-wrap:balance; }
+  .af-copy p{ color:#CDE9F9; font-size:16.5px; line-height:1.6; margin:0 0 20px; max-width:62ch; }
+  .af-cta{ display:inline-flex; align-items:center; gap:8px; background:#CDE9F9; color:#05094F; font-weight:700;
+    font-size:15px; padding:11px 20px; border-radius:999px; transition:background .15s ease; }
+  .af-banner:hover .af-cta{ background:#FFE754; }
+  .af-banner:focus-visible{ outline:3px solid #FFE754; outline-offset:3px; }
+  @media (max-width:760px){ .af-banner{ grid-template-columns:minmax(0,1fr); padding:30px 24px; } }
+</style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());/* Count clean URLs: a visit to /x.html or /x/index.html is recorded as /x or /x/. */(function(){try{var p=location.pathname,c=p.replace(/(^|\/)index\.html$/,'$1').replace(/\.html$/,'');if(c!==p)history.replaceState(null,'',c+location.search+location.hash);}catch(e){}})();/* Live site only, so local previews and test copies stay out of the numbers. */if(/(^|\.)peterlohmann\.com$/.test(location.hostname))gtag('config','G-DRCVXMNK1D');</script>
@@ -59,6 +84,8 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
       <div class="ticks" aria-hidden="true"><i></i><i></i><i></i></div>
       <span class="kicker">The Podcast</span>
       <h1>Honest, operator-to-operator conversations.</h1>
+      <a class="presented-by" href="https://www.appfolio.com/?utm_source=peter-lohmann&utm_medium=plm-podcast-season-7" target="_blank" rel="sponsored noopener">Season 7 Presenting Partner: <img src="images/appfolio-logo.webp" alt="AppFolio" /></a>
+      <div class="hero-rule" aria-hidden="true"></div>
       <p class="lead">100+ episodes across six seasons. Interviews with fellow business owners and executives about growth, hiring, systems, and the realities of leadership. No fluff, just smart people talking shop.</p>
       <div class="listen-row mt-md">
         <a class="listen-btn apple" href="https://podcasts.apple.com/us/podcast/peter-lohmanns-podcast/id1554806227" target="_blank" rel="noopener"><svg class="pf-ic" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.5c-.03-2.9 2.37-4.3 2.48-4.36-1.35-1.98-3.45-2.25-4.2-2.28-1.79-.18-3.49 1.05-4.4 1.05-.9 0-2.3-1.03-3.79-1-1.95.03-3.75 1.13-4.75 2.88-2.03 3.52-.52 8.73 1.45 11.58.96 1.4 2.11 2.96 3.61 2.9 1.45-.06 2-.94 3.75-.94 1.74 0 2.24.94 3.77.91 1.56-.03 2.55-1.42 3.5-2.82 1.1-1.62 1.56-3.19 1.58-3.27-.03-.02-3.03-1.16-3.06-4.61zM14.13 3.9c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.54.77-3.37 1.73-.74.85-1.39 2.22-1.22 3.53 1.28.1 2.59-.65 3.4-1.6z"/></svg> Apple Podcasts</a>
@@ -228,7 +255,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         </div>
       </div>
       <div class="center mt-lg">
-        <a class="btn btn-ghost" href="https://www.youtube.com/@PeterLohmannsPodcast" target="_blank" rel="noopener">Watch on the podcast&#x27;s YouTube channel</a>
+        <a class="btn btn-ghost" href="https://www.youtube.com/@PeterLohmannsPodcast" target="_blank" rel="noopener" style="white-space:normal;text-align:center;max-width:100%;">Watch on the podcast&#x27;s YouTube channel</a>
       </div>
     </div>
   </section>
@@ -241,6 +268,23 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <div class="stat"><div class="v">6</div><div class="k">Seasons and counting</div></div>
         <div class="stat"><div class="v">25k+</div><div class="k">Weekly audience across the platform</div></div>
       </div>
+    </div>
+  </section>
+
+  <!-- SEASON 7 PRESENTING PARTNER -->
+  <section class="band tight" aria-label="Season 7 presenting partner">
+    <div class="wrap">
+      <a class="af-banner" href="https://www.appfolio.com/?utm_source=peter-lohmann&utm_medium=plm-podcast-season-7" target="_blank" rel="sponsored noopener">
+        <div class="af-side">
+          <span class="af-chip">Season 7 Presenting Partner</span>
+          <img class="af-logo" src="images/appfolio-logo-white.webp" alt="AppFolio" loading="lazy" />
+        </div>
+        <div class="af-copy">
+          <h2>Thank you, AppFolio, for being our Season&nbsp;7 presenting partner.</h2>
+          <p>The AppFolio Performance Platform brings property and investment management into one system, with AI built in rather than bolted on, so your team spends less time on busywork and more time on residents, clients and growth.</p>
+          <span class="af-cta">Explore AppFolio <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
     </div>
   </section>
 

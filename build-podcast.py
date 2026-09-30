@@ -31,6 +31,9 @@ SPOTIFY_SHOW = "https://open.spotify.com/show/5BLsN2TwI8mDtIhGoKfnZV?si=be32f2f7
 # Full episodes publish on the podcast channel from Sep 2026. Everything before that stays on
 # Peter's main channel and is linked as the archive (YT_PLAYLIST_URL); it is not being re-uploaded.
 YT_CHANNEL = "https://www.youtube.com/@PeterLohmannsPodcast"
+# Season 7 presenting partner (Sep 2026). Remove the lockup, the banner section and the
+# <style> block marked "Season 7 presenting partner" when the partnership ends.
+PARTNER_URL = "https://www.appfolio.com/?utm_source=peter-lohmann&utm_medium=plm-podcast-season-7"
 YT_PLAYLIST_URL = f"https://www.youtube.com/playlist?list={YT_PLAYLIST}"
 UA = {"User-Agent": "Mozilla/5.0"}
 
@@ -259,6 +262,31 @@ def build():
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="styles.css?v={ASSET_V}" />
+<style>
+  /* Season 7 presenting partner: hero lockup, same treatment as the sponsor on the Largest PM page */
+  .presented-by{{ display:inline-flex; align-items:center; flex-wrap:wrap; gap:6px 12px; margin:-2px 0 14px;
+    font-size:clamp(18px,2.2vw,22px); font-weight:400; color:var(--muted); text-decoration:none; }}
+  .presented-by img{{ height:clamp(24px,3vw,31px); width:auto; display:block; transform:translateY(2px); }}
+  .presented-by:hover{{ text-decoration:none; opacity:.82; }}
+  .hero-rule{{ width:56px; height:3px; background:var(--primary); border-radius:2px; margin:0 0 18px; }}
+  /* Season 7 presenting partner: banner in AppFolio's own colours (navy #05094F, sky #CDE9F9, yellow #FFE754) */
+  .af-banner{{ display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr); gap:28px 44px; align-items:center;
+    background:#05094F; color:#fff; border-radius:var(--radius); padding:40px 44px; text-decoration:none;
+    box-shadow:0 18px 40px rgba(5,9,79,.22); transition:transform .15s ease, box-shadow .15s ease; }}
+  .af-banner:hover{{ text-decoration:none; color:#fff; transform:translateY(-2px); box-shadow:0 24px 48px rgba(5,9,79,.28); }}
+  .af-side{{ display:flex; flex-direction:column; align-items:flex-start; gap:18px; }}
+  .af-chip{{ display:inline-block; background:#FFE754; color:#05094F; font-size:12px; font-weight:800;
+    letter-spacing:.08em; text-transform:uppercase; padding:6px 12px; border-radius:999px; }}
+  .af-logo{{ width:min(100%,260px); height:auto; display:block; }}
+  .af-copy h2{{ font-family:var(--display); font-weight:800; font-size:clamp(22px,2.6vw,29px); line-height:1.2;
+    letter-spacing:-.01em; color:#fff; margin:0 0 12px; text-wrap:balance; }}
+  .af-copy p{{ color:#CDE9F9; font-size:16.5px; line-height:1.6; margin:0 0 20px; max-width:62ch; }}
+  .af-cta{{ display:inline-flex; align-items:center; gap:8px; background:#CDE9F9; color:#05094F; font-weight:700;
+    font-size:15px; padding:11px 20px; border-radius:999px; transition:background .15s ease; }}
+  .af-banner:hover .af-cta{{ background:#FFE754; }}
+  .af-banner:focus-visible{{ outline:3px solid #FFE754; outline-offset:3px; }}
+  @media (max-width:760px){{ .af-banner{{ grid-template-columns:minmax(0,1fr); padding:30px 24px; }} }}
+</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -285,6 +313,8 @@ def build():
       <div class="ticks" aria-hidden="true"><i></i><i></i><i></i></div>
       <span class="kicker">The Podcast</span>
       <h1>Honest, operator-to-operator conversations.</h1>
+      <a class="presented-by" href="{PARTNER_URL}" target="_blank" rel="sponsored noopener">Season 7 Presenting Partner: <img src="images/appfolio-logo.webp" alt="AppFolio" /></a>
+      <div class="hero-rule" aria-hidden="true"></div>
       <p class="lead">100+ episodes across six seasons. Interviews with fellow business owners and executives about growth, hiring, systems, and the realities of leadership. No fluff, just smart people talking shop.</p>
       <div class="listen-row mt-md">
         <a class="listen-btn apple" href="{APPLE_SHOW}" target="_blank" rel="noopener">{APPLE_SVG} Apple Podcasts</a>
@@ -329,7 +359,7 @@ def build():
 {cards_html}
       </div>
       <div class="center mt-lg">
-        <a class="btn btn-ghost" href="{YT_CHANNEL}" target="_blank" rel="noopener">Watch on the podcast&#x27;s YouTube channel</a>
+        <a class="btn btn-ghost" href="{YT_CHANNEL}" target="_blank" rel="noopener" style="white-space:normal;text-align:center;max-width:100%;">Watch on the podcast&#x27;s YouTube channel</a>
       </div>
     </div>
   </section>
@@ -342,6 +372,23 @@ def build():
         <div class="stat"><div class="v">6</div><div class="k">Seasons and counting</div></div>
         <div class="stat"><div class="v">25k+</div><div class="k">Weekly audience across the platform</div></div>
       </div>
+    </div>
+  </section>
+
+  <!-- SEASON 7 PRESENTING PARTNER -->
+  <section class="band tight" aria-label="Season 7 presenting partner">
+    <div class="wrap">
+      <a class="af-banner" href="{PARTNER_URL}" target="_blank" rel="sponsored noopener">
+        <div class="af-side">
+          <span class="af-chip">Season 7 Presenting Partner</span>
+          <img class="af-logo" src="images/appfolio-logo-white.webp" alt="AppFolio" loading="lazy" />
+        </div>
+        <div class="af-copy">
+          <h2>Thank you, AppFolio, for being our Season&nbsp;7 presenting partner.</h2>
+          <p>The AppFolio Performance Platform brings property and investment management into one system, with AI built in rather than bolted on, so your team spends less time on busywork and more time on residents, clients and growth.</p>
+          <span class="af-cta">Explore AppFolio <span aria-hidden="true">&rarr;</span></span>
+        </div>
+      </a>
     </div>
   </section>
 
