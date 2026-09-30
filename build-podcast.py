@@ -264,9 +264,9 @@ def build():
 <link rel="stylesheet" href="styles.css?v={ASSET_V}" />
 <style>
   /* Season 7 presenting partner: hero lockup, same treatment as the sponsor on the Largest PM page */
-  .presented-by{{ display:inline-flex; align-items:center; flex-wrap:wrap; gap:6px 12px; margin:-2px 0 14px;
+  .presented-by{{ display:inline-flex; align-items:center; flex-wrap:wrap; gap:6px 14px; margin:14px 0 16px;
     font-size:clamp(18px,2.2vw,22px); font-weight:600; color:var(--primary-dark); text-decoration:none; }}
-  .presented-by img{{ height:clamp(24px,3vw,31px); width:auto; display:block; transform:translateY(2px); }}
+  .presented-by img{{ height:clamp(30px,3.8vw,40px); width:auto; display:block; transform:translateY(3px); }}
   .presented-by:hover{{ text-decoration:none; opacity:.82; }}
   .hero-rule{{ width:56px; height:3px; background:var(--primary); border-radius:2px; margin:0 0 18px; }}
   /* Season 7 presenting partner: banner in AppFolio's own colours (navy #05094F, sky #CDE9F9, yellow #FFE754) */
@@ -315,7 +315,7 @@ def build():
       <h1>Honest, operator-to-operator conversations.</h1>
       <a class="presented-by" href="{PARTNER_URL}" target="_blank" rel="sponsored noopener">Season 7 Presenting Partner: <img src="images/appfolio-logo.webp" alt="AppFolio" /></a>
       <div class="hero-rule" aria-hidden="true"></div>
-      <p class="lead">100+ episodes across six seasons. Interviews with fellow business owners and executives about growth, hiring, systems, and the realities of leadership. No fluff, just smart people talking shop.</p>
+      <p class="lead">100+ episodes across seven seasons. Interviews with fellow business owners and executives about growth, hiring, systems, and the realities of leadership. No fluff, just smart people talking shop.</p>
       <div class="listen-row mt-md">
         <a class="listen-btn apple" href="{APPLE_SHOW}" target="_blank" rel="noopener">{APPLE_SVG} Apple Podcasts</a>
         <a class="listen-btn spotify" href="{SPOTIFY_SHOW}" target="_blank" rel="noopener">{SPOTIFY_SVG} Spotify</a>
