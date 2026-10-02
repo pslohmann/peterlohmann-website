@@ -311,8 +311,7 @@ def build():
   <header class="page-hero">
     <div class="wrap">
       <div class="ticks" aria-hidden="true"><i></i><i></i><i></i></div>
-      <span class="kicker">The Podcast</span>
-      <h1>Honest, operator-to-operator conversations.</h1>
+      <h1>Peter Lohmann's Podcast</h1>
       <a class="presented-by" href="{PARTNER_URL}" target="_blank" rel="sponsored noopener">Season 7 Presenting Partner: <img src="images/appfolio-logo.webp" alt="AppFolio" /></a>
       <div class="hero-rule" aria-hidden="true"></div>
       <p class="lead">100+ episodes across seven seasons. Interviews with fellow business owners and executives about growth, hiring, systems, and the realities of leadership. No fluff, just smart people talking shop.</p>
