@@ -27,6 +27,8 @@ SOURCES = {
     "aptly":             "aptly-2026-09-03.md",
     "boom":              "boom-2026-09-25.md",   # corrected report: carries both the 2026-09-09 and 2026-09-25 corrections
     "buildium":          "buildium-2026-08-27.md",
+    "fixgrid":           "fixgrid-2026-09-28.md",
+    "follow-up-boss":    "follow-up-boss-2026-09-22.md",
     "column":            "column-2026-09-09.md",
     "latchel":           "latchel-2026-09-10.md",
     "leadsimple":        "leadsimple-2026-08-28.md",
@@ -63,6 +65,8 @@ REDACT = [
     (r"thread `1a06c6986575955a`", "thread `[id withheld]`"),
     (r"message `1a0c66b6a11cd434`", "message `[id withheld]`"),
     (r"item `vobntdzmapgyvdqpbt5jd7qbba`", "item `[id withheld]`"),
+    # FixGrid: the name of the person who authorized the live test battery
+    (r"George Herlth III", "[operator name withheld]"),
 ]
 
 

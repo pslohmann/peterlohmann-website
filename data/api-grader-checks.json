@@ -1004,6 +1004,408 @@
    }
   ]
  },
+ "FixGrid": {
+  "source": "fixgrid.md",
+  "meta": {
+   "tier": "fully verified — controlled live (battery steps 1–8 all run; the notice and move-in writes deliberately not exercised and documentation-graded inside C1.1–C1.3, disclosed).",
+   "battery": "complete — steps 1–8 all ran (captures listed below). No step is N-A. Two occupancy writes (POST /units/{unit_id}/notice and POST /units/{unit_id}/move-in) were deliberately not exercised because they create tenancy records that the API cannot reverse (an irreversible state change on live data under the protocol's hard exclusions); they are documentation-graded items inside C1.3 (and inside the residents/units write items of C1.2).",
+   "date": "2026-09-28 (evidence access 14:37–14:56 UTC; grading 15:31–16:05 UTC)",
+   "model": "Claude Opus 5.5 (1M context), model ID `claude-opus-5-5[1m]`, run as a Claude Code subagent",
+   "coverage": "100% (26 of 26 applicable checks; C3.5 N-A). Gate satisfied; minimum battery complete."
+  },
+  "checks": [
+   {
+    "id": "C1.1",
+    "cat": 1,
+    "title": "Object coverage",
+    "mark": "partial",
+    "why": "weighted coverage = 59.5% (12.5 / 21); no critical object absent.** [judgment-sensitive]"
+   },
+   {
+    "id": "C1.2",
+    "cat": 1,
+    "title": "Core operational actions",
+    "mark": "no",
+    "why": "weighted coverage = 41.7% (12.5 / 30); a critical write workflow (\"assign it\") is absent.** Under a workflows-only reading the coverage is 66.7% (6 / 9), and the mark is still no under the rule's critical-absent clause."
+   },
+   {
+    "id": "C1.3",
+    "cat": 1,
+    "title": "Delete or lifecycle actions",
+    "mark": "no",
+    "why": "weighted coverage = 38.1% (8 / 21); a critical lifecycle action (reassign/unassign) is absent.** [judgment-sensitive]"
+   },
+   {
+    "id": "C1.4",
+    "cat": 1,
+    "title": "Change notification",
+    "mark": "partial",
+    "why": "push covers 58.8% (10 / 17) of the critical-plus-important state changes.**"
+   },
+   {
+    "id": "C2.1",
+    "cat": 2,
+    "title": "Modern API conventions",
+    "mark": "yes",
+    "why": ".** Resource-oriented REST over JSON: 26 operations on 23 paths using GET, POST, PATCH and DELETE (reference.html \"Operations\"; openapi.json `servers` https://app.fixgrid.app/api/v1); a wrong verb gets 405 with an `Allow` header (errors.html `method_not_allowed`; live 044 and 045, `allow: GET, PATCH`). Live GET 007–034, POST 060 and 076, PATCH 066–083, DELETE 084."
+   },
+   {
+    "id": "C2.2",
+    "cat": 2,
+    "title": "Consistent typing",
+    "mark": "yes",
+    "why": ".** [judgment-sensitive] Every schema in openapi.json `components.schemas` types every field (nullable as type arrays; enums for ticket status/priority, asset status, turn status, inspection status/result, unit occupancy, vendor compliance state, NTV and destination codes; `format` date, date-time, uri). Rendered examples are type-consistent (index `/whoami`; webhooks.html envelope, turn payload and 201 body; errors.html). Live: this run type-checked every preserved row against the published schemas — 1,158 list rows across nine schemas (all 398 tickets, 8 properties, 15 vendors, 85 inspections, 15 meters; 200 of 774 units; 200 of 5,388 assets; 232 of 708 turns; 5 readings), 15 single-object responses, the one webhook-subscription list row and the webhook delivery's `data` — with 0 type, enum, format, missing-key or undocumented-key deviations. Noted, not counted as type inconsistencies: the three card-only webhook events carry `data.property` / `data.unit` as label strings in a separately documented inline dict discriminated by `event` (webhooks.html \"Three keys carry a small inline dict\"); `OccupancyRecord.status` is documented as lower-case \"active\" while `Turn.status` is Title-Case (a value-casing, not a type, difference)."
+   },
+   {
+    "id": "C2.3",
+    "cat": 2,
+    "title": "Structured errors",
+    "mark": "yes",
+    "why": ".** One shape, `{\"error\":{\"code\",\"message\"}}`; \"code is stable and safe to branch on\", nineteen codes each mapped to an HTTP status (errors.html \"The contract\", \"The nineteen codes\"; openapi.json `components.schemas.Error`). Live: all 30 error captures use that shape with a populated code and correct status — e.g. 035 400 `invalid_cursor`, 037 422 `invalid_request`, 004 401 `unauthorized` + `WWW-Authenticate`, 046 403 `insufficient_scope`, 042 404 `not_found`, 044 405 + `Allow`, 063 409 `idempotency_mismatch`, 050_rate_limit_429 429 `rate_limited`. Limitations noted: `invalid_request` covers many 400/422 situations (the docs ask you to branch on status and sentence); two live message sentences differ from the documented ones (064, 063) with the code unchanged."
+   },
+   {
+    "id": "C2.4",
+    "cat": 2,
+    "title": "Duplicate prevention",
+    "mark": "yes",
+    "why": ".** Every consequential write requires an `Idempotency-Key` — ticket create, ticket status, notice, move-in, webhook create (errors.html `idempotency_key_required`; reference.html parameter tables). Live: 048 refuses a create without the key (400); 060 + 061 with the same key produced one ticket (3568; replay flagged `x-idempotent-replay: 1`; unit ticket count 11 → 12 in 059/062); 063 changed body with the same key → 409; 069 PATCH replay; 077–078 webhook create replayed (same subscription 11, secret omitted, reordered events treated as the same request as documented). Delete is naturally idempotent (089 → 404). Notice / move-in idempotency is documentation-graded."
+   },
+   {
+    "id": "C2.5",
+    "cat": 2,
+    "title": "Graceful handling under load",
+    "mark": "yes",
+    "why": ".** A documented 429 with `Retry-After` as \"An integer number of seconds\" and a stated allowance of 120 per minute per key (limits.html \"The limit\", \"On 429\"; errors.html `rate_limited`; openapi.json `x-rate-limit` and a 429 response on every keyed operation). Live: 050_rate_limit_429 (429, `retry-after: 30`); 055 a second key unaffected; 056 recovered after 32 s. (The spec does not declare the `Retry-After` header object; the guides do.)"
+   },
+   {
+    "id": "C2.6",
+    "cat": 2,
+    "title": "Pagination for large collections",
+    "mark": "yes",
+    "why": ".** Keyset cursors, rows \"ascending by id\", `next_cursor` null at the end, inserts during a walk \"do not shift or duplicate rows\", default 50 / maximum 200 with the clamp documented (objects.html \"The list envelope\", \"Paging\"). Live: 007 + 008 traversed all 398 tickets with no duplicates; 009 limit=999 applied as 200; 010 default 50; 034 readings paging. There is no total count; the next-page token satisfies the check."
+   },
+   {
+    "id": "C2.7",
+    "cat": 2,
+    "title": "Bulk or incremental export",
+    "mark": "partial",
+    "why": ".** [judgment-sensitive] No bulk, export or async-job operation exists among the 26 operations (openapi.json paths). Full datasets can be walked in 200-row pages, and `updated_since` supports incremental sync on tickets, assets, turns and meters (honored live: 026, 027, 032), but not on units, properties, vendors or inspections (\"/properties and /vendors take limit and cursor only\"; inspections \"There is no updated_since\"; units take `property_id` only — objects.html \"Filters\"). An account export exists only by contacting support (terms.html §7)."
+   },
+   {
+    "id": "C2.8",
+    "cat": 2,
+    "title": "Webhook security and delivery reliability",
+    "mark": "yes",
+    "why": ".** Signed: `FixGrid-Signature` with an HMAC-SHA256 over `<timestamp>.<body>`, Python and Node verification code and a 5-minute tolerance (webhooks.html \"Verifying the signature\"). Retry policy: first attempt on the hourly sweep, retries at 1 · 2 · 4 · 8 · 24 h, then parked, records kept 30 days, parked deliveries retryable by the admin (webhooks.html \"Delivery, retries, and giving up\"). Consumer guidance: dedupe on `event_id`, at-least-once delivery, timestamp tolerance against replay, per-object ordering by `occurred_at` (webhooks.html \"The envelope\", \"Your endpoint\"). Live: subscription 076; one delivery (1790607263438.json) with the signature header and the seven-key envelope in the documented order; HMAC verified valid as recorded in packet_manifest_v2_FINAL.md. Retries were not observable (the one delivery succeeded)."
+   },
+   {
+    "id": "C2.9",
+    "cat": 2,
+    "title": "Concurrency and conflict control",
+    "mark": "no",
+    "why": ".** [judgment-sensitive] No ETag / If-Match or record version (`schema_version` is the payload-shape version — limits.html \"schema_version is not the API version\"); PATCH has no precondition and \"any status is reachable from any other\" (objects.html \"Writing a ticket\"); a search of all developer-host sources finds no ETag, If-Match, concurrency or conflict guidance; no live response carries an ETag (79 of 79). The only 409s are idempotency-key collisions (`idempotency_in_progress`, `idempotency_mismatch`), which prevent duplicate application of the same request — credited in C2.4 — but do nothing against two integrations overwriting each other's change."
+   },
+   {
+    "id": "C2.10",
+    "cat": 2,
+    "title": "Versioning and backward compatibility",
+    "mark": "yes",
+    "why": ".** Version in the path, `/api/v1`, \"If we ever publish a v2, v1 keeps answering\"; explicit breaking and non-breaking lists; breaking changes \"get 90 days' notice\" (limits.html \"Versioning\", \"These are breaking…\", \"These are not breaking…\"); corroborated by changelog.html \"Deprecation\" (announced at least ninety days ahead, old behaviour keeps working). (This evidence is not reused in C4.4.)"
+   },
+   {
+    "id": "C2.11",
+    "cat": 2,
+    "title": "Request traceability",
+    "mark": "partial",
+    "why": ".** No request or correlation identifier is documented anywhere in the packet; the documented support path is \"contact support with the time and the path\" (errors.html `internal_error`). Live responses all carry `rndr-id` and `CF-RAY` (79 of 79) — hosting/CDN identifiers that FixGrid does not document or tie to support."
+   },
+   {
+    "id": "C2.12",
+    "cat": 2,
+    "title": "Service availability and status transparency",
+    "mark": "partial",
+    "why": ".** No public status page (/status.html is 404 on both hosts — dev_status., www_status.; status.fixgrid.app does not resolve per the manifests). An SLA exists only inside Enterprise contracts (\"Dedicated CSM + written SLAs\"; \"SLA-backed uptime — Written availability commitments\" — pricing.html Enterprise card and \"Why Enterprise costs what it does\"); standard terms disclaim uninterrupted service (terms.html §10)."
+   },
+   {
+    "id": "C3.1",
+    "cat": 3,
+    "title": "Read-only credentials",
+    "mark": "yes",
+    "why": ".** The `read` scope \"opens every list and fetch\" and nothing else (authentication.html \"Scopes\"). Live: 001 shows scope `read`; the read key is refused on a ticket create (046 → 403) and on a subscription delete (080 → 403)."
+   },
+   {
+    "id": "C3.2",
+    "cat": 3,
+    "title": "Scoped credentials",
+    "mark": "partial",
+    "why": ".** [judgment-sensitive] Three fixed scopes — `read`, `write` (every write plus read and webhooks) and `webhook_only` (subscriptions only) — \"fixed at mint\" (authentication.html \"Scopes\"; developers.fixgrid.app \"What it carries\"). Every key is company-wide (developers.fixgrid.app \"What the key is\"); a key cannot be limited to one property, one resource type or one action (e.g. create tickets but not record occupancy). Live: 047 a `webhook_only` key is refused on `/tickets` (403). Broad scoping only."
+   },
+   {
+    "id": "C3.3",
+    "cat": 3,
+    "title": "Multiple keys",
+    "mark": "yes",
+    "why": ".** Keys are created and labelled per integration (developers.fixgrid.app \"How you get one\"), and the rate limit is counted per key \"so two integrations at the same customer never spend each other's budget\" (limits.html \"The limit\"). Live: three distinct keys in use (001–003); 055 one key's throttle left another unaffected."
+   },
+   {
+    "id": "C3.4",
+    "cat": 3,
+    "title": "Rotation and revocation",
+    "mark": "yes",
+    "why": ".** The Company Admin can \"Revoke it on the same tab at any time\", and a lost key is replaced by minting a new one and revoking the old (developers.fixgrid.app \"How you get one\", \"If you have lost a value\"); a revoked key answers 401 `key_revoked` (errors.html). Self-serve for the account owner; documentation-graded (revocation was not captured)."
+   },
+   {
+    "id": "C3.5",
+    "cat": 3,
+    "title": "Test and production isolation",
+    "mark": "na",
+    "why": ".** No sandbox or separate test environment is documented (keys begin `fg_live_`; no sandbox, test-key or staging material anywhere in the packet). The battery ran on the operator's demonstration company in production."
+   },
+   {
+    "id": "C4.1",
+    "cat": 4,
+    "title": "Complete self-serve reference",
+    "mark": "partial",
+    "why": ".** Coverage is complete — all 26 operations with parameters, request bodies, every response code with its error sentences, and full field tables, plus authentication, error and webhook guides (reference.html; authentication.html; errors.html; webhooks.html). Worked examples are thin for the core endpoints: every operation has a curl request, but the write examples are generated placeholders (reference.html POST /tickets: `\"unit_id\":0 … \"priority\":\"string\",\"category\":\"string\"`, values that would be refused), and there are no response examples in the reference or the OpenAPI document (zero `example` keys). Rendered response JSON exists only for `/whoami`, the list-envelope skeleton, error bodies and webhook payloads — not for listing, fetching, creating or updating a ticket, unit, turn or vendor. Documentation-versus-live contradictions observed: the status-in-create refusal reads \"The server sets status; omit it.\" live (064) versus the documented \"This endpoint always creates a ticket with status 'Open'. Remove `status` from the request body.\"; the create mismatch reads \"different ticket request\" live (063) versus the documented \"different ticket payload\"; webhook events are documented as \"Stored sorted and deduplicated\" but were echoed and listed in request order (076, 079); authentication.html says no-store applies to \"Every response on the namespace\", but the 404-path and 405 responses carried no Cache-Control (043, 044, 045). The site footer's claim that every error sentence is copied from the running product is therefore not fully borne out."
+   },
+   {
+    "id": "C4.2",
+    "cat": 4,
+    "title": "Reliable machine-consumable integration path",
+    "mark": "yes",
+    "why": ".** A public OpenAPI 3.1 document at developers.fixgrid.app/openapi.json and app.fixgrid.app/api/v1/openapi.json (byte-identical, no key needed) covers all 26 operations with typed schemas, enums, required fields and the bearer security scheme; this run found 0 deviations between it and the live data. No official SDK and no MCP server (developers.fixgrid.app warns never to put a key in a Claude/MCP connector); one strong mechanism suffices. Limitations: no `operationId`s (generators must synthesize names), no examples, `Retry-After` not declared as a response header."
+   },
+   {
+    "id": "C4.3",
+    "cat": 4,
+    "title": "AI-readable documentation",
+    "mark": "partial",
+    "why": ".** developers.fixgrid.app/llms.txt (1,515 bytes) is an index of links with one-line summaries (dev_llms.txt); llms-full.txt is 404 (dev_llms-full.txt \"Not Found\"); there is no per-endpoint Markdown or plain-text corpus. The marketing llms.txt carries a \"Developer API\" section of links only (www_llms.txt). Index-only."
+   },
+   {
+    "id": "C4.4",
+    "cat": 4,
+    "title": "Kept current",
+    "mark": "yes",
+    "why": ".** [judgment-sensitive] The changelog records every change with dates from v1 on 2026-09-08 through 2026-09-24, naming the objects and routes affected (\"Every change to the API, dated. Additive changes land here on the day they ship\"); the reference is \"Generated from openapi.json — the same document the API serves\" and \"The reference and this page both change with the same publish\" (reference.html; changelog.html \"Watching this page\"); sitemap lastmod dates run 2026-09-12 to 2026-09-24 (dev_sitemap.xml); the two OpenAPI copies are identical and matched live data on 2026-09-28. Blemish: the 2026-09-12 Turn entry is marked \"Documented here 2026-09-24\" — a 12-day lag against the same-day promise, disclosed by the changelog itself; there is no email list."
+   },
+   {
+    "id": "C5.1",
+    "cat": 5,
+    "title": "Self-serve API key",
+    "mark": "yes",
+    "why": ".** \"A Company Admin mints the key inside FixGrid\" on Integrations → Developers; \"You do not apply to FixGrid for a key\" (developers.fixgrid.app \"How you get one\", \"Talk to us\"); security.html \"Access control\". Live: the three keys used were minted by the operator (packet_manifest_v2_FINAL.md; 001–003)."
+   },
+   {
+    "id": "C5.3",
+    "cat": 5,
+    "title": "Not commercially gated",
+    "mark": "yes",
+    "why": ".** [judgment-sensitive] \"Included on every plan. Starter, Professional, and Enterprise. No partner fee.\" (developers.fixgrid.app \"What it carries\"); \"Public API + signed webhooks — Included on every plan … No partner fee, no API add-on.\" and the \"On every plan\" list (pricing.html); the cheapest plan is Starter at $49/mo. The API documentation shows no plan gating of any endpoint or scope and no plan-related error code. Note: some product modules whose data sits behind API objects — Grid Auriga vendor management, the full asset registry, utilities — are Professional-tier product features (pricing.html \"Compare plans\"), so a Starter company would have less data to read; this is product packaging, not an API entitlement."
+   }
+  ]
+ },
+ "Follow Up Boss": {
+  "source": "follow-up-boss.md",
+  "meta": {
+   "tier": "baseline verified",
+   "battery": "steps 1–5 complete against the operator's production account using the supplied user API key (admin/broker-role user, HTTP Basic). Step 6 not run (no sandbox; no recorded write authorization). Step 7 N-A (the API documents no idempotency-key mechanism). Step 8 not run (registering a webhook is a write that also requires the account-owner key, a registered `X-System`/`X-System-Key` pair, and an operator-controlled HTTPS endpoint).",
+   "date": "2026-09-22",
+   "model": "Claude Fable 5.1 (run 1: discovery, live battery and reconciliation; runs 2 and 3: independent grader instances of the same model, each with a fresh copy of the prompt and no access to the other runs' marks)",
+   "coverage": "100% (27 of 27 applicable checks verified; no check unverified or N-A) (gate: no category Unable to verify; overall ≥ 80%)"
+  },
+  "checks": [
+   {
+    "id": "C1.1",
+    "cat": 1,
+    "title": "Object coverage",
+    "mark": "partial",
+    "why": "weighted coverage = 82% (9.0 of 11). Records 1.0×3: `GET/POST /people`, `GET/PUT/DELETE /people/{id}`, `GET/POST /deals`, `PUT/DELETE /deals/{id}` [OpenAPI paths; `/reference/people-post`, `/reference/people-id-put`, `/reference/deals-post`]; live `GET /v1/people` returned 2,269 records with `_metadata` and `GET /v1/deals` 156 (2026-09-22). Automations/triggers 0.5×3: enrollment and control are writable (`GET/POST /actionPlansPeople`, `PUT /actionPlansPeople/{id}` [`/reference/actionplanspeople-post`]; `GET/POST /automationsPeople`, `PUT /automationsPeople/{id}` [`/reference/automationspeople-1`, `/reference/automationspeopleid`]; live `GET /v1/actionPlans` → 200 with 30 plans), but automation definitions are read-only through the API (only `GET /automations` and `GET /automations/{id}` exist; no create, update or delete of a rule in the 156-operation file) and those two routes are \"for customers with Automations 2.0 only\" and \"restricted to registered systems only\" [`/reference/automations`, `/reference/automationsid`]; live `GET /v1/automations` with the operator's own key → 403 `{\"errorMessage\":\"You do not have access to this API endpoint.\"}`; the legacy action-plan endpoints carry a deprecation notice with no date [`/reference/actionplanspeople-post`]. Under the check's wording (present but missing a non-critical operation) this scores 0.5; run 1 had scored 1.0 and was overruled on reconciliation. Pipelines 1.0×2: `GET/POST /pipelines`, `PUT/DELETE /pipelines/{id}` (owner only), `GET/POST /stages`, `PUT/DELETE /stages/{id}` [`/reference/pipelines-post`, `/reference/stages-post`]; live `GET /v1/pipelines` → 6, `GET /v1/stages` → 29. Custom fields 1.0×2: `GET/POST /customFields`, `PUT/DELETE /customFields/{id}` (owner only) and `/dealCustomFields` [`/reference/customfields-post`, `/reference/customfields-id-delete`]; live `GET /v1/customFields` → 25. Reporting/exports 0.5×1: no report endpoints; `GET /smartLists` is read-only and datasets are exported only by paging list endpoints [`/reference/smartlists-get`; `/reference/pagination`]. No critical object absent; 0.818 falls in the 0.50–0.84 band."
+   },
+   {
+    "id": "C1.2",
+    "cat": 1,
+    "title": "Core operational actions",
+    "mark": "yes",
+    "why": "(documentation-graded) — weighted coverage = 100% (10 of 10 over the mutable items; 91% if the non-mutable reporting/exports item is counted at 0, as runs 2 and 3 did; same mark either way). Create/update records: `POST /people` and `PUT /people/{id}` (`firstName`, `stage`, `tags`, `emails`, `custom*` fields) [`/reference/people-post`; OpenAPI `PUT /people/{id}`], `POST /events` for lead intake with dedupe and automation triggering [`/reference/events-post`, \"Sending Leads and Activity\"], `POST /deals`, `PUT /deals/{id}` [`/reference/deals-post`]. Fire and receive triggers: `POST /events` with type `Registration`, `Property Inquiry`, `Seller Inquiry` or `General Inquiry` starts action plans and automations [`/reference/events-post`, \"Action Plan and Automation Triggers\"]; `POST /actionPlansPeople` applies a plan [`/reference/actionplanspeople-post`]; `POST /automationsPeople` \"Manually trigger an Automation for a specified Person\" for registered systems [`/reference/automationspeople-1`]; tag and stage changes through `PUT /people/{id}` fire Tag Added and Stage Change triggers [help `Automations 2.0 Overview`]; receiving is by webhooks [`/reference/webhooks-guide`]. Pipelines and custom fields: `POST /pipelines`, `PUT /pipelines/{id}`, `POST /stages`, `POST /customFields`, `PUT /customFields/{id}` [OpenAPI]. Limitations disclosed: `POST /actionPlansPeople` is \"planned for deprecation as part of the Automations 2.0 rollout\" with no date; after an account migrates, new automations must be triggered from the API by adding a tag that a tag trigger watches [help `Automations 2.0 Migration`, \"API\"]. Live corroboration only: people records in the account carry `createdVia: \"API\"` (`GET /v1/people/{id}`, 2026-09-22)."
+   },
+   {
+    "id": "C1.3",
+    "cat": 1,
+    "title": "Delete or lifecycle actions",
+    "mark": "yes",
+    "why": "(documentation-graded) — weighted coverage = 85% (8.5 of 10), exactly at the threshold. Records 1.0×3: `DELETE /people/{id}` [OpenAPI; llms.txt entry], stage change via `stage`/`stageId` on `PUT /people/{id}` and the `Trash` stage [`/reference/people-get`, \"Trash Stage\"; OpenAPI]. Automations 0.5×3: enroll (`POST /actionPlansPeople`, `POST /automationsPeople`), pause and resume (`status` = `Running` or `Paused` on `PUT /actionPlansPeople/{id}` [OpenAPI] and `PUT /automationsPeople/{id}` [`/reference/automationspeopleid`]), and `contacted: true` on `PUT /people/{id}` pauses action plans [`/reference/people-id-put`]; no unenroll or remove operation exists (no `DELETE` on either pairing resource), and the fixed classification lists unenroll as a principal lifecycle change. Pipelines 1.0×2: `stageId` on `PUT /deals/{id}` moves a deal, pipeline stages carry a `closedStage` flag so moving a deal into such a stage closes it, and `DELETE /deals/{id}`, `DELETE /stages/{id}` (not for `isProtected` stages) and `DELETE /pipelines/{id}` exist [`/reference/deals-id-put`; `/reference/pipelines-post` (request schema `closedStage`); `/reference/stage-id-delete`]. Deals also expose an `Archived` status in `GET /deals` filters but no documented way to set it through the API [OpenAPI `GET /deals` parameters `status`, `includeArchived`]. Custom fields 1.0×2: `DELETE /customFields/{id}` (owner only) [`/reference/customfields-id-delete`]."
+   },
+   {
+    "id": "C1.4",
+    "cat": 1,
+    "title": "Change notification",
+    "mark": "partial",
+    "why": "weighted push coverage = 70% (7 of 10). Webhook events cover records (`peopleCreated`, `peopleUpdated`, `peopleDeleted`, `peopleStageUpdated`, `peopleTagsCreated`, `dealsCreated/Updated/Deleted`; weight 3), pipelines (`pipelineCreated/Updated/Deleted`, `pipelineStageCreated/Updated/Deleted`, `stageCreated/Updated/Deleted`; weight 2) and custom-field definitions (`customFieldsCreated/Updated/Deleted`, `dealCustomFieldsCreated/Updated/Deleted`; weight 2; person custom-field values fire `peopleUpdated`) [`/reference/webhooks-guide`, \"Supported webhook events\"]. No event exists for automation or action-plan enrollment or firing (weight 3); those can only be polled through `GET /actionPlansPeople` or `GET /automationsPeople?status=` [`/reference/actionplanspeople-get`; `/reference/automationspeople`]. Efficient incremental polling exists for people (`updatedAfter`, honored live) but not deals [`/reference/common-filters`; live `s3_deals_updatedAfter` total 0 of 156]. Webhooks require the account-owner key and a registered system [`/reference/webhooks-guide`, \"Owner Permissions Required\", \"X-System Header is Required\"]. Note: the `POST /webhooks` OpenAPI enum omits the pipeline, pipeline-stage and custom-field events that the guide documents."
+   },
+   {
+    "id": "C2.1",
+    "cat": 2,
+    "title": "Modern API conventions",
+    "mark": "yes",
+    "why": "resource-oriented REST over HTTPS with JSON bodies and standard verbs (`GET`, `POST`, `PUT`, `DELETE`), documented in an OpenAPI 3.1 file [`/reference/getting-started`, \"API Endpoint\"; `/reference/requests-and-responses`; `/openapi/58b53c341065f9c438aa1f7e`]; confirmed live (`GET /v1/people/{id}` → 200 JSON, 2026-09-22)."
+   },
+   {
+    "id": "C2.2",
+    "cat": 2,
+    "title": "Consistent typing",
+    "mark": "partial",
+    "why": "core identifiers and timestamps are consistently typed (`id` integer, `created`/`updated` ISO 8601 UTC strings, `stageId` integer, `price` integer or null) in the schemas and in live reads [`/reference/requests-and-responses`, \"Date Format\"; live `GET /v1/people/{id}?fields=allFields`]. Inconsistencies: `contacted` is `boolean` in the `POST /people`, `PUT /people/{id}` and `POST /events` request schemas but an integer `0`/`1` in responses (documented in the `/people/claim` response schema `\"contacted\": {\"type\": \"integer\", \"example\": 0}` and observed live as a number); `phones[].isPrimary` and `emails[].isPrimary` are integers `1` in responses; the \"include archived\" concept is a boolean on `GET /people` (`includeTrash`) but an integer \"Set to `1`\" on `GET /deals` (`includeArchived`, `includeDeleted`) [OpenAPI parameters]. These are confined to flag fields."
+   },
+   {
+    "id": "C2.3",
+    "cat": 2,
+    "title": "Structured errors",
+    "mark": "partial",
+    "why": "errors are JSON with correct HTTP status and a human-readable `errorMessage`, but no stable machine-readable error code [`/reference/error-responses`]. Observed live 2026-09-22: `GET /v1/people/999999999` → 404 `{\"errorMessage\":\"Requested resource was not found.\"}`; invalid key → 401 `{\"errorMessage\":\"Invalid API Key or authentication credentials...\"}`; `GET /v1/webhooks` without `system` → 400 `{\"errorMessage\":\"Missing required field in the request: system.\"}`; `GET /v1/notARealResource` → 404 with a descriptive message. Error shape also varies: the `/rateLimit/*` 403 example uses `error` rather than `errorMessage` [`/reference/ratelimit-usage-get`]. Caveat: invalid query values are silently ignored rather than rejected — `limit=abc` and `updatedAfter=notadate` both returned 200 with default paging and an unfiltered collection (2,269 records), which is undocumented."
+   },
+   {
+    "id": "C2.4",
+    "cat": 2,
+    "title": "Duplicate prevention",
+    "mark": "partial",
+    "why": "(documentation-graded) — no idempotency keys or request identifiers are documented anywhere in the reference or OpenAPI file. Natural idempotency covers lead intake: `POST /events` \"will automatically de-duplicate people based on their phone number or email address\" and accepts `person.id` to bind to an existing contact [`/reference/events-post`]; `POST /people?deduplicate=true` returns the existing person instead of creating one [OpenAPI `POST /people` parameter `deduplicate`]; `GET /people/checkDuplicate` exists [`/reference/people-checkduplicate`]. Retried `POST /notes`, `/tasks`, `/deals`, `/appointments` or `/calls` have no documented protection, and a retried `POST /events` still records a duplicate event."
+   },
+   {
+    "id": "C2.5",
+    "cat": 2,
+    "title": "Graceful handling under load",
+    "mark": "yes",
+    "why": "sliding 10-second window; every response carries `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Window`, `X-RateLimit-Context`; exhausted limits return `429 Too Many Requests` with a `Retry-After` header in seconds, with published defaults (global 250 per 10 s for registered systems, 125 unregistered) [`/reference/rate-limiting`]. Observed live on every response 2026-09-22 (`x-ratelimit-limit: 125`, `x-ratelimit-remaining: 124…106`, `x-ratelimit-window: 10`, `x-ratelimit-context: global`). A 429 was not deliberately triggered because the Terms of Service prohibit exceeding published limits [`/legal-pages/terms-of-service` §4.5]. Registered systems can also read `GET /v1/rateLimit/usage` and `/limits` [`/reference/ratelimit-usage-get`]."
+   },
+   {
+    "id": "C2.6",
+    "cat": 2,
+    "title": "Pagination for large collections",
+    "mark": "yes",
+    "why": "`limit` (default 10, max 100) with either `offset` or the recommended keyset `next` token; `_metadata` returns `total`, `next` and `nextLink`; default ordering is documented (\"reverse order by id\"), and deep pagination enforces `next` [`/reference/pagination`]. Observed live 2026-09-22: page 1 `{\"offset\":0,\"limit\":3,\"total\":2269,\"next\":\"eyJ…\"}`, page 2 fetched via `next` and via `offset=3` returned the same next three ids, `limit=101` silently clamped to `limit: 100` consistent with the documented maximum."
+   },
+   {
+    "id": "C2.7",
+    "cat": 2,
+    "title": "Bulk or incremental export",
+    "mark": "partial",
+    "why": "incremental sync is documented and honored for people (`updatedAfter`/`updatedBefore`, `createdAfter`/`createdBefore`, `idGreaterThan`/`idLessThan`) [`/reference/common-filters`]; live `GET /v1/people?updatedAfter=2026-09-15T00:00:00Z` returned 10 records all updated on or after the cutoff, and a two-sided window returned 74 records inside it (2026-09-22). Limitations: the docs warn \"the updated fields may not be accurate for all records\" because related records do not bump the parent [same page]; deal objects carry no `updated` field, `GET /deals` defines no `updatedAfter` parameter, and `GET /v1/deals?updatedAfter=…` returned 0 of 156 deals live; notes have no list endpoint (only `GET /notes/{id}`) [llms.txt]; there is no bulk or asynchronous export path, so full extracts are 100 records per call."
+   },
+   {
+    "id": "C2.8",
+    "cat": 2,
+    "title": "Webhook security and delivery reliability",
+    "mark": "yes",
+    "why": "(documentation-graded; runs 1 and 2 yes, run 3 partial — see reconciliation) — every delivery carries a `FUB-Signature` header, an HMAC-SHA256 of the base64-encoded payload keyed by the registered `X-System-Key`, with sample verification code; failed deliveries (non-2xx) are retried on a published schedule (1, 5, 5, 10 and 30 minutes) and webhooks with more than 50% failures over 48 hours are auto-disabled; each event carries a unique `eventId`, missed events can be re-requested from `GET /v1/webhookEvents/:id`, and consumers are told to fetch the resource `uri`, reconcile against their own store, and keep an events table as \"the source of truth as to what webhook events have been received and processed\" [`/reference/webhooks-guide`, \"Verify the request\", \"Retrying webhook events\", \"Requesting webhook events\", \"Handling webhook events\", \"Webhook best practices\"]. Disclosed weaknesses: the same page says retries continue \"up to 5 times\" (about 51 minutes in total) and elsewhere \"for up to 8 hours\"; the missed-event section refers to events \"older than 3 days\"; the docs never state outright that deliveries may repeat. Not live-tested (step 8 not run)."
+   },
+   {
+    "id": "C2.9",
+    "cat": 2,
+    "title": "Concurrency and conflict control",
+    "mark": "partial",
+    "why": "documented conflict semantics exist for one write only: `POST /people/claim` returns `409 Conflict` when the lead was already claimed [`/reference/people-claim`]. No ETag/If-Match, version field or 409 is documented for ordinary updates, and `PUT /people/{id}` overwrites the `tags` and `phones` arrays wholesale unless `mergeTags=true` [`/reference/people-id-put`]; no concurrency limits are documented (an `etag` header was observed on live GET responses but is undocumented and could not be exercised without a write). All three runs marked partial; two noted that \"no\" is also defensible."
+   },
+   {
+    "id": "C2.10",
+    "cat": 2,
+    "title": "Versioning and backward compatibility",
+    "mark": "partial",
+    "why": "explicit path version `/v1` (\"currently v1 is the only version\") and an informal promise that the API \"will be extended … while keeping it backward compatible\" [`/reference/getting-started`]; the API Terms say \"New versions may not be compatible with your previous implementation\" and FUB may require the newest version [`/reference/fub-api-tou` §1]; deprecations are announced as page banners (\"planned for deprecation … no date has been set\") [`/reference/actionplanspeople-post`; `/docs/oauth-authentication-and-authorization`, \"Deprecated GET endpoint\"]. There is no written policy defining breaking versus non-breaking changes or deprecation windows."
+   },
+   {
+    "id": "C2.11",
+    "cat": 2,
+    "title": "Request traceability",
+    "mark": "partial",
+    "why": "no request or correlation identifier is documented; every live response carries CloudFront's `x-amz-cf-id` (observed 2026-09-22), which FUB does not document or state as usable with support; support is by email only [`/reference/support-and-help`]. All three runs marked partial; two noted that \"no\" is also defensible."
+   },
+   {
+    "id": "C2.12",
+    "cat": 2,
+    "title": "Service availability and status transparency",
+    "mark": "yes",
+    "why": "public status page \"Follow Up Boss Status\" with an \"API\" component, an incident-history page and an uptime-history page (\"Uptime over the past 90 days. View historical uptime.\") [`followupboss.statuspage.io`, `/history`, `/uptime`]; the public status API listed 50 incidents including \"Widespread Service Disruption\" (major, 2026-08-31, resolved) and showed the API component in `partial_outage` at run time [`/api/v2/incidents.json`, `/api/v2/components.json`, 2026-09-22]; the site links to it (\"You can view our system status at any time\") and publishes an uptime figure, although inconsistently: \"99.5% System Uptime\" on the security page and \"99.95% System Uptime\" on the Terms of Service page [`www.followupboss.com/security`; `/legal-pages/terms-of-service`]. No contractual SLA (service is \"AS-IS\") [`/legal-pages/terms-of-service` §11]."
+   },
+   {
+    "id": "C3.1",
+    "cat": 3,
+    "title": "Read-only credentials",
+    "mark": "no",
+    "why": "\"API key has the same access level as the user whom the key belongs to\" and \"provides the same privileges as the user's login credentials\"; every documented role (Owner, Admin, Agent, Lender) can write [`/reference/authentication`, \"Basic Authentication\", \"Permission Levels\"; help `API Key`, `Users, Roles & Permissions`]. No read-only key or role is documented, and the OAuth authorization request defines no scope parameter [`/docs/oauth-authentication-and-authorization`, Step 1]."
+   },
+   {
+    "id": "C3.2",
+    "cat": 3,
+    "title": "Scoped credentials",
+    "mark": "partial",
+    "why": "scoping is by user role only: an Agent key reaches only assigned contacts and has \"restricted access to things like action plans\", a Lender key fewer actions still, an Admin cannot use webhooks, and pipelines, custom fields and webhooks are owner-only [`/reference/authentication`, \"Permission Levels\"; `/reference/pipelines-post`; `/reference/customfields-post`; `/reference/webhooks-guide`]. The API Key Restrictions power-up controls who may create keys, not what a key can do [help `Power-Up: API Key Restrictions`]; OAuth defines no scopes."
+   },
+   {
+    "id": "C3.3",
+    "cat": 3,
+    "title": "Multiple keys",
+    "mark": "yes",
+    "why": "any number of named keys per user, listed with created and last-used times and the integrations that used each [help `API Key`, \"Creating an API Key\", \"How can I see a list of my account's API keys?\"]; the live `/me` body exposes a `canCreateApiKeys` flag (field name only)."
+   },
+   {
+    "id": "C3.4",
+    "cat": 3,
+    "title": "Rotation and revocation",
+    "mark": "yes",
+    "why": "self-serve delete (\"Integrations using that API key will lose access … and stop working immediately\") and self-serve creation of a replacement [help `API Key`, \"How do I delete an API key?\"]; keys are shown once at creation [`/docs/start-here-brand-new-integration`]; OAuth grants can be revoked with `DELETE /v1/oauthApps/revokeAccess` [`/docs/oauth-authentication-and-authorization`, Step 6]."
+   },
+   {
+    "id": "C3.5",
+    "cat": 3,
+    "title": "Test and production isolation",
+    "mark": "yes",
+    "why": "(run 1 yes, run 2 partial, run 3 N-A — see reconciliation) — the vendor's integration guide directs developers to a separate free 14-day trial account (\"a full-featured account\", created \"so that you can see the result of your API requests\") that can be converted to a non-expiring dev account by emailing product@followupboss.com, with its own API keys generated at Admin > API [`/docs/start-here-brand-new-integration`, \"Creating a trial Follow Up Boss account\", \"Generate an API Key in your Follow Up Boss account\"]. Because it is a separate account, its credentials and data are isolated from the operator's live account. Limitation: this is a separate production tenant rather than a sandbox mode of the operator's own account, and the dev-account conversion is email-mediated."
+   },
+   {
+    "id": "C4.1",
+    "cat": 4,
+    "title": "Complete self-serve reference",
+    "mark": "partial",
+    "why": "a public reference covers authentication, every endpoint, parameters and request schemas, with guides for pagination, filters, errors, rate limits and webhooks [`/reference/getting-started` and linked pages; `llms.txt`]. Worked examples and response definitions are uneven: 38 of 156 operations carry only a `{}` placeholder as their 2xx example, including core writes `POST /events`, `POST /people`, `PUT /people/{id}`, `DELETE /people/{id}`, `POST /notes`, `POST /actionPlansPeople` and `GET /automations`; the 2xx examples for `GET /people`, `GET /people/{id}` and `GET /deals` are not valid JSON (truncated with ellipses or trailing commas); request-body examples exist for 23 operations; the OAuth `oauthApps` endpoints appear only in guides [`/openapi/58b53c341065f9c438aa1f7e`, computed 2026-09-22]."
+   },
+   {
+    "id": "C4.2",
+    "cat": 4,
+    "title": "Reliable machine-consumable integration path",
+    "mark": "partial",
+    "why": "(run 1 yes, runs 2 and 3 partial — resolved to partial on the evidence) — a published OpenAPI 3.1 JSON covers all 156 operations with typed parameters and request bodies [`/openapi/58b53c341065f9c438aa1f7e`; listed at `/openapi`], but it is incomplete where it matters most for code or tool generation: 67 of 156 operations have no typed 2xx response schema (schema absent or with zero properties), including `GET /people`, `GET /people/{id}`, `GET /deals`, `POST /events`, `POST /people`, `PUT /people/{id}` and `DELETE /people/{id}`, so a generated client has no response types for the two critical record types; one path is `//textMessageTemplates`, the two rate-limit paths are written `/v1/rateLimit/...` under a server URL that already ends in `/v1`, `/webhookEvents/:id` uses colon syntax without a declared path parameter, and some enums embed quotation marks. No official SDK exists: the FollowUpBoss GitHub organization's only API repository, `fub-api-examples`, holds bash and PHP lead-submission samples, is archived, was last pushed 2023-04-03, and its README links to a legacy documentation URL [`api.github.com/orgs/FollowUpBoss/repos`; README]. No first-party MCP server was found; the MCP servers located are third-party."
+   },
+   {
+    "id": "C4.3",
+    "cat": 4,
+    "title": "AI-readable documentation",
+    "mark": "partial",
+    "why": "`/llms.txt` indexes every guide and endpoint page with descriptions and instructs \"Append .md to any documentation page URL to get its markdown version\" [`/llms.txt`]; 174 of 193 pages rendered as Markdown, but 19 endpoint pages (mostly `/{id}` operations, including `GET /people/{id}`, `DELETE /people/{id}`, `GET /tasks/{id}`, `PUT /tasks/{id}`, `GET /stages/{id}`, `GET /customFields/{id}`) returned the 580 KB HTML application shell on three attempts (2026-09-22); no `llms-full.txt` exists (404)."
+   },
+   {
+    "id": "C4.4",
+    "cat": 4,
+    "title": "Kept current",
+    "mark": "partial",
+    "why": "a public product \"news feed and changelog\" exists but is product-level, has no API category, and is rendered client-side [`updates.followupboss.com/en`]; the docs carry deprecation banners with no dates [`/reference/actionplanspeople-post`]; API responses tell unregistered callers that registered systems \"will be notified about important changes to the API\" (observed in `_metadata.notice`, 2026-09-22), so change notices go by email to registered systems; the newest pages (`/reference/ratelimit-usage-get`) use 2026 dates and help articles carry recent update stamps (`Automations 2.0 Overview` 2026-07-22; `Plan Breakdown` 2026-09-11). There is no API changelog (`docs.followupboss.com/changelog` → 404)."
+   },
+   {
+    "id": "C5.1",
+    "cat": 5,
+    "title": "Self-serve API key",
+    "mark": "yes",
+    "why": "\"Go to Admin > API, Click Create API Key … By default, anyone can create an API key\" [help `API Key`, \"Creating an API Key\"; `/docs/start-here-brand-new-integration`, \"Generate an API Key\"]; confirmed by live authentication with an operator-created key (2026-09-22). Note: webhooks, Automations 2.0 routes and the rate-limit endpoints additionally require a registered system, obtained through a self-serve web form (system name, system ID, email, name, organization, terms checkbox) [`apps.followupboss.com/system-registration`]; whether the system key is issued instantly was not verified."
+   },
+   {
+    "id": "C5.3",
+    "cat": 5,
+    "title": "Not commercially gated",
+    "mark": "yes",
+    "why": "API keys are generated \"within your FUB account\" with no plan condition [help `API Key`]; all plans include \"Unlimited contacts, lead sources and integrations\" and the site markets the \"Open API\" for custom integrations [`/pricing`; `/pro`, \"Integrations\"]; the plan breakdown lists no API restriction [help `Follow Up Boss Plan Breakdown`]. Caveat: Automations 2.0 must be enabled by the account owner in an irreversible but free migration, and its API routes are open only to registered systems [help `Automations 2.0 Migration`; `/reference/automations`]."
+   }
+  ]
+ },
  "Latchel": {
   "source": "latchel.md",
   "meta": {

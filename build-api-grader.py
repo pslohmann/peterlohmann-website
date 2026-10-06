@@ -61,9 +61,9 @@ CATEGORIES = [
         ["Boom", "ShowMojo", "Tenant Turner", "RentEngine", "Rently",
          "Showdigs", "Findigs", "RentSpree", "Rent Butter", "AmRent"]),
     ("workflow",     "Workflow &amp; CRM",
-        ["LeadSimple", "Aptly", "Process Street"]),
+        ["LeadSimple", "Aptly", "Process Street", "Follow Up Boss"]),
     ("maintenance",  "Maintenance",
-        ["Property Meld", "Vendoroo", "Mason", "Latchel"]),
+        ["Property Meld", "Vendoroo", "Mason", "Latchel", "FixGrid"]),
     ("banks",        "Banks",
         ["Column"]),
     ("accounting",   "Corporate Accounting",
@@ -2680,6 +2680,206 @@ RESULTS = {
             "and money. The F is a grade for buildability, not for the product.",
 },
 
+
+"FixGrid": {
+  "score": 70, "grade": "C-",
+  "meta": {"run": "Sep 28, 2026", "method": "1.1", "model": "Claude Fable 5.1 and Claude Opus 5.5",
+           "tier": "Fully verified, controlled live", "raw": "34.79 / 50"},
+  "note": "Graded three independent times at maximum effort on one frozen evidence "
+          "packet, with the full live test battery run end to end: authentication, "
+          "paging all 398 tickets, filters, deliberate errors, a tripped rate limit, "
+          "a fixture work order created and walked through its statuses, an "
+          "idempotency replay, and one signed webhook delivery. 23 of the 26 "
+          "applicable checks were unanimous, and the three that split were resolved "
+          "against the evidence. Each dissenting reading on its own would give 66 "
+          "(D), 73 (C) or 69 (D+), so the published 70 sits just above the line and "
+          "C- is the resolved result. Two move-in and notice writes were left "
+          "untested on purpose, because the API cannot reverse them, and were graded "
+          "from documentation.",
+  "cats": [
+    (3.8, 15, "You can pull the whole maintenance record into your own tools, "
+              "create work orders, and move them through their status lifecycle, "
+              "including a clean close that requires a note and a cancel that "
+              "requires a reason code. You can also feed move-ins and notices to "
+              "vacate in from your PMS. What you cannot do is assign or dispatch "
+              "work to a technician or vendor, edit a work order after it is "
+              "filed, or manage vendors, appointments, estimates, invoices, owner "
+              "approvals or tags; those stay inside the FixGrid app. Assignment is "
+              "what costs the most, because create, assign and complete are the "
+              "three critical maintenance workflows and one of them is missing. "
+              "Webhooks tell you about new and changed tickets and unit turns, but "
+              "not about assignment changes."),
+    (7.9, 10, "The engineering is solid for automation and AI agents. Every one of "
+              "1,158 captured records matched its published type, errors carry one "
+              "shape with stable codes, an idempotency key really did stop a "
+              "duplicate ticket live, throttling tells you exactly how long to "
+              "wait, keyset paging walked all 398 tickets with no duplicates, the "
+              "version contract promises 90 days' notice of breaking changes, and "
+              "webhooks are signed and retried on a published schedule. The gaps: "
+              "nothing stops two tools from silently overwriting each other's "
+              "status change, there is no documented request ID to quote to "
+              "support, there is no public status page (a written SLA comes only "
+              "with Enterprise), and there is no bulk export or changed-since "
+              "filter for units, properties, vendors or inspections."),
+    (4.4, 5,  "You can give each integration or AI agent its own labelled key, make "
+              "it read-only, and revoke it yourself in the app, and each key gets "
+              "its own rate-limit budget, so one tool cannot starve another. You "
+              "cannot narrow a key to one property or one kind of record: a write "
+              "key can create tickets, change statuses and record move-ins across "
+              "the whole company. There is no sandbox, so testing happens in a "
+              "real or demo company."),
+    (3.8, 5,  "A developer or an AI coding tool can generate a working client "
+              "straight from the public OpenAPI 3.1 file, which matched the live "
+              "API with zero deviations, and the changelog is dated and current. "
+              "The reference lacks realistic request and response examples for the "
+              "everyday calls, and its write examples are placeholders the API "
+              "would refuse. There is no full-text llms file for AI tools, only an "
+              "index of links, and a few documented error sentences do not match "
+              "what the API actually returns, so build against the error codes, "
+              "not the words."),
+    (15.0, 15, "Every plan, including the $49 a month Starter plan, includes the "
+               "API and webhooks with no add-on or partner fee, and your own "
+               "Company Admin creates keys in the app without a sales call."),
+  ],
+  "strengths": [
+    "Every captured record matched its published schema: 1,158 rows across nine object types, zero deviations",
+    "Idempotency keys required on every consequential write, and a replayed create made one ticket, not two",
+    "One error shape with nineteen stable codes, confirmed across 30 live error responses",
+    "A documented 429 with Retry-After and per-key budgets, tripped and recovered live",
+    "Keyset pagination walked all 398 tickets with no duplicates",
+    "Signed webhooks with a published retry ladder, and a signed delivery received live",
+    "Versioned path with a written promise of 90 days' notice before breaking changes",
+    "Read-only keys, multiple labelled keys, and self-serve revocation",
+    "A public OpenAPI 3.1 file that matched live data, plus a dated changelog",
+    "API and webhooks on every plan with no partner fee, and keys minted by your own admin",
+  ],
+  "watch": [
+    "No way to assign or dispatch a work order to a technician or vendor",
+    "Work orders cannot be edited after creation: only status, closing note and cancellation fields are writable",
+    "Vendors, appointments and inspections are read-only; estimates, invoices, owner approvals and tags are absent",
+    "No webhook event for assignment changes",
+    "No ETag or version check, so two tools can overwrite each other's status change",
+    "No changed-since filter on units, properties, vendors or inspections, and no bulk export",
+    "No documented request ID to quote to support",
+    "No public status page; a written SLA only on Enterprise",
+    "Keys are company-wide: none can be limited to one property or one record type",
+    "No sandbox or test environment",
+    "Write examples in the reference are placeholders, and there are no response examples",
+    "A few live error sentences differ from the documented ones",
+  ],
+  "bottom": "FixGrid's API lets you pull your whole maintenance record, work orders, "
+            "units with occupancy and make-ready status, turns, assets, vendors with "
+            "insurance compliance, inspections and meters, create work orders and "
+            "move them to done or cancelled, feed move-ins and notices from your "
+            "PMS, and get signed alerts when tickets or unit turns change. Its "
+            "biggest strength is build quality: accurately published schemas, "
+            "stable error codes, duplicate-proof writes, clear throttling, a written "
+            "versioning promise, and full access on every plan with keys your own "
+            "admin creates. Its biggest limitation is reach: you cannot assign or "
+            "dispatch work, edit a work order after filing, manage vendors or "
+            "appointments, or handle estimates, invoices, approvals or tags through "
+            "the API, and there is no sandbox, status page or fine-grained key "
+            "scoping. FixGrid is a maintenance system, not a PMS or a bank; it holds "
+            "no funds, so you still need your PMS for leasing, residents and "
+            "accounting.",
+},
+
+"Follow Up Boss": {
+  "score": 79, "grade": "C+",
+  "meta": {"run": "Sep 22, 2026", "method": "1.1", "model": "Claude Fable 5.1",
+           "tier": "Baseline verified", "raw": "39.33 / 50"},
+  "note": "Graded three times on one frozen evidence packet. The first run did "
+          "discovery and a live read-only test battery against the operator's "
+          "production account, and two independent graders then worked only from "
+          "the frozen packet. 23 of the 27 checks agreed across all three runs, and "
+          "the four disagreements were resolved against the evidence. The write "
+          "checks were graded from Follow Up Boss's documentation, because there is "
+          "no sandbox and live write testing was not authorized for the session. "
+          "The two judgment calls left open after reconciliation would give 77 or "
+          "78, still a C+.",
+  "cats": [
+    (11.3, 15, "Nearly everything a CRM holds is readable and writable through the "
+               "API: contacts, deals, pipelines, stages and custom fields, "
+               "including deletes and stage moves. You can drop leads in, start or "
+               "pause an action plan or automation for a contact, and move deals "
+               "between stages. Two limits shape what you can build. The automation "
+               "rules themselves can only be built and edited in the Follow Up Boss "
+               "screens, and the newer Automations 2.0 endpoints answer only to a "
+               "registered system, so the operator's own key got a 403 until one is "
+               "registered. There is also no event when an automation starts or "
+               "finishes, so you watch for its side effects or poll."),
+    (7.1, 10, "The API behaves like a normal modern REST API: clean JSON, cursor "
+              "paging verified live, rate-limit headers on every response with a "
+              "documented 429 and Retry-After, and a real status page with an API "
+              "component and incident history, so an AI agent or a no-code tool "
+              "will not be surprised by its shape. The rough edges are on the "
+              "operations side. Errors come back as messages rather than codes, "
+              "bad query parameters are silently ignored instead of rejected, only "
+              "contacts can be synced by changed-since, nothing protects you from "
+              "double-creating notes or tasks on a retry, and there is no "
+              "documented way to detect that someone else edited a contact between "
+              "your read and your write."),
+    (3.5, 5,  "You can mint a separate, named key for every tool or agent and kill "
+              "any one of them instantly, and Follow Up Boss documents a separate "
+              "trial or dev account to test in. What you cannot do is hand an agent "
+              "a read-only or narrowly scoped key: every key carries the full "
+              "rights of the user who made it, so a key made by the owner can do "
+              "anything the owner can, including deleting contacts. Give an AI "
+              "agent a key from a low-privilege user rather than the owner."),
+    (2.5, 5,  "An AI coding tool can pull the whole reference as Markdown from one "
+              "index file and read every endpoint's parameters from the OpenAPI "
+              "file, which is better than most vendors in this space. Expect to "
+              "fill gaps yourself: the OpenAPI file gives no typed responses for "
+              "contacts or deals and needs path fixes before you generate a client "
+              "from it, many write endpoints show no example response, about one "
+              "page in ten would not render as Markdown, there is no SDK, and there "
+              "is no place to watch for API changes other than deprecation banners "
+              "and emails to registered systems."),
+    (15.0, 15, "You can start building today on the plan you already have, with no "
+               "sales call and no upgrade: keys are created in the account at "
+               "Admin, API. Register a free system with Follow Up Boss before you "
+               "need webhooks or the newer automation endpoints."),
+  ],
+  "strengths": [
+    "Read and write access to contacts, deals, pipelines, stages, tasks, notes and custom fields",
+    "Lead intake through one events endpoint that de-duplicates by phone or email and triggers automations",
+    "Signed webhooks with a published retry schedule and a way to re-request missed events",
+    "Rate-limit headers on every response and a documented 429 with Retry-After",
+    "Cursor pagination with a total count, verified live across pages",
+    "A public status page with an API component, incident history and 90-day uptime",
+    "Any number of named keys per user, each revocable instantly",
+    "A separate trial or dev account documented for testing",
+    "An llms.txt index with Markdown versions of the documentation",
+    "Self-serve keys on every plan, with no API fee",
+  ],
+  "watch": [
+    "No read-only or scoped keys: every key carries the full rights of the user who made it",
+    "Automation rules can only be built in the app, and Automations 2.0 endpoints require a registered system",
+    "No webhook event when an automation or action plan starts or finishes",
+    "Errors carry a message but no machine-readable code, and bad query parameters are silently ignored",
+    "No idempotency keys, so a retried note, task, deal or call can be created twice",
+    "Changed-since sync works for contacts only, not deals, and there is no bulk export",
+    "No documented conflict control on ordinary updates",
+    "The OpenAPI file has no typed responses for 67 of 156 operations, including contacts and deals",
+    "No SDK, and the only sample repository is archived",
+    "No API changelog; deprecations are announced as undated banners",
+    "Writes were graded from documentation, not tested live",
+  ],
+  "bottom": "Follow Up Boss has a genuinely open, self-serve REST API: with a key "
+            "you make yourself on any plan, you or an AI agent can read and write "
+            "contacts, deals, pipelines, stages, tasks, notes and custom fields, "
+            "push leads in, start or pause follow-up automations for a contact, and "
+            "receive signed webhooks when records change. Its biggest strengths are "
+            "accessibility and the shape of the API itself. Its biggest limitations "
+            "are safety and depth: every key carries the full rights of its user, "
+            "automation rules can only be built in the app, the OpenAPI file gives "
+            "no typed responses for contacts or deals, retries can double-create "
+            "activity records, and only contacts can be synced by change date. "
+            "Follow Up Boss is a real-estate sales CRM with no property-management "
+            "workflows, so a property manager would use it for owner, tenant and "
+            "prospect relationships while keeping the PMS, trust accounting and "
+            "maintenance tooling elsewhere.",
+},
 }
 
 
