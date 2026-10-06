@@ -69,7 +69,7 @@ CATEGORIES = [
     ("accounting",   "Corporate Accounting",
         ["Xero", "QuickBooks Online"]),
     ("phone",        "Phone",
-        ["RingCentral", "SimpleVOIP", "Zoom", "Quo", "JustCall"]),
+        ["RingCentral", "SimpleVOIP", "Zoom", "Quo", "JustCall", "Dialpad", "8x8"]),
 ]
 
 # Platforms with no API to grade at all. The row says so across the score columns
@@ -80,7 +80,7 @@ NO_API = set()          # e.g. {"Some Bank"} for a platform with no API to grade
 # their own account. Distinct from "scoring in progress", which means the run is
 # under way: these are waiting on a customer, and saying so is how we get one.
 LOOKING = {"DoorLoop", "Revela", "Rentec Direct", "Yardi Breeze",
-           "Findigs", "RentSpree", "Rent Butter", "AmRent"}
+           "Findigs", "RentSpree", "Rent Butter", "AmRent", "Dialpad", "8x8"}
 
 GUIDE_URL = "/api-grader-guide"
 
@@ -2741,8 +2741,9 @@ def order_by_grade(companies):
 
 
 def article(name):
-    """"a" or "an" for the name that follows ("an AmRent customer", "a DoorLoop customer")."""
-    return "an" if name[:1].lower() in "aeiou" else "a"
+    """"a" or "an" for the name that follows ("an AmRent customer", "a DoorLoop customer",
+    "an 8x8 customer", since 8 is said "eight")."""
+    return "an" if name[:1].lower() in "aeiou8" else "a"
 
 
 def build_rows():
