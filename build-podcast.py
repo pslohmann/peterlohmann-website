@@ -264,10 +264,13 @@ def build():
 <link rel="stylesheet" href="styles.css?v={ASSET_V}" />
 <style>
   /* Season 7 presenting partner: hero lockup, same treatment as the sponsor on the Largest PM page */
-  .presented-by{{ display:inline-flex; flex-direction:column; align-items:stretch; gap:10px; margin:14px 0 16px;
+  /* podcast headline about 10% larger than the standard page hero (56px max) */
+  .page-hero h1{{ font-size:clamp(37px,5.5vw,62px); }}
+  .presented-by{{ display:inline-flex; flex-direction:column; align-items:flex-start; gap:10px; margin:14px 0 16px;
     font-size:clamp(18px,2.2vw,22px); font-weight:600; color:var(--primary-dark); text-decoration:none; }}
-  /* logo sits on its own line, stretched to the width of the label text above it */
-  .presented-by img{{ width:0; min-width:100%; height:auto; display:block; }}
+  /* logo on its own line; its full height (f top to p tail) stays at or under the
+     headline's capital-letter height, so the partner never outweighs the show name */
+  .presented-by img{{ height:clamp(24px,3.4vw,40px); width:auto; display:block; }}
   .presented-by:hover{{ text-decoration:none; opacity:.82; }}
   .hero-rule{{ width:56px; height:3px; background:var(--primary); border-radius:2px; margin:0 0 18px; }}
   /* Season 7 presenting partner: banner in AppFolio's own colours (navy #05094F, sky #CDE9F9, yellow #FFE754) */
