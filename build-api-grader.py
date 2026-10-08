@@ -3467,7 +3467,6 @@ SUB_PAGE = """<!--
         <a href="/api-grader/">API Grader</a>
         <a href="/blog">Blog</a>
         <a href="/report/">M&amp;A Report</a>
-        <a href="/peterbot">PeterBot</a>
         <a href="/products">Products</a>
         <a href="/featured">Featured</a><a href="/sponsor/">Sponsor</a>
         <a href="/contact">Contact</a>
@@ -3737,7 +3736,6 @@ PENDING_PAGE = """<!--
         <a href="/api-grader/">API Grader</a>
         <a href="/blog">Blog</a>
         <a href="/report/">M&amp;A Report</a>
-        <a href="/peterbot">PeterBot</a>
         <a href="/products">Products</a>
         <a href="/featured">Featured</a><a href="/sponsor/">Sponsor</a>
         <a href="/contact">Contact</a>

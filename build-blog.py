@@ -341,7 +341,6 @@ FOOT = """      <nav class="foot-links" aria-label="Footer">
         <a href="../api-grader/index.html">API Grader</a>
         <a href="../blog.html">Blog</a>
         <a href="../report/index.html">M&amp;A Report</a>
-        <a href="../peterbot.html">PeterBot</a>
         <a href="../products.html">Products</a>
         <a href="../featured.html">Featured</a><a href="/sponsor/">Sponsor</a>
         <a href="../contact.html">Contact</a>
@@ -631,7 +630,6 @@ def write_index(posts):
         <a href="api-grader/index.html">API Grader</a>
         <a href="blog.html">Blog</a>
         <a href="report/index.html">M&amp;A Report</a>
-        <a href="peterbot.html">PeterBot</a>
         <a href="products.html">Products</a>
         <a href="featured.html">Featured</a><a href="/sponsor/">Sponsor</a>
         <a href="contact.html">Contact</a>
