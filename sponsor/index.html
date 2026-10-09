@@ -954,7 +954,10 @@ const CONFIG = {
     // enters a bundle, deal or discount. Omit it where the rate is not changing.
     primaryNewsletter:   { label: "Primary Newsletter Ad",       price: 3500, price2027: 3750 },
     secondaryNewsletter: { label: "Secondary Newsletter Ad",     price: 1250 },
-    podcastAd:           { label: "Podcast Ad Slot",             price: 1835, price2027: 1975, requiresPodcast: true },
+    // seasonBase2027 holds the season programs at the rate they were priced from (1,975),
+    // so raising the podcast card to 2,000 did not move the Presenting Partner or
+    // Half-Season prices. Delete it to let the season programs follow price2027 again.
+    podcastAd:           { label: "Podcast Ad Slot",             price: 1835, price2027: 2000, seasonBase2027: 1975, requiresPodcast: true },
     podcastRead:         { label: "Podcast Ad Read by Peter",    price: 250,  requiresPodcast: true },
     // Long-form YouTube videos on Peter's main channel. Introductory (preliminary) pricing
     // while these roll out; the ad read by Peter is included. Not in any bundle or deal yet.
@@ -973,7 +976,7 @@ const CONFIG = {
       components: [
         { product: "primaryNewsletter",   qty: 1 },
         { product: "secondaryNewsletter", qty: 1 },
-        { product: "podcastAd",           qty: 1 },
+        { product: "podcastAd",           qty: 1, label: "Your choice of podcast or long-form YouTube video ad slot" },
         { product: "podcastRead",         qty: 1 },
       ],
     },
@@ -983,7 +986,7 @@ const CONFIG = {
       components: [
         { product: "primaryNewsletter",   qty: 2 },
         { product: "secondaryNewsletter", qty: 2 },
-        { product: "podcastAd",           qty: 2 },
+        { product: "podcastAd",           qty: 2, label: "Your choice of podcast or long-form YouTube video ad slot" },
         { product: "podcastRead",         qty: 2 },
         { product: "preferentialDates",   qty: 1 },
       ],
@@ -1092,7 +1095,7 @@ function computeBundle(bundle){
     const pending = active && !!prod.requiresPodcast && !CONFIG.podcast.available;
     if (active) sum += prod.price * c.qty;
     if (pending) hasPending = true;
-    return { key:c.product, label:prod.label, qty:c.qty, price:prod.price,
+    return { key:c.product, label:c.label || prod.label, qty:c.qty, price:prod.price,
              requiresPodcast:!!prod.requiresPodcast, active:active, pending:pending };
   });
   const price = roundUpTo(sum * (1 - bundle.discount), CONFIG.bundleRounding);
@@ -1104,7 +1107,8 @@ function computeBundle(bundle){
 // hardcoded 2027 number, so one edit to podcastAd keeps everything in step.
 function podcastUplift(){
   const p = CONFIG.products.podcastAd;
-  return p.price2027 ? p.price2027 / p.price : 1;
+  const base = p.seasonBase2027 || p.price2027;
+  return base ? base / p.price : 1;
 }
 function seasonPrice(s){
   if (!s.is2027) return s.price;
@@ -1199,6 +1203,8 @@ const MEDIA_EXAMPLES = {
   ],
   youtube: [
     { poster:"youtube-video-ad-1.webp", youtube:"0SvTu3sTPxM", start:365, title:"Long-form YouTube video ad example" },
+    { poster:"youtube-video-2.webp",    youtube:"XOpCHQI_5Cs", start:0,   title:"Long-form YouTube video example: How To Run A $3M+ Property Management Company In 2 Hours Per Week" },
+    { poster:"youtube-video-3.webp",    youtube:"xK6wY9J06wA", start:0,   title:"Long-form YouTube video example: Property Management is hard until you build systems like this" },
   ],
 };
 
