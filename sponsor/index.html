@@ -1362,7 +1362,7 @@ function renderAlaCarte(){
   // Display-only 2027 signal. Never enters a calculation; omitted where a rate holds.
   function rise(prod){
     return prod.price2027
-      ? '<div class="rise-2027">Rises to '+money(prod.price2027)+' in 2027 &middot; book now at 2026 pricing</div>'
+      ? '<div class="rise-2027">Rises to '+money(prod.price2027)+' in 2027</div>'
       : "";
   }
 
@@ -1444,7 +1444,7 @@ function renderBundles(){
     }).join("");
     // This box used to explain the podcast sell-out. It now carries the
     // 2026-pricing notice and always shows, rather than being conditional.
-    const rejoin = '<div class="rejoin">Reflects 2026 pricing. Rates increase in 2027. Book now to lock in 2026 pricing. Very limited availability remaining for 2026.</div>';
+    const rejoin = '<div class="rejoin">Reflects 2026 pricing. Rates increase in 2027. Very limited availability remaining for 2026.</div>';
     return '<div class="bundle'+orange+'">'
          +   '<div class="b-top"><h3>'+b.name+'</h3><span class="save">'+r.savingsPct+'% savings</span></div>'
          +   '<div class="price">'+money(r.price)+'<small> /mo</small></div>'
