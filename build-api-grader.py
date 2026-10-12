@@ -80,7 +80,7 @@ NO_API = set()          # e.g. {"Some Bank"} for a platform with no API to grade
 # their own account. Distinct from "scoring in progress", which means the run is
 # under way: these are waiting on a customer, and saying so is how we get one.
 LOOKING = {"DoorLoop", "Revela", "Rentec Direct", "Yardi Breeze",
-           "Findigs", "RentSpree", "Rent Butter", "AmRent", "Dialpad", "8x8", "Columbia Bank"}
+           "Findigs", "RentSpree", "Rent Butter", "AmRent", "8x8", "Columbia Bank"}
 
 GUIDE_URL = "/api-grader-guide"
 
@@ -2879,6 +2879,96 @@ RESULTS = {
             "workflows, so a property manager would use it for owner, tenant and "
             "prospect relationships while keeping the PMS, trust accounting and "
             "maintenance tooling elsewhere.",
+},
+
+"Dialpad": {
+  "score": 77, "grade": "C+",
+  "meta": {"run": "Oct 11, 2026", "method": "1.1", "model": "Claude Opus 4.8",
+           "tier": "Baseline verified", "raw": "38.50 / 50"},
+  "note": "The read path was tested live against the operator's own account: "
+          "authentication, cursor paging from page one to page two, filtered "
+          "queries, deliberate 404 and 401 errors, and a look at every response "
+          "header. The write checks (creating and updating records, duplicate "
+          "prevention, and webhook delivery) were graded from Dialpad's OpenAPI "
+          "file and documentation, because nothing was written to the live "
+          "account. Three independent runs on the frozen evidence agreed on 24 of "
+          "the 27 checks. The open judgment calls would give 73 (C) if object "
+          "coverage were partial, or 70 (C-) if API access were treated as fully "
+          "plan-gated.",
+  "cats": [
+    (15.0, 15, "Dialpad's API exposes essentially the whole communications "
+               "platform. You can read users and calls, send texts, place, transfer "
+               "and end calls, provision and assign phone numbers, manage call "
+               "routing, and subscribe to real-time events for calls, texts, "
+               "contacts and agent status. For automations and AI agents built "
+               "around phone and text workflows, the surface is broad and mature. "
+               "The one gap: inbound texts arrive through event webhooks, because "
+               "there is no message-history endpoint to read them back."),
+    (5.0, 10,  "The API is a clean, predictable REST interface, errors come back "
+               "structured with a machine-readable reason, and uptime is public on "
+               "a status page with its own API component. The weak spots are the "
+               "reliability guarantees. There are no idempotency keys, so retrying "
+               "a failed send can text someone twice. There is no concurrency "
+               "control, so the last write wins. There is no documented rate-limit "
+               "contract, with no 429, no Retry-After and no limit headers. And "
+               "webhooks are signed but come with no documented retry or ordering "
+               "promise. Plan to build your own dedup, backoff and webhook "
+               "reconciliation."),
+    (3.5, 5,   "You can issue multiple named keys, scope them somewhat, set them to "
+               "expire or revoke them yourself, and test in a separate sandbox "
+               "with its own credentials. What you cannot do is mint a read-only "
+               "key, so handing a limited key to an AI agent or a third party "
+               "carries more risk than it should. A dedicated, narrowly scoped "
+               "OAuth app and close monitoring are the workaround."),
+    (3.8, 5,   "An AI coding tool can work with this API well: there is an OpenAPI "
+               "file, a maintained official Python SDK, a first-party MCP server, "
+               "an llms.txt index, and a Markdown version of every reference page. "
+               "The reference has no copy-and-paste request examples, it documents "
+               "none of the error responses your code will actually hit, and the "
+               "public changelog has not been updated since July 2025."),
+    (11.3, 15, "Once you are on a plan that includes the API, getting a key is "
+               "instant and self-serve: a company admin creates it in the product, "
+               "with no sales call. The catch is the plan. API access is not on "
+               "the cheapest tier, and Dialpad's own pages disagree on exactly "
+               "which tier includes it, so confirm yours does before you build."),
+  ],
+  "strengths": [
+    "Near-complete coverage of calls, texts, users, phone numbers, routing and contacts",
+    "Place, transfer and end calls and send texts straight from the API",
+    "Real-time event subscriptions for calls, texts, contacts and agent status",
+    "Structured errors with a machine-readable reason, confirmed live",
+    "A separate sandbox with its own credentials",
+    "Multiple named keys with expiry dates, and self-serve revocation",
+    "An OpenAPI file, a maintained Python SDK and a first-party MCP server",
+    "An llms.txt index and a Markdown version of every reference page",
+    "A public status page with a dedicated API component and published uptime",
+    "Self-serve keys created by your own admin, with no sales call",
+  ],
+  "watch": [
+    "No idempotency keys, so a retried text or call can go out twice",
+    "No concurrency control: the last write wins",
+    "No documented 429 or Retry-After, and no rate-limit headers on live responses",
+    "Webhooks are signed but have no documented retry or ordering guarantees",
+    "No read-only key, so every credential can act, not just look",
+    "Inbound texts come only through webhooks; there is no message-history endpoint",
+    "No changed-since sync; the bulk export covers call records only",
+    "Error responses work at runtime but are not documented anywhere",
+    "The public changelog has not been updated since July 2025",
+    "API access is not on the cheapest plan, and Dialpad's pages disagree on which tier includes it",
+    "Writes were graded from documentation, not tested live",
+  ],
+  "bottom": "Dialpad has a genuinely strong, buildable communications API: "
+            "near-complete coverage of calls, texts, users, numbers, routing and "
+            "real-time events, a maintained OpenAPI file and Python SDK, clean "
+            "AI-readable docs and transparent uptime, so you or an AI agent can "
+            "automate prospect, tenant and vendor calling and texting today. The "
+            "drag is reliability engineering: no idempotency, no concurrency "
+            "control, no documented rate-limit recovery, webhook delivery without "
+            "retry or ordering guarantees, no read-only credential, and errors "
+            "that work at runtime but are not documented. Dialpad is a "
+            "communications layer, not a property-management system, so it sits "
+            "alongside your PMS, accounting and payments rather than replacing "
+            "them. Confirm your plan includes API access before you build.",
 },
 }
 

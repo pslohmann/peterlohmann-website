@@ -1004,6 +1004,207 @@
    }
   ]
  },
+ "Dialpad": {
+  "source": "dialpad.md",
+  "meta": {
+   "tier": "Baseline verified (read-path live; write-path documentation-graded)",
+   "battery": "complete. Steps 1–5 performed live; step 7 (idempotency) N-A (no idempotency documented); steps 6 (create/update) & 8 (webhook delivery) not run (write-path) and graded from documentation.",
+   "date": "2026-10-11",
+   "model": "Claude Opus 4.8 (claude-opus-4-8)",
+   "coverage": "100% (27/27 applicable checks verified; no category below 0.70; none \"Unable to verify\"; gate passes)"
+  },
+  "checks": [
+   {
+    "id": "C1.1",
+    "cat": 1,
+    "title": "Object coverage",
+    "mark": "yes",
+    "why": "weighted coverage ≈ 91% (21.0/23), no critical object absent. Users/Calls/Contacts/CC/offices/webhooks/recordings/rooms/stats = 1.0; Messages = 0.5 (REST send-only, history via events); Fax/settings = 0.5. [OAS path list; packet C1]"
+   },
+   {
+    "id": "C1.2",
+    "cat": 1,
+    "title": "Core operational actions",
+    "mark": "yes",
+    "why": "weighted ≈ 100%; create/update present for every critical write workflow: POST /sms, POST /call, POST+PATCH /users, POST /numbers/assign, plus broad POST/PATCH across resources (OAS: 56 POST / 24 PATCH). (documentation/OAS-graded — writes not executed live) [OAS; packet C1]"
+   },
+   {
+    "id": "C1.3",
+    "cat": 1,
+    "title": "Delete or lifecycle actions",
+    "mark": "yes",
+    "why": "weighted ≈ 100%; all principal lifecycle actions present (26 DELETE ops + status/transfer/hangup/assign/unassign). (documentation/OAS-graded) [OAS; packet C1]"
+   },
+   {
+    "id": "C1.4",
+    "cat": 1,
+    "title": "Change notification",
+    "mark": "yes",
+    "why": "event subscriptions cover call / sms / contact / agent_status + a `changelog` catch-all, with rich call-event states; ≥ 0.85 weighted of critical+important state changes. [event-subscriptions.md; call-events.md]"
+   },
+   {
+    "id": "C2.1",
+    "cat": 2,
+    "title": "Modern conventions",
+    "mark": "yes",
+    "why": "REST, resource-oriented, standard verbs, JSON, `/api/v2`. [OAS; reference pages; live 200]"
+   },
+   {
+    "id": "C2.2",
+    "cat": 2,
+    "title": "Consistent typing",
+    "mark": "partial",
+    "why": "schemas typed, but core `id` fields are inconsistent: live `id` returns as a string while the OAS types several IDs int64, and ID typing varies across objects (ContactProto.id string vs ActiveCallProto.id int64). [smssend.md; webhookscreate.md; OAS parse; live step 2]"
+   },
+   {
+    "id": "C2.3",
+    "cat": 2,
+    "title": "Structured errors",
+    "mark": "yes",
+    "why": "live 404/401 return a structured body with `error.code`, human-readable `error.message`, and machine-readable `error.errors[].reason` (`notFound`/`required`), correct HTTP status, consistent across cases. (Observed behavior; note: the docs document no errors — this does not rescue C4.1.) [live step 4]"
+   },
+   {
+    "id": "C2.4",
+    "cat": 2,
+    "title": "Duplicate prevention",
+    "mark": "no",
+    "why": "no idempotency keys/headers anywhere (OAS: 0); POST /sms and POST /call (consequential writes) can duplicate on retry; only contacts PUT is naturally idempotent. (documentation-graded) [OAS parse; packet C2.4]"
+   },
+   {
+    "id": "C2.5",
+    "cat": 2,
+    "title": "Graceful handling under load",
+    "mark": "no",
+    "why": "numeric limits are published, but there is no documented 429, no `Retry-After`, no backoff guidance, and live responses carry no `X-RateLimit-*` headers. [rate-limits.md; live step 5]"
+   },
+   {
+    "id": "C2.6",
+    "cat": 2,
+    "title": "Pagination",
+    "mark": "partial",
+    "why": "cursor pagination works (traversal verified live, page 1→2), but no documented stable-ordering guarantee, no total-count, and a ≤100 cap. [getting-started.md; OAS; live steps 2–3]"
+   },
+   {
+    "id": "C2.7",
+    "cat": 2,
+    "title": "Bulk or incremental export",
+    "mark": "partial",
+    "why": "async CSV export exists (Stats API) but covers only call records/stats; no updated-since/delta sync; other objects via cursor lists only. [stats-api-dialpad-analytics.md]"
+   },
+   {
+    "id": "C2.8",
+    "cat": 2,
+    "title": "Webhook security and delivery reliability",
+    "mark": "partial",
+    "why": "JWT HS256 signed payloads (shared secret), but no documented retry policy, no replay/dedup guidance, and events may arrive out of order. (documentation-graded) [event-subscriptions.md; webhookscreate.md; call-events.md]"
+   },
+   {
+    "id": "C2.9",
+    "cat": 2,
+    "title": "Concurrency and conflict control",
+    "mark": "no",
+    "why": "no ETag/If-Match/version fields and no 409 semantics (OAS: 0); last-write-wins. [OAS parse; usersupdate.md]"
+   },
+   {
+    "id": "C2.10",
+    "cat": 2,
+    "title": "Versioning and backward compatibility",
+    "mark": "partial",
+    "why": "explicit `/api/v2` path version + per-endpoint \"added on\" notes and a v1 archive, but no formal backward-compatibility policy or defined deprecation window. [packet C2.10]"
+   },
+   {
+    "id": "C2.11",
+    "cat": 2,
+    "title": "Request traceability",
+    "mark": "partial",
+    "why": "every response carries a unique `x-cloud-trace-context` identifier, but it is undocumented by Dialpad and not referenced in the support flow (which asks for the key's last 4). [live step 1/5; getting-help.md]"
+   },
+   {
+    "id": "C2.12",
+    "cat": 2,
+    "title": "Service availability and status transparency",
+    "mark": "yes",
+    "why": "public Statuspage with a dedicated \"API Platform\" component, incident history, and published uptime (e.g., Calling 99.999%/30d). No SLA, but uptime present. [status.dialpad.com]"
+   },
+   {
+    "id": "C3.1",
+    "cat": 3,
+    "title": "Read-only credentials",
+    "mark": "no",
+    "why": "no read-only credential mode; scopes are action/export-oriented and endpoint access is gated by a user/admin role flag, not a read-only grant; admin keys act across all users. [oauth.md; api-key-generation.md]"
+   },
+   {
+    "id": "C3.2",
+    "cat": 3,
+    "title": "Scoped credentials",
+    "mark": "partial",
+    "why": "per-key/token scope selection (Dialpad-approved) + Access Control Policies, but ACPs bind to users, not API credentials, their permission sets are write-only and AI-contact-center-scoped, and OAuth has an undefined basic-access floor. [api-key-generation.md; access-control-policies.md; accesscontrolpoliciesassign.md]"
+   },
+   {
+    "id": "C3.3",
+    "cat": 3,
+    "title": "Multiple keys",
+    "mark": "yes",
+    "why": "multiple named API keys in the admin \"API Keys\" list. [api-key-generation.md; Help Center]"
+   },
+   {
+    "id": "C3.4",
+    "cat": 3,
+    "title": "Rotation and revocation",
+    "mark": "yes",
+    "why": "self-serve key expiration set at creation + OAuth `POST /oauth2/deauthorize` revocation. [api-key-generation.md; oauth.md]"
+   },
+   {
+    "id": "C3.5",
+    "cat": 3,
+    "title": "Test and production isolation",
+    "mark": "yes",
+    "why": "separate sandbox host and credentials (sandbox.dialpad.com vs dialpad.com), confirmed in OAS `servers`. [authentication-basics.md; OAS]"
+   },
+   {
+    "id": "C4.1",
+    "cat": 4,
+    "title": "Complete self-serve reference",
+    "mark": "partial",
+    "why": "~200 public reference pages with typed params + 200-response examples + schemas, but no request/code samples and no documented error responses (confirmed: live errors exist but are undocumented). [userslist.md; live step 4]"
+   },
+   {
+    "id": "C4.2",
+    "cat": 4,
+    "title": "Reliable machine-consumable path",
+    "mark": "yes",
+    "why": "OpenAPI 3.x spec (Dialpad GitHub, auto-generated from live OAS) + actively maintained official Python SDK (`python-dialpad`, updated 2026-03-31) + a first-party MCP server. [github.com/dialpad/dialpad-python-sdk; dialpad.com/mcp]"
+   },
+   {
+    "id": "C4.3",
+    "cat": 4,
+    "title": "AI-readable documentation",
+    "mark": "yes",
+    "why": "comprehensive `llms.txt` index + clean per-endpoint Markdown (`.md` twin on every page). [llms.txt; packet C4.3]"
+   },
+   {
+    "id": "C4.4",
+    "cat": 4,
+    "title": "Kept current",
+    "mark": "partial",
+    "why": "on-site changelog is ~15 months stale (latest July 2025) and irregular, though the SDK/OAS pipeline is current and endpoints carry version-added notes; no formal deprecation policy. [developers.dialpad.com/changelog]"
+   },
+   {
+    "id": "C5.1",
+    "cat": 5,
+    "title": "Self-serve API key",
+    "mark": "yes",
+    "why": "a company admin creates keys in-product (name, expiration, scopes) with no sales call or approval for key creation itself. [api-key-generation.md]"
+   },
+   {
+    "id": "C5.3",
+    "cat": 5,
+    "title": "Not commercially gated",
+    "mark": "partial",
+    "why": "API access is tier-gated with inconsistent first-party sources: FAQ (\"Enterprise plans include Admin and Reporting APIs\"), help docs (reportedly Pro+), dev docs (silent), pricing page (no mention of API). Not on the entry Standard tier. The operator's own key authenticated live, confirming API access is enabled on his plan (tier not disclosed). [dialpad.com/faq; dialpad.com/pricing; live step 1]"
+   }
+  ]
+ },
  "FixGrid": {
   "source": "fixgrid.md",
   "meta": {
