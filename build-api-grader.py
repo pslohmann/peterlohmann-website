@@ -65,7 +65,7 @@ CATEGORIES = [
     ("maintenance",  "Maintenance",
         ["Property Meld", "Vendoroo", "Mason", "Latchel", "FixGrid"]),
     ("banks",        "Banks",
-        ["Column"]),
+        ["Column", "Columbia Bank"]),
     ("accounting",   "Corporate Accounting",
         ["Xero", "QuickBooks Online"]),
     ("phone",        "Phone",
@@ -80,7 +80,7 @@ NO_API = set()          # e.g. {"Some Bank"} for a platform with no API to grade
 # their own account. Distinct from "scoring in progress", which means the run is
 # under way: these are waiting on a customer, and saying so is how we get one.
 LOOKING = {"DoorLoop", "Revela", "Rentec Direct", "Yardi Breeze",
-           "Findigs", "RentSpree", "Rent Butter", "AmRent", "Dialpad", "8x8"}
+           "Findigs", "RentSpree", "Rent Butter", "AmRent", "Dialpad", "8x8", "Columbia Bank"}
 
 GUIDE_URL = "/api-grader-guide"
 
