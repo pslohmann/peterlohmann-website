@@ -242,8 +242,8 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   .band .h-lead + *{ margin-top:34px; }
   .band .h-lead + .sub{ margin-top:12px; }
   .sub + .grid, .sub + .charts, .sub + .stats, .sub + .deal-grid{ margin-top:34px; }
-  /* The 2027 note is a second .sub under the examples heading; it belongs with
-     the sentence above it, and the first example group should not sit 58px away. */
+  /* A second .sub under a heading belongs with the sentence above it, and the
+     first example group should not sit 58px away. */
   .sub + .sub{ margin-top:6px; }
   .sub + .example-group{ margin-top:26px; }
 
@@ -793,7 +793,6 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     <div class="wrap">
       <h2 id="fmt-h" class="h-lead reveal">See the placements in action.</h2>
       <p class="sub reveal">A few real examples of each format. Sample slots are shown below; live examples drop in here.</p>
-      <p class="sub reveal" style="margin-top:6px;color:var(--orange-dark);font-weight:600;">Pricing increases in 2027 for primary newsletter and podcast placements.</p>
 
       <div class="example-group reveal">
         <div class="eg-head">
@@ -949,9 +948,9 @@ const CONFIG = {
 
   // ---- A LA CARTE PRODUCTS (standard/rack pricing) ----
   products: {
-    // `price` is the 2026 rate and is what every calculation uses. `price2027` is
-    // display only: it renders a "rises to X in 2027" line on the card and never
-    // enters a bundle, deal or discount. Omit it where the rate is not changing.
+    // `price` is the rate shown on the cards and used by every calculation. `price2027`
+    // is no longer displayed (the 2026 lock-in notes were retired); it is kept only
+    // because the season programs are priced from the podcast rate below.
     primaryNewsletter:   { label: "Primary Newsletter Ad",       price: 3500, price2027: 3750 },
     secondaryNewsletter: { label: "Secondary Newsletter Ad",     price: 1250 },
     // seasonBase2027 holds the season programs at the rate they were priced from (1,975),
@@ -1359,12 +1358,9 @@ function renderAlaCarte(){
 
   const podGated = P.podcastAd.requiresPodcast && !CONFIG.podcast.available;
   const chip = podGated ? '<div style="margin-top:12px;"><span class="chip chip-soldout">Sold out until '+returnDateStr()+'</span></div>' : "";
-  // Display-only 2027 signal. Never enters a calculation; omitted where a rate holds.
-  function rise(prod){
-    return prod.price2027
-      ? '<div class="rise-2027">Rises to '+money(prod.price2027)+' in 2027 &middot; book now at 2026 pricing</div>'
-      : "";
-  }
+  // The 2026/2027 rate notes were retired once the lock-in window closed. price2027 stays in
+  // CONFIG only because the season programs are priced from it; nothing on the page shows it.
+  function rise(prod){ return ""; }
 
   let html = "";
   // 1. Primary Newsletter Ad
@@ -1425,7 +1421,6 @@ function renderSeasons(){
          +   '<p style="color:var(--muted);font-size:15px;margin:2px 0 8px;">'+s.blurb+'</p>'
          +   '<div class="amt" style="font-size:34px;font-weight:700;color:var(--navy);letter-spacing:-.02em;">'+money(seasonPrice(s))+'</div>'
          +   '<div class="value-note">'+s.valueNote+'</div>'
-         +   (s.is2027 ? '<div class="season-2027">Reflects 2027 pricing</div>' : "")
          +   feats
          +   avail
          + '</div>';
@@ -1442,15 +1437,11 @@ function renderBundles(){
       const note = l.pending ? ' <span class="ret">begins Nov 12</span>' : "";
       return '<li><span class="q">'+l.qty+'×</span><span class="name">'+l.label+'</span>'+note+'</li>';
     }).join("");
-    // This box used to explain the podcast sell-out. It now carries the
-    // 2026-pricing notice and always shows, rather than being conditional.
-    const rejoin = '<div class="rejoin">Reflects 2026 pricing. Rates increase in 2027. Book now to lock in 2026 pricing. Very limited availability remaining for 2026.</div>';
     return '<div class="bundle'+orange+'">'
          +   '<div class="b-top"><h3>'+b.name+'</h3><span class="save">'+r.savingsPct+'% savings</span></div>'
          +   '<div class="price">'+money(r.price)+'<small> /mo</small></div>'
          +   '<div class="term">'+b.minTermMonths+'-month minimum · à-la-carte value '+money(r.sum)+'</div>'
          +   '<ul class="lines">'+lines+'</ul>'
-         +   rejoin
          + '</div>';
   }).join("");
 }
@@ -1515,7 +1506,7 @@ function renderDeals(){
     const unavailable = gated || upcoming.length === 0;
 
     const body = unavailable
-      ? '<p class="deal-note">No discounted slots open right now. Very limited availability remaining for 2026.</p>'
+      ? '<p class="deal-note">No discounted slots open right now.</p>'
       : '<div class="deal-dates"><div class="deal-date-label">Open dates</div><ul>'
           + upcoming.map(function(x){ return '<li><span class="dd-date">'+prettyDate(x)+'</span><span class="dd-issue">'+dayName(x)+' issue</span></li>'; }).join("")
           + '</ul></div>';
