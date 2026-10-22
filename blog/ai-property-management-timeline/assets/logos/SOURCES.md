@@ -1,0 +1,48 @@
+Logo icon sources for the AI timeline (official files only; collected 2026-10-22). SVG "padded" means only the viewBox was widened; the shapes and colors are untouched.
+
+- anthropic.svg: https://www.anthropic.com/images/icons/safari-pinned-tab.svg (mask-icon linked from anthropic.com), resized/padded
+- appfolio.png: https://learn.appfolio.com/apm/www/favicons/fb-icon-554x554.png (icon set linked from appfolio.com), resized/padded
+- boom.png: images/boom-logo.webp (repo), cropped from wordmark
+- buildium.png: sponsor/logos/buildium.png (repo), cropped from wordmark
+- crane.png: images/crane-icon.webp (repo), resized/padded
+- doorloop.png: https://cdn.prod.website-files.com/5f073e32d304276cc8b4ff30/69ef686efb5ec4c235b3ab95_doorloop_webClip.png (apple-touch-icon on doorloop.com), used as-is
+- findigs.svg: https://www.findigs.com/icon.svg (favicon on findigs.com), resized/padded
+- foxen.png: https://cdn.prod.website-files.com/645d65c8b5c35557d464161a/65cbe03dd4f1e25c63d9c51e_MicrosoftTeams-image%20(57).png (apple-touch-icon on foxen.com), used as-is
+- google.png: https://www.gstatic.com/images/branding/googleg/2x/googleg_standard_color_128dp.png (Google's own "G" asset), resized/padded
+- leadsimple.png: https://www.leadsimple.com/apple-touch-icon.png, resized/padded
+- lula.png: https://lula.life/wp-content/uploads/2024/02/cropped-lula.life_-3-270x270.png (site icon on lula.life), used as-is
+- micro1.png: https://cdn.prod.website-files.com/6a04bd23eb9d40f76dac1249/6a04bd23eb9d40f76dac1ebd_favicon%20(1).png (apple-touch-icon on micro1.ai), used as-is
+- mode: monogram (none found)
+- openai.png: https://community.openai.com/ (apple-touch-icon of OpenAI's official forum; openai.com blocks automated downloads), resized/padded
+- perplexity.svg: https://www.perplexity.ai/favicon.svg, used as-is
+- plm.svg: favicon.svg (repo), used as-is
+- property-meld.svg: https://propertymeld.com/favicon.svg, resized/padded
+- rent-manager.png: https://www.rentmanager.com/wp-content/uploads/2023/08/cropped-RM_HouseIcon-192x192.png (site icon on rentmanager.com), resized/padded
+- rentengine.png: https://app.rentengine.io/apple-touch-icon.png (rentengine.io was rate-limiting), resized/padded
+- rentredi.png: https://framerusercontent.com/images/q6PWcpmohXAR6l9o9no26k3hlU.png (apple-touch-icon on rentredi.com), resized/padded
+- rentvine.svg: https://app.rentvine.com/assets/favicon/icon.svg (current Rentvine icon; same mark as the rentvine.com favicon), resized/padded
+- showdigs.svg: https://www.showdigs.com/favicon.svg, resized/padded
+- showmojo.png: https://hello.showmojo.com/wp-content/uploads/2026/03/cropped-favicon-192x192.png (site icon on showmojo.com), used as-is
+- snappt.png: https://snappt.com/wp-content/themes/snappt-theme/public/images/favorites/apple-touch-icon-152x152.png, resized/padded
+- tenant-turner.png: https://tenantturner.com/wp-content/uploads/2026/05/favicon-300x300.png (apple-touch-icon on tenantturner.com), resized/padded
+- tenantcloud.svg: https://www.tenantcloud.com/wp-content/uploads/2026/03/tenantcloud-favicon.svg, used as-is
+- vendoroo.svg: https://www.vendoroo.ai/icon.svg, used as-is
+- zillow.png: https://www.zillow.com/apple-touch-icon.png, used as-is
+- xai.png: https://x.ai/icon.png (x.ai site icon; x.ai pages block automated requests but the icon file is served directly), used as-is
+- xero.svg: https://www.xero.com/content/dam/xero/pilot-images/admin/icons/favicon/favicon.svg (favicon on xero.com), used as-is
+- quickbooks-online.svg: https://digitalasset.intuit.com/render/content/dam/intuit/ic/en_us/logos/intuit-quickbooks-stacked-signature-light-tally-logo-icom.svg (Intuit press-room logos page, https://www.intuit.com/company/press-room/logos/; quickbooks.intuit.com blocks automated requests), cropped from wordmark
+- ringcentral.png: https://app.ringcentral.com/icon_256x256.314e8f1b68a51cdff5e88f5a60bd7884.png (RingCentral web app icon; ringcentral.com only links a 32px favicon), used as-is
+- zoom.png: https://developers.zoom.us/favicon.ico (256px frame of Zoom's official favicon; zoom.com only links a 72px icon), used as-is
+- quo.png: https://cdn.quo.com/favicon/android-chrome-512x512.png (icon linked from quo.com), used as-is
+- magic-door.svg: https://magicdoor-cms-prod.s3.amazonaws.com/0/root/favicon-1779919260725-v6iblv.svg (favicon on magicdoor.com), resized/padded
+- rentec-direct.png: https://www.rentecdirect.com/apple-touch-icon.png, resized/padded
+- revela.png: https://cdn.prod.website-files.com/6a1d80539a1bed60f8489ecf/6a2143ebae8a45b646ae28aa_6887e2ac4be358d2650e4878_Revela_Webclip.png (512px icon on revela.co), used as-is
+- yardi-breeze.png: https://www.yardibreeze.com/wp-content/themes/cmw-standard-theme-child-breeze/images/favicons/apple-touch-icon.png, used as-is
+- aptly.png: https://www.getaptly.com/favicon.png (apple-touch-icon on getaptly.com), used as-is
+- process-street.png: https://www.process.st/wp-content/uploads/2024/03/favps.png (full-size original of the site icon on process.st), used as-is
+- follow-up-boss.png: https://cdn.prod.website-files.com/644fec6f9633da07ea1323cb/660c9d9611500e8ebcccde2d_favicon.png (apple-touch-icon on followupboss.com), used as-is
+- rently.svg: https://use.rently.com/wp-content/uploads/2023/03/logo.svg (header logo on use.rently.com; site favicon is only 32px), cropped from wordmark
+- latchel.png: https://app.latchel.com/apple-touch-icon.png (Latchel app icon; latchel.com only links a 35px favicon), used as-is
+- mason.svg: https://www.thisismason.com/images/mason_logo.svg (SVG favicon on thisismason.com), resized/padded
+- fixgrid.png: https://app.fixgrid.app/static/images/icon-512.png (FixGrid app icon; the fixgrid.app favicon includes tagline text), used as-is
+- rentspree.png: https://cdn.prod.website-files.com/65c0f8f594d491289ae25e2a/660bfaf5c5eea181eac8599f_rentspree%20webclip.png (apple-touch-icon on rentspree.com), resized/padded

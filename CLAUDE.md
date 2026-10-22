@@ -113,6 +113,57 @@ TO PUBLISH A NEW OR UPDATED REPORT CARD:
   4. `python3 build-sitemap.py && python3 qa-check.py`, then commit + push.
 Company names live in CATEGORIES in build-api-grader.py (Lula removed 2026-09-18: no API).
 
+## AI & Property Management: A Comprehensive Timeline (hidden blog post), built 2026-10-22
+URL: https://www.peterlohmann.com/blog/ai-property-management-timeline/  (PUBLISHED BUT HIDDEN for Peter's review:
+noindex on every page, not in the sitemap, llms.txt, blog list or any menu, nothing on the site links to it.)
+Interactive vertical timeline of AI in residential PM since ChatGPT (Nov 2022). Built from Andrew's spec
+(plm-ai-timeline-build-spec.md). Folder: `blog/ai-property-management-timeline/` (the blog scripts, sitemap and
+qa-check only look at blog/*.html, so this folder is invisible to them).
+Andrew's decisions: blog-post URL, light mode only, extra lane colors beyond the brand's three are fine, preview
+image made with Pillow, no GA4/RB2B on the page (spec says no trackers; ask Andrew before adding).
+- `index.html` ............ the page (hand-maintained) EXCEPT two generated blocks: SHARE-META (all <head> SEO:
+  title, description, robots, canonical, Open Graph, BlogPosting + BreadcrumbList JSON-LD) and STATIC-LIST (a plain
+  HTML list of every event inside #tl for search engines, AI crawlers and no-JS visitors; hidden once JS runs).
+  Uses absolute paths (/styles.css, /blog/ai-property-management-timeline/...) so the same HTML works for the
+  main page and every share page.
+- `timeline.js` / `timeline.css` .. the app (vanilla JS, no build). BASE path, lanes, types and the four
+  event-type filter groups are at the top of timeline.js; lane colors are `--lane-*` in timeline.css (and
+  LANE_RGB in the build script).
+- `data/events.json` .. ONE OBJECT PER EVENT (128 as of 2026-10-22). The page renders entirely from this plus
+  `companies.json` (slug -> name + logo) and `redirects.json` ({"old-id": "new-id"}).
+- `assets/logos/` ...... square company icons + SOURCES.md (where each came from). Missing = letter tile.
+- `e/<id>/index.html` .. GENERATED share pages: own og:title/description for link previews, canonical points
+  at the main post (so search engines fold them in), never in the sitemap, nothing links to them.
+- `og-image.png` ....... GENERATED 1200x630 link-preview image.
+BUILD: `python3 build-ai-timeline.py` (root). Checks the data, fixes logo paths, writes the SEO block and static
+list into index.html, rewrites every share page and the preview image. Constants at its top: HIDDEN, PUBLISHED,
+TITLE, DESCRIPTION.
+TO ADD OR EDIT AN EVENT: edit data/events.json, run the build, preview at
+http://localhost:8747/blog/ai-property-management-timeline/ , commit + push. Ids are permanent once shared:
+to rename or retire one, add a redirects.json entry.
+WHAT GOES ON IT: frontier lane = whole new generations PLUS model releases that drove major usage (Andrew,
+2026-10-22: e.g. Claude 5.5 series, Grok releases, ChatGPT image generation, Nano Banana); skip minor point
+releases; DeepSeek excluded by Andrew. PM vendors on the API Report Card: API launches/opens, MCP servers and AI
+connectors, notable AI launches. General business tools (QuickBooks, Xero, Zoom, phones, banks): only API launches
+and Claude/ChatGPT connectors, not their generic in-app AI. Research notes (every report card company's API date,
+what was left out and why): grader-reports/ai-timeline-api-audit.md (local only, gitignored).
+LAYOUT: one line down the center; frontier AI model cards LEFT, everything else RIGHT; years are chapter markers,
+months are pills on the line. Within a month cards are placed in date order; a card sharing a row with the card
+across the line drops 34px so the two dots never overlap. `notable: true` cards are larger with their summary
+showing; others expand on click (summary, "Read the announcement", Copy link). Sticky bar under the site nav: year
+buttons (follow the reader, keep the URL hash on the year in view) + the "AI models / Property management" column
+headers. Phones: line on the left, every card on its right.
+FILTERS: "Show only:" lane chips and "Filter by event type:" four group chips (Frontier model, API or MCP,
+Everything else, Announced; they double as the key) or one exact type from the dropdown (picking one clears the
+other). Nothing picked = everything shows.
+LINKS: /blog/ai-property-management-timeline/e/<id>/ and #e/<id> scroll to that card, expand it and flash it once;
+#2025 or #coming-soon jump to that chapter. Review mode: add `?review` (confidence chips + review list).
+CACHE: index.html loads timeline.css/js with `?v=N`. After editing either, bump N in index.html, then rerun the
+build so the share pages pick up the new number.
+TO MAKE IT PUBLIC (after Peter's OK): set HIDDEN = False in build-ai-timeline.py and rerun it; add the main URL
+(not the e/ pages) to build-sitemap.py and rerun it; add a line to llms.txt; add it to the blog list (blog.html)
+and, if wanted, a nav link; `python3 qa-check.py`; commit + push. Consider adding GA4/RB2B if Andrew wants traffic.
+
 ## Interactive features
 Per Andrew's decision, buttons for PeterBot chat, Products checkout, the M&A Report purchase,
 and individual blog posts **link out to the existing live peterlohmann.com pages** so nothing
