@@ -44,5 +44,6 @@
   {"slug": "latchel", "name": "Latchel", "logo": "assets/logos/latchel.png"},
   {"slug": "mason", "name": "Mason", "logo": "assets/logos/mason.svg"},
   {"slug": "fixgrid", "name": "FixGrid", "logo": "assets/logos/fixgrid.png"},
-  {"slug": "rentspree", "name": "RentSpree", "logo": "assets/logos/rentspree.png"}
+  {"slug": "rentspree", "name": "RentSpree", "logo": "assets/logos/rentspree.png"},
+  {"slug": "beagle", "name": "Beagle", "logo": ""}
 ]
