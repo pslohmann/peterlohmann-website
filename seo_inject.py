@@ -34,7 +34,7 @@ def insert_after_desc(h, block):
 def og_block(url, title, desc, og_type="website", image=OG_DEFAULT):
     t = [f'<link rel="canonical" href="{url}" />',
          f'<meta property="og:type" content="{og_type}" />',
-         f'<meta property="og:title" content="{html.escape(title, quote=True)}" />']
+         f'<meta property="og:title" content="{html.escape(html.unescape(title), quote=True)}" />']
     if desc:
         t.append(f'<meta property="og:description" content="{desc}" />')
     t += [f'<meta property="og:url" content="{url}" />',
