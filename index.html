@@ -65,6 +65,11 @@
   .resource-grid{ grid-template-columns:repeat(3,1fr); }   /* 9 cards: three even rows */
   @media (max-width:900px){ .resource-grid{ grid-template-columns:repeat(2,1fr); }
     .resource-grid > .card:last-child:nth-child(odd){ grid-column:1 / -1; } }   /* odd card count: last one spans both columns instead of sitting alone */
+  /* phones: one full-width card per row. Two columns at this width made every card a tall,
+     narrow strip with the description wrapping a few words per line. */
+  @media (max-width:640px){ .resource-grid{ grid-template-columns:1fr; gap:14px; }
+    .resource-grid > .card{ padding:20px 22px; }
+    .resource-grid .card-ic{ width:64px; height:64px; bottom:14px; right:14px; } }
   /* Crane card watermark: render its emblem in the same faded blue as the other card icons */
   .card-ic.crane-ic{ background:var(--primary);
     -webkit-mask:url('images/crane-icon.webp') center/contain no-repeat;
