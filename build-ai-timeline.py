@@ -231,6 +231,8 @@ def build_share_pages(events, redirects):
     for pid, ev in pages.items():
         url = f"{PAGE_URL}e/{pid}/"
         out = META_RE.sub(lambda m: seo_block(events, ev, url), template)
+        # the plain-text list lives on the main post only (share pages point search engines there)
+        out = STATIC_RE.sub("<!-- STATIC-LIST START -->\n<!-- STATIC-LIST END -->", out)
         d = os.path.join(TL, "e", pid)
         os.makedirs(d, exist_ok=True)
         with open(os.path.join(d, "index.html"), "w", encoding="utf-8") as f:
