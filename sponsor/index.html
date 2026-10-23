@@ -1156,7 +1156,7 @@ function runSelfCheck(){
    CONTENT DATA for charts (audience stats — not prices, so not in CONFIG).
    ========================================================================== */
 const ROLE_DATA = [
-  { label:"Operates/works at a PM company", pct:70 },
+  { label:"Operator/Manager at a PM company", pct:70 },
   { label:"Real Estate Brokerage",          pct:11 },
   { label:"PM Vendor",                      pct:6 },
   { label:"Real Estate Investor",           pct:6 },
@@ -1267,7 +1267,7 @@ function renderCharts(){
     return '<div class="row'+hl+'"><span class="lbl">'+d.label+'</span><span class="pct">'+d.pct+'%</span>'
          + '<span class="track"><span class="fill" style="--w:'+d.pct+'%"></span></span></div>';
   }).join("")
-    + '<p class="chart-note">1 in 5 readers is a PM owner, executive or director.</p>';
+    + '<p class="chart-note">7 in 10 readers is a Property Management Company decision maker</p>';
   // Unit donut
   const uAria = "Portfolio size distribution: " + UNIT_DATA.map(function(d){return d.label+" "+d.pct+"%";}).join(", ");
   document.getElementById("unitDonut").innerHTML = donutSVG(UNIT_DATA, uAria) + legend(UNIT_DATA);
