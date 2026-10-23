@@ -1267,7 +1267,7 @@ function renderCharts(){
     return '<div class="row'+hl+'"><span class="lbl">'+d.label+'</span><span class="pct">'+d.pct+'%</span>'
          + '<span class="track"><span class="fill" style="--w:'+d.pct+'%"></span></span></div>';
   }).join("")
-    + '<p class="chart-note">7 in 10 readers is a Property Management Company decision maker</p>';
+    + '<p class="chart-note">7 in 10 readers are a Property Management Company decision maker.</p>';
   // Unit donut
   const uAria = "Portfolio size distribution: " + UNIT_DATA.map(function(d){return d.label+" "+d.pct+"%";}).join(", ");
   document.getElementById("unitDonut").innerHTML = donutSVG(UNIT_DATA, uAria) + legend(UNIT_DATA);
