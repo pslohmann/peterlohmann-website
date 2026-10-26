@@ -1205,6 +1205,207 @@
    }
   ]
  },
+ "DoorLoop": {
+  "source": "doorloop.md",
+  "meta": {
+   "tier": "baseline verified",
+   "battery": "complete for steps 1–5. Step 6 was not run (no sandbox and no write authorization). Step 7 is N-A because the API documents no idempotency mechanism. Step 8 is N-A because the API offers no webhooks.",
+   "date": "2026-10-16 (operator local); live tests 2026-10-17 02:47–02:48 UTC",
+   "model": "Claude Opus 5.5 (claude-opus-5-5)",
+   "coverage": "25/25 applicable checks = 100%. Gate passed: no category is Unable to verify, coverage is at least 80%, and steps 1–5 are complete."
+  },
+  "checks": [
+   {
+    "id": "C1.1",
+    "cat": 1,
+    "title": "Object coverage",
+    "mark": "partial",
+    "why": ". Weighted coverage = 26/38 = 68%.**"
+   },
+   {
+    "id": "C1.2",
+    "cat": 1,
+    "title": "Core operational actions",
+    "mark": "partial",
+    "why": ". Weighted coverage = 24.5/38 = 64%.**"
+   },
+   {
+    "id": "C1.3",
+    "cat": 1,
+    "title": "Delete or lifecycle actions",
+    "mark": "partial",
+    "why": ". Weighted coverage = 18/25 = 72%.**"
+   },
+   {
+    "id": "C1.4",
+    "cat": 1,
+    "title": "Change notification",
+    "mark": "partial",
+    "why": ".**"
+   },
+   {
+    "id": "C2.1",
+    "cat": 2,
+    "title": "Modern API conventions",
+    "mark": "yes",
+    "why": ".** Resource-oriented REST with GET/POST/PUT/DELETE, JSON in and JSON out (reference/introduction: \"organized around REST… predictable resource-oriented URLs… standard HTTP response codes, authentication, and verbs\"). Confirmed live with JSON responses on `/users/me`, `/properties`, and `/leases`. One limitation: v1 `PUT` replaces the whole record and does not patch it (reference/put-unit)."
+   },
+   {
+    "id": "C2.2",
+    "cat": 2,
+    "title": "Consistent typing",
+    "mark": "partial",
+    "why": ".**"
+   },
+   {
+    "id": "C2.3",
+    "cat": 2,
+    "title": "Structured errors",
+    "mark": "partial",
+    "why": ".**"
+   },
+   {
+    "id": "C2.4",
+    "cat": 2,
+    "title": "Duplicate prevention",
+    "mark": "no",
+    "why": "(documentation-graded).**"
+   },
+   {
+    "id": "C2.5",
+    "cat": 2,
+    "title": "Graceful handling under load",
+    "mark": "yes",
+    "why": ".**"
+   },
+   {
+    "id": "C2.6",
+    "cat": 2,
+    "title": "Pagination for large collections",
+    "mark": "partial",
+    "why": ".**"
+   },
+   {
+    "id": "C2.7",
+    "cat": 2,
+    "title": "Bulk or incremental export",
+    "mark": "partial",
+    "why": ".** Full datasets can be pulled at up to 1000 rows per page, with filters and `sort_by=updatedAt` (live-verified above). There is no async export job, bulk endpoint, or documented updated-since sync. The report endpoints (rent roll, P&L, balance sheet, cash flow) are summaries, not data exports."
+   },
+   {
+    "id": "C2.8",
+    "cat": 2,
+    "title": "Webhook security and delivery reliability",
+    "mark": "na",
+    "why": ".** No webhooks are offered. Their absence is already penalized in C1.4."
+   },
+   {
+    "id": "C2.9",
+    "cat": 2,
+    "title": "Concurrency and conflict control",
+    "mark": "no",
+    "why": "(documentation-graded).**"
+   },
+   {
+    "id": "C2.10",
+    "cat": 2,
+    "title": "Versioning and backward compatibility",
+    "mark": "partial",
+    "why": ".**"
+   },
+   {
+    "id": "C2.11",
+    "cat": 2,
+    "title": "Request traceability",
+    "mark": "partial",
+    "why": ".**"
+   },
+   {
+    "id": "C2.12",
+    "cat": 2,
+    "title": "Service availability and status transparency",
+    "mark": "yes",
+    "why": ".**"
+   },
+   {
+    "id": "C3.1",
+    "cat": 3,
+    "title": "Read-only credentials",
+    "mark": "yes",
+    "why": ".** v2 OAuth tokens carry only the approved `<resource>:<action>` scopes, and `read` means \"List and get\" (v2.0/reference/authentication §Scopes). Each endpoint declares its scope (for example, `GET /leases` requires `leases:read` in the v2 OpenAPI `security`). A `*:read`-only token is therefore read-only. Limitation: v2 apps must be registered by contacting DoorLoop (§1). v1 keys inherit the creating user's role, and no read-only v1 role is documented."
+   },
+   {
+    "id": "C3.2",
+    "cat": 3,
+    "title": "Scoped credentials",
+    "mark": "yes",
+    "why": ".** v2 offers fine-grained resource and action scopes (`owners:read`, `tasks:create`, `tenants:update`, …; v2 OpenAPI `components.securitySchemes.OAuth2.flows.authorizationCode.scopes`). v1 has role-based restriction only (\"Each API token is assigned an access role…\", reference/authentication, 405 callout)."
+   },
+   {
+    "id": "C3.3",
+    "cat": 3,
+    "title": "Multiple keys",
+    "mark": "yes",
+    "why": ".** Keys are named and created per line item (\"enter a name for this key in the Key Name field… click Add Line Item… This will create and save a new api key\", support article 6457764). The docs also say \"view and manage your API keys\" (reference/authentication). Live responses carry an `x-api-key-id` header that identifies the individual key."
+   },
+   {
+    "id": "C3.4",
+    "cat": 3,
+    "title": "Rotation and revocation",
+    "mark": "yes",
+    "why": ".**"
+   },
+   {
+    "id": "C3.5",
+    "cat": 3,
+    "title": "Test and production isolation",
+    "mark": "na",
+    "why": ".** No sandbox or test environment is documented in v1, v2, or the support center, and the spec lists only the \"Production\" server."
+   },
+   {
+    "id": "C4.1",
+    "cat": 4,
+    "title": "Complete self-serve reference",
+    "mark": "partial",
+    "why": ".** The reference is public, with an auth guide, pagination, sorting, rate limits, and per-endpoint parameters and schemas (api.doorloop.com/reference/). Only 20 of 96 v1 operations include a worked response example (merged OpenAPI, `responses.200.content..example(s)`), and error bodies are undocumented. Field names and types also disagree with live data (see C2.2), so some flows still need trial and error."
+   },
+   {
+    "id": "C4.2",
+    "cat": 4,
+    "title": "Reliable machine-consumable integration path",
+    "mark": "partial",
+    "why": ".**"
+   },
+   {
+    "id": "C4.3",
+    "cat": 4,
+    "title": "AI-readable documentation",
+    "mark": "yes",
+    "why": ".** Every reference page is available as clean per-endpoint Markdown with the full OpenAPI fragment (`<page>.md`; all 103 v1 and 39 v2 pages retrieved), and each page's front matter declares `agentTools.projectIndex`. Limitation: the v1 `llms.txt` indexes only 2 pages, and `llms-full.txt` returns 404."
+   },
+   {
+    "id": "C4.4",
+    "cat": 4,
+    "title": "Kept current",
+    "mark": "partial",
+    "why": ".**"
+   },
+   {
+    "id": "C5.1",
+    "cat": 5,
+    "title": "Self-serve API key",
+    "mark": "yes",
+    "why": ".** A company user creates keys in Settings → Company → \"Zapier & API Keys\" after an SMS identity code and acceptance of the API Terms. There is no sales call or approval step (support article 6457764; reference/authentication). The operator for this run provisioned their own key, and it worked live. Note: the www.doorloop.com/partner page says DoorLoop is \"selective about who gets access\", and v2 OAuth apps must be registered by contacting DoorLoop. These describe partner and third-party app access, not an operator's own key (see disagreements)."
+   },
+   {
+    "id": "C5.3",
+    "cat": 5,
+    "title": "Not commercially gated",
+    "mark": "yes",
+    "why": ".** The base plan, \"DoorLoop One\", lists \"Unlimited users, unlimited document storage and full API access\", and the pricing FAQ states that \"Everything that used to sit behind Premium, including… the API… is in DoorLoop One\" (www.doorloop.com/pricing). The FAQ also says \"Existing plans and prices stay as they are\", so legacy Starter or Pro customers may still lack access, as the support article 6457764 Zapier note indicates."
+   }
+  ]
+ },
  "FixGrid": {
   "source": "fixgrid.md",
   "meta": {

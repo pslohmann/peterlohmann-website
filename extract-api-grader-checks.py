@@ -29,6 +29,7 @@ SOURCES = {
     "Buildium":            "buildium.md",
     "Column":              "column.md",
     "Dialpad":             "dialpad.md",
+    "DoorLoop":            "doorloop.md",
     "FixGrid":             "fixgrid.md",
     "Follow Up Boss":      "follow-up-boss.md",
     "Latchel":             "latchel.md",

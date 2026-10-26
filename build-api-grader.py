@@ -79,7 +79,7 @@ NO_API = set()          # e.g. {"Some Bank"} for a platform with no API to grade
 # Platforms we cannot grade until an operator who uses one runs the file against
 # their own account. Distinct from "scoring in progress", which means the run is
 # under way: these are waiting on a customer, and saying so is how we get one.
-LOOKING = {"DoorLoop", "Revela", "Rentec Direct", "Yardi Breeze",
+LOOKING = {"Revela", "Rentec Direct", "Yardi Breeze",
            "Findigs", "RentSpree", "Rent Butter", "AmRent", "8x8", "Columbia Bank"}
 
 GUIDE_URL = "/api-grader-guide"
@@ -2969,6 +2969,90 @@ RESULTS = {
             "communications layer, not a property-management system, so it sits "
             "alongside your PMS, accounting and payments rather than replacing "
             "them. Confirm your plan includes API access before you build.",
+},
+
+"DoorLoop": {
+  "score": 72, "grade": "C-",
+  "meta": {"run": "Oct 16, 2026", "method": "1.1", "model": "Claude Opus 5.5",
+           "tier": "Baseline verified", "raw": "36.08 / 50"},
+  "note": "The read path was tested live against the operator's own account: "
+          "authentication, two pages of properties, filtered and sorted queries on "
+          "tasks, leases and lease charges, seven deliberate errors, and the "
+          "rate-limit and trace headers on every response. Every live call was a "
+          "read; the write checks were graded from DoorLoop's documentation, "
+          "because there is no sandbox. DoorLoop also runs an MCP server for its "
+          "docs, but it needs a key only DoorLoop can issue, so it earned no "
+          "credit; access to it could move the score to 73. The largest open "
+          "judgment call is self-serve access, where a stricter reading of "
+          "DoorLoop's partner page would give 65 (D).",
+  "cats": [
+    (7.5, 15, "You can read nearly everything and do the day-to-day ledger work: "
+              "create leases, move tenants in and out, post charges and payments, "
+              "record bounced payments, and manage tasks, owners, vendors and "
+              "bills. You cannot create properties or units, edit or renew an "
+              "existing lease, read journal entries, reconcile, or handle rental "
+              "applications through the API. Nothing pushes changes to you, so "
+              "your tools have to poll on a schedule."),
+    (5.5, 10, "The API is plain REST and easy to call. Rate limits are documented "
+              "with a 429 and Retry-After, and a public status page publishes the "
+              "API's uptime. Production automations still need defensive code: "
+              "error formats vary, a retried request can create a duplicate "
+              "payment or charge, updates overwrite the whole record with no "
+              "conflict protection, there is no bulk export, and the published "
+              "field names and types do not always match what the API returns."),
+    (5.0, 5,  "With the newer OAuth (v2) path you can give an app or AI agent "
+              "narrow, read-only or per-resource access and cut it off instantly. "
+              "The catch is practical: v2 apps must be registered with DoorLoop "
+              "and currently cover fewer endpoints, the everyday v1 key you create "
+              "yourself can do whatever its user can do, and there is no sandbox, "
+              "so every test touches live data."),
+    (3.1, 5,  "AI coding tools can read DoorLoop's docs page by page in Markdown, "
+              "which helps. But the downloadable spec link is broken, there are no "
+              "SDKs, worked examples are sparse, and there is no API changelog. "
+              "Expect to correct some field names and types by hand, and to find "
+              "changes by testing rather than reading release notes."),
+    (15.0, 15, "On any current plan you can generate your own API key in settings "
+               "today, with no sales call or upgrade. If you are on a legacy "
+               "Starter or Pro plan, confirm that your plan includes the API."),
+  ],
+  "strengths": [
+    "Create a full lease, move tenants in and out, and post charges, credits and payments",
+    "Record returned payments and manage tasks, work orders, owners, vendors and bills",
+    "Rent roll, P&L, balance sheet and cash-flow reports through the API",
+    "Documented rate limits with a 429 and Retry-After, and limit headers on every response",
+    "A public status page with a dedicated API component and published monthly uptime",
+    "Scoped, read-only OAuth tokens on v2, revocable instantly",
+    "Multiple named keys you create yourself in settings",
+    "Every reference page available as clean Markdown with its OpenAPI fragment",
+    "Full API access on the base DoorLoop One plan, with no sales call",
+  ],
+  "watch": [
+    "No webhooks, so every change has to be found by polling",
+    "No creating properties or units, and no editing or renewing an existing lease",
+    "No journal entries, reconciliation or rental applications through the API",
+    "No idempotency keys, so a retried payment or charge can post twice",
+    "Updates replace the whole record, with no conflict protection",
+    "Error formats vary and carry no stable machine-readable code",
+    "Some published field names and types do not match live responses",
+    "The published OpenAPI link returns a 404, and there is no SDK",
+    "No API changelog, and no versioning or deprecation policy",
+    "No sandbox, so every test touches live data",
+    "The everyday v1 key can do whatever its user can do; scoped access needs a DoorLoop-registered v2 app",
+    "Writes were graded from documentation, not tested live",
+  ],
+  "bottom": "You can generate a DoorLoop API key yourself on any current plan and "
+            "build working tools today: rent-roll and delinquency dashboards, "
+            "lease and tenant syncs, posting charges and payments, recording "
+            "returned payments, and creating or updating work orders, all on plain "
+            "documented REST with published rate limits and a status page. The "
+            "biggest strength is easy, ungated access plus scoped OAuth for safely "
+            "connecting apps or AI agents. The biggest limitations are no webhooks, "
+            "no property or unit creation, no lease edits or renewals, no "
+            "reconciliation or journal entries, and no protection against duplicate "
+            "payments on a retry. DoorLoop is property-management software, not a "
+            "bank; payments run through Stripe and bank feeds through Plaid, and "
+            "trust-accounting compliance still rests on your own bank accounts and "
+            "processes.",
 },
 }
 

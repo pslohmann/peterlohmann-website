@@ -31,6 +31,7 @@ SOURCES = {
     "follow-up-boss":    "follow-up-boss-2026-09-22.md",
     "column":            "column-2026-09-09.md",
     "dialpad":           "dialpad-2026-10-11.md",
+    "doorloop":          "doorloop-2026-10-16.md",
     "latchel":           "latchel-2026-09-10.md",
     "leadsimple":        "leadsimple-2026-08-28.md",
     "magic-door":        "magic-door-2026-09-10.md",
