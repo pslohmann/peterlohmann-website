@@ -720,7 +720,6 @@ FOOT_LINKS = """        <a href="index.html">About</a>
         <a href="api-grader/index.html">API Grader</a>
         <a href="blog.html">Blog</a>
         <a href="report/index.html">M&amp;A Report</a>
-        <a href="peterbot.html">PeterBot</a>
         <a href="products.html">Products</a>
         <a href="featured.html">Featured</a><a href="/sponsor/">Sponsor</a>
         <a href="contact.html">Contact</a>
@@ -791,7 +790,7 @@ def render_rows(subset):
         top1 = (natrank == 1)
         topcls = ' class="top1"' if top1 else ''
         cardtop = ' top1' if top1 else ''
-        chip = '<img src="images/narpm-logo.webp" alt="NARPM member" class="yn-logo" />' if r['narpm'] else NO_CHIP
+        chip = '<img src="images/narpm-logo.webp" alt="NARPM member" class="yn-logo" style="height:36px;width:auto" />' if r['narpm'] else NO_CHIP
         crane_chip = '<img src="images/crane-icon.webp" alt="Crane member" class="yn-crane" />' if r['crane'] else NO_CHIP
         boom_chip = '<img src="images/boom-logo.webp" alt="Boom customer" class="yn-logo" />' if r['boom'] else NO_CHIP
         soft_txt = esc(r["soft"]) if r["soft"] != "Unknown" else '<span style="color:#9aa5ad">n/a</span>'
@@ -1203,7 +1202,7 @@ page = f"""<!--
       <p class="sub reveal" style="margin-bottom:22px;">By third-party doors under management. Self-reported. SFR and small multifamily (under 100 units). <span class="exec-key">{PERSON_SVG} = highest-ranking executive</span></p>
       <div class="table-scroll reveal">
         <table class="rank-table">
-          <thead><tr><th class="num">#</th><th>Company</th><th class="num doors-col">Doors</th><th class="chg-col">Change<br>from 2025</th><th class="hide-sm">Software</th><th class="hide-sm">Structure</th><th class="yn-col"><img src="images/narpm-logo.webp" alt="NARPM" class="hdr-logo" /><span class="cust">member</span></th><th class="yn-col"><img src="images/crane-full-logo.webp" alt="Crane" class="hdr-logo" /><span class="cust">member</span></th><th class="yn-col boom-col"><img src="images/boom-logo.webp" alt="Boom" class="hdr-logo" /><span class="cust">Customer</span></th></tr></thead>
+          <thead><tr><th class="num">#</th><th>Company</th><th class="num doors-col">Doors</th><th class="chg-col">Change<br>from 2025</th><th class="hide-sm">Software</th><th class="hide-sm">Structure</th><th class="yn-col"><img src="images/narpm-logo.webp" alt="NARPM" class="hdr-logo" style="height:30px;width:auto" /><span class="cust">member</span></th><th class="yn-col"><img src="images/crane-full-logo.webp" alt="Crane" class="hdr-logo" /><span class="cust">member</span></th><th class="yn-col boom-col"><img src="images/boom-logo.webp" alt="Boom" class="hdr-logo" /><span class="cust">Customer</span></th></tr></thead>
           <tbody>
 {table_rows}
           </tbody>
@@ -1459,7 +1458,7 @@ print(f"Wrote {OUT}")
 # the interactive map/modal, Phase 2, will link + progressively enhance these).
 THEAD = ('<thead><tr><th class="num">#</th><th>Company</th><th class="num doors-col">Doors</th>'
          '<th class="chg-col">Change<br>from 2025</th><th class="hide-sm">Software</th><th class="hide-sm">Structure</th>'
-         '<th class="yn-col"><img src="images/narpm-logo.webp" alt="NARPM" class="hdr-logo" /><span class="cust">member</span></th>'
+         '<th class="yn-col"><img src="images/narpm-logo.webp" alt="NARPM" class="hdr-logo" style="height:30px;width:auto" /><span class="cust">member</span></th>'
          '<th class="yn-col"><img src="images/crane-full-logo.webp" alt="Crane" class="hdr-logo" /><span class="cust">member</span></th>'
          '<th class="yn-col boom-col"><img src="images/boom-logo.webp" alt="Boom" class="hdr-logo" /><span class="cust">Customer</span></th></tr></thead>')
 
