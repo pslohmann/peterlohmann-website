@@ -12,13 +12,14 @@ What it does (plain English):
   3. Writes one small share page per event at blog/ai-property-management-timeline/e/<id>/index.html, a copy of the
      main page with that event's title and summary in the link-preview tags. Renamed events
      listed in data/redirects.json get a page too, so old links keep working.
-  4. Draws the 1200x630 link-preview image blog/ai-property-management-timeline/og-image.png from the same data.
+  4. Cuts the 1200x630 share image images/blog/ai-property-management-timeline--og.jpg from the blog
+     card cover, so Slack, LinkedIn and X show the same graphic as the blog list.
 
 It never deletes anything. If an old e/<id>/ folder no longer matches an event or redirect,
 it prints a warning (ids are permanent: retire one with a redirect instead of deleting it).
 """
 import json, os, re, sys, html, datetime
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 TL = os.path.join(HERE, "blog", "ai-property-management-timeline")
@@ -34,6 +35,8 @@ TITLE = "AI & Property Management: A Comprehensive Timeline"
 DESCRIPTION = ("A running timeline of AI in residential property management since ChatGPT: the big AI model "
                "releases, the AI launches, APIs and MCP connectors from property management software, and "
                "what Peter Lohmann published along the way.")
+COVER = "images/blog/ai-property-management-timeline--cover.webp"   # blog card + share image source
+OG_IMAGE = "images/blog/ai-property-management-timeline--og.jpg"
 OG_DESCRIPTION = "In the age of AI, things move so fast it's hard to keep up."
 
 LANES = ["frontier", "pm_software", "leasing", "maintenance", "risk", "data_pricing", "plm"]
@@ -135,7 +138,7 @@ def seo_block(events, ev=None, url=None):
         ld = [{
             "@context": "https://schema.org", "@type": "BlogPosting",
             "headline": TITLE, "description": DESCRIPTION, "url": url, "mainEntityOfPage": url,
-            "image": PAGE_URL + "og-image.png", "datePublished": PUBLISHED, "dateModified": modified,
+            "image": SITE + "/" + OG_IMAGE, "datePublished": PUBLISHED, "dateModified": modified,
             "author": {"@type": "Person", "name": "Peter Lohmann", "url": SITE + "/"},
             "publisher": {"@type": "Person", "name": "Peter Lohmann"},
             "about": ["Artificial intelligence", "Property management", "Property management software"],
@@ -160,7 +163,7 @@ def seo_block(events, ev=None, url=None):
            f'<meta property="og:title" content="{a(og_title)}" />\n'
            f'<meta property="og:description" content="{a(og_desc)}" />\n'
            f'<meta property="og:url" content="{url}" />\n'
-           f'<meta property="og:image" content="{PAGE_URL}og-image.png" />\n'
+           f'<meta property="og:image" content="{SITE}/{OG_IMAGE}" />\n'
            '<meta property="og:image:width" content="1200" />\n'
            '<meta property="og:image:height" content="630" />\n'
            '<meta property="og:site_name" content="Peter Lohmann" />\n'
@@ -243,124 +246,15 @@ def build_share_pages(events, redirects):
 
 
 # ---------- 4. link-preview image ----------
-def font(paths, size):
-    for p in paths:
-        try: return ImageFont.truetype(p, size)
-        except Exception: continue
-    return ImageFont.load_default()
-
-
-SERIF = ["/System/Library/Fonts/Supplemental/Georgia Bold.ttf", "/System/Library/Fonts/Supplemental/Times New Roman Bold.ttf"]
-BLACK = ["/System/Library/Fonts/Supplemental/Arial Black.ttf", "/System/Library/Fonts/Supplemental/Arial Bold.ttf"]
-SANS_B = ["/System/Library/Fonts/Supplemental/Arial Bold.ttf", "/System/Library/Fonts/Helvetica.ttc"]
-SANS = ["/System/Library/Fonts/Supplemental/Arial.ttf", "/System/Library/Fonts/Helvetica.ttc"]
-NAVY, BLUE, ORANGE, MUTED = (31, 58, 77), (44, 124, 176), (224, 112, 60), (95, 114, 128)
-LINE, WASH = (220, 228, 236), (247, 250, 252)
-
-
-def draw_marker(d, cx, cy, r, shape, color, announced=False):
-    import math
-    if shape == "star":
-        pts = []
-        for i in range(10):
-            rr = r * 1.25 if i % 2 == 0 else r * 0.56
-            a = math.radians(-90 + i * 36)
-            pts.append((cx + rr * math.cos(a), cy + r * 0.1 + rr * math.sin(a)))
-    elif shape == "diamond":
-        rr = r * 1.12
-        pts = [(cx, cy - rr), (cx + rr, cy), (cx, cy + rr), (cx - rr, cy)]
-    else:
-        pts = None
-    if announced:
-        if pts: d.polygon(pts, outline=color, width=3)
-        else: d.ellipse([cx - r, cy - r, cx + r, cy + r], outline=color, width=3)
-    else:
-        if pts: d.polygon(pts, fill=color)
-        else: d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=color)
-
-
-def build_og(events):
-    S = 2  # draw at 2x, then shrink, for smooth edges
-    W, H = 1200 * S, 630 * S
-    img = Image.new("RGB", (W, H), (255, 255, 255))
-    d = ImageDraw.Draw(img)
-    d.rectangle([0, 0, W, 10 * S], fill=BLUE)
-    # tricolor ticks
-    for i, c in enumerate((BLUE, ORANGE, NAVY)):
-        x = 64 * S + i * 36 * S
-        d.rounded_rectangle([x, 58 * S, x + 28 * S, 64 * S], radius=3 * S, fill=c)
-    f_h1 = font(SERIF, 60 * S)
-    d.text((64 * S, 82 * S), "AI & Property Management:", font=f_h1, fill=NAVY)
-    d.text((64 * S, 150 * S), "A Comprehensive Timeline", font=f_h1, fill=NAVY)
-    d.text((64 * S, 232 * S), "From ChatGPT to now", font=font(SANS_B, 32 * S), fill=BLUE)
-    # wordmark, top right corner
-    f_wm = font(SERIF, 30 * S)
-    wa, wb = d.textlength("Peter ", font=f_wm), d.textlength("Lohmann", font=f_wm)
-    x0 = W - 64 * S - wa - wb
-    d.text((x0, 52 * S), "Peter ", font=f_wm, fill=NAVY)
-    d.text((x0 + wa, 52 * S), "Lohmann", font=f_wm, fill=BLUE)
-
-    # one continuous line across the years: AI models above, property management below
-    released = [e for e in events if e["status"] != "announced"]
-    soon = [e for e in events if e["status"] == "announced"]
-    years = sorted({int(sort_key(e["date"])[:4]) for e in released})
-    first_m = int(sort_key(min(released, key=lambda e: sort_key(e["date"]))["date"])[5:7])
-    left, right = 64 * S, W - 64 * S
-    tail = 150 * S
-    time_w = right - left - tail
-    n_full, frac = len(years) - 1, (13 - first_m) / 12
-    unit = time_w / (n_full + frac)
-    first_w = max(frac * unit, 90 * S)
-    unit = (time_w - first_w) / n_full
-    zones = {}
-    for i, y in enumerate(years):
-        a_ = left if i == 0 else left + first_w + (i - 1) * unit
-        zones[y] = (a_, a_ + (first_w if i == 0 else unit))
-    line_y = 410 * S
-
-    def xpos(e):
-        k = sort_key(e["date"]); y, m, dd = int(k[:4]), int(k[5:7]), int(k[8:10])
-        sm = first_m if y == years[0] else 1
-        za, zb = zones[y]
-        return za + ((m - sm) + (dd - 0.5) / 31) / (13 - sm) * (zb - za)
-
-    d.line([left, line_y, left + time_w, line_y], fill=(159, 178, 193), width=3 * S)
-    xx = left + time_w
-    while xx < right:
-        d.line([xx, line_y, min(xx + 9 * S, right), line_y], fill=(159, 178, 193), width=3 * S)
-        xx += 16 * S
-    f_year, f_soon = font(BLACK, 30 * S), font(SERIF, 24 * S)
-    for i, y in enumerate(years):
-        za, zb = zones[y]
-        if i:
-            d.line([za, line_y - 8 * S, za, line_y + 8 * S], fill=(159, 178, 193), width=3 * S)
-        fy = f_year if zb - za > 110 * S else font(BLACK, 21 * S)
-        d.text((za + 10 * S, line_y + 84 * S), str(y), font=fy, fill=NAVY)
-    d.text((left + time_w + 12 * S, line_y + 86 * S), "Coming soon", font=f_soon, fill=NAVY)
-
-    marks = [(xpos(e), e, False) for e in released]
-    marks += [(left + time_w + 26 * S + i * 24 * S, e, True) for i, e in enumerate(soon)]
-    r, step, base = 7 * S, 13 * S, 18 * S
-    placed = {True: [], False: []}
-    for x, e, is_soon in sorted(marks, key=lambda m: m[0]):
-        col = LANE_RGB[e["lane"]]
-        if not e.get("notable") or is_soon:   # faint dot on the line, like the page
-            faint = tuple(int(c + (255 - c) * 0.5) for c in col)
-            draw_marker(d, x, line_y, 4.5 * S, TYPES[e["type"]], faint, is_soon)
-            continue
-        up = e["lane"] == "frontier"
-        lv = 0
-        while any(abs(px - x) < 2 * r + 2 * S and pl == lv for px, pl in placed[up]):
-            lv += 1
-        placed[up].append((x, lv))
-        ln = base + lv * step
-        y = line_y - ln if up else line_y + ln
-        col = LANE_RGB[e["lane"]]
-        d.line([x, line_y, x, y], fill=tuple(int(c + (255 - c) * 0.5) for c in col), width=2 * S)
-        draw_marker(d, x, y, r, TYPES[e["type"]], col, is_soon)
-    d.text((64 * S, H - 42 * S), "peterlohmann.com/blog", font=font(SANS, 20 * S), fill=MUTED)
-    img = img.resize((1200, 630), Image.LANCZOS)
-    img.save(os.path.join(TL, "og-image.png"), "PNG", optimize=True)
+# Social shares (Slack, LinkedIn, X...) use the same wordless graphic as the blog card, cut to
+# 1200x630 JPG like every other post's images/blog/<slug>--og.jpg. Replace the cover file to change it.
+def build_og():
+    im = Image.open(os.path.join(HERE, COVER)).convert("RGB")
+    w, h = im.size
+    nh = round(w * 630 / 1200)
+    y = (h - nh) // 2
+    im = im.crop((0, y, w, y + nh)).resize((1200, 630), Image.LANCZOS)
+    im.save(os.path.join(HERE, OG_IMAGE), "JPEG", quality=88, optimize=True, progressive=True)
 
 
 def main():
@@ -374,14 +268,14 @@ def main():
         sys.exit(1)
     changed, missing = sync_logos(companies)
     n, orphans = build_share_pages(events, redirects)
-    build_og(events)
+    build_og()
     print(f"Checked {len(events)} events and {len(companies)} companies: OK")
     print(f"Logos: {'updated companies.json paths' if changed else 'paths already current'}"
           + (f"; letter tile for {', '.join(missing)}" if missing else ""))
     print(f"Share pages: wrote {n} pages in blog/ai-property-management-timeline/e/")
     if orphans:
         print("  ! these share pages no longer match an event or redirect (left in place): " + ", ".join(orphans))
-    print("Preview image: blog/ai-property-management-timeline/og-image.png")
+    print("Share image: " + OG_IMAGE)
 
 
 if __name__ == "__main__":

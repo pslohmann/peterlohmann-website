@@ -116,12 +116,13 @@ Company names live in CATEGORIES in build-api-grader.py (Lula removed 2026-09-18
 ## AI & Property Management: A Comprehensive Timeline (blog post), built 2026-10-22, public 2026-10-27
 URL: https://www.peterlohmann.com/blog/ai-property-management-timeline/  PUBLIC since 2026-10-27 (HIDDEN = False;
 in the sitemap, llms.txt and blog.html with cover images/blog/ai-property-management-timeline--cover.webp + --thumb.webp,
-a wordless graphic drawn with Pillow). No GA4/RB2B on the page yet (ask Andrew before adding).
+a wordless graphic drawn with Pillow). GA4 + RB2B added 2026-10-27 (same block as every blog post; the build copies
+it to the share pages).
 Interactive vertical timeline of AI in residential PM since ChatGPT (Nov 2022). Built from Andrew's spec
-(plm-ai-timeline-build-spec.md). Folder: `blog/ai-property-management-timeline/` (the blog scripts, sitemap and
-qa-check only look at blog/*.html, so this folder is invisible to them).
+(plm-ai-timeline-build-spec.md). Folder: `blog/ai-property-management-timeline/` (the blog scripts ignore it; build-sitemap.py adds its main URL by
+name; qa-check.py scans its index.html for links and the GA tag).
 Andrew's decisions: blog-post URL, light mode only, extra lane colors beyond the brand's three are fine, preview
-image made with Pillow, no GA4/RB2B on the page (spec says no trackers; ask Andrew before adding).
+image made with Pillow.
 - `index.html` ............ the page (hand-maintained) EXCEPT two generated blocks: SHARE-META (all <head> SEO:
   title, description, robots, canonical, Open Graph, BlogPosting + BreadcrumbList JSON-LD) and STATIC-LIST (a plain
   HTML list of every event inside #tl for search engines, AI crawlers and no-JS visitors; hidden once JS runs).
@@ -135,7 +136,8 @@ image made with Pillow, no GA4/RB2B on the page (spec says no trackers; ask Andr
 - `assets/logos/` ...... square company icons + SOURCES.md (where each came from). Missing = letter tile.
 - `e/<id>/index.html` .. GENERATED share pages: own og:title/description for link previews, canonical points
   at the main post (so search engines fold them in), never in the sitemap, nothing links to them.
-- `og-image.png` ....... GENERATED 1200x630 link-preview image.
+- Share image: GENERATED images/blog/ai-property-management-timeline--og.jpg, cut from the blog card cover
+  (--cover.webp) so Slack/LinkedIn show the same graphic. og-image.png in the folder is a leftover copy.
 BUILD: `python3 build-ai-timeline.py` (root). Checks the data, fixes logo paths, writes the SEO block and static
 list into index.html, rewrites every share page and the preview image. Constants at its top: HIDDEN, PUBLISHED,
 TITLE, DESCRIPTION.
@@ -163,7 +165,7 @@ CACHE: index.html loads timeline.css/js with `?v=N`. After editing either, bump 
 build so the share pages pick up the new number.
 TO MAKE IT PUBLIC (after Peter's OK): set HIDDEN = False in build-ai-timeline.py and rerun it; add the main URL
 (not the e/ pages) to build-sitemap.py and rerun it; add a line to llms.txt; add it to the blog list (blog.html)
-and, if wanted, a nav link; `python3 qa-check.py`; commit + push. Consider adding GA4/RB2B if Andrew wants traffic.
+and, if wanted, a nav link; `python3 qa-check.py`; commit + push.
 
 ## Interactive features
 Per Andrew's decision, buttons for PeterBot chat, Products checkout, the M&A Report purchase,
