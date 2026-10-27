@@ -113,7 +113,7 @@ TO PUBLISH A NEW OR UPDATED REPORT CARD:
   4. `python3 build-sitemap.py && python3 qa-check.py`, then commit + push.
 Company names live in CATEGORIES in build-api-grader.py (Lula removed 2026-09-18: no API).
 
-## AI & Property Management: A Comprehensive Timeline (hidden blog post), built 2026-10-22
+## AI & Property Management: A Comprehensive Timeline (blog post), built 2026-10-22, public 2026-10-27
 URL: https://www.peterlohmann.com/blog/ai-property-management-timeline/  PUBLIC since 2026-10-27 (HIDDEN = False;
 in the sitemap, llms.txt and blog.html with cover images/blog/ai-property-management-timeline--cover.webp + --thumb.webp,
 a wordless graphic drawn with Pillow). No GA4/RB2B on the page yet (ask Andrew before adding).
