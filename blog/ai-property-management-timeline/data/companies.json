@@ -45,5 +45,11 @@
   {"slug": "mason", "name": "Mason", "logo": "assets/logos/mason.svg"},
   {"slug": "fixgrid", "name": "FixGrid", "logo": "assets/logos/fixgrid.png"},
   {"slug": "rentspree", "name": "RentSpree", "logo": "assets/logos/rentspree.png"},
-  {"slug": "beagle", "name": "Beagle", "logo": ""}
+  {"slug": "beagle", "name": "Beagle", "logo": ""},
+  {"slug": "eliseai", "name": "EliseAI", "logo": "assets/logos/eliseai.png"},
+  {"slug": "realpage", "name": "RealPage", "logo": "assets/logos/realpage.svg"},
+  {"slug": "meta", "name": "Meta", "logo": "assets/logos/meta.png"},
+  {"slug": "instinct", "name": "Instinct", "logo": ""},
+  {"slug": "openclaw", "name": "OpenClaw", "logo": "assets/logos/openclaw.svg"},
+  {"slug": "pm-in-a-box", "name": "PM in a Box (APM Help)", "logo": "assets/logos/pm-in-a-box.svg"}
 ]

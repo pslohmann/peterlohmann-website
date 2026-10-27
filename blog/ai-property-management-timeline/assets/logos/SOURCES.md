@@ -46,3 +46,9 @@ Logo icon sources for the AI timeline (official files only; collected 2026-10-22
 - mason.svg: https://www.thisismason.com/images/mason_logo.svg (SVG favicon on thisismason.com), resized/padded
 - fixgrid.png: https://app.fixgrid.app/static/images/icon-512.png (FixGrid app icon; the fixgrid.app favicon includes tagline text), used as-is
 - rentspree.png: https://cdn.prod.website-files.com/65c0f8f594d491289ae25e2a/660bfaf5c5eea181eac8599f_rentspree%20webclip.png (apple-touch-icon on rentspree.com), resized/padded
+- eliseai.png: https://cdn.prod.website-files.com/63cc1eef179b054a9306598d/6a8466b644f22d500416f5b1_favicon.png (192px icon on eliseai.com), used as-is
+- realpage.svg: https://s.realpage.com/favicon.svg (favicon on realpage.com), used as-is
+- openclaw.svg: https://openclaw.ai/favicon.svg (favicon on openclaw.ai), used as-is
+- pm-in-a-box.svg: https://pm-in-a-box.org/favicon.svg (favicon on pm-in-a-box.org), used as-is
+- meta.png: https://upload.wikimedia.org/wikipedia/commons/a/ab/Meta-Logo.png (Wikimedia Commons), infinity mark cropped from the wordmark, resized/padded
+- instinct: no logo (no public site icon found); shows a letter tile
