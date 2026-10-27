@@ -117,7 +117,8 @@
     data.redirects = redirects || {};
     events.forEach(function (ev, i) {
       ev._i = i;
-      ev.key = sortKey(ev.date);
+      // "Coming soon" items with no date at all (expected starts "No date") sort after the dated ones
+      ev.key = (ev.status === 'announced' && /^no date/i.test(ev.expected || '')) ? '9999-12-31' : sortKey(ev.date);
       ev.year = ev.key.slice(0, 4);
       ev.month = +ev.key.slice(5, 7);
       ev.soon = ev.status === 'announced';
