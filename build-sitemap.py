@@ -36,6 +36,10 @@ for f in sorted(glob.glob(os.path.join(HERE, "blog", "*.html"))):
     if os.path.basename(f) in BLOG_EXCLUDE:
         continue
     urls.append(clean_url("blog/" + os.path.basename(f)))
+# The AI timeline lives in its own folder; only the main page goes in (its e/<id>/ share
+# pages point their canonical at it and are never listed).
+if os.path.exists(os.path.join(HERE, "blog", "ai-property-management-timeline", "index.html")):
+    urls.append(SITE + "/blog/ai-property-management-timeline/")
 if os.path.exists(os.path.join(HERE, "report", "index.html")):
     urls.append(SITE + "/report/")
 if os.path.exists(os.path.join(HERE, "sponsor", "index.html")):

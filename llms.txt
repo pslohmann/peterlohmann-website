@@ -11,6 +11,7 @@
 ## Content
 
 - [Blog](https://www.peterlohmann.com/blog): Essays and analysis on property management software, mergers and acquisitions, NARPM, fair housing, pricing, and operations.
+- [AI & Property Management: A Comprehensive Timeline](https://www.peterlohmann.com/blog/ai-property-management-timeline/): A running, dated timeline of AI in residential property management since ChatGPT: frontier AI model and personal agent launches, AI features, APIs and MCP connectors from property management software, access fights, and Peter Lohmann's own reports.
 - [Podcast](https://www.peterlohmann.com/podcast): Conversations for property management company owners and operators.
 - [Newsletter](https://www.peterlohmann.com/newsletter): A twice-weekly email for PM professionals.
 - [Property Management M&A Report](https://www.peterlohmann.com/report/): A free report on mergers and acquisitions in the property management industry.

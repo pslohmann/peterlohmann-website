@@ -114,8 +114,9 @@ TO PUBLISH A NEW OR UPDATED REPORT CARD:
 Company names live in CATEGORIES in build-api-grader.py (Lula removed 2026-09-18: no API).
 
 ## AI & Property Management: A Comprehensive Timeline (hidden blog post), built 2026-10-22
-URL: https://www.peterlohmann.com/blog/ai-property-management-timeline/  (PUBLISHED BUT HIDDEN for Peter's review:
-noindex on every page, not in the sitemap, llms.txt, blog list or any menu, nothing on the site links to it.)
+URL: https://www.peterlohmann.com/blog/ai-property-management-timeline/  PUBLIC since 2026-10-27 (HIDDEN = False;
+in the sitemap, llms.txt and blog.html with cover images/blog/ai-property-management-timeline--cover.webp + --thumb.webp,
+a wordless graphic drawn with Pillow). No GA4/RB2B on the page yet (ask Andrew before adding).
 Interactive vertical timeline of AI in residential PM since ChatGPT (Nov 2022). Built from Andrew's spec
 (plm-ai-timeline-build-spec.md). Folder: `blog/ai-property-management-timeline/` (the blog scripts, sitemap and
 qa-check only look at blog/*.html, so this folder is invisible to them).
@@ -129,7 +130,7 @@ image made with Pillow, no GA4/RB2B on the page (spec says no trackers; ask Andr
 - `timeline.js` / `timeline.css` .. the app (vanilla JS, no build). BASE path, lanes, types and the four
   event-type filter groups are at the top of timeline.js; lane colors are `--lane-*` in timeline.css (and
   LANE_RGB in the build script).
-- `data/events.json` .. ONE OBJECT PER EVENT (128 as of 2026-10-22). The page renders entirely from this plus
+- `data/events.json` .. ONE OBJECT PER EVENT (140 as of 2026-10-27). The page renders entirely from this plus
   `companies.json` (slug -> name + logo) and `redirects.json` ({"old-id": "new-id"}).
 - `assets/logos/` ...... square company icons + SOURCES.md (where each came from). Missing = letter tile.
 - `e/<id>/index.html` .. GENERATED share pages: own og:title/description for link previews, canonical points

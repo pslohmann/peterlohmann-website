@@ -28,8 +28,8 @@ PAGE_URL = SITE + "/blog/ai-property-management-timeline/"
 # PREVIEW MODE. True = every page carries <meta name="robots" content="noindex"> so Google and AI
 # crawlers stay out while Peter reviews it (the page is also left out of the sitemap, llms.txt and the
 # blog list). To go public: set False, rerun this script, then see "TO LAUNCH" in CLAUDE.md.
-HIDDEN = True
-PUBLISHED = "2026-10-22"
+HIDDEN = False
+PUBLISHED = "2026-10-27"
 TITLE = "AI & Property Management: A Comprehensive Timeline"
 DESCRIPTION = ("A running timeline of AI in residential property management since ChatGPT: the big AI model "
                "releases, the AI launches, APIs and MCP connectors from property management software, and "
