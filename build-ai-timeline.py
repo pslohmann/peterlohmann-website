@@ -14,6 +14,10 @@ What it does (plain English):
      listed in data/redirects.json get a page too, so old links keep working.
   4. Cuts the 1200x630 share image images/blog/ai-property-management-timeline--og.jpg from the blog
      card cover, so Slack, LinkedIn and X show the same graphic as the blog list.
+  5. Writes blog/ai-property-management-timeline/timeline.md, a plain-text (Markdown) copy of the whole
+     timeline plus an FAQ, for AI tools and crawlers. People browsing the site never land on it: the
+     page only points to it with a small footer link, a <link rel="alternate"> tag and llms.txt.
+     Hand-written FAQ answers live in data/faq.json; the rest of the FAQ is worked out from the events.
 
 It never deletes anything. If an old e/<id>/ folder no longer matches an event or redirect,
 it prints a warning (ids are permanent: retire one with a redirect instead of deleting it).
@@ -38,6 +42,7 @@ DESCRIPTION = ("A running timeline of AI in residential property management sinc
 COVER = "images/blog/ai-property-management-timeline--cover.webp"   # blog card + share image source
 OG_IMAGE = "images/blog/ai-property-management-timeline--og.jpg"
 OG_DESCRIPTION = "In the age of AI, things move so fast it's hard to keep up."
+MD_URL = PAGE_URL + "timeline.md"   # step 5
 
 LANES = ["frontier", "pm_software", "leasing", "maintenance", "risk", "data_pricing", "plm"]
 TYPES = {"frontier_model": "star", "api_access": "diamond", "mcp_connector": "diamond", "platform_launch": "dot",
@@ -164,6 +169,7 @@ def seo_block(events, ev=None, url=None):
            f"<title>{a(title)}</title>\n"
            f'<meta name="description" content="{a(desc)}" />\n' + robots +
            f'<link rel="canonical" href="{PAGE_URL}" />\n'
+           f'<link rel="alternate" type="text/markdown" href="{MD_URL}" title="Plain-text version for AI tools" />\n'
            f'<meta property="og:type" content="{kind}" />\n'
            f'<meta property="og:title" content="{a(og_title)}" />\n'
            f'<meta property="og:description" content="{a(og_desc)}" />\n'
@@ -216,6 +222,7 @@ def build_main_page(events):
         sys.exit("blog/ai-property-management-timeline/index.html is missing its STATIC-LIST START/END markers")
     page = META_RE.sub(lambda m: seo_block(events), page)
     page = STATIC_RE.sub(lambda m: static_list(events), page)
+    page = re.sub(r"<p>Last updated [A-Z][a-z]+ \d{1,2}, \d{4}\.", "<p>Last updated " + nice_date() + ".", page)
     with open(p, "w", encoding="utf-8") as f:
         f.write(page)
 
@@ -262,6 +269,99 @@ def build_og():
     im.save(os.path.join(HERE, OG_IMAGE), "JPEG", quality=88, optimize=True, progressive=True)
 
 
+# ---------- 5. Markdown copy for AI tools ----------
+# Labels match LANES and TYPES at the top of timeline.js.
+LANE_LABEL = {"frontier": "Frontier AI models", "pm_software": "Property management software",
+              "leasing": "Leasing, showings and CRM", "maintenance": "Maintenance and inspections",
+              "risk": "Screening, fraud and insurance", "data_pricing": "Data and pricing", "plm": "Peter Lohmann Media"}
+TYPE_LABEL = {"frontier_model": "Frontier model", "api_access": "API", "mcp_connector": "MCP or connector",
+              "platform_launch": "AI platform", "product_release": "AI feature", "ai_agent": "AI agent",
+              "acquisition": "Acquisition", "funding": "Funding", "access_cutoff": "Access cut-off", "report": "Report"}
+CONF_LABEL = {"high": "", "med": "medium confidence", "low": "low confidence"}
+
+
+def nice_date(d=None):
+    d = d or datetime.date.today()
+    return f"{MONTHS[d.month - 1]} {d.day}, {d.year}"
+
+
+def build_markdown(events):
+    evs = sorted(events, key=sort_key)
+    released = [e for e in evs if e["status"] != "announced"]
+    soon = [e for e in evs if e["status"] == "announced"]
+    pub = datetime.date.fromisoformat(PUBLISHED)
+    link = lambda e: f"{PAGE_URL}e/{e['id']}/"
+
+    def line(e):
+        tags = [e["company"], TYPE_LABEL[e["type"]]]
+        if CONF_LABEL[e["confidence"]]: tags.append(CONF_LABEL[e["confidence"]])
+        out = f"- **{e['display_date']}** ({'; '.join(tags)}): [{e['title']}]({link(e)}). {e['summary']}"
+        if e.get("expected"): out += f" Expected: {e['expected']}."
+        return out + f" Source: [{e['source_label']}]({e['source_url']})"
+
+    def short(e):
+        return f"- {e['display_date']}: {e['company']}, [{e['title']}]({link(e)})"
+
+    L = [f"# {TITLE}", "",
+         "> A dated, sourced timeline of AI in residential property management since ChatGPT (November 2022): "
+         "frontier AI model and personal AI agent launches, AI features, APIs and MCP connectors from property "
+         "management software and vendors, access fights, and Peter Lohmann's own reports.", "",
+         "- Author: [Peter Lohmann](https://www.peterlohmann.com/)",
+         f"- Interactive version (the original): {PAGE_URL}",
+         f"- Published {nice_date(pub)}. Last updated {nice_date()}.",
+         f"- {len(released)} events that have shipped, plus {len(soon)} announced but not shipped yet.",
+         f"- Cite as: Peter Lohmann, \"{TITLE}\", {PAGE_URL}",
+         "",
+         "## How to read this", "",
+         "- Each event lists its date, the company, the type of event, what happened, a permanent link to that event, and the original source.",
+         "- A date like \"By Sep 2026\" means the exact date isn't public; the event had happened by then.",
+         "- Events marked medium or low confidence rest on secondary sources or an unconfirmed date. Unmarked events come from first-party sources.",
+         "- Events are listed as shipped only when customers can actually use them. Announcements without real availability are in the last section.",
+         "- Columns on the interactive version: " + ", ".join(LANE_LABEL.values()) + ".",
+         "",
+         "## FAQ", ""]
+    for item in load("faq.json", []):
+        L += [f"### {item['q']}", "", item["a"], ""]
+
+    def pm(e): return e["lane"] != "frontier" and e["lane"] != "plm"
+    groups = [
+        ("Which property management software, and other tools property managers use, have an MCP server or AI connector?",
+         [e for e in released if pm(e) and e["type"] == "mcp_connector"],
+         [e for e in soon if pm(e) and e["type"] == "mcp_connector"]),
+        ("Which property management software, and other tools property managers use, have launched or opened an API?",
+         [e for e in released if pm(e) and e["type"] == "api_access"], []),
+        ("Which vendors have cut off or restricted third-party access?",
+         [e for e in released if e["type"] == "access_cutoff"], []),
+        ("Which personal AI agents have launched?",
+         [e for e in released if e["lane"] == "frontier" and e["type"] == "ai_agent"], []),
+        ("When were the major frontier AI models released?",
+         [e for e in released if e["type"] == "frontier_model"], []),
+    ]
+    for q, rows, later in groups:
+        if not rows: continue
+        L += [f"### {q}", "", f"As of {nice_date()}, in date order:", ""] + [short(e) for e in rows]
+        if later:
+            L += ["", "Announced but not shipped yet:", ""] + [short(e) for e in later]
+        L.append("")
+
+    L += ["## Timeline", ""]
+    for y in sorted({sort_key(e["date"])[:4] for e in released}):
+        L += [f"### {y}", ""] + [line(e) for e in released if sort_key(e["date"])[:4] == y] + [""]
+    if soon:
+        L += ["## Announced, not shipped yet", "",
+              "These have been announced but aren't generally available yet. They move onto the timeline when they ship.", ""]
+        L += [line(e) for e in soon] + [""]
+    L += ["## Disclosure", "",
+          "Some companies shown have advertised with Peter Lohmann Media. "
+          "Financial interest disclosure: https://www.peterlohmann.com/financial-interest-disclosure", "",
+          "Something missing or wrong? https://www.peterlohmann.com/contact", ""]
+    text = "\n".join(L)
+    if "—" in text or "–" in text:
+        sys.exit("timeline.md would contain an em or en dash; fix data/faq.json")
+    with open(os.path.join(TL, "timeline.md"), "w", encoding="utf-8") as f:
+        f.write(text)
+
+
 def main():
     events = load("events.json")
     companies = load("companies.json")
@@ -274,6 +374,7 @@ def main():
     changed, missing = sync_logos(companies)
     n, orphans = build_share_pages(events, redirects)
     build_og()
+    build_markdown(events)
     print(f"Checked {len(events)} events and {len(companies)} companies: OK")
     print(f"Logos: {'updated companies.json paths' if changed else 'paths already current'}"
           + (f"; letter tile for {', '.join(missing)}" if missing else ""))
@@ -281,6 +382,7 @@ def main():
     if orphans:
         print("  ! these share pages no longer match an event or redirect (left in place): " + ", ".join(orphans))
     print("Share image: " + OG_IMAGE)
+    print("Markdown for AI tools: blog/ai-property-management-timeline/timeline.md")
 
 
 if __name__ == "__main__":

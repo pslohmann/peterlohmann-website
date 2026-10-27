@@ -136,6 +136,11 @@ image made with Pillow.
 - `assets/logos/` ...... square company icons + SOURCES.md (where each came from). Missing = letter tile.
 - `e/<id>/index.html` .. GENERATED share pages: own og:title/description for link previews, canonical points
   at the main post (so search engines fold them in), never in the sitemap, nothing links to them.
+- `timeline.md` ......... GENERATED plain-text (Markdown) copy of every event plus an FAQ, for AI tools (LLMs). Served as
+  raw text (the repo's .nojekyll stops GitHub Pages turning .md into a web page). Visitors never land on it: only a small
+  footer link, a <link rel="alternate" type="text/markdown"> tag and llms.txt point to it. Hand-written FAQ answers are
+  in `data/faq.json` (edit there); the "which vendors have an MCP / API / cut-off" answers are worked out from events.json.
+  The build also rewrites the page's "Last updated" line to the day it runs.
 - Share image: GENERATED images/blog/ai-property-management-timeline--og.jpg, cut from the blog card cover
   (--cover.webp) so Slack/LinkedIn show the same graphic. og-image.png in the folder is a leftover copy.
 BUILD: `python3 build-ai-timeline.py` (root). Checks the data, fixes logo paths, writes the SEO block and static
