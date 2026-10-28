@@ -226,7 +226,7 @@
       '<div class="tl-details" id="' + esc(did) + '" hidden>' +
       (open ? '' : '<p class="sum">' + esc(ev.summary) + '</p>') +
       (ev.soon && ev.expected ? '<p class="sum exp">Expected: ' + esc(ev.expected) + '</p>' : '') +
-      (ev.source_url ? '<a class="tl-src" href="' + esc(ev.source_url) + '" target="_blank" rel="noopener">Read the announcement' + icon('ext') + '</a>' +
+      (ev.source_url ? '<a class="tl-src" href="' + esc(ev.source_url) + '" target="_blank" rel="noopener">' + esc(ev.link_label || 'Read the announcement') + icon('ext') + '</a>' +
         '<span class="srcl">Source: ' + esc(ev.source_label) + '</span>' : '') +
       '<button type="button" class="tl-copy" data-copy="' + esc(ev.id) + '">' + icon('link') + '<span>Copy link</span></button></div>' +
       '</article>';

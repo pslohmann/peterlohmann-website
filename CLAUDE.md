@@ -134,6 +134,8 @@ image made with Pillow.
   ADDING AN EVENT TYPE: add it in THREE places or the build stops: TYPES in timeline.js, the shape map near the
   top of build-ai-timeline.py, and TYPE_LABEL in build-ai-timeline.py. `computer_use` ("Computer-use agent":
   agents that work through the screen, no API needed) was added 2026-10-28.
+  Optional event field `link_label` changes the card's source button text (default "Read the announcement");
+  used for court rulings ("Read the coverage").
 - `data/events.json` .. ONE OBJECT PER EVENT (149 as of 2026-10-28). The page renders entirely from this plus
   `companies.json` (slug -> name + logo) and `redirects.json` ({"old-id": "new-id"}).
 - `assets/logos/` ...... square company icons + SOURCES.md (where each came from). Missing = letter tile.
