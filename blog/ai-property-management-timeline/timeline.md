@@ -4,7 +4,7 @@
 
 - Author: [Peter Lohmann](https://www.peterlohmann.com/)
 - Interactive version (the original): https://www.peterlohmann.com/blog/ai-property-management-timeline/
-- Published October 27, 2026. Last updated October 27, 2026.
+- Published October 27, 2026. Last updated October 28, 2026.
 - 138 events that have shipped, plus 3 announced but not shipped yet.
 - Cite as: Peter Lohmann, "AI & Property Management: A Comprehensive Timeline", https://www.peterlohmann.com/blog/ai-property-management-timeline/
 
@@ -44,7 +44,7 @@ It is updated as news breaks; the "Last updated" date at the top of this file re
 
 ### Which property management software, and other tools property managers use, have an MCP server or AI connector?
 
-As of October 27, 2026, in date order:
+As of October 28, 2026, in date order:
 
 - Mar 2025: Xero, [Xero open-source MCP server](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/xero-mcp-server/)
 - Oct 2025: Zillow, [Zillow app inside ChatGPT](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/zillow-chatgpt-app/)
@@ -66,7 +66,7 @@ As of October 27, 2026, in date order:
 
 ### Which property management software, and other tools property managers use, have launched or opened an API?
 
-As of October 27, 2026, in date order:
+As of October 28, 2026, in date order:
 
 - By Mar 2024: AppFolio, [AppFolio Max plan adds read/write Database API](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/appfolio-max-database-api/)
 - By Jun 2024: Boom, [Boom public API docs](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/boom-api/)
@@ -80,7 +80,7 @@ As of October 27, 2026, in date order:
 
 ### Which vendors have cut off or restricted third-party access?
 
-As of October 27, 2026, in date order:
+As of October 28, 2026, in date order:
 
 - May 2025: Follow Up Boss, [Follow Up Boss pulls call recordings and texts from its API](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/follow-up-boss-api-cutoff/)
 - Oct 2025: Buildium / Vendoroo, [Buildium cuts off Vendoroo's access](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/buildium-vendoroo-cutoff/)
@@ -89,7 +89,7 @@ As of October 27, 2026, in date order:
 
 ### Which personal AI agents have launched?
 
-As of October 27, 2026, in date order:
+As of October 28, 2026, in date order:
 
 - Nov 2025: OpenClaw, [OpenClaw, the open-source personal agent](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/openclaw-launch/)
 - Aug 2026: xAI, [xAI launches Grok Bot (beta)](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/grok-bot/)
@@ -100,7 +100,7 @@ As of October 27, 2026, in date order:
 
 ### When were the major frontier AI models released?
 
-As of October 27, 2026, in date order:
+As of October 28, 2026, in date order:
 
 - Nov 30, 2022: OpenAI, [ChatGPT launches](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/chatgpt-launch/)
 - Dec 2022: Perplexity, [Perplexity answer engine launches](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/perplexity-launch/)

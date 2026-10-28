@@ -18,11 +18,14 @@
   --tl-nav:61px;          /* height of the site's sticky nav (58px + 3px tricolor line) */
 }
 
-.tl-hero .lead + .lead{ margin-top:-4px; }
+/* intro: smaller, tighter text and less padding, so readers reach the timeline sooner */
+.tl-hero .wrap{ padding-top:48px; padding-bottom:30px; }
+.tl-hero .lead{ font-size:clamp(16px,1.6vw,18px); line-height:1.5; margin-bottom:.55em; }
+.tl-hero .lead:last-child{ margin-bottom:0; }
 /* headline: "AI & Property Management:" on its own line, the rest below it */
 .tl-h1 .l1, .tl-h1 .l2{ display:block; }
 @media (min-width:600px){ .tl-h1 .l1{ white-space:nowrap; } }
-.tl-section{ padding:26px 0 64px; }
+.tl-section{ padding:20px 0 64px; }
 .tl-ico{ width:16px; height:16px; flex:none; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round; stroke-linejoin:round; }
 .tl-loading{ color:var(--muted); padding:40px 0; text-align:center; }
 /* plain list of every event for search engines, AI crawlers and no-JavaScript visitors */
