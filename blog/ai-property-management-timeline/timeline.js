@@ -32,6 +32,7 @@
     { key: 'platform_launch', tag: 'AI platform', shape: 'dot' },
     { key: 'product_release', tag: 'AI feature', shape: 'dot' },
     { key: 'ai_agent', tag: 'AI agent', shape: 'dot' },
+    { key: 'computer_use', tag: 'Computer-use agent', shape: 'dot' },
     { key: 'acquisition', tag: 'Acquisition', shape: 'dot' },
     { key: 'funding', tag: 'Funding', shape: 'dot' },
     { key: 'access_cutoff', tag: 'Access cut-off', shape: 'dot' },

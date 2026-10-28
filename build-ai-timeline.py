@@ -46,7 +46,7 @@ MD_URL = PAGE_URL + "timeline.md"   # step 5
 
 LANES = ["frontier", "pm_software", "leasing", "maintenance", "risk", "data_pricing", "plm"]
 TYPES = {"frontier_model": "star", "api_access": "diamond", "mcp_connector": "diamond", "platform_launch": "dot",
-         "product_release": "dot", "ai_agent": "dot", "acquisition": "dot", "funding": "dot",
+         "product_release": "dot", "ai_agent": "dot", "computer_use": "dot", "acquisition": "dot", "funding": "dot",
          "access_cutoff": "dot", "report": "dot"}
 # same lane colors as timeline.css (--lane-*)
 LANE_RGB = {"frontier": (31, 58, 77), "pm_software": (44, 124, 176), "leasing": (36, 138, 92),
@@ -275,7 +275,7 @@ LANE_LABEL = {"frontier": "Frontier AI models", "pm_software": "Property managem
               "leasing": "Leasing, showings and CRM", "maintenance": "Maintenance and inspections",
               "risk": "Screening, fraud and insurance", "data_pricing": "Data and pricing", "plm": "Peter Lohmann Media"}
 TYPE_LABEL = {"frontier_model": "Frontier model", "api_access": "API", "mcp_connector": "MCP or connector",
-              "platform_launch": "AI platform", "product_release": "AI feature", "ai_agent": "AI agent",
+              "platform_launch": "AI platform", "product_release": "AI feature", "ai_agent": "AI agent", "computer_use": "Computer-use agent",
               "acquisition": "Acquisition", "funding": "Funding", "access_cutoff": "Access cut-off", "report": "Report"}
 CONF_LABEL = {"high": "", "med": "medium confidence", "low": "low confidence"}
 
@@ -304,7 +304,7 @@ def build_markdown(events):
 
     L = [f"# {TITLE}", "",
          "> A dated, sourced timeline of AI in residential property management since ChatGPT (November 2022): "
-         "frontier AI model and personal AI agent launches, AI features, APIs and MCP connectors from property "
+         "frontier AI model, personal AI agent and computer-use agent launches, AI features, APIs and MCP connectors from property "
          "management software and vendors, access fights, and Peter Lohmann's own reports.", "",
          "- Author: [Peter Lohmann](https://www.peterlohmann.com/)",
          f"- Interactive version (the original): {PAGE_URL}",
@@ -334,6 +334,8 @@ def build_markdown(events):
          [e for e in released if e["type"] == "access_cutoff"], []),
         ("Which personal AI agents have launched?",
          [e for e in released if e["lane"] == "frontier" and e["type"] == "ai_agent"], []),
+        ("Which AI agents can use websites and software through the screen, without an API?",
+         [e for e in released if e["type"] == "computer_use" or e["id"] == "amazon-blocks-comet"], []),
         ("When were the major frontier AI models released?",
          [e for e in released if e["type"] == "frontier_model"], []),
     ]
