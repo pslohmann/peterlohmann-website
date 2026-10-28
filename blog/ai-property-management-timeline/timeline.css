@@ -18,10 +18,17 @@
   --tl-nav:61px;          /* height of the site's sticky nav (58px + 3px tricolor line) */
 }
 
-/* intro: smaller, tighter text and less padding, so readers reach the timeline sooner */
-.tl-hero .wrap{ padding-top:48px; padding-bottom:30px; }
-.tl-hero .lead{ font-size:clamp(16px,1.6vw,18px); line-height:1.5; margin-bottom:.55em; }
+/* intro: small, wide, tight text so readers reach the timeline sooner */
+.tl-hero .wrap{ position:relative; z-index:1; padding-top:44px; padding-bottom:26px; }
+.tl-hero .lead{ font-size:15.5px; line-height:1.5; max-width:690px; margin-bottom:.5em; }
 .tl-hero .lead:last-child{ margin-bottom:0; }
+/* the blog card graphic as a banner on the right, fading to white toward the text */
+.tl-hero::before{ content:""; position:absolute; top:0; right:0; bottom:0; width:40%; pointer-events:none;
+  background:url(/images/blog/ai-property-management-timeline--cover.webp) 74% center / cover no-repeat;
+  -webkit-mask-image:linear-gradient(to right, transparent 0%, transparent 22%, rgba(0,0,0,.55) 52%, #000 80%);
+          mask-image:linear-gradient(to right, transparent 0%, transparent 22%, rgba(0,0,0,.55) 52%, #000 80%); }
+@media (max-width:899px){ .tl-hero::before{ display:none; } .tl-hero .lead{ max-width:none; } }
+@media (max-width:600px){ .tl-hero .wrap{ padding-top:30px; padding-bottom:20px; } .tl-hero h1.tl-h1{ font-size:29px; margin-bottom:10px; } .tl-hero .lead{ font-size:14.5px; } }
 /* headline: "AI & Property Management:" on its own line, the rest below it */
 .tl-h1 .l1, .tl-h1 .l2{ display:block; }
 @media (min-width:600px){ .tl-h1 .l1{ white-space:nowrap; } }
