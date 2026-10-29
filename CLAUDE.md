@@ -177,6 +177,34 @@ TO MAKE IT PUBLIC (after Peter's OK): set HIDDEN = False in build-ai-timeline.py
 (not the e/ pages) to build-sitemap.py and rerun it; add a line to llms.txt; add it to the blog list (blog.html)
 and, if wanted, a nav link; `python3 qa-check.py`; commit + push.
 
+## Free Courses (/courses/), machinery built 2026-10-29
+Each course = one of Peter's longform YouTube videos written up module by module. The content project
+writes TWO files per course into `courses-src/` (see courses-src/README.md for the frontmatter + body rules):
+`<slug>.md` (becomes /courses/<slug>/) and `<slug>.llm.md` (plain-text companion for AI tools, copied as-is).
+- BUILD: `python3 build-courses.py`, then commit + push. It validates every course (fails with file:line on a
+  missing field, 150-160 char description, bad date/duration, slug != filename, bad or out-of-order {t=...}
+  timestamps, missing .llm.md, leftover [IMAGE:/[ALT:/[LINK]/[TODO:, em/en dashes, missing images). A failing
+  course is not published; an already-live one keeps its old page and hub card (courses-src/_built.json).
+- OUTPUT: courses/<slug>/index.html, courses/<slug>.llm.md, courses/index.html (hub, newest first),
+  courses/assets/<slug>/_cover.jpg + _card.webp (YouTube thumbnail cropped 16:9, re-fetched only if the
+  source changes). Course styles/script: courses/course.css + course.js (bump COURSE_ASSET_V in the builder).
+- It also rewrites the "## Free Courses" section of llms.txt and reruns build-sitemap.py (hub + course pages
+  with <lastmod>; .llm.md files never listed). Deleting a course's source files removes its built page.
+- PAGE SHELL: menu, footer and the styles.css version are copied from blog.html at build time, so courses
+  always match the rest of the site. GA4 + RB2B from site_common.py.
+- VIDEO: thumbnail first; YouTube player loads on click. "Watch this part" links seek the running player
+  (postMessage seekTo) and fall back to youtube.com/watch?v=..&t=Ns without JavaScript.
+- GA4 EVENTS: course_youtube_subscribe_click, course_newsletter_click, course_chapter_jump (params course_slug,
+  timestamp, seconds). Register course_slug / timestamp as custom dimensions in GA4 to report on them.
+- SCHEMA: BlogPosting + VideoObject (one Clip per timed module) + BreadcrumbList. No HowTo/Course markup.
+- ROBOTS: Googlebot has its own group (repeats the * rules) that blocks /courses/*.llm.md so Google ranks
+  the page; AI crawlers can read them. Every group blocks /courses-src/. Keep the * and Googlebot groups in step.
+- NOT on the blog: courses live only under /courses/ (Andrew, 2026-10-29). CTA copy, hub intro: use as written.
+- CTA links: YouTube https://www.youtube.com/@peterlohmann?sub_confirmation=1 ; newsletter /newsletter#subscribe.
+- MENU: "Resources" dropdown (Blog, Free Courses, PeterBot) applied by `python3 apply-resources-menu.py`
+  (edits every page + build-blog/podcast/largest-list/api-grader, adds Free Courses to the footer, bumps
+  styles/site.js to v=29). Dropdown styles in styles.css ("Resources" menu group), click handling in site.js.
+
 ## Interactive features
 Per Andrew's decision, buttons for PeterBot chat, Products checkout, the M&A Report purchase,
 and individual blog posts **link out to the existing live peterlohmann.com pages** so nothing

@@ -1,0 +1,87 @@
+/* =============================================================================
+   FREE COURSES: course pages and the /courses/ hub (loaded only there).
+   Built pages come from build-courses.py; bump COURSE_ASSET_V there after editing this file.
+   Everything else (fonts, colors, article text, cards, buttons) comes from /styles.css.
+   ========================================================================== */
+
+/* ---------- layout: article + sticky module list on wide screens ---------- */
+.course-side{ display:none; }
+@media (min-width:1180px){
+  .course-layout{ display:grid; grid-template-columns:minmax(0,730px) 250px; gap:48px; justify-content:center; align-items:start; }
+  .course-layout .article{ margin:0; }
+  .course-side{ display:block; position:sticky; top:84px; }
+  .course-toc-inline{ display:none; }
+}
+
+/* ---------- breadcrumb ---------- */
+.crumbs{ font-size:14.5px; font-weight:600; color:var(--muted); margin-bottom:14px; }
+.crumbs a{ color:var(--muted); }
+.crumbs a:hover{ color:var(--primary); }
+.crumbs .sep{ margin:0 7px; color:#a9b6c1; }
+
+/* ---------- video (thumbnail first; the real player loads on click) ---------- */
+.course-video{ margin:1.8em 0 0; scroll-margin-top:76px; }
+.article-body a.course-player{ display:block; position:relative; aspect-ratio:16/9; background:#000; border-radius:14px; overflow:hidden;
+  border:1px solid var(--line); box-shadow:var(--shadow); text-decoration:none; }
+.course-player img{ width:100%; height:100%; object-fit:cover; display:block; border-radius:0; transition:opacity .2s ease; }
+a.course-player:hover img{ opacity:.88; }
+.course-player .ep-play{ width:64px; height:64px; transition:transform .15s ease; }
+a.course-player:hover .ep-play{ transform:translate(-50%,-50%) scale(1.06); }
+.course-player .yt-label{ position:absolute; left:14px; bottom:12px; display:inline-flex; align-items:center; gap:6px; color:#fff;
+  font-size:13.5px; font-weight:600; background:rgba(15,25,35,.62); padding:5px 11px; border-radius:999px; }
+a.course-player:focus-visible{ outline:3px solid var(--primary); outline-offset:3px; }
+div.course-player{ position:relative; aspect-ratio:16/9; background:#000; border-radius:14px; overflow:hidden; box-shadow:var(--shadow); }
+.course-player iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+.article-body .course-sub{ font-size:15px; color:var(--muted); margin:12px 0 0; }
+.article-body .course-sub a{ font-weight:700; }
+
+/* ---------- module list ---------- */
+.course-toc{ background:var(--wash-soft); border:1px solid var(--line); border-radius:var(--radius-sm); padding:16px 18px 10px; }
+.course-toc-inline{ margin:1.8em 0 2em; }
+.course-toc .toc-title{ font-size:12.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--primary-dark); margin:0 0 6px; }
+.course-toc ol{ list-style:none; margin:0; padding:0; counter-reset:m; }
+.course-toc li{ display:flex; gap:10px; align-items:baseline; margin:0; padding:8px 0; border-top:1px solid var(--line); font-size:15.5px; line-height:1.35; }
+.course-toc li:first-child{ border-top:0; }
+.course-toc li::before{ counter-increment:m; content:counter(m); min-width:1.1em; font-weight:700; color:var(--muted-2); font-variant-numeric:tabular-nums; }
+.course-toc a{ flex:1; color:var(--navy); text-decoration:none; }
+.course-toc a:hover{ color:var(--primary); text-decoration:underline; }
+.course-toc a.current{ color:var(--primary); font-weight:700; }
+.course-toc .t{ font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums; }
+.course-toc-side li{ font-size:14px; padding:7px 0; }
+
+/* ---------- module headings + "Watch this part" ---------- */
+.article-body h2, .article-body h3{ scroll-margin-top:80px; }
+.article-body .course-jump-wrap{ margin:-.15em 0 1.1em; }
+.article-body a.course-jump{ display:inline-flex; align-items:center; gap:7px; font-size:14px; font-weight:700; line-height:1;
+  color:var(--primary-dark); background:var(--wash-soft); border:1px solid var(--line); border-radius:999px; padding:7px 13px;
+  text-decoration:none; transition:background .15s ease, border-color .15s ease; }
+.article-body a.course-jump:hover{ background:var(--wash); border-color:#c7d6e2; }
+.article-body a.course-jump svg{ color:var(--orange); }
+
+/* ---------- call to action (end of every course, and the hub) ---------- */
+.course-cta{ margin:3em 0 0; padding:28px 28px 26px; background:var(--wash-soft); border:1px solid var(--line); border-radius:var(--radius); }
+.course-cta h2{ font-size:26px; margin:0 0 8px; }
+.course-cta p{ color:var(--muted); font-size:16.5px; line-height:1.6; margin:0 0 18px; max-width:60ch; }
+.course-cta .btn svg{ flex:none; }
+.course-cta .cta-alt{ margin:24px 0 12px; padding-top:20px; border-top:1px solid var(--line); font-size:15.5px; }
+.course-hub-cta{ max-width:760px; margin:0 auto; }
+.course-hub-cta .course-cta{ margin:0; }
+
+/* ---------- hub cards ---------- */
+.course-card .cc-thumb{ position:relative; aspect-ratio:16/9; background:#0f1923; overflow:hidden; }
+.course-card .cc-thumb img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s ease; }
+a.course-card:hover .cc-thumb img{ transform:scale(1.03); }
+.course-card .cc-runtime{ position:absolute; right:10px; bottom:10px; background:rgba(15,25,35,.78); color:#fff; font-size:12.5px; font-weight:700;
+  padding:3px 8px; border-radius:6px; font-variant-numeric:tabular-nums; }
+.course-card .cc-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+
+@media (max-width:600px){
+  .course-cta{ padding:22px 20px; }
+  .course-cta h2{ font-size:23px; }
+  .course-player .ep-play{ width:56px; height:56px; }
+}
+@media (prefers-reduced-motion: reduce){
+  .course-player img, .course-player .ep-play, .course-card .cc-thumb img, .article-body a.course-jump{ transition:none; }
+  a.course-card:hover .cc-thumb img{ transform:none; }
+}

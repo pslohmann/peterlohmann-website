@@ -3,42 +3,63 @@
 
 User-agent: *
 Allow: /
+Disallow: /courses-src/
+
+# Google: rank the Free Courses pages, not their plain-text companions (/courses/<slug>.llm.md),
+# which stay open to the AI crawlers below. A crawler follows only its own group, so this group
+# repeats every rule from the * group above; keep the two in step.
+User-agent: Googlebot
+Allow: /
+Disallow: /courses-src/
+Disallow: /courses/*.llm.md$
 
 # AI assistants / answer engines (explicitly allowed so the content can be cited)
 User-agent: GPTBot
 Allow: /
+Disallow: /courses-src/
 
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /courses-src/
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /courses-src/
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /courses-src/
 
 User-agent: Claude-Web
 Allow: /
+Disallow: /courses-src/
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /courses-src/
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /courses-src/
 
 User-agent: Google-Extended
 Allow: /
+Disallow: /courses-src/
 
 User-agent: Applebot
 Allow: /
+Disallow: /courses-src/
 
 User-agent: Applebot-Extended
 Allow: /
+Disallow: /courses-src/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /courses-src/
 
 User-agent: CCBot
 Allow: /
+Disallow: /courses-src/
 
 Sitemap: https://www.peterlohmann.com/sitemap.xml

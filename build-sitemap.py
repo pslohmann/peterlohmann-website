@@ -58,10 +58,26 @@ if os.path.exists(os.path.join(HERE, "api-grader", "index.html")):
                 continue
         urls.append(SITE + "/api-grader/" + b[:-5])
 
+# Free Courses (built by build-courses.py): the hub plus every course page, each with the date
+# it last changed. The plain-text .llm.md companions are never listed.
+lastmod = {}
+if os.path.exists(os.path.join(HERE, "courses", "index.html")):
+    import re
+    def modified(path):
+        m = re.search(r'article:modified_time" content="([0-9-]+)"', open(path, encoding="utf-8").read())
+        return m.group(1) if m else None
+    urls.append(SITE + "/courses/")
+    lastmod[SITE + "/courses/"] = modified(os.path.join(HERE, "courses", "index.html"))
+    for f in sorted(glob.glob(os.path.join(HERE, "courses", "*", "index.html"))):
+        u = SITE + "/courses/" + os.path.basename(os.path.dirname(f)) + "/"
+        urls.append(u)
+        lastmod[u] = modified(f)
+
 lines = ['<?xml version="1.0" encoding="UTF-8"?>',
          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
 for u in urls:
-    lines.append(f"  <url><loc>{u}</loc></url>")
+    lm = lastmod.get(u)
+    lines.append(f"  <url><loc>{u}</loc><lastmod>{lm}</lastmod></url>" if lm else f"  <url><loc>{u}</loc></url>")
 lines.append("</urlset>")
 
 with open(os.path.join(HERE, "sitemap.xml"), "w", encoding="utf-8") as f:

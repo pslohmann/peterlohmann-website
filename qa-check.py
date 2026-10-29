@@ -10,7 +10,8 @@ import glob, re, os
 
 ROOT = os.getcwd()
 files = glob.glob("*.html") + glob.glob("blog/*.html") + glob.glob("report/index.html") + glob.glob("api-grader/*.html") \
-        + glob.glob("sponsor/index.html") + glob.glob("blog/*/index.html")
+        + glob.glob("sponsor/index.html") + glob.glob("blog/*/index.html") \
+        + glob.glob("courses/index.html") + glob.glob("courses/*/index.html")
 
 def resolve(src_file, ref):
     ref = ref.split('#')[0].split('?')[0].strip()

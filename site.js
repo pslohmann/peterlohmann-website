@@ -1,6 +1,6 @@
 /* =============================================================================
    PETER LOHMANN - WEBSITE SHARED SCRIPT
-   Handles: (1) the mobile menu button, (2) click-to-play podcast videos,
+   Handles: (1) the mobile menu button and the Resources menu, (2) click-to-play podcast videos,
    (3) the sticky newsletter bar on phones, (4) scroll reveal animations.
    No dependencies, no build step. Loaded by every page.
    ========================================================================== */
@@ -16,6 +16,24 @@
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
   }
+
+  /* ---- 1b. "Resources" menu: click or tap to open and close (hover and keyboard focus
+     already open it through styles.css, so it also works where this script isn't loaded) ---- */
+  document.querySelectorAll("nav.top .nav-group").forEach(function (g) {
+    var btn = g.querySelector(".nav-group-btn");
+    if (!btn) return;
+    function close() { g.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); }
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var open = g.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      if (!open) btn.blur();   // otherwise keyboard-focus styling keeps it open
+    });
+    document.addEventListener("click", function (e) { if (!g.contains(e.target)) close(); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && g.contains(document.activeElement)) { close(); document.activeElement.blur(); }
+    });
+  });
 
   /* ---- 2. Podcast episode cards: click thumbnail -> load the YouTube player inline ---- */
   document.querySelectorAll(".ep-player").forEach(function (p) {
