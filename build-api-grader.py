@@ -59,7 +59,7 @@ CATEGORIES = [
          "DoorLoop", "Revela", "Rentec Direct", "Yardi Breeze", "Magic Door"]),
     ("listings",     "Listings, Applications &amp; Tenant Screening",
         ["Boom", "ShowMojo", "Tenant Turner", "RentEngine", "Rently",
-         "Showdigs", "Findigs", "RentSpree", "Rent Butter", "AmRent"]),
+         "Showdigs", "Findigs", "RentSpree", "Rent Butter", "AmRent", "Leasey.AI"]),
     ("workflow",     "Workflow &amp; CRM",
         ["LeadSimple", "Aptly", "Process Street", "Follow Up Boss"]),
     ("maintenance",  "Maintenance",
