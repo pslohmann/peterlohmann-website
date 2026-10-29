@@ -140,6 +140,12 @@ def runtime(sec):
     return f"{mins // 60} hr {mins % 60} min" if mins >= 60 else f"{mins} min"
 
 
+def stamp(d):
+    """Google wants a time and time zone on schema dates: noon in Columbus keeps the calendar date right everywhere."""
+    from zoneinfo import ZoneInfo
+    return datetime.datetime(d.year, d.month, d.day, 12, tzinfo=ZoneInfo("America/New_York")).isoformat()
+
+
 def nice_date(d):
     return f"{MONTHS[d.month - 1]} {d.day}, {d.year}"
 
@@ -654,12 +660,12 @@ def build_course(c, cover, card, cw, ch, nav, foot, v):
     meta_line = f'{runtime(c["seconds"])} video &middot; {n} module{"s" if n != 1 else ""} &middot; {nice_date(c["date"])}'
 
     video_ld = {"@context": "https://schema.org", "@type": "VideoObject", "name": c["title"], "description": c["description"],
-                "thumbnailUrl": [abs_cover], "uploadDate": c["upload_date"].isoformat(), "duration": c["duration_iso"],
+                "thumbnailUrl": [abs_cover], "uploadDate": stamp(c["upload_date"]), "duration": c["duration_iso"],
                 "embedUrl": f"https://www.youtube.com/embed/{vid}", "contentUrl": watch,
                 "hasPart": [{"@type": "Clip", "name": re.sub(r"[*_`]", "", m["title"]), "startOffset": m["start"],
                              "endOffset": m["end"], "url": f"{watch}&t={m['start']}s"} for m in c["modules"]]}
     post_ld = {"@context": "https://schema.org", "@type": "BlogPosting", "headline": c["title"], "description": c["description"],
-               "image": abs_cover, "url": c["url"], "datePublished": c["date"].isoformat(), "dateModified": c["updated"].isoformat(),
+               "image": abs_cover, "url": c["url"], "datePublished": stamp(c["date"]), "dateModified": stamp(c["updated"]),
                "author": {"@type": "Person", "name": "Peter Lohmann", "url": SITE + "/"},
                "publisher": {"@type": "Person", "name": "Peter Lohmann"}, "mainEntityOfPage": c["url"]}
     crumbs_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
