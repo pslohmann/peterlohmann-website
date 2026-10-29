@@ -21,6 +21,32 @@
     if (a) track(a.getAttribute("data-track"));
   });
 
+  /* ---- hub: topic pills filter the course cards (?topic=ai links straight to a filter) ---- */
+  var pillBox = document.querySelector(".course-filters");
+  if (pillBox) {
+    var pills = Array.prototype.slice.call(pillBox.querySelectorAll(".cf-pill"));
+    var cards = Array.prototype.slice.call(document.querySelectorAll(".course-card"));
+    var pick = function (topic, remember) {
+      if (!pills.some(function (p) { return p.getAttribute("data-topic") === topic; })) topic = "";
+      pills.forEach(function (p) { p.setAttribute("aria-pressed", p.getAttribute("data-topic") === topic ? "true" : "false"); });
+      cards.forEach(function (c) {
+        c.hidden = !!topic && (" " + c.getAttribute("data-topics") + " ").indexOf(" " + topic + " ") === -1;
+      });
+      if (remember) {
+        try { history.replaceState(null, "", topic ? "?topic=" + topic : location.pathname); } catch (e) {}
+      }
+    };
+    pills.forEach(function (p) {
+      p.addEventListener("click", function () {
+        var topic = p.getAttribute("data-topic");
+        pick(topic, true);
+        if (topic) track("course_topic_filter", { topic: topic });
+      });
+    });
+    pillBox.hidden = false;
+    pick((location.search.match(/[?&]topic=([a-z0-9-]+)/) || [])[1] || "", false);
+  }
+
   /* ---- the player: thumbnail until clicked, then YouTube's player ---- */
   var box = document.getElementById("course-video");
   if (!box) return;

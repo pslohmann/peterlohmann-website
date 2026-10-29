@@ -37,7 +37,7 @@ OUT = os.path.join(HERE, "courses")
 ASSETS = os.path.join(OUT, "assets")
 SITE = "https://www.peterlohmann.com"
 HUB_URL = SITE + "/courses/"
-COURSE_ASSET_V = "7"   # cache-bust for courses/course.css + course.js; bump when you edit them
+COURSE_ASSET_V = "8"   # cache-bust for courses/course.css + course.js; bump when you edit them
 
 YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@peterlohmann"
 YOUTUBE_SUBSCRIBE_URL = YOUTUBE_CHANNEL_URL + "?sub_confirmation=1"   # opens YouTube's subscribe prompt
@@ -746,6 +746,7 @@ def build_course(c, cover, card, cw, ch, nav, foot, v):
 def entry(c):
     """What the hub, llms.txt and the manifest need to know about a built course."""
     return {"slug": c["slug"], "title": c["title"], "description": c["description"], "date": c["date"].isoformat(),
+            "upload_date": c["upload_date"].isoformat(),
             "updated": c["updated"].isoformat(), "seconds": c["seconds"], "n_modules": len(c["modules"]),
             "tags": c["tags"], "cover": c["cover"], "card": c["card"], "cw": c["cw"], "ch": c["ch"], "url": c["url"]}
 
@@ -753,12 +754,36 @@ def entry(c):
 # ============================================================================================
 # 6. HUB PAGE
 # ============================================================================================
+def topic_key(t):
+    return re.sub(r"[^a-z0-9]+", "-", t.lower()).strip("-")
+
+
+def filter_pills(courses):
+    """Topic pills above the hub grid, one per tag (most-used first). Hidden until course.js
+    switches them on, so without JavaScript the full list simply shows."""
+    counts, names = {}, {}
+    for c in courses:
+        for t in c["tags"]:
+            k = topic_key(t)
+            counts[k] = counts.get(k, 0) + 1
+            names.setdefault(k, t)
+    if len(counts) < 2:
+        return ""
+    order = sorted(counts, key=lambda k: (-counts[k], names[k].lower()))
+    pills = [f'<button type="button" class="cf-pill" data-topic="" aria-pressed="true">All <span class="cf-count">{len(courses)}</span></button>']
+    pills += [f'<button type="button" class="cf-pill" data-topic="{k}" aria-pressed="false">{esc(names[k])} <span class="cf-count">{counts[k]}</span></button>'
+              for k in order]
+    return ('      <div class="course-filters" role="group" aria-label="Filter courses by topic" hidden>\n        '
+            + "\n        ".join(pills) + "\n      </div>\n")
+
+
 def build_hub(courses, nav, foot, v):
     cards = []
     for c in courses:
         n = c["n_modules"]
         tags = "".join(f'<span class="tag tag-blue">{esc(t)}</span>' for t in c["tags"])
-        cards.append(f"""      <a class="post-card course-card" href="/courses/{c['slug']}/">
+        topics = " ".join(topic_key(t) for t in c["tags"])
+        cards.append(f"""      <a class="post-card course-card" href="/courses/{c['slug']}/" data-topics="{topics}">
         <div class="cc-thumb"><img src="{c['card']}" alt="" width="800" height="450" loading="lazy" /><span class="cc-runtime">{runtime(c['seconds'])}</span></div>
         <div class="pc-body">
           <span class="date">{runtime(c['seconds'])} video &middot; {n} module{"s" if n != 1 else ""}</span>
@@ -785,7 +810,7 @@ def build_hub(courses, nav, foot, v):
   </header>
   <section class="band">
     <div class="wrap">
-      <div class="post-cards course-cards">
+{filter_pills(courses)}      <div class="post-cards course-cards">
 {chr(10).join(cards)}
       </div>
     </div>
@@ -866,7 +891,7 @@ def main():
         if slug in old and os.path.exists(os.path.join(OUT, slug, "index.html")):
             listed.append(old[slug])
             print(f"     (the previously published /courses/{slug}/ was left as it was)")
-    listed.sort(key=lambda e: (e["date"], e["title"]), reverse=True)
+    listed.sort(key=lambda e: (e.get("upload_date", e["date"]), e["title"]), reverse=True)   # newest YouTube upload first
     with open(manifest_path, "w", encoding="utf-8") as fh:
         json.dump(listed, fh, indent=1, ensure_ascii=False)
     hub = os.path.join(OUT, "index.html")

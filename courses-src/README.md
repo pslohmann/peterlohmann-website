@@ -28,7 +28,8 @@ youtube_id: "dQw4w9WgXcQ"          # required; the 11-character video ID
 upload_date: 2026-11-03            # required; YouTube publish date
 duration: "PT42M15S"               # required; ISO 8601 video length
 thumbnail: ""                      # optional; blank = the video's YouTube thumbnail
-tags: ["Operations", "Pricing"]    # optional; shown on the hub cards
+tags: ["Operations", "Pricing"]    # optional; shown on the hub cards and used for the topic filter pills
+                                   # (current topics: Operations, Leadership, Technology, AI)
 sponsor_domains: ["leadsimple.com"]  # optional; when a video is sponsored, links to these sites get rel="sponsored"
 ---
 ```

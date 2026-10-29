@@ -7,7 +7,7 @@ youtube_id: "2IyTPI2neRw"
 upload_date: 2026-10-11
 duration: "PT20M33S"
 thumbnail: ""
-tags: ["Technology", "Operations"]
+tags: ["AI", "Technology", "Operations"]
 sponsor_domains: ["rentvine.com"]
 ---
 

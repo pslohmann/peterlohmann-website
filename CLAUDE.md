@@ -201,6 +201,10 @@ writes TWO files per course into `courses-src/` (see courses-src/README.md for t
   GA4 event course_extra_video_play), numbered lists inside timed modules -> step cards, <details> blocks, SVG diagrams
   inlined + sanitized (ids prefixed with the file name), *caption* line under an image. Unknown [!TYPE], a STAT
   without "|", empty alt text, or a missing /courses/assets/ file fails the build.
+- HUB ORDER + FILTERS (2026-10-29): cards sort by YouTube upload_date, newest first. Topic pills above the grid
+  come from the courses' tags (most-used first, "All" first, hidden without JS); ?topic=ai links to a filter;
+  GA4 event course_topic_filter. A new tag in a course file adds a pill automatically. "AI" was added to the
+  Claude Code course's tags by hand; ask the writing thread to tag AI courses "AI".
 - SPONSORS: optional frontmatter sponsor_domains: ["leadsimple.com"] marks links to those sites rel="sponsored"
   (Google's rule for paid links). Course 2 (LeadSimple-sponsored) has it; ask the writing thread to include it.
 - DOWNLOADS: files linked from a course live in courses/assets/<slug>/ (e.g. the month-off checklist PDF:

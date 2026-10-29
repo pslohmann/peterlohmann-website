@@ -15,12 +15,12 @@
 <meta property="og:title" content="Free Courses" />
 <meta property="og:description" content="Free property management courses from Peter Lohmann: each one is a YouTube video broken down step by step, so you can watch it or follow along in writing." />
 <meta property="og:url" content="https://www.peterlohmann.com/courses/" />
-<meta property="og:image" content="https://www.peterlohmann.com/courses/assets/property-management-systems-month-off/_cover.jpg" />
+<meta property="og:image" content="https://www.peterlohmann.com/courses/assets/claude-code-property-management/_cover.jpg" />
 <meta property="og:image:width" content="1280" />
 <meta property="og:image:height" content="720" />
 <meta property="og:site_name" content="Peter Lohmann" />
 <meta name="twitter:card" content="summary_large_image" />
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "CollectionPage", "name": "Free Courses", "url": "https://www.peterlohmann.com/courses/", "description": "Free property management courses from Peter Lohmann: each one is a YouTube video broken down step by step, so you can watch it or follow along in writing.", "author": {"@type": "Person", "name": "Peter Lohmann", "url": "https://www.peterlohmann.com/"}, "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://www.peterlohmann.com/courses/property-management-systems-month-off/", "name": "Property Management Systems That Let Me Take a Month Off"}, {"@type": "ListItem", "position": 2, "url": "https://www.peterlohmann.com/courses/property-management-processes-systems/", "name": "How to Systematize Your Property Management Processes"}, {"@type": "ListItem", "position": 3, "url": "https://www.peterlohmann.com/courses/property-management-leadership-team/", "name": "How to Build a Leadership Team That Runs Your PM Company"}, {"@type": "ListItem", "position": 4, "url": "https://www.peterlohmann.com/courses/claude-code-property-management/", "name": "Claude Code for Property Managers: APIs, Alerts, and Automation"}]}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "CollectionPage", "name": "Free Courses", "url": "https://www.peterlohmann.com/courses/", "description": "Free property management courses from Peter Lohmann: each one is a YouTube video broken down step by step, so you can watch it or follow along in writing.", "author": {"@type": "Person", "name": "Peter Lohmann", "url": "https://www.peterlohmann.com/"}, "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://www.peterlohmann.com/courses/claude-code-property-management/", "name": "Claude Code for Property Managers: APIs, Alerts, and Automation"}, {"@type": "ListItem", "position": 2, "url": "https://www.peterlohmann.com/courses/property-management-leadership-team/", "name": "How to Build a Leadership Team That Runs Your PM Company"}, {"@type": "ListItem", "position": 3, "url": "https://www.peterlohmann.com/courses/property-management-processes-systems/", "name": "How to Systematize Your Property Management Processes"}, {"@type": "ListItem", "position": 4, "url": "https://www.peterlohmann.com/courses/property-management-systems-month-off/", "name": "Property Management Systems That Let Me Take a Month Off"}]}}</script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -28,7 +28,7 @@
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v=29" />
-<link rel="stylesheet" href="/courses/course.css?v=7" />
+<link rel="stylesheet" href="/courses/course.css?v=8" />
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());/* Count clean URLs: a visit to /x.html or /x/index.html is recorded as /x or /x/. */(function(){try{var p=location.pathname,c=p.replace(/(^|\/)index\.html$/,'$1').replace(/\.html$/,'');if(c!==p)history.replaceState(null,'',c+location.search+location.hash);}catch(e){}})();/* Live site only, so local previews and test copies stay out of the numbers. */if(/(^|\.)peterlohmann\.com$/.test(location.hostname))gtag('config','G-DRCVXMNK1D');</script>
@@ -76,26 +76,24 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </header>
   <section class="band">
     <div class="wrap">
+      <div class="course-filters" role="group" aria-label="Filter courses by topic" hidden>
+        <button type="button" class="cf-pill" data-topic="" aria-pressed="true">All <span class="cf-count">4</span></button>
+        <button type="button" class="cf-pill" data-topic="operations" aria-pressed="false">Operations <span class="cf-count">4</span></button>
+        <button type="button" class="cf-pill" data-topic="leadership" aria-pressed="false">Leadership <span class="cf-count">2</span></button>
+        <button type="button" class="cf-pill" data-topic="technology" aria-pressed="false">Technology <span class="cf-count">2</span></button>
+        <button type="button" class="cf-pill" data-topic="ai" aria-pressed="false">AI <span class="cf-count">1</span></button>
+      </div>
       <div class="post-cards course-cards">
-      <a class="post-card course-card" href="/courses/property-management-systems-month-off/">
-        <div class="cc-thumb"><img src="/courses/assets/property-management-systems-month-off/_card.webp" alt="" width="800" height="450" loading="lazy" /><span class="cc-runtime">9 min</span></div>
+      <a class="post-card course-card" href="/courses/claude-code-property-management/" data-topics="ai technology operations">
+        <div class="cc-thumb"><img src="/courses/assets/claude-code-property-management/_card.webp" alt="" width="800" height="450" loading="lazy" /><span class="cc-runtime">21 min</span></div>
         <div class="pc-body">
-          <span class="date">9 min video &middot; 8 modules</span>
-          <h3>Property Management Systems That Let Me Take a Month Off</h3>
-          <p>Build the three systems that let a property management company run without its owner: a weekly scorecard, a task map, and a Notion wiki, step by step.</p>
-          <span class="cc-tags"><span class="tag tag-blue">Operations</span><span class="tag tag-blue">Leadership</span></span>
+          <span class="date">21 min video &middot; 8 modules</span>
+          <h3>Claude Code for Property Managers: APIs, Alerts, and Automation</h3>
+          <p>Connect your property management software to Claude Code, forecast lease endings, catch negative owner balances in Slack, and run it all on a schedule.</p>
+          <span class="cc-tags"><span class="tag tag-blue">AI</span><span class="tag tag-blue">Technology</span><span class="tag tag-blue">Operations</span></span>
         </div>
       </a>
-      <a class="post-card course-card" href="/courses/property-management-processes-systems/">
-        <div class="cc-thumb"><img src="/courses/assets/property-management-processes-systems/_card.webp" alt="" width="800" height="450" loading="lazy" /><span class="cc-runtime">19 min</span></div>
-        <div class="pc-body">
-          <span class="date">19 min video &middot; 10 modules</span>
-          <h3>How to Systematize Your Property Management Processes</h3>
-          <p>Document your core property management processes, move them into workflow software, give each one an owner, and automate them so the business runs without you.</p>
-          <span class="cc-tags"><span class="tag tag-blue">Operations</span><span class="tag tag-blue">Technology</span></span>
-        </div>
-      </a>
-      <a class="post-card course-card" href="/courses/property-management-leadership-team/">
+      <a class="post-card course-card" href="/courses/property-management-leadership-team/" data-topics="leadership operations">
         <div class="cc-thumb"><img src="/courses/assets/property-management-leadership-team/_card.webp" alt="" width="800" height="450" loading="lazy" /><span class="cc-runtime">29 min</span></div>
         <div class="pc-body">
           <span class="date">29 min video &middot; 9 modules</span>
@@ -104,13 +102,22 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           <span class="cc-tags"><span class="tag tag-blue">Leadership</span><span class="tag tag-blue">Operations</span></span>
         </div>
       </a>
-      <a class="post-card course-card" href="/courses/claude-code-property-management/">
-        <div class="cc-thumb"><img src="/courses/assets/claude-code-property-management/_card.webp" alt="" width="800" height="450" loading="lazy" /><span class="cc-runtime">21 min</span></div>
+      <a class="post-card course-card" href="/courses/property-management-processes-systems/" data-topics="operations technology">
+        <div class="cc-thumb"><img src="/courses/assets/property-management-processes-systems/_card.webp" alt="" width="800" height="450" loading="lazy" /><span class="cc-runtime">19 min</span></div>
         <div class="pc-body">
-          <span class="date">21 min video &middot; 8 modules</span>
-          <h3>Claude Code for Property Managers: APIs, Alerts, and Automation</h3>
-          <p>Connect your property management software to Claude Code, forecast lease endings, catch negative owner balances in Slack, and run it all on a schedule.</p>
-          <span class="cc-tags"><span class="tag tag-blue">Technology</span><span class="tag tag-blue">Operations</span></span>
+          <span class="date">19 min video &middot; 10 modules</span>
+          <h3>How to Systematize Your Property Management Processes</h3>
+          <p>Document your core property management processes, move them into workflow software, give each one an owner, and automate them so the business runs without you.</p>
+          <span class="cc-tags"><span class="tag tag-blue">Operations</span><span class="tag tag-blue">Technology</span></span>
+        </div>
+      </a>
+      <a class="post-card course-card" href="/courses/property-management-systems-month-off/" data-topics="operations leadership">
+        <div class="cc-thumb"><img src="/courses/assets/property-management-systems-month-off/_card.webp" alt="" width="800" height="450" loading="lazy" /><span class="cc-runtime">9 min</span></div>
+        <div class="pc-body">
+          <span class="date">9 min video &middot; 8 modules</span>
+          <h3>Property Management Systems That Let Me Take a Month Off</h3>
+          <p>Build the three systems that let a property management company run without its owner: a weekly scorecard, a task map, and a Notion wiki, step by step.</p>
+          <span class="cc-tags"><span class="tag tag-blue">Operations</span><span class="tag tag-blue">Leadership</span></span>
         </div>
       </a>
       </div>
@@ -154,6 +161,6 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   </div>
 </footer>
 <script src="/site.js?v=29"></script>
-<script src="/courses/course.js?v=7"></script>
+<script src="/courses/course.js?v=8"></script>
 </body>
 </html>

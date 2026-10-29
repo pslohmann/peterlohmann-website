@@ -1,45 +1,30 @@
 [
  {
-  "slug": "property-management-systems-month-off",
-  "title": "Property Management Systems That Let Me Take a Month Off",
-  "description": "Build the three systems that let a property management company run without its owner: a weekly scorecard, a task map, and a Notion wiki, step by step.",
+  "slug": "claude-code-property-management",
+  "title": "Claude Code for Property Managers: APIs, Alerts, and Automation",
+  "description": "Connect your property management software to Claude Code, forecast lease endings, catch negative owner balances in Slack, and run it all on a schedule.",
   "date": "2026-10-30",
+  "upload_date": "2026-10-11",
   "updated": "2026-10-30",
-  "seconds": 535,
+  "seconds": 1233,
   "n_modules": 8,
   "tags": [
-   "Operations",
-   "Leadership"
+   "AI",
+   "Technology",
+   "Operations"
   ],
-  "cover": "/courses/assets/property-management-systems-month-off/_cover.jpg",
-  "card": "/courses/assets/property-management-systems-month-off/_card.webp",
+  "cover": "/courses/assets/claude-code-property-management/_cover.jpg",
+  "card": "/courses/assets/claude-code-property-management/_card.webp",
   "cw": 1280,
   "ch": 720,
-  "url": "https://www.peterlohmann.com/courses/property-management-systems-month-off/"
- },
- {
-  "slug": "property-management-processes-systems",
-  "title": "How to Systematize Your Property Management Processes",
-  "description": "Document your core property management processes, move them into workflow software, give each one an owner, and automate them so the business runs without you.",
-  "date": "2026-10-30",
-  "updated": "2026-10-30",
-  "seconds": 1158,
-  "n_modules": 10,
-  "tags": [
-   "Operations",
-   "Technology"
-  ],
-  "cover": "/courses/assets/property-management-processes-systems/_cover.jpg",
-  "card": "/courses/assets/property-management-processes-systems/_card.webp",
-  "cw": 1280,
-  "ch": 720,
-  "url": "https://www.peterlohmann.com/courses/property-management-processes-systems/"
+  "url": "https://www.peterlohmann.com/courses/claude-code-property-management/"
  },
  {
   "slug": "property-management-leadership-team",
   "title": "How to Build a Leadership Team That Runs Your PM Company",
   "description": "Hand day-to-day execution to one leader, delegate decisions as well as tasks, run on EOS, and learn which fires to let burn so your PM company runs without you.",
   "date": "2026-10-30",
+  "upload_date": "2026-10-04",
   "updated": "2026-10-30",
   "seconds": 1730,
   "n_modules": 9,
@@ -54,21 +39,41 @@
   "url": "https://www.peterlohmann.com/courses/property-management-leadership-team/"
  },
  {
-  "slug": "claude-code-property-management",
-  "title": "Claude Code for Property Managers: APIs, Alerts, and Automation",
-  "description": "Connect your property management software to Claude Code, forecast lease endings, catch negative owner balances in Slack, and run it all on a schedule.",
+  "slug": "property-management-processes-systems",
+  "title": "How to Systematize Your Property Management Processes",
+  "description": "Document your core property management processes, move them into workflow software, give each one an owner, and automate them so the business runs without you.",
   "date": "2026-10-30",
+  "upload_date": "2026-09-24",
   "updated": "2026-10-30",
-  "seconds": 1233,
-  "n_modules": 8,
+  "seconds": 1158,
+  "n_modules": 10,
   "tags": [
-   "Technology",
-   "Operations"
+   "Operations",
+   "Technology"
   ],
-  "cover": "/courses/assets/claude-code-property-management/_cover.jpg",
-  "card": "/courses/assets/claude-code-property-management/_card.webp",
+  "cover": "/courses/assets/property-management-processes-systems/_cover.jpg",
+  "card": "/courses/assets/property-management-processes-systems/_card.webp",
   "cw": 1280,
   "ch": 720,
-  "url": "https://www.peterlohmann.com/courses/claude-code-property-management/"
+  "url": "https://www.peterlohmann.com/courses/property-management-processes-systems/"
+ },
+ {
+  "slug": "property-management-systems-month-off",
+  "title": "Property Management Systems That Let Me Take a Month Off",
+  "description": "Build the three systems that let a property management company run without its owner: a weekly scorecard, a task map, and a Notion wiki, step by step.",
+  "date": "2026-10-30",
+  "upload_date": "2026-08-30",
+  "updated": "2026-10-30",
+  "seconds": 535,
+  "n_modules": 8,
+  "tags": [
+   "Operations",
+   "Leadership"
+  ],
+  "cover": "/courses/assets/property-management-systems-month-off/_cover.jpg",
+  "card": "/courses/assets/property-management-systems-month-off/_card.webp",
+  "cw": 1280,
+  "ch": 720,
+  "url": "https://www.peterlohmann.com/courses/property-management-systems-month-off/"
  }
 ]
