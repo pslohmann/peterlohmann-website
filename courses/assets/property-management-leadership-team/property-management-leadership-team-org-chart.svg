@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460">
+  <title>My PM company org chart</title>
+  <desc>I have one direct report, Brennan, my number two. Four managers report to him: director of accounts, director of maintenance, marketing manager, and business development manager.</desc>
+  <rect x="0" y="0" width="720" height="460" fill="#ffffff"/>
+  <rect x="80" y="16" width="220" height="56" rx="8" fill="#1f2a36" stroke="#1f2a36" stroke-width="2"/>
+  <text x="190" y="52" font-size="22" fill="#ffffff" text-anchor="middle" font-weight="700">Me</text>
+  <line x1="190" y1="72" x2="190" y2="100" stroke="#6b7785" stroke-width="2"/>
+  <rect x="60" y="100" width="260" height="70" rx="8" fill="#2d78a7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="190" y="132" font-size="22" fill="#ffffff" text-anchor="middle" font-weight="700">Brennan</text>
+  <text x="190" y="158" font-size="20" fill="#ffffff" text-anchor="middle">Number two</text>
+  <line x1="190" y1="170" x2="190" y2="420" stroke="#6b7785" stroke-width="2"/>
+  <line x1="190" y1="222" x2="240" y2="222" stroke="#6b7785" stroke-width="2"/>
+  <line x1="190" y1="286" x2="240" y2="286" stroke="#6b7785" stroke-width="2"/>
+  <line x1="190" y1="350" x2="240" y2="350" stroke="#6b7785" stroke-width="2"/>
+  <line x1="190" y1="414" x2="240" y2="414" stroke="#6b7785" stroke-width="2"/>
+  <rect x="240" y="196" width="460" height="52" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="262" y="229" font-size="21" fill="#1f2a36">Director of accounts</text>
+  <rect x="240" y="260" width="460" height="52" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="262" y="293" font-size="21" fill="#1f2a36">Director of maintenance</text>
+  <rect x="240" y="324" width="460" height="52" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="262" y="357" font-size="21" fill="#1f2a36">Marketing manager</text>
+  <rect x="240" y="388" width="460" height="52" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="262" y="421" font-size="21" fill="#1f2a36">Business development manager</text>
+</svg>

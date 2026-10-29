@@ -34,5 +34,23 @@
   "cw": 1280,
   "ch": 720,
   "url": "https://www.peterlohmann.com/courses/property-management-processes-systems/"
+ },
+ {
+  "slug": "property-management-leadership-team",
+  "title": "How to Build a Leadership Team That Runs Your PM Company",
+  "description": "Hand day-to-day execution to one leader, delegate decisions as well as tasks, run on EOS, and learn which fires to let burn so your PM company runs without you.",
+  "date": "2026-10-30",
+  "updated": "2026-10-30",
+  "seconds": 1730,
+  "n_modules": 9,
+  "tags": [
+   "Leadership",
+   "Operations"
+  ],
+  "cover": "/courses/assets/property-management-leadership-team/_cover.jpg",
+  "card": "/courses/assets/property-management-leadership-team/_card.webp",
+  "cw": 1280,
+  "ch": 720,
+  "url": "https://www.peterlohmann.com/courses/property-management-leadership-team/"
  }
 ]

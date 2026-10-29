@@ -168,7 +168,8 @@ def load_course(md_path):
 
     c = {"src": md_path, "fname": fname, "title": meta["title"].strip(), "slug": meta["slug"].strip(),
          "description": meta["description"].strip(), "youtube_id": meta["youtube_id"].strip(),
-         "thumbnail": str(meta.get("thumbnail", "") or "").strip(), "tags": meta.get("tags") or []}
+         "thumbnail": str(meta.get("thumbnail", "") or "").strip(), "tags": meta.get("tags") or [],
+         "sponsors": meta.get("sponsor_domains") or []}
     if c["slug"] != stem:
         err(f"{fname}:{at['slug']}: slug '{c['slug']}' must match the filename ('{stem}')")
     if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", c["slug"]):
@@ -178,6 +179,11 @@ def load_course(md_path):
     n = len(c["description"])
     if not 150 <= n <= 160:
         err(f"{fname}:{at['description']}: description is {n} characters; it must be 150 to 160")
+    if isinstance(c["sponsors"], str):
+        c["sponsors"] = [c["sponsors"]]
+    c["sponsors"] = [re.sub(r"^(https?://)?(www\.)?", "", str(d)).strip("/ ").lower() for d in c["sponsors"]]
+    if not all(re.fullmatch(r"[a-z0-9.-]+\.[a-z]{2,}", d) for d in c["sponsors"]):
+        err(f"{fname}:{at.get('sponsor_domains', 1)}: sponsor_domains must be domains like [\"leadsimple.com\"]")
     if not isinstance(c["tags"], list) or not all(isinstance(t, str) for t in c["tags"]):
         err(f"{fname}:{at.get('tags', 1)}: tags must be a list of words like [\"Operations\", \"Pricing\"]")
     try:
@@ -276,8 +282,14 @@ INLINE = re.compile(
     r"|<(?P<auto>https?://[^>\s]+)>")
 
 
+SPONSORS = set()   # the course being built's sponsor_domains (set in build_course)
+
+
 def link_attrs(href):
     ext = re.match(r"https?://", href) and not re.match(r"https?://(www\.)?peterlohmann\.com", href)
+    host = re.sub(r"^www\.", "", (re.match(r"https?://([^/:?#]+)", href) or [None, ""])[1].lower())
+    if ext and any(host == d or host.endswith("." + d) for d in SPONSORS):
+        return f' href="{esc(href)}" target="_blank" rel="sponsored noopener"'      # Google: label paid links
     if href.startswith("/courses/assets/") and not href.lower().endswith((".svg", ".jpg", ".jpeg", ".png", ".webp", ".gif")):
         return f' href="{esc(href)}" download data-track="course_download_click"'      # e.g. a PDF checklist
     return f' href="{esc(href)}"' + (' target="_blank" rel="noopener"' if ext else "")
@@ -649,6 +661,8 @@ def toc(c, cls):
 # 5. COURSE PAGE
 # ============================================================================================
 def build_course(c, cover, card, cw, ch, nav, foot, v):
+    SPONSORS.clear()
+    SPONSORS.update(c["sponsors"])
     vid = c["youtube_id"]
     watch = f"https://www.youtube.com/watch?v={vid}"
     used = set()

@@ -8,6 +8,7 @@ upload_date: 2026-09-24
 duration: "PT19M18S"
 thumbnail: ""
 tags: ["Operations", "Technology"]
+sponsor_domains: ["leadsimple.com"]
 ---
 
 Most property management business owners don't actually own a business. They own a job. Every decision, every exception, and every problem lands on their plate.

@@ -201,6 +201,8 @@ writes TWO files per course into `courses-src/` (see courses-src/README.md for t
   GA4 event course_extra_video_play), numbered lists inside timed modules -> step cards, <details> blocks, SVG diagrams
   inlined + sanitized (ids prefixed with the file name), *caption* line under an image. Unknown [!TYPE], a STAT
   without "|", empty alt text, or a missing /courses/assets/ file fails the build.
+- SPONSORS: optional frontmatter sponsor_domains: ["leadsimple.com"] marks links to those sites rel="sponsored"
+  (Google's rule for paid links). Course 2 (LeadSimple-sponsored) has it; ask the writing thread to include it.
 - DOWNLOADS: files linked from a course live in courses/assets/<slug>/ (e.g. the month-off checklist PDF:
   /courses/assets/property-management-systems-month-off/month-off-checklist.pdf, also in the YouTube description,
   so never rename or move it). Links get `download` + GA4 event course_download_click.

@@ -20,6 +20,7 @@
 
 - [Property Management Systems That Let Me Take a Month Off](https://www.peterlohmann.com/courses/property-management-systems-month-off.llm.md): Build the three systems that let a property management company run without its owner: a weekly scorecard, a task map, and a Notion wiki, step by step.
 - [How to Systematize Your Property Management Processes](https://www.peterlohmann.com/courses/property-management-processes-systems.llm.md): Document your core property management processes, move them into workflow software, give each one an owner, and automate them so the business runs without you.
+- [How to Build a Leadership Team That Runs Your PM Company](https://www.peterlohmann.com/courses/property-management-leadership-team.llm.md): Hand day-to-day execution to one leader, delegate decisions as well as tasks, run on EOS, and learn which fires to let burn so your PM company runs without you.
 
 ## About and contact
 
