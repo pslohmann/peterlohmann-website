@@ -104,6 +104,11 @@ div.course-player{ position:relative; aspect-ratio:16/9; background:#000; border
 .article-body figure.cc-figure svg text{ font-family:var(--sans); }
 .article-body figure.cc-figure figcaption{ margin-top:10px; }
 
+/* ---------- components: a second video ([!VIDEO] id | label), click to play ---------- */
+.article-body figure.cc-video{ margin:1.6em 0 1.8em; max-width:560px; }
+.article-body figure.cc-video .course-player .ep-play{ width:54px; height:54px; }
+.article-body figure.cc-video figcaption{ text-align:left; color:var(--muted); font-size:15px; margin-top:10px; }
+
 /* ---------- call to action (end of every course, and the hub) ---------- */
 .course-cta{ margin:3em 0 0; padding:28px 28px 26px; background:var(--wash-soft); border:1px solid var(--line); border-radius:var(--radius); }
 .course-cta h2{ font-size:26px; margin:0 0 8px; }

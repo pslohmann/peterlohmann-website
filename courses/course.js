@@ -29,19 +29,24 @@
   var frame = null;
   var smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  function load(start) {
-    if (frame) return;
-    frame = document.createElement("iframe");
-    frame.src = "https://www.youtube.com/embed/" + id + "?autoplay=1&rel=0&playsinline=1&enablejsapi=1" +
+  /* swap a thumbnail link for YouTube's player; returns the iframe */
+  function play(link, start) {
+    var f = document.createElement("iframe");
+    f.src = "https://www.youtube.com/embed/" + link.getAttribute("data-id") + "?autoplay=1&rel=0&playsinline=1&enablejsapi=1" +
       (start ? "&start=" + start : "");
-    frame.title = facade.getAttribute("aria-label") || "Course video";
-    frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-    frame.referrerPolicy = "strict-origin-when-cross-origin";
-    frame.setAttribute("allowfullscreen", "");
+    f.title = link.getAttribute("aria-label") || "Course video";
+    f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    f.referrerPolicy = "strict-origin-when-cross-origin";
+    f.setAttribute("allowfullscreen", "");
     var holder = document.createElement("div");
     holder.className = "course-player";
-    holder.appendChild(frame);
-    facade.parentNode.replaceChild(holder, facade);
+    holder.appendChild(f);
+    link.parentNode.replaceChild(holder, link);
+    return f;
+  }
+
+  function load(start) {
+    if (!frame) frame = play(facade, start);
   }
 
   /* YouTube's player takes commands by message once it's running (enablejsapi=1 above) */
@@ -64,6 +69,17 @@
       load(0);
     });
   }
+
+  /* any other video in the course ([!VIDEO] cards) plays in place the same way */
+  document.querySelectorAll(".article-body a.course-player").forEach(function (a) {
+    if (a === facade) return;
+    a.addEventListener("click", function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      track("course_extra_video_play", { video_id: a.getAttribute("data-id") });
+      play(a, 0);
+    });
+  });
 
   /* ---- "Watch this part (12:34)": scroll up to the video and play from that moment ---- */
   document.querySelectorAll("a.course-jump").forEach(function (a) {

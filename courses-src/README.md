@@ -46,7 +46,8 @@ tags: ["Operations", "Pricing"]    # optional; shown on the hub cards
   SVGs are pasted into the page (site font, readable by search engines) after scripts/outside links are stripped.
 - Components (blockquotes that start with a tag):
   `> [!TAKEAWAY]` (blue "Key takeaway" box), `> [!WARNING]` ("Where this goes wrong"), `> [!NOTE]`,
-  `> [!STAT] 8-12 | Label` (big number; STATs in a row sit side by side), and
+  `> [!STAT] 8-12 | Label` (big number; STATs in a row sit side by side),
+  `> [!VIDEO] youtubeID | Caption` (a second, click-to-play YouTube video), and
   `<details><summary>Question</summary> ...markdown... </details>` (closed by default).
 - Numbered lists inside a timed module become step cards.
 - No placeholders left (`[IMAGE:`, `[ALT:`, `[LINK]`, `[TODO:`) and no em or en dashes.

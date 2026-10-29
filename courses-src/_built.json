@@ -16,5 +16,23 @@
   "cw": 1280,
   "ch": 720,
   "url": "https://www.peterlohmann.com/courses/property-management-systems-month-off/"
+ },
+ {
+  "slug": "property-management-processes-systems",
+  "title": "How to Systematize Your Property Management Processes",
+  "description": "Document your core property management processes, move them into workflow software, give each one an owner, and automate them so the business runs without you.",
+  "date": "2026-10-30",
+  "updated": "2026-10-30",
+  "seconds": 1158,
+  "n_modules": 10,
+  "tags": [
+   "Operations",
+   "Technology"
+  ],
+  "cover": "/courses/assets/property-management-processes-systems/_cover.jpg",
+  "card": "/courses/assets/property-management-processes-systems/_card.webp",
+  "cw": 1280,
+  "ch": 720,
+  "url": "https://www.peterlohmann.com/courses/property-management-processes-systems/"
  }
 ]

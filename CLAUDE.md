@@ -197,7 +197,8 @@ writes TWO files per course into `courses-src/` (see courses-src/README.md for t
 - GA4 EVENTS: course_youtube_subscribe_click, course_newsletter_click, course_chapter_jump (params course_slug,
   timestamp, seconds). Register course_slug / timestamp as custom dimensions in GA4 to report on them.
 - COMPONENTS (spec v2, 2026-10-29): > [!TAKEAWAY] / [!WARNING] / [!NOTE] callouts, > [!STAT] value | label
-  (adjacent STATs share a row), numbered lists inside timed modules -> step cards, <details> blocks, SVG diagrams
+  (adjacent STATs share a row), > [!VIDEO] id | caption (second click-to-play video, added for course 2;
+  GA4 event course_extra_video_play), numbered lists inside timed modules -> step cards, <details> blocks, SVG diagrams
   inlined + sanitized (ids prefixed with the file name), *caption* line under an image. Unknown [!TYPE], a STAT
   without "|", empty alt text, or a missing /courses/assets/ file fails the build.
 - DOWNLOADS: files linked from a course live in courses/assets/<slug>/ (e.g. the month-off checklist PDF:

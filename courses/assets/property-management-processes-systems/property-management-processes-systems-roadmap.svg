@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440">
+  <title>Six steps to a self-running system</title>
+  <desc>Pick one core process, write the checklist, move into workflow software, get your team using it, take your name off, and automate the triggers.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2d78a7"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="720" height="440" fill="#ffffff"/>
+
+  <rect x="10" y="20" width="330" height="100" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="32" y="58" font-size="20" fill="#2d78a7" font-weight="700">1</text>
+  <text x="32" y="94" font-size="21" fill="#1f2a36">Pick one core process</text>
+
+  <rect x="10" y="160" width="330" height="100" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="32" y="198" font-size="20" fill="#2d78a7" font-weight="700">2</text>
+  <text x="32" y="234" font-size="21" fill="#1f2a36">Write the checklist</text>
+
+  <rect x="10" y="300" width="330" height="100" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="32" y="338" font-size="20" fill="#2d78a7" font-weight="700">3</text>
+  <text x="32" y="374" font-size="21" fill="#1f2a36">Move into workflow software</text>
+
+  <rect x="380" y="20" width="320" height="100" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="400" y="58" font-size="20" fill="#2d78a7" font-weight="700">4</text>
+  <text x="400" y="94" font-size="21" fill="#1f2a36">Get your team using it</text>
+
+  <rect x="380" y="160" width="320" height="100" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="400" y="198" font-size="20" fill="#2d78a7" font-weight="700">5</text>
+  <text x="400" y="234" font-size="21" fill="#1f2a36">Take your name off</text>
+
+  <rect x="380" y="300" width="320" height="100" rx="8" fill="#2d78a7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="400" y="338" font-size="20" fill="#ffffff" font-weight="700">6</text>
+  <text x="400" y="374" font-size="21" fill="#ffffff" font-weight="700">Automate the triggers</text>
+
+  <line x1="175" y1="122" x2="175" y2="156" stroke="#2d78a7" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="175" y1="262" x2="175" y2="296" stroke="#2d78a7" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M342,350 L360,350 L360,70 L376,70" stroke="#2d78a7" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <line x1="540" y1="122" x2="540" y2="156" stroke="#2d78a7" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="540" y1="262" x2="540" y2="296" stroke="#2d78a7" stroke-width="3" marker-end="url(#arrow)"/>
+</svg>

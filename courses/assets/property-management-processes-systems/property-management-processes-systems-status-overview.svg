@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320">
+  <title>Move-in process overview</title>
+  <desc>Example status overview for the move-in process: 123 Main Street is halfway done, 456 Main Street is not started, and 789 Main Street is fully completed.</desc>
+  <rect x="0" y="0" width="720" height="320" fill="#ffffff"/>
+  <text x="20" y="40" font-size="22" fill="#1f2a36" font-weight="700">Move-in process</text>
+  <line x1="20" y1="58" x2="700" y2="58" stroke="#6b7785" stroke-width="2"/>
+
+  <text x="20" y="110" font-size="22" fill="#1f2a36">123 Main Street</text>
+  <rect x="280" y="88" width="420" height="32" rx="8" fill="#e8f1f7" stroke="#6b7785" stroke-width="2"/>
+  <rect x="280" y="88" width="210" height="32" rx="8" fill="#2d78a7"/>
+  <text x="280" y="148" font-size="20" fill="#6b7785">Halfway done</text>
+
+  <text x="20" y="190" font-size="22" fill="#1f2a36">456 Main Street</text>
+  <rect x="280" y="168" width="420" height="32" rx="8" fill="#e8f1f7" stroke="#6b7785" stroke-width="2"/>
+  <text x="280" y="228" font-size="20" fill="#6b7785">Not started</text>
+
+  <text x="20" y="270" font-size="22" fill="#1f2a36">789 Main Street</text>
+  <rect x="280" y="248" width="420" height="32" rx="8" fill="#2d78a7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="280" y="308" font-size="20" fill="#2d78a7" font-weight="700">Fully completed</text>
+</svg>

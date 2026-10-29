@@ -37,7 +37,7 @@ OUT = os.path.join(HERE, "courses")
 ASSETS = os.path.join(OUT, "assets")
 SITE = "https://www.peterlohmann.com"
 HUB_URL = SITE + "/courses/"
-COURSE_ASSET_V = "5"   # cache-bust for courses/course.css + course.js; bump when you edit them
+COURSE_ASSET_V = "6"   # cache-bust for courses/course.css + course.js; bump when you edit them
 
 YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@peterlohmann"
 YOUTUBE_SUBSCRIBE_URL = YOUTUBE_CHANNEL_URL + "?sub_confirmation=1"   # opens YouTube's subscribe prompt
@@ -237,8 +237,12 @@ def load_course(md_path):
         cm = re.match(r"^\s*>\s*\[!([^\]]*)\](.*)$", line)
         if cm:
             kind = cm.group(1).strip().upper()
-            if kind not in CALLOUTS and kind != "STAT":
-                err(f"{fname}:{ln}: unknown component [!{cm.group(1)}]; use TAKEAWAY, WARNING, NOTE or STAT")
+            if kind not in CALLOUTS and kind not in ("STAT", "VIDEO"):
+                err(f"{fname}:{ln}: unknown component [!{cm.group(1)}]; use TAKEAWAY, WARNING, NOTE, STAT or VIDEO")
+            elif kind == "VIDEO":
+                vid_, bar, lab = cm.group(2).partition("|")
+                if not re.fullmatch(r"[A-Za-z0-9_-]{11}", vid_.strip()) or not bar or not lab.strip():
+                    err(f"{fname}:{ln}: a VIDEO needs a YouTube ID and a label, like > [!VIDEO] rphTnIq3SXQ | Watch me build it")
             elif kind == "STAT":
                 val, bar, lab = cm.group(2).partition("|")
                 if not bar or not val.strip() or not lab.strip():
@@ -423,6 +427,15 @@ def md_to_html(lines, heading_hook=None, timed=None):
                     out[-1] = out[-1][:-len("</div>")] + stat + "</div>"     # stats in a row sit side by side
                 else:
                     out.append('<div class="cc-stats">' + stat + "</div>")
+                continue
+            if cm and cm.group(1).upper() == "VIDEO":
+                vid_, _, lab = cm.group(2).partition("|")
+                vid_, lab = vid_.strip(), lab.strip()
+                out.append(f'<figure class="cc-video"><a class="course-player" href="https://www.youtube.com/watch?v={vid_}" data-id="{vid_}" '
+                           f'target="_blank" rel="noopener" aria-label="Play the video: {esc(lab)}">'
+                           f'<img src="https://i.ytimg.com/vi/{vid_}/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" />'
+                           f'<span class="ep-play" aria-hidden="true"></span><span class="yt-label">{YT_ICON}Watch on YouTube</span></a>'
+                           f'<figcaption>{inline(lab)}</figcaption></figure>')
                 continue
             if cm and cm.group(1).upper() in CALLOUTS:
                 kind = cm.group(1).upper()
