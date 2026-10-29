@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400">
+  <title>Three problems, three systems</title>
+  <desc>Each reason the business depended on me, matched to the system that fixed it: only I saw everything to the weekly scorecard, every task landed on me to the task map, and I answered every question to the Notion wiki.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2d78a7"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="720" height="400" fill="#ffffff"/>
+  <text x="170" y="40" font-size="20" fill="#6b7785" text-anchor="middle" font-weight="600">The problem</text>
+  <text x="580" y="40" font-size="20" fill="#6b7785" text-anchor="middle" font-weight="600">The system</text>
+
+  <rect x="10" y="70" width="320" height="80" rx="8" fill="#e8f1f7" stroke="#6b7785" stroke-width="2"/>
+  <text x="170" y="118" font-size="22" fill="#1f2a36" text-anchor="middle">Only I saw everything</text>
+  <line x1="340" y1="110" x2="430" y2="110" stroke="#2d78a7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="440" y="70" width="270" height="80" rx="8" fill="#2d78a7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="575" y="118" font-size="22" fill="#ffffff" text-anchor="middle" font-weight="700">Weekly scorecard</text>
+
+  <rect x="10" y="180" width="320" height="80" rx="8" fill="#e8f1f7" stroke="#6b7785" stroke-width="2"/>
+  <text x="170" y="228" font-size="22" fill="#1f2a36" text-anchor="middle">Every task landed on me</text>
+  <line x1="340" y1="220" x2="430" y2="220" stroke="#2d78a7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="440" y="180" width="270" height="80" rx="8" fill="#2d78a7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="575" y="228" font-size="22" fill="#ffffff" text-anchor="middle" font-weight="700">Task map</text>
+
+  <rect x="10" y="290" width="320" height="80" rx="8" fill="#e8f1f7" stroke="#6b7785" stroke-width="2"/>
+  <text x="170" y="338" font-size="22" fill="#1f2a36" text-anchor="middle">I answered every question</text>
+  <line x1="340" y1="330" x2="430" y2="330" stroke="#2d78a7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="440" y="290" width="270" height="80" rx="8" fill="#2d78a7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="575" y="338" font-size="22" fill="#ffffff" text-anchor="middle" font-weight="700">Notion wiki</text>
+</svg>

@@ -81,19 +81,22 @@
   /* ---- sidebar module list: highlight the module you're reading ---- */
   var side = document.querySelector(".course-toc-side");
   var heads = Array.prototype.slice.call(document.querySelectorAll("h2.course-module"));
-  if (side && heads.length && "IntersectionObserver" in window) {
+  if (side && heads.length) {
     var links = {};
     side.querySelectorAll("a").forEach(function (a) { links[a.getAttribute("href").slice(1)] = a; });
-    var current = null;
-    var io = new IntersectionObserver(function () {
+    var current = null, queued = false;
+    function update() {
+      queued = false;
       var pick = null;
       heads.forEach(function (h) { if (h.getBoundingClientRect().top < window.innerHeight * 0.35) pick = h; });
-      if (pick !== current) {
-        if (current && links[current.id]) links[current.id].classList.remove("current");
-        if (pick && links[pick.id]) links[pick.id].classList.add("current");
-        current = pick;
-      }
-    }, { rootMargin: "0px 0px -60% 0px", threshold: [0, 1] });
-    heads.forEach(function (h) { io.observe(h); });
+      if (pick === current) return;
+      if (current && links[current.id]) links[current.id].classList.remove("current");
+      if (pick && links[pick.id]) links[pick.id].classList.add("current");
+      current = pick;
+    }
+    window.addEventListener("scroll", function () {
+      if (!queued) { queued = true; setTimeout(update, 60); }
+    }, { passive: true });
+    update();
   }
 })();

@@ -59,6 +59,51 @@ div.course-player{ position:relative; aspect-ratio:16/9; background:#000; border
 .article-body a.course-jump:hover{ background:var(--wash); border-color:#c7d6e2; }
 .article-body a.course-jump svg{ color:var(--orange); }
 
+/* ---------- components: takeaway / warning / note callouts ---------- */
+.article-body .cc{ margin:1.4em 0 1.6em; padding:16px 20px 4px; border-radius:var(--radius-sm); border-left:4px solid; font-size:17px; line-height:1.65; }
+.article-body .cc .cc-label{ margin:0 0 6px; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+.article-body .cc p{ margin:0 0 .8em; }
+.article-body .cc ul, .article-body .cc ol{ margin:0 0 .9em; }
+.article-body .cc-takeaway{ background:#e8f1f7; border-color:var(--primary); font-size:18px; }
+.article-body .cc-takeaway .cc-label{ color:var(--primary-dark); }
+.article-body .cc-takeaway p{ color:var(--navy); }
+.article-body .cc-warning{ background:#fff6f0; border-color:var(--orange); }
+.article-body .cc-warning .cc-label{ color:var(--orange-dark); }
+.article-body .cc-note{ background:#f4f6f8; border-color:#c3ccd4; font-size:16.5px; }
+.article-body .cc-note .cc-label{ color:var(--muted); }
+.article-body .course-module + .course-jump-wrap + .cc-takeaway{ margin-top:.4em; }
+
+/* ---------- components: big-number stats (side by side when stacked in the source) ---------- */
+.article-body .cc-stats{ display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 280px)); gap:14px; margin:1.4em 0 1.6em; }
+.article-body .cc-stat{ display:flex; flex-direction:column; gap:6px; padding:16px 20px; background:#fff; border:1px solid var(--line); border-radius:var(--radius-sm); }
+.article-body .cc-stat-num{ font-family:var(--display); font-size:46px; font-weight:800; line-height:1; letter-spacing:-.02em; color:var(--primary); font-variant-numeric:tabular-nums; }
+.article-body .cc-stat-label{ font-size:15px; font-weight:600; line-height:1.35; color:var(--navy); }
+
+/* ---------- components: numbered steps inside a module become step cards ---------- */
+.article-body ol.steps{ list-style:none; padding:0; margin:1.2em 0 1.6em; display:flex; flex-direction:column; gap:10px; }
+.article-body ol.steps > li{ display:flex; gap:16px; align-items:flex-start; margin:0; padding:14px 18px; background:#fff; border:1px solid var(--line);
+  border-radius:var(--radius-sm); box-shadow:0 1px 2px rgba(31,58,77,.04); }
+.article-body ol.steps .step-num{ flex:none; width:34px; height:34px; border-radius:50%; background:var(--wash); color:var(--primary-dark);
+  font-family:var(--display); font-weight:800; font-size:16px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+.article-body ol.steps .step-body{ flex:1; min-width:0; font-size:17px; line-height:1.6; }
+.article-body ol.steps .step-body ul, .article-body ol.steps .step-body ol{ margin:.5em 0 0; }
+
+/* ---------- components: collapsible extra detail ---------- */
+.article-body details.cc-details{ margin:1.4em 0; border:1px solid var(--line); border-radius:var(--radius-sm); background:#fff; }
+.article-body details.cc-details summary{ cursor:pointer; list-style:none; padding:13px 18px; font-weight:700; color:var(--navy); display:flex; align-items:center; gap:10px; }
+.article-body details.cc-details summary::-webkit-details-marker{ display:none; }
+.article-body details.cc-details summary::before{ content:""; flex:none; width:7px; height:7px; border-right:2px solid var(--primary); border-bottom:2px solid var(--primary);
+  transform:rotate(-45deg); transition:transform .15s ease; }
+.article-body details.cc-details[open] summary::before{ transform:rotate(45deg); }
+.article-body details.cc-details summary:focus-visible{ outline:3px solid var(--primary); outline-offset:2px; border-radius:var(--radius-sm); }
+.article-body .cc-details-body{ padding:0 18px 6px 35px; }
+
+/* ---------- components: diagrams (SVG pasted inline so they use the site font) ---------- */
+.article-body figure.cc-figure{ margin:1.8em auto; max-width:720px; padding:14px; background:#fff; border:1px solid var(--line); border-radius:var(--radius-sm); }
+.article-body figure.cc-figure svg{ display:block; width:100%; height:auto; }
+.article-body figure.cc-figure svg text{ font-family:var(--sans); }
+.article-body figure.cc-figure figcaption{ margin-top:10px; }
+
 /* ---------- call to action (end of every course, and the hub) ---------- */
 .course-cta{ margin:3em 0 0; padding:28px 28px 26px; background:var(--wash-soft); border:1px solid var(--line); border-radius:var(--radius); }
 .course-cta h2{ font-size:26px; margin:0 0 8px; }
@@ -77,11 +122,17 @@ a.course-card:hover .cc-thumb img{ transform:scale(1.03); }
 .course-card .cc-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
 
 @media (max-width:600px){
+  .article-body .cc{ padding:14px 16px 2px; }
+  .article-body .cc-stat-num{ font-size:40px; }
+  .article-body ol.steps > li{ gap:12px; padding:12px 14px; }
+  .article-body ol.steps .step-num{ width:30px; height:30px; font-size:15px; }
+  .article-body figure.cc-figure{ padding:8px; margin-left:-4px; margin-right:-4px; }
   .course-cta{ padding:22px 20px; }
   .course-cta h2{ font-size:23px; }
   .course-player .ep-play{ width:56px; height:56px; }
 }
 @media (prefers-reduced-motion: reduce){
-  .course-player img, .course-player .ep-play, .course-card .cc-thumb img, .article-body a.course-jump{ transition:none; }
+  .course-player img, .course-player .ep-play, .course-card .cc-thumb img, .article-body a.course-jump,
+  .article-body details.cc-details summary::before{ transition:none; }
   a.course-card:hover .cc-thumb img{ transform:none; }
 }

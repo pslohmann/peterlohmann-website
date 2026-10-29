@@ -177,7 +177,7 @@ TO MAKE IT PUBLIC (after Peter's OK): set HIDDEN = False in build-ai-timeline.py
 (not the e/ pages) to build-sitemap.py and rerun it; add a line to llms.txt; add it to the blog list (blog.html)
 and, if wanted, a nav link; `python3 qa-check.py`; commit + push.
 
-## Free Courses (/courses/), machinery built 2026-10-29
+## Free Courses (/courses/), LAUNCHED 2026-10-29 (course 1: property-management-systems-month-off)
 Each course = one of Peter's longform YouTube videos written up module by module. The content project
 writes TWO files per course into `courses-src/` (see courses-src/README.md for the frontmatter + body rules):
 `<slug>.md` (becomes /courses/<slug>/) and `<slug>.llm.md` (plain-text companion for AI tools, copied as-is).
@@ -196,12 +196,19 @@ writes TWO files per course into `courses-src/` (see courses-src/README.md for t
   (postMessage seekTo) and fall back to youtube.com/watch?v=..&t=Ns without JavaScript.
 - GA4 EVENTS: course_youtube_subscribe_click, course_newsletter_click, course_chapter_jump (params course_slug,
   timestamp, seconds). Register course_slug / timestamp as custom dimensions in GA4 to report on them.
+- COMPONENTS (spec v2, 2026-10-29): > [!TAKEAWAY] / [!WARNING] / [!NOTE] callouts, > [!STAT] value | label
+  (adjacent STATs share a row), numbered lists inside timed modules -> step cards, <details> blocks, SVG diagrams
+  inlined + sanitized (ids prefixed with the file name), *caption* line under an image. Unknown [!TYPE], a STAT
+  without "|", empty alt text, or a missing /courses/assets/ file fails the build.
+- DOWNLOADS: files linked from a course live in courses/assets/<slug>/ (e.g. the month-off checklist PDF:
+  /courses/assets/property-management-systems-month-off/month-off-checklist.pdf, also in the YouTube description,
+  so never rename or move it). Links get `download` + GA4 event course_download_click.
 - SCHEMA: BlogPosting + VideoObject (one Clip per timed module) + BreadcrumbList. No HowTo/Course markup.
 - ROBOTS: Googlebot has its own group (repeats the * rules) that blocks /courses/*.llm.md so Google ranks
   the page; AI crawlers can read them. Every group blocks /courses-src/. Keep the * and Googlebot groups in step.
 - NOT on the blog: courses live only under /courses/ (Andrew, 2026-10-29). CTA copy, hub intro: use as written.
 - CTA links: YouTube https://www.youtube.com/@peterlohmann?sub_confirmation=1 ; newsletter /newsletter#subscribe.
-- MENU: "Resources" dropdown (Blog, Free Courses, PeterBot) applied by `python3 apply-resources-menu.py`
+- MENU (LIVE 2026-10-29): "Resources" dropdown (Blog, Free Courses, PeterBot) applied by `python3 apply-resources-menu.py`
   (edits every page + build-blog/podcast/largest-list/api-grader, adds Free Courses to the footer, bumps
   styles/site.js to v=29). Dropdown styles in styles.css ("Resources" menu group), click handling in site.js.
 
@@ -218,7 +225,7 @@ functional breaks. These are marked in each page.
   (do NOT rerun build-largest-list.py just for this: it pulls live JotForm data and the 2026 list is final)
   then commit + push. styles.css and site.js share ONE version number on every page and in
   build-largest-list.py, and in the ASSET_V constants at the top of build-podcast.py, build-blog.py and
-  build-api-grader.py; keep them all in step. (Current version: v=28, set 2026-09-18.)
+  build-api-grader.py; keep them all in step. (Current version: v=29, set 2026-10-29 with the Resources menu.)
 - Icons: favicon.svg + favicon-32.png (tabs), favicon.ico (root, auto-requested),
   apple-touch-icon.png (iOS), icon-192/512.png via site.webmanifest (Android). Regenerate all
   from `python3 make-icons.py` if the mark ever changes.

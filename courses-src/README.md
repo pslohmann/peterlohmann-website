@@ -39,6 +39,16 @@ tags: ["Operations", "Pricing"]    # optional; shown on the hub cards
 - `## Heading` with no timestamp is a normal section ("What you'll learn", "Resources mentioned").
 - The video is placed just before the first timed module.
 - Images: `![alt text](/courses/assets/<slug>/file.jpg)`, with the file saved in `courses/assets/<slug>/`.
+- Downloads (a PDF checklist, etc.): save the file in `courses/assets/<slug>/` and link it like any link,
+  `[download it here](/courses/assets/<slug>/file.pdf)`. The page link downloads the file and is counted in GA4
+  as `course_download_click`. The file's public address is https://www.peterlohmann.com/courses/assets/<slug>/file.pdf
+- Diagrams: `![alt text](/courses/assets/<slug>/diagram.svg)` with an optional `*caption*` on the next line.
+  SVGs are pasted into the page (site font, readable by search engines) after scripts/outside links are stripped.
+- Components (blockquotes that start with a tag):
+  `> [!TAKEAWAY]` (blue "Key takeaway" box), `> [!WARNING]` ("Where this goes wrong"), `> [!NOTE]`,
+  `> [!STAT] 8-12 | Label` (big number; STATs in a row sit side by side), and
+  `<details><summary>Question</summary> ...markdown... </details>` (closed by default).
+- Numbered lists inside a timed module become step cards.
 - No placeholders left (`[IMAGE:`, `[ALT:`, `[LINK]`, `[TODO:`) and no em or en dashes.
 
 `_built.json` is written by the builder (what's live on the hub). Don't edit it.

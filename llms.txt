@@ -16,6 +16,10 @@
 - [Newsletter](https://www.peterlohmann.com/newsletter): A twice-weekly email for PM professionals.
 - [Property Management M&A Report](https://www.peterlohmann.com/report/): A free report on mergers and acquisitions in the property management industry.
 
+## Free Courses
+
+- [Property Management Systems That Let Me Take a Month Off](https://www.peterlohmann.com/courses/property-management-systems-month-off.llm.md): Build the three systems that let a property management company run without its owner: a weekly scorecard, a task map, and a Notion wiki, step by step.
+
 ## About and contact
 
 - [About Peter Lohmann](https://www.peterlohmann.com/): Who Peter is and what he does.

@@ -1,1 +1,20 @@
-[]
+[
+ {
+  "slug": "property-management-systems-month-off",
+  "title": "Property Management Systems That Let Me Take a Month Off",
+  "description": "Build the three systems that let a property management company run without its owner: a weekly scorecard, a task map, and a Notion wiki, step by step.",
+  "date": "2026-10-30",
+  "updated": "2026-10-30",
+  "seconds": 535,
+  "n_modules": 8,
+  "tags": [
+   "Operations",
+   "Leadership"
+  ],
+  "cover": "/courses/assets/property-management-systems-month-off/_cover.jpg",
+  "card": "/courses/assets/property-management-systems-month-off/_card.webp",
+  "cw": 1280,
+  "ch": 720,
+  "url": "https://www.peterlohmann.com/courses/property-management-systems-month-off/"
+ }
+]
