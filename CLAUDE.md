@@ -136,7 +136,7 @@ image made with Pillow.
   agents that work through the screen, no API needed) was added 2026-10-28.
   Optional event field `link_label` changes the card's source button text (default "Read the announcement");
   used for court rulings ("Read the coverage").
-- `data/events.json` .. ONE OBJECT PER EVENT (149 as of 2026-10-28). The page renders entirely from this plus
+- `data/events.json` .. ONE OBJECT PER EVENT (150 as of 2026-10-29). The page renders entirely from this plus
   `companies.json` (slug -> name + logo) and `redirects.json` ({"old-id": "new-id"}).
 - `assets/logos/` ...... square company icons + SOURCES.md (where each came from). Missing = letter tile.
 - `e/<id>/index.html` .. GENERATED share pages: own og:title/description for link previews, canonical points

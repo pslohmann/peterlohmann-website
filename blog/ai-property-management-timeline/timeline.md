@@ -4,8 +4,8 @@
 
 - Author: [Peter Lohmann](https://www.peterlohmann.com/)
 - Interactive version (the original): https://www.peterlohmann.com/blog/ai-property-management-timeline/
-- Published October 27, 2026. Last updated October 28, 2026.
-- 146 events that have shipped, plus 3 announced but not shipped yet.
+- Published October 27, 2026. Last updated October 29, 2026.
+- 147 events that have shipped, plus 3 announced but not shipped yet.
 - Cite as: Peter Lohmann, "AI & Property Management: A Comprehensive Timeline", https://www.peterlohmann.com/blog/ai-property-management-timeline/
 
 ## How to read this
@@ -48,7 +48,7 @@ It is updated as news breaks; the "Last updated" date at the top of this file re
 
 ### Which property management software, and other tools property managers use, have an MCP server or AI connector?
 
-As of October 28, 2026, in date order:
+As of October 29, 2026, in date order:
 
 - Mar 2025: Xero, [Xero open-source MCP server](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/xero-mcp-server/)
 - Oct 2025: Zillow, [Zillow app inside ChatGPT](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/zillow-chatgpt-app/)
@@ -70,7 +70,7 @@ As of October 28, 2026, in date order:
 
 ### Which property management software, and other tools property managers use, have launched or opened an API?
 
-As of October 28, 2026, in date order:
+As of October 29, 2026, in date order:
 
 - By Mar 2024: AppFolio, [AppFolio Max plan adds read/write Database API](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/appfolio-max-database-api/)
 - By Jun 2024: Boom, [Boom public API docs](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/boom-api/)
@@ -84,7 +84,7 @@ As of October 28, 2026, in date order:
 
 ### Which vendors have cut off or restricted third-party access?
 
-As of October 28, 2026, in date order:
+As of October 29, 2026, in date order:
 
 - May 2025: Follow Up Boss, [Follow Up Boss pulls call recordings and texts from its API](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/follow-up-boss-api-cutoff/)
 - Oct 2025: Buildium / Vendoroo, [Buildium cuts off Vendoroo's access](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/buildium-vendoroo-cutoff/)
@@ -94,7 +94,7 @@ As of October 28, 2026, in date order:
 
 ### Which personal AI agents have launched?
 
-As of October 28, 2026, in date order:
+As of October 29, 2026, in date order:
 
 - Nov 2025: OpenClaw, [OpenClaw, the open-source personal agent](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/openclaw-launch/)
 - Aug 2026: xAI, [xAI launches Grok Bot (beta)](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/grok-bot/)
@@ -105,7 +105,7 @@ As of October 28, 2026, in date order:
 
 ### Which AI agents can use websites and software through the screen, without an API?
 
-As of October 28, 2026, in date order:
+As of October 29, 2026, in date order:
 
 - Oct 2024: Anthropic, [Claude computer use (developer beta)](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/claude-computer-use/)
 - Jan 2025: OpenAI, [OpenAI launches Operator](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/openai-operator/)
@@ -118,7 +118,7 @@ As of October 28, 2026, in date order:
 
 ### When were the major frontier AI models released?
 
-As of October 28, 2026, in date order:
+As of October 29, 2026, in date order:
 
 - Nov 30, 2022: OpenAI, [ChatGPT launches](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/chatgpt-launch/)
 - Dec 2022: Perplexity, [Perplexity answer engine launches](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/perplexity-launch/)
@@ -223,6 +223,7 @@ As of October 28, 2026, in date order:
 - **Jul 2025** (OpenAI; Computer-use agent): [ChatGPT agent (Operator moves into ChatGPT)](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/chatgpt-agent/). OpenAI merges Operator and deep research into ChatGPT agent: one mode, available to paid plans, that uses its own virtual computer to browse websites, fill out forms, run code and build spreadsheets and slides. The standalone Operator was retired weeks later. Source: [OpenAI](https://openai.com/index/introducing-chatgpt-agent/)
 - **Aug 2025** (OpenAI; Frontier model): [GPT-5](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/gpt-5/). OpenAI's next flagship becomes the default model in ChatGPT. Source: [OpenAI](https://openai.com/index/introducing-gpt-5/)
 - **Aug 2025** (TenantCloud (PropertyTek); AI feature; medium confidence): [TenantCloud launches Cloudia](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/tenantcloud-cloudia/). An AI listing assistant that turns a few property details into a polished rental listing. Source: [TenantCloud](https://www.tenantcloud.com/blog/tenantcloud-q3-2025-new-updates-and-features)
+- **By Aug 2025** (Property Meld; AI agent; medium confidence): [Property Meld launches MAX On-Call (beta)](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/property-meld-max-on-call/). 24/7 AI phone intake for maintenance: residents call a dedicated number, MAX opens the work order and escalates only true emergencies based on the manager's rules. A $1.50-per-unit add-on, in beta for customers who opt in. Source: [Property Meld](https://propertymeld.com/max-on-call/)
 - **Aug 2025** (Buildium; AI agent; medium confidence): [Buildium Lumina AI Workforce](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/buildium-lumina-workforce/). Five AI agents for maintenance, leasing, accounting, resident experience and business operations, built into Buildium. Source: [Buildium Help Center](https://help.buildium.com/hc/s/article/How-To-Use-Lumina-AI-Workforce)
 - **Aug 2025** (Google; Frontier model): [Nano Banana image editing in Gemini](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/nano-banana/). Google's new image model (Gemini 2.5 Flash Image, nicknamed Nano Banana) lets anyone edit photos by describing the change. It went viral and pulled millions of new users into the Gemini app. Source: [Google](https://blog.google/products/gemini/updated-image-editing-model/)
 - **Sep 2025** (MagicDoor; Funding): [MagicDoor raises $4.5M seed](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/magicdoor-seed/). An oversubscribed seed round co-led by Okapi Venture Capital and Shadow Ventures to expand MagicDoor's AI-first platform for leasing, rent, maintenance dispatch and compliance. Source: [PR Newswire](https://www.prnewswire.com/news-releases/ai-that-never-sleeps-magicdoor-raises-4-5-m-seed-round-to-put-property-management-on-autopilot-302545544.html)
@@ -245,7 +246,7 @@ As of October 28, 2026, in date order:
 
 - **Jan 2026** (Process Street; MCP or connector): [Process Street MCP server](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/process-street-mcp/). A first-party MCP server exposes most of Process Street's API as tools, so AI assistants can start workflow runs, assign tasks and report on data sets. Available on all plans. Source: [Process Street](https://www.process.st/help/mcp-server/)
 - **Jan 2026** (Google; Computer-use agent): [Chrome auto browse (Gemini)](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/chrome-auto-browse/). Gemini in Chrome can now carry out multi-step tasks on websites on its own, using the sites you are already signed into. Rolled out to US Google AI Pro and Ultra subscribers on desktop, with a daily limit on actions. Puts a computer-use agent inside the most-used browser. Source: [9to5Google](https://9to5google.com/2026/01/28/chrome-gemini-auto-browse/)
-- **Feb 2026** (Property Meld; AI feature; medium confidence): [Property Meld TrueCost, powered by MAX](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/property-meld-truecost/). Property Meld begins rolling out TrueCost, which uses its MAX AI and maintenance data to estimate repair costs at diagnosis, supply market pricing for owner conversations and automate cost capture and billing. Source: [Property Meld (CEO letter)](https://propertymeld.com/blog/truecost-letter/)
+- **Feb 2026** (Property Meld; AI feature; medium confidence): [Property Meld TrueCost, powered by MAX](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/property-meld-truecost/). Property Meld begins rolling out TrueCost, which uses its MAX AI and maintenance data to estimate repair costs at diagnosis, supply market pricing for owner conversations and automate cost capture and billing. Launched more broadly on Oct 22, 2026, alongside MAX Verify, an AI review of completed repairs. Source: [Property Meld (CEO letter)](https://propertymeld.com/blog/truecost-letter/)
 - **Feb 2026** (DoorLoop; AI feature): [DoorLoop AI Inspections](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/doorloop-ai-inspections/). Guided photo capture with AI-organized reports, issue flagging and work-order creation. Source: [AI Journal (PR Newswire)](https://aijourn.com/doorloop-launches-ai-inspections-to-help-property-managers-work-smarter-and-faster/)
 - **Feb 2026** (Showdigs; AI agent): [Showdigs AI Leasing Agent takes over lead management](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/showdigs-ai-agent-lead-management/). The agent expands beyond tour booking to qualify leads over text and transcribed phone calls, answer property questions and hand tricky conversations to the team inbox with full context. Source: [Showdigs release notes](https://www.showdigs.com/release-notes/)
 - **Mar 2026** (Intuit QuickBooks; MCP or connector): [QuickBooks app live in ChatGPT](https://www.peterlohmann.com/blog/ai-property-management-timeline/e/quickbooks-chatgpt-app/). The QuickBooks app goes live in ChatGPT for US users, able to analyze a business's QuickBooks data and produce profit and loss and cash flow statements. Source: [Intuit](https://intuit.com/blog/news-social/intuit-apps-launch-chatgpt/)
