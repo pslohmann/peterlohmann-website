@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 470">
+  <title>Chief of staff routing</title>
+  <desc>I send requests to the chief of staff bot, which routes each one to a specialist bot: recruiter; buy, sell, returns; Spam Hunter; credit card points and travel; or medical admin.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2d78a7"/></marker></defs>
+  <rect x="0" y="0" width="720" height="470" fill="#ffffff"/>
+  <rect x="20" y="16" width="200" height="60" rx="8" fill="#1f2a36" stroke="#1f2a36" stroke-width="2"/>
+  <text x="120" y="53" font-size="22" fill="#ffffff" text-anchor="middle" font-weight="700">Me</text>
+  <line x1="120" y1="78" x2="120" y2="106" stroke="#2d78a7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="20" y="110" width="200" height="60" rx="8" fill="#2d78a7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="120" y="147" font-size="21" fill="#ffffff" text-anchor="middle" font-weight="700">Chief of staff</text>
+  <line x1="120" y1="170" x2="120" y2="438" stroke="#6b7785" stroke-width="2"/>
+  <path d="M120,214 L296,214" stroke="#2d78a7" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M120,270 L296,270" stroke="#2d78a7" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M120,326 L296,326" stroke="#2d78a7" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M120,382 L296,382" stroke="#2d78a7" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M120,438 L296,438" stroke="#2d78a7" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <rect x="300" y="190" width="400" height="48" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="320" y="221" font-size="20" fill="#1f2a36">Recruiter</text>
+  <rect x="300" y="246" width="400" height="48" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="320" y="277" font-size="20" fill="#1f2a36">Buy, sell, returns</text>
+  <rect x="300" y="302" width="400" height="48" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="320" y="333" font-size="20" fill="#1f2a36">Spam Hunter</text>
+  <rect x="300" y="358" width="400" height="48" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="320" y="389" font-size="20" fill="#1f2a36">Credit card points and travel</text>
+  <rect x="300" y="414" width="400" height="48" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="320" y="445" font-size="20" fill="#1f2a36">Medical admin</text>
+</svg>

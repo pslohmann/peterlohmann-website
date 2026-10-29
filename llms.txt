@@ -18,6 +18,7 @@
 
 ## Free Courses
 
+- [How I Use AI Agents to Run My Business and My Life](https://www.peterlohmann.com/courses/ai-agents-property-management.llm.md): Set up Grok Bot with a chief of staff and specialized bots that recruit, hunt spam, track returns, maximize credit card points, and handle family medical admin.
 - [Claude Code for Property Managers: APIs, Alerts, and Automation](https://www.peterlohmann.com/courses/claude-code-property-management.llm.md): Connect your property management software to Claude Code, forecast lease endings, catch negative owner balances in Slack, and run it all on a schedule.
 - [How to Build a Leadership Team That Runs Your PM Company](https://www.peterlohmann.com/courses/property-management-leadership-team.llm.md): Hand day-to-day execution to one leader, delegate decisions as well as tasks, run on EOS, and learn which fires to let burn so your PM company runs without you.
 - [How to Systematize Your Property Management Processes](https://www.peterlohmann.com/courses/property-management-processes-systems.llm.md): Document your core property management processes, move them into workflow software, give each one an owner, and automate them so the business runs without you.

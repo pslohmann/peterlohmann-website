@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360">
+  <title>Spam Hunter cycle</title>
+  <desc>Spam Hunter runs three times a day, labels and archives spam, I review the label, and it learns from my corrections before the next run.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2d78a7"/></marker></defs>
+  <rect x="0" y="0" width="720" height="360" fill="#ffffff"/>
+  <rect x="200" y="16" width="320" height="64" rx="8" fill="#2d78a7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="360" y="56" font-size="21" fill="#ffffff" text-anchor="middle" font-weight="700">Runs three times a day</text>
+  <rect x="380" y="148" width="320" height="64" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="540" y="188" font-size="21" fill="#1f2a36" text-anchor="middle">Labels and archives spam</text>
+  <rect x="200" y="280" width="320" height="64" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="360" y="320" font-size="21" fill="#1f2a36" text-anchor="middle">I review the label</text>
+  <rect x="20" y="148" width="320" height="64" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="180" y="188" font-size="21" fill="#1f2a36" text-anchor="middle">Learns from my corrections</text>
+  <path d="M522,48 L560,48 L560,144" stroke="#2d78a7" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <path d="M560,214 L560,312 L524,312" stroke="#2d78a7" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <path d="M198,312 L160,312 L160,216" stroke="#2d78a7" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <path d="M160,146 L160,48 L196,48" stroke="#2d78a7" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+</svg>
