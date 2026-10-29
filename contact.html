@@ -1,7 +1,8 @@
 <!--
   PETER LOHMANN - CONTACT
   SWAP: the sponsorship media-kit link points to sponsor.peterlohmann.com, and the
-  "let me know you're interested" button points to the live Jotform. Update those hrefs
+  "let me know you're interested" button points to the live Jotform, and the news-tip banner
+  under "Drop me a note." points to the "Send Me Your News" Jotform. Update those hrefs
   if the media kit or form URL changes.
 -->
 <!doctype html>
@@ -33,6 +34,10 @@
   /* JotForm contact embed */
   .jf-embed{margin-top:6px;}
   .jf-embed iframe{width:1px;min-width:100%;max-width:100%;border:0;}
+  /* news-tip banner: sits right under the intro line so it shows without scrolling */
+  .news-tip{display:flex;align-items:center;gap:10px;margin:0 0 18px;padding:12px 16px;background:#fff;border:1px solid var(--sky);border-radius:var(--radius-sm);font-size:15px;line-height:1.4;color:var(--ink);}
+  .news-tip svg{flex:none;width:18px;height:18px;color:var(--primary);}
+  .news-tip a{font-weight:700;color:var(--primary-dark);}
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
@@ -84,7 +89,9 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
       <div class="panel" style="max-width:760px;margin-inline:auto;">
         <span class="tag tag-blue">Send a message</span>
         <h2 class="h-lead" style="margin-top:14px;font-size:clamp(24px,3.2vw,32px);">Drop me a note.</h2>
-        <p class="sub" style="margin-bottom:18px;">This goes straight to my inbox. I read every message.</p>
+        <p class="sub" style="margin-bottom:12px;">This goes straight to my inbox. I read every message.</p>
+        <!-- SWAP: news-tip form (Jotform "Send Me Your News") -->
+        <p class="news-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg><span>Or, <a href="https://form.jotform.com/253626707943162" target="_blank" rel="noopener">click here to send me your property management news &rarr;</a></span></p>
         <div class="jf-embed">
           <script type="text/javascript" src="https://form.jotform.com/jsform/262165832778064"></script>
         </div>
