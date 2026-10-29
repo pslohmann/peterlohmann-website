@@ -206,6 +206,10 @@ writes TWO files per course into `courses-src/` (see courses-src/README.md for t
   tags by size (PILL_ORDER in build-courses.py; hidden without JS); ?topic=ai links to a filter;
   GA4 event course_topic_filter. A new tag in a course file adds a pill automatically. "AI" was added to the
   Claude Code course's tags by hand; ask the writing thread to tag AI courses "AI".
+- AFFILIATE LINKS: Grok Bot referral https://grok.com/refer/bot?code=MAQ7C63ZXZ83 (added 2026-10-29). Used in the
+  AI agents course (first mention + Resources, labeled "(affiliate link)", sponsor_domains: ["grok.com"] so it's
+  rel="sponsored"); listed under Affiliate Deals on financial-interest-disclosure.html. NOT on the AI timeline
+  (neutral news record). Use it, with an "affiliate link" note, in any future post/course that recommends Grok Bot.
 - SPONSORS: optional frontmatter sponsor_domains: ["leadsimple.com"] marks links to those sites rel="sponsored"
   (Google's rule for paid links). Course 2 (LeadSimple-sponsored) has it; ask the writing thread to include it.
 - SCREENSHOTS: save as WebP (max 1460px wide, quality ~80) in courses/assets/<slug>/; the builder adds width/height

@@ -8,11 +8,12 @@ upload_date: 2026-10-18
 duration: "PT39M03S"
 thumbnail: ""
 tags: ["AI", "Technology", "Productivity"]
+sponsor_domains: ["grok.com"]
 ---
 
 Earlier this year I bought a Mac Mini to run OpenClaw, the open-source AI assistant everyone was talking about. It was cool for a while. Then the integrations kept breaking, and I spent more time restarting things and redoing connections than the assistant ever saved me. So I stopped using it.
 
-I'm an engineer, so I care about inputs and outputs: does a tool return more time than it takes? Over the last 6 to 8 weeks, a wave of commercial AI agents has arrived, and the one I went all in on is Grok Bot. It's the first agent that's been a clear net gain for me, in my property management business and in my personal life.
+I'm an engineer, so I care about inputs and outputs: does a tool return more time than it takes? Over the last 6 to 8 weeks, a wave of commercial AI agents has arrived, and the one I went all in on is [Grok Bot](https://grok.com/refer/bot?code=MAQ7C63ZXZ83). It's the first agent that's been a clear net gain for me, in my property management business and in my personal life.
 
 This course walks through my actual setup: installing it, connecting accounts, and the specific bots that are doing real work for me. It's for owners who want an AI assistant that gets things done without hours of fiddling.
 
@@ -229,11 +230,11 @@ Between health, dental, and vision insurance, multiple kids, an HSA, and a busin
 I'm barely scratching the surface of what's possible. The point is that this is the first AI agent that's been less work to set up than the value I get out of it.
 
 > [!NOTE]
-> I have no affiliate deal with Grok Bot and don't get any credits if you sign up. Similar agents worth a look: Muse from Meta, which has access to Instagram, Facebook, and Facebook Marketplace, and Instinct, which I think is invite-only right now.
+> Since recording this video, I've joined Grok Bot's referral program, so the Grok Bot links on this page are affiliate links and I may get credit if you sign up.
 
 ## Resources mentioned
 
-- **Grok Bot:** the AI agent this course is built on. Search for it and download the desktop and phone apps.
+- **[Grok Bot](https://grok.com/refer/bot?code=MAQ7C63ZXZ83) (affiliate link):** the AI agent this course is built on. Download the desktop and phone apps.
 - **Dripify:** the LinkedIn outreach tool my recruiter bot runs.
 - **Link:** the payment platform Grok Bot integrates with to approve payments.
 - **1Password:** for sharing specific logins with Grok Bot through a shared vault.

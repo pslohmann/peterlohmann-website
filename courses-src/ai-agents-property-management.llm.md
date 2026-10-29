@@ -5,7 +5,7 @@
 - Video: https://www.youtube.com/watch?v=Mw2CKsZHs_o
 - Course page: https://peterlohmann.com/courses/ai-agents-property-management/
 - Topics: AI agents, AI personal assistant, Grok Bot, OpenClaw, chief of staff bot, morning brief, AI recruiting outreach, LinkedIn, Dripify, spam filtering, Gmail automation, purchase and return tracking, 1Password, credit card rewards, travel benefits, medical admin, HSA tracking
-- Disclosure: I have no affiliate relationship with Grok Bot and receive no credits for referrals.
+- Disclosure: since recording the video, I've joined Grok Bot's referral program. Grok Bot links on the course page are affiliate links, and I may get credit if you sign up: https://grok.com/refer/bot?code=MAQ7C63ZXZ83
 
 ## Summary
 
