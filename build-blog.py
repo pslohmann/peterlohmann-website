@@ -25,7 +25,7 @@ BLOGDIR = os.path.join(HERE, "blog")
 os.makedirs(IMGDIR, exist_ok=True)
 os.makedirs(BLOGDIR, exist_ok=True)
 LIMIT = int(os.environ.get("LIMIT", "0"))
-ASSET_V = "28"  # cache-bust version for styles.css / site.js (keep in sync with the rest of the site)
+ASSET_V = "29"  # cache-bust version for styles.css / site.js (keep in sync with the rest of the site)
 
 # Google Analytics (GA4) — injected right before </head> on every generated page.
 GA4 = ('<!-- Google Analytics (GA4) -->\n'
@@ -325,9 +325,15 @@ NAV = """  <div class="bar">
       <a href="../podcast.html">Podcast</a>
       <a href="../largest-pm-companies.html">Largest PM Companies</a>
       <a href="../api-grader/index.html">API Grader</a>
-      <a href="../blog.html" class="active">Blog</a>
+      <div class="nav-group">
+        <button type="button" class="nav-group-btn active" aria-expanded="false" aria-controls="nav-resources">Resources</button>
+        <div class="nav-menu" id="nav-resources">
+          <a href="../blog.html" class="active">Blog</a>
+          <a href="/courses/">Free Courses</a>
+          <a href="../peterbot.html">PeterBot</a>
+        </div>
+      </div>
       <a href="../report/index.html">M&amp;A Report</a>
-      <a href="../peterbot.html">PeterBot</a>
       <a href="../products.html">Products</a>
     </div>
     <a class="btn btn-navy btn-sm cta" href="../contact.html">Contact</a>
@@ -340,6 +346,7 @@ FOOT = """      <nav class="foot-links" aria-label="Footer">
         <a href="../largest-pm-companies.html">Largest PM Companies</a>
         <a href="../api-grader/index.html">API Grader</a>
         <a href="../blog.html">Blog</a>
+        <a href="/courses/">Free Courses</a>
         <a href="../report/index.html">M&amp;A Report</a>
         <a href="../products.html">Products</a>
         <a href="../featured.html">Featured</a><a href="/sponsor/">Sponsor</a>
@@ -585,9 +592,15 @@ def write_index(posts):
       <a href="podcast.html">Podcast</a>
       <a href="largest-pm-companies.html">Largest PM Companies</a>
       <a href="api-grader/index.html">API Grader</a>
-      <a href="blog.html" class="active">Blog</a>
+      <div class="nav-group">
+        <button type="button" class="nav-group-btn active" aria-expanded="false" aria-controls="nav-resources">Resources</button>
+        <div class="nav-menu" id="nav-resources">
+          <a href="blog.html" class="active">Blog</a>
+          <a href="/courses/">Free Courses</a>
+          <a href="peterbot.html">PeterBot</a>
+        </div>
+      </div>
       <a href="report/index.html">M&amp;A Report</a>
-      <a href="peterbot.html">PeterBot</a>
       <a href="products.html">Products</a>
     </div>
     <a class="btn btn-navy btn-sm cta" href="contact.html">Contact</a>
@@ -629,6 +642,7 @@ def write_index(posts):
         <a href="largest-pm-companies.html">Largest PM Companies</a>
         <a href="api-grader/index.html">API Grader</a>
         <a href="blog.html">Blog</a>
+        <a href="/courses/">Free Courses</a>
         <a href="report/index.html">M&amp;A Report</a>
         <a href="products.html">Products</a>
         <a href="featured.html">Featured</a><a href="/sponsor/">Sponsor</a>

@@ -37,7 +37,7 @@ HERE = pathlib.Path(__file__).parent
 OUTDIR = HERE / "api-grader"                 # served at /api-grader/
 PAGE = OUTDIR / "index.html"
 SITE = "https://www.peterlohmann.com"
-ASSET_V = "28"                               # keep in step with styles.css?v= on every page
+ASSET_V = "29"                               # keep in step with styles.css?v= on every page
 OG_DIR = HERE / "images" / "api-grader"      # per-platform share cards
 
 # The five scoring categories, in table-column order, with their v1.1 maxima.
@@ -3501,9 +3501,15 @@ SUB_PAGE = """<!--
       <a href="/podcast">Podcast</a>
       <a href="/largest-pm-companies">Largest PM Companies</a>
       <a href="/api-grader/" class="active">API Grader</a>
-      <a href="/blog">Blog</a>
+      <div class="nav-group">
+        <button type="button" class="nav-group-btn" aria-expanded="false" aria-controls="nav-resources">Resources</button>
+        <div class="nav-menu" id="nav-resources">
+          <a href="/blog">Blog</a>
+          <a href="/courses/">Free Courses</a>
+          <a href="/peterbot">PeterBot</a>
+        </div>
+      </div>
       <a href="/report/">M&amp;A Report</a>
-      <a href="/peterbot">PeterBot</a>
       <a href="/products">Products</a>
     </div>
     <a class="btn btn-navy btn-sm cta" href="/contact">Contact</a>
@@ -3640,6 +3646,7 @@ SUB_PAGE = """<!--
         <a href="/largest-pm-companies">Largest PM Companies</a>
         <a href="/api-grader/">API Grader</a>
         <a href="/blog">Blog</a>
+        <a href="/courses/">Free Courses</a>
         <a href="/report/">M&amp;A Report</a>
         <a href="/products">Products</a>
         <a href="/featured">Featured</a><a href="/sponsor/">Sponsor</a>
@@ -3800,9 +3807,15 @@ PENDING_PAGE = """<!--
       <a href="/podcast">Podcast</a>
       <a href="/largest-pm-companies">Largest PM Companies</a>
       <a href="/api-grader/" class="active">API Grader</a>
-      <a href="/blog">Blog</a>
+      <div class="nav-group">
+        <button type="button" class="nav-group-btn" aria-expanded="false" aria-controls="nav-resources">Resources</button>
+        <div class="nav-menu" id="nav-resources">
+          <a href="/blog">Blog</a>
+          <a href="/courses/">Free Courses</a>
+          <a href="/peterbot">PeterBot</a>
+        </div>
+      </div>
       <a href="/report/">M&amp;A Report</a>
-      <a href="/peterbot">PeterBot</a>
       <a href="/products">Products</a>
     </div>
     <a class="btn btn-navy btn-sm cta" href="/contact">Contact</a>
@@ -3909,6 +3922,7 @@ PENDING_PAGE = """<!--
         <a href="/largest-pm-companies">Largest PM Companies</a>
         <a href="/api-grader/">API Grader</a>
         <a href="/blog">Blog</a>
+        <a href="/courses/">Free Courses</a>
         <a href="/report/">M&amp;A Report</a>
         <a href="/products">Products</a>
         <a href="/featured">Featured</a><a href="/sponsor/">Sponsor</a>

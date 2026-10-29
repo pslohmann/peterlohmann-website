@@ -26,7 +26,7 @@
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
-<link rel="stylesheet" href="../styles.css?v=28" />
+<link rel="stylesheet" href="../styles.css?v=29" />
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());/* Count clean URLs: a visit to /x.html or /x/index.html is recorded as /x or /x/. */(function(){try{var p=location.pathname,c=p.replace(/(^|\/)index\.html$/,'$1').replace(/\.html$/,'');if(c!==p)history.replaceState(null,'',c+location.search+location.hash);}catch(e){}})();/* Live site only, so local previews and test copies stay out of the numbers. */if(/(^|\.)peterlohmann\.com$/.test(location.hostname))gtag('config','G-DRCVXMNK1D');</script>
@@ -51,9 +51,15 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
       <a href="/podcast">Podcast</a>
       <a href="/largest-pm-companies">Largest PM Companies</a>
       <a href="/api-grader/">API Grader</a>
-      <a href="/blog" class="active">Blog</a>
+      <div class="nav-group">
+        <button type="button" class="nav-group-btn active" aria-expanded="false" aria-controls="nav-resources">Resources</button>
+        <div class="nav-menu" id="nav-resources">
+          <a href="/blog" class="active">Blog</a>
+          <a href="/courses/">Free Courses</a>
+          <a href="/peterbot">PeterBot</a>
+        </div>
+      </div>
       <a href="/report/">M&amp;A Report</a>
-      <a href="/peterbot">PeterBot</a>
       <a href="/products">Products</a>
     </div>
     <a class="btn btn-navy btn-sm cta" href="/contact">Contact</a>
@@ -197,6 +203,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <a href="/largest-pm-companies">Largest PM Companies</a>
         <a href="/api-grader/">API Grader</a>
         <a href="/blog">Blog</a>
+        <a href="/courses/">Free Courses</a>
         <a href="/report/">M&amp;A Report</a>
         <a href="/products">Products</a>
         <a href="/featured">Featured</a><a href="/sponsor/">Sponsor</a>
@@ -212,6 +219,6 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have <a href="/financial-interest-disclosure">consulting agreements with, or financial interests in</a>, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions. <a href="/privacy-policy">Privacy Policy</a> &middot; <a href="/terms">Terms and Conditions</a></p>
   </div>
 </footer>
-<script src="../site.js?v=28"></script>
+<script src="../site.js?v=29"></script>
 </body>
 </html>
