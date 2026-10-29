@@ -202,11 +202,14 @@ writes TWO files per course into `courses-src/` (see courses-src/README.md for t
   inlined + sanitized (ids prefixed with the file name), *caption* line under an image. Unknown [!TYPE], a STAT
   without "|", empty alt text, or a missing /courses/assets/ file fails the build.
 - HUB ORDER + FILTERS (2026-10-29): cards sort by YouTube upload_date, newest first. Topic pills above the grid
-  come from the courses' tags (most-used first, "All" first, hidden without JS); ?topic=ai links to a filter;
+  come from the courses' tags in a FIXED order (Andrew): All, Operations, Leadership, Technology, AI, then any other
+  tags by size (PILL_ORDER in build-courses.py; hidden without JS); ?topic=ai links to a filter;
   GA4 event course_topic_filter. A new tag in a course file adds a pill automatically. "AI" was added to the
   Claude Code course's tags by hand; ask the writing thread to tag AI courses "AI".
 - SPONSORS: optional frontmatter sponsor_domains: ["leadsimple.com"] marks links to those sites rel="sponsored"
   (Google's rule for paid links). Course 2 (LeadSimple-sponsored) has it; ask the writing thread to include it.
+- SCREENSHOTS: save as WebP (max 1460px wide, quality ~80) in courses/assets/<slug>/; the builder adds width/height
+  (no layout jump) and lazy loading, and keeps portrait shots (taller than 1.2x wide) to 420px, centered.
 - DOWNLOADS: files linked from a course live in courses/assets/<slug>/ (e.g. the month-off checklist PDF:
   /courses/assets/property-management-systems-month-off/month-off-checklist.pdf, also in the YouTube description,
   so never rename or move it). Links get `download` + GA4 event course_download_click.

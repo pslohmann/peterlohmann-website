@@ -100,6 +100,9 @@ div.course-player{ position:relative; aspect-ratio:16/9; background:#000; border
 .article-body details.cc-details summary:focus-visible{ outline:3px solid var(--primary); outline-offset:2px; border-radius:var(--radius-sm); }
 .article-body .cc-details-body{ padding:0 18px 6px 35px; }
 
+/* ---------- screenshots: portrait ones stay a readable size, centered ---------- */
+.article-body figure.tall img{ display:block; width:100%; max-width:420px; margin:0 auto; }
+
 /* ---------- components: diagrams (SVG pasted inline so they use the site font) ---------- */
 .article-body figure.cc-figure{ margin:1.8em auto; max-width:720px; padding:14px; background:#fff; border:1px solid var(--line); border-radius:var(--radius-sm); }
 .article-body figure.cc-figure svg{ display:block; width:100%; height:auto; }

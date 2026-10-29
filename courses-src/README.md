@@ -40,7 +40,8 @@ sponsor_domains: ["leadsimple.com"]  # optional; when a video is sponsored, link
   chapter in Google's video results. Timestamps must go up and stay inside the video.
 - `## Heading` with no timestamp is a normal section ("What you'll learn", "Resources mentioned").
 - The video is placed just before the first timed module.
-- Images: `![alt text](/courses/assets/<slug>/file.jpg)`, with the file saved in `courses/assets/<slug>/`.
+- Images: `![alt text](/courses/assets/<slug>/file.webp)`, with the file saved in `courses/assets/<slug>/`.
+  Screenshots: WebP, about 1460px wide max. Portrait shots are shown at a readable 420px.
 - Downloads (a PDF checklist, etc.): save the file in `courses/assets/<slug>/` and link it like any link,
   `[download it here](/courses/assets/<slug>/file.pdf)`. The page link downloads the file and is counted in GA4
   as `course_download_click`. The file's public address is https://www.peterlohmann.com/courses/assets/<slug>/file.pdf

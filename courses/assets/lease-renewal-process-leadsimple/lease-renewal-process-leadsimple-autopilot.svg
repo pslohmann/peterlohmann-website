@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 304">
+  <title>Lease renewal autopilot rules</title>
+  <desc>A lease renewal starts automatically when the lease ends in under 91 days, the tenant is active in PM software, no move-out date is set, and the tenant is in no excluded process.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2d78a7"/></marker></defs>
+  <rect x="0" y="0" width="720" height="304" fill="#ffffff"/>
+  <rect x="20" y="16" width="400" height="56" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="40" y="51" font-size="21" fill="#1f2a36">Lease ends in under 91 days</text>
+  <rect x="20" y="88" width="400" height="56" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="40" y="123" font-size="21" fill="#1f2a36">Active in PM software</text>
+  <rect x="20" y="160" width="400" height="56" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="40" y="195" font-size="21" fill="#1f2a36">No move-out date</text>
+  <rect x="20" y="232" width="400" height="56" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="40" y="267" font-size="21" fill="#1f2a36">No exclusions</text>
+  <path d="M422,44 L470,44 L470,140" stroke="#6b7785" stroke-width="2" fill="none"/>
+  <path d="M422,116 L470,116" stroke="#6b7785" stroke-width="2" fill="none"/>
+  <path d="M422,188 L470,188" stroke="#6b7785" stroke-width="2" fill="none"/>
+  <path d="M422,260 L470,260 L470,140" stroke="#6b7785" stroke-width="2" fill="none"/>
+  <path d="M470,152 L506,152" stroke="#2d78a7" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <rect x="510" y="112" width="190" height="80" rx="8" fill="#2d78a7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="605" y="160" font-size="21" fill="#ffffff" text-anchor="middle" font-weight="700">Renewal starts</text>
+</svg>

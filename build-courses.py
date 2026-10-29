@@ -37,7 +37,7 @@ OUT = os.path.join(HERE, "courses")
 ASSETS = os.path.join(OUT, "assets")
 SITE = "https://www.peterlohmann.com"
 HUB_URL = SITE + "/courses/"
-COURSE_ASSET_V = "8"   # cache-bust for courses/course.css + course.js; bump when you edit them
+COURSE_ASSET_V = "10"   # cache-bust for courses/course.css + course.js; bump when you edit them
 
 YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@peterlohmann"
 YOUTUBE_SUBSCRIBE_URL = YOUTUBE_CHANNEL_URL + "?sub_confirmation=1"   # opens YouTube's subscribe prompt
@@ -387,7 +387,16 @@ def md_to_html(lines, heading_hook=None, timed=None):
                 if src.lower().endswith(".svg") and src.startswith("/"):
                     out.append(f'<figure class="cc-figure">{inline_svg(src, alt)}{cap}</figure>')
                 else:
-                    out.append(f'<figure><img src="{esc(src)}" alt="{esc(alt)}" loading="lazy" />{cap}</figure>')
+                    size = ""
+                    local = os.path.join(HERE, src.lstrip("/")) if src.startswith("/") else ""
+                    if local and os.path.exists(local):
+                        from PIL import Image
+                        w, h = Image.open(local).size
+                        size = f' width="{w}" height="{h}"'
+                        tall = ' class="tall"' if h > w * 1.2 else ""      # portrait screenshots: keep them a readable size
+                    else:
+                        tall = ""
+                    out.append(f'<figure{tall}><img src="{esc(src)}" alt="{esc(alt)}"{size} loading="lazy" decoding="async" />{cap}</figure>')
             else:
                 out.append(f"<p>{inline(joined)}</p>")
             para.clear()
@@ -754,6 +763,9 @@ def entry(c):
 # ============================================================================================
 # 6. HUB PAGE
 # ============================================================================================
+PILL_ORDER = ["operations", "leadership", "technology", "ai"]   # hub pills always lead with these; other topics follow by size
+
+
 def topic_key(t):
     return re.sub(r"[^a-z0-9]+", "-", t.lower()).strip("-")
 
@@ -769,7 +781,8 @@ def filter_pills(courses):
             names.setdefault(k, t)
     if len(counts) < 2:
         return ""
-    order = sorted(counts, key=lambda k: (-counts[k], names[k].lower()))
+    first = [k for k in PILL_ORDER if k in counts]                       # Andrew's fixed order
+    order = first + sorted((k for k in counts if k not in first), key=lambda k: (-counts[k], names[k].lower()))
     pills = [f'<button type="button" class="cf-pill" data-topic="" aria-pressed="true">All <span class="cf-count">{len(courses)}</span></button>']
     pills += [f'<button type="button" class="cf-pill" data-topic="{k}" aria-pressed="false">{esc(names[k])} <span class="cf-count">{counts[k]}</span></button>'
               for k in order]

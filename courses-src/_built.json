@@ -78,6 +78,25 @@
   "url": "https://www.peterlohmann.com/courses/property-management-processes-systems/"
  },
  {
+  "slug": "lease-renewal-process-leadsimple",
+  "title": "Build a Lease Renewal Process in LeadSimple, Step by Step",
+  "description": "Build a complete lease renewal process in LeadSimple with its AI process builder: stages, renewal emails, e-signature, and autopilot that starts it 90 days out.",
+  "date": "2026-10-30",
+  "upload_date": "2026-09-23",
+  "updated": "2026-10-30",
+  "seconds": 2574,
+  "n_modules": 10,
+  "tags": [
+   "Technology",
+   "Operations"
+  ],
+  "cover": "/courses/assets/lease-renewal-process-leadsimple/_cover.jpg",
+  "card": "/courses/assets/lease-renewal-process-leadsimple/_card.webp",
+  "cw": 1280,
+  "ch": 720,
+  "url": "https://www.peterlohmann.com/courses/lease-renewal-process-leadsimple/"
+ },
+ {
   "slug": "property-management-systems-month-off",
   "title": "Property Management Systems That Let Me Take a Month Off",
   "description": "Build the three systems that let a property management company run without its owner: a weekly scorecard, a task map, and a Notion wiki, step by step.",

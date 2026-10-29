@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 470">
+  <title>Lease renewal process flow</title>
+  <desc>Renewal outreach branches three ways: non-renewal handoff, month-to-month, or price and approve, which continues to offer and negotiate, lease execution, and records and closeout.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2d78a7"/></marker></defs>
+  <rect x="0" y="0" width="720" height="470" fill="#ffffff"/>
+  <rect x="210" y="12" width="300" height="56" rx="8" fill="#1f2a36" stroke="#1f2a36" stroke-width="2"/>
+  <text x="360" y="47" font-size="21" fill="#ffffff" text-anchor="middle" font-weight="700">Renewal outreach</text>
+  <path d="M250,70 L130,112" stroke="#2d78a7" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <path d="M470,70 L590,112" stroke="#2d78a7" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <line x1="360" y1="70" x2="360" y2="110" stroke="#2d78a7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="4" y="116" width="240" height="56" rx="8" fill="#e8f1f7" stroke="#6b7785" stroke-width="2"/>
+  <text x="124" y="151" font-size="20" fill="#1f2a36" text-anchor="middle">Non-renewal handoff</text>
+  <rect x="476" y="116" width="240" height="56" rx="8" fill="#e8f1f7" stroke="#6b7785" stroke-width="2"/>
+  <text x="596" y="151" font-size="20" fill="#1f2a36" text-anchor="middle">Month-to-month</text>
+  <rect x="250" y="116" width="220" height="56" rx="8" fill="#2d78a7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="360" y="151" font-size="20" fill="#ffffff" text-anchor="middle" font-weight="700">Price and approve</text>
+  <line x1="360" y1="174" x2="360" y2="210" stroke="#2d78a7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="250" y="214" width="220" height="56" rx="8" fill="#2d78a7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="360" y="249" font-size="20" fill="#ffffff" text-anchor="middle" font-weight="700">Offer and negotiate</text>
+  <line x1="360" y1="272" x2="360" y2="308" stroke="#2d78a7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="250" y="312" width="220" height="56" rx="8" fill="#2d78a7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="360" y="347" font-size="20" fill="#ffffff" text-anchor="middle" font-weight="700">Lease execution</text>
+  <line x1="360" y1="370" x2="360" y2="406" stroke="#2d78a7" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="230" y="410" width="260" height="56" rx="8" fill="#2d78a7" stroke="#2d78a7" stroke-width="2"/>
+  <text x="360" y="445" font-size="20" fill="#ffffff" text-anchor="middle" font-weight="700">Records and closeout</text>
+</svg>
