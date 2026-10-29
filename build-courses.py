@@ -37,7 +37,7 @@ OUT = os.path.join(HERE, "courses")
 ASSETS = os.path.join(OUT, "assets")
 SITE = "https://www.peterlohmann.com"
 HUB_URL = SITE + "/courses/"
-COURSE_ASSET_V = "6"   # cache-bust for courses/course.css + course.js; bump when you edit them
+COURSE_ASSET_V = "7"   # cache-bust for courses/course.css + course.js; bump when you edit them
 
 YOUTUBE_CHANNEL_URL = "https://www.youtube.com/@peterlohmann"
 YOUTUBE_SUBSCRIBE_URL = YOUTUBE_CHANNEL_URL + "?sub_confirmation=1"   # opens YouTube's subscribe prompt

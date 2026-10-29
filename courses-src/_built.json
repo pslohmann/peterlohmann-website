@@ -52,5 +52,23 @@
   "cw": 1280,
   "ch": 720,
   "url": "https://www.peterlohmann.com/courses/property-management-leadership-team/"
+ },
+ {
+  "slug": "claude-code-property-management",
+  "title": "Claude Code for Property Managers: APIs, Alerts, and Automation",
+  "description": "Connect your property management software to Claude Code, forecast lease endings, catch negative owner balances in Slack, and run it all on a schedule.",
+  "date": "2026-10-30",
+  "updated": "2026-10-30",
+  "seconds": 1233,
+  "n_modules": 8,
+  "tags": [
+   "Technology",
+   "Operations"
+  ],
+  "cover": "/courses/assets/claude-code-property-management/_cover.jpg",
+  "card": "/courses/assets/claude-code-property-management/_card.webp",
+  "cw": 1280,
+  "ch": 720,
+  "url": "https://www.peterlohmann.com/courses/claude-code-property-management/"
  }
 ]

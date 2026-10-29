@@ -74,9 +74,11 @@ div.course-player{ position:relative; aspect-ratio:16/9; background:#000; border
 .article-body .course-module + .course-jump-wrap + .cc-takeaway{ margin-top:.4em; }
 
 /* ---------- components: big-number stats (side by side when stacked in the source) ---------- */
-.article-body .cc-stats{ display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 280px)); gap:14px; margin:1.4em 0 1.6em; }
-.article-body .cc-stat{ display:flex; flex-direction:column; gap:6px; padding:16px 20px; background:#fff; border:1px solid var(--line); border-radius:var(--radius-sm); }
-.article-body .cc-stat-num{ font-family:var(--display); font-size:46px; font-weight:800; line-height:1; letter-spacing:-.02em; color:var(--primary); font-variant-numeric:tabular-nums; }
+.article-body .cc-stats{ display:flex; flex-wrap:wrap; gap:14px; margin:1.4em 0 1.6em; }
+.article-body .cc-stat{ display:flex; flex-direction:column; gap:6px; flex:0 1 auto; min-width:180px; max-width:100%; padding:16px 20px;
+  background:#fff; border:1px solid var(--line); border-radius:var(--radius-sm); }
+.article-body .cc-stat-label{ max-width:26ch; }
+.article-body .cc-stat-num{ white-space:nowrap; font-family:var(--display); font-size:46px; font-weight:800; line-height:1; letter-spacing:-.02em; color:var(--primary); font-variant-numeric:tabular-nums; }
 .article-body .cc-stat-label{ font-size:15px; font-weight:600; line-height:1.35; color:var(--navy); }
 
 /* ---------- components: numbered steps inside a module become step cards ---------- */
