@@ -709,7 +709,7 @@ NAV_LINKS = """      <a href="newsletter.html">Newsletter</a>
       <a href="largest-pm-companies.html" class="active">Largest PM Companies</a>
       <a href="api-grader/index.html">API Grader</a>
       <div class="nav-group">
-        <button type="button" class="nav-group-btn" aria-expanded="false" aria-controls="nav-resources">Resources</button>
+        <a href="/blog" class="nav-group-btn" aria-haspopup="true" aria-expanded="false">Resources</a>
         <div class="nav-menu" id="nav-resources">
           <a href="blog.html">Blog</a>
           <a href="/courses/">Free Courses</a>
@@ -1049,7 +1049,7 @@ page = f"""<!--
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
-<link rel="stylesheet" href="styles.css?v=29" />
+<link rel="stylesheet" href="styles.css?v=30" />
 <style>
   /* Boom sponsor presentation (scoped to this page) */
   .presented-by{{ display:inline-flex; align-items:center; gap:12px; margin:-2px 0 14px;
@@ -1396,7 +1396,7 @@ page = f"""<!--
   <span>Presented by</span><img src="images/boom-logo.webp" alt="Boom" />
 </a>
 
-<script src="site.js?v=29"></script>
+<script src="site.js?v=30"></script>
 <script>
 (function(){{
   var hero = document.querySelector('.page-hero'),
@@ -1541,7 +1541,7 @@ def render_state_page(st, rows):
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
-<link rel="stylesheet" href="styles.css?v=29" />
+<link rel="stylesheet" href="styles.css?v=30" />
 <script type="application/ld+json">{jsonld}</script>
 </head>
 <body>
@@ -1601,7 +1601,7 @@ def render_state_page(st, rows):
     <p class="disc">The content of this website is for informational purposes only and does not constitute professional advice. I may have <a href="financial-interest-disclosure.html">consulting agreements with, or financial interests in</a>, companies mentioned on this website. Additionally, some of the links across this site may be affiliate links, meaning I may earn a commission if you make a purchase through those links. Always perform your own due diligence before making any financial or business decisions. <a href="privacy-policy.html">Privacy Policy</a> &middot; <a href="terms.html">Terms and Conditions</a></p>
   </div>
 </footer>
-<script src="site.js?v=29"></script>
+<script src="site.js?v=30"></script>
 </body>
 </html>
 """

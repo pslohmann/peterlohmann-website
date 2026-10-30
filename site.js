@@ -17,17 +17,19 @@
     });
   }
 
-  /* ---- 1b. "Resources" menu: click or tap to open and close (hover and keyboard focus
-     already open it through styles.css, so it also works where this script isn't loaded) ---- */
+  /* ---- 1b. "Resources" menu: the word itself links to the blog, and hover or keyboard focus opens
+     the dropdown through styles.css. Touch screens wide enough for the full menu can't hover, so
+     there the first tap opens the dropdown and a second tap goes to the blog. ---- */
   document.querySelectorAll("nav.top .nav-group").forEach(function (g) {
-    var btn = g.querySelector(".nav-group-btn");
-    if (!btn) return;
-    function close() { g.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); }
-    btn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      var open = g.classList.toggle("open");
-      btn.setAttribute("aria-expanded", open ? "true" : "false");
-      if (!open) btn.blur();   // otherwise keyboard-focus styling keeps it open
+    var link = g.querySelector(".nav-group-btn");
+    if (!link) return;
+    function close() { g.classList.remove("open"); link.setAttribute("aria-expanded", "false"); }
+    link.addEventListener("click", function (e) {
+      if (window.matchMedia("(hover: none) and (min-width: 1081px)").matches && !g.classList.contains("open")) {
+        e.preventDefault();
+        g.classList.add("open");
+        link.setAttribute("aria-expanded", "true");
+      }
     });
     document.addEventListener("click", function (e) { if (!g.contains(e.target)) close(); });
     document.addEventListener("keydown", function (e) {

@@ -15,7 +15,7 @@ from site_common import finalize
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "podcast.html")
-ASSET_V = "29"   # keep in sync with the site's ?v= cache version
+ASSET_V = "30"   # keep in sync with the site's ?v= cache version
 
 # Google Analytics (GA4) — injected right before </head> on every generated page.
 GA4 = ('<!-- Google Analytics (GA4) -->\n'
@@ -304,7 +304,7 @@ def build():
       <a href="largest-pm-companies.html">Largest PM Companies</a>
       <a href="api-grader/index.html">API Grader</a>
       <div class="nav-group">
-        <button type="button" class="nav-group-btn" aria-expanded="false" aria-controls="nav-resources">Resources</button>
+        <a href="/blog" class="nav-group-btn" aria-haspopup="true" aria-expanded="false">Resources</a>
         <div class="nav-menu" id="nav-resources">
           <a href="blog.html">Blog</a>
           <a href="/courses/">Free Courses</a>

@@ -45,7 +45,7 @@ def new_nav(m):
     btn_cls = "nav-group-btn active" if group_active else "nav-group-btn"
     sub = ind + "  "
     lines = [a(k) for k in ORDER_BEFORE]
-    group = (f'<div class="nav-group">{nl}{sub}<button type="button" class="{btn_cls}" aria-expanded="false" aria-controls="nav-resources">Resources</button>'
+    group = (f'<div class="nav-group">{nl}{sub}<a href="/blog" class="{btn_cls}" aria-haspopup="true" aria-expanded="false">Resources</a>'
              f'{nl}{sub}<div class="nav-menu" id="nav-resources">'
              f'{nl}{sub}  {a("Blog")}{nl}{sub}  <a href="/courses/">Free Courses</a>{nl}{sub}  {a("PeterBot")}'
              f'{nl}{sub}</div>{nl}{ind}</div>')

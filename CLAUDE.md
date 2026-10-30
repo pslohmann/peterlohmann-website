@@ -222,7 +222,7 @@ writes TWO files per course into `courses-src/` (see courses-src/README.md for t
   the page; AI crawlers can read them. Every group blocks /courses-src/. Keep the * and Googlebot groups in step.
 - NOT on the blog: courses live only under /courses/ (Andrew, 2026-10-29). CTA copy, hub intro: use as written.
 - CTA links: YouTube https://www.youtube.com/@peterlohmann?sub_confirmation=1 ; newsletter /newsletter#subscribe.
-- MENU (LIVE 2026-10-29): "Resources" dropdown (Blog, Free Courses, PeterBot) applied by `python3 apply-resources-menu.py`
+- MENU (LIVE 2026-10-29): the word "Resources" links to /blog (Andrew, 2026-10-30); hovering opens the dropdown (Blog, Free Courses, PeterBot) applied by `python3 apply-resources-menu.py`
   (edits every page + build-blog/podcast/largest-list/api-grader, adds Free Courses to the footer, bumps
   styles/site.js to v=29). Dropdown styles in styles.css ("Resources" menu group), click handling in site.js.
 
@@ -239,7 +239,7 @@ functional breaks. These are marked in each page.
   (do NOT rerun build-largest-list.py just for this: it pulls live JotForm data and the 2026 list is final)
   then commit + push. styles.css and site.js share ONE version number on every page and in
   build-largest-list.py, and in the ASSET_V constants at the top of build-podcast.py, build-blog.py and
-  build-api-grader.py; keep them all in step. (Current version: v=29, set 2026-10-29 with the Resources menu.)
+  build-api-grader.py; keep them all in step. (Current version: v=30, set 2026-10-30 when the word Resources became a link to the blog.)
 - Icons: favicon.svg + favicon-32.png (tabs), favicon.ico (root, auto-requested),
   apple-touch-icon.png (iOS), icon-192/512.png via site.webmanifest (Android). Regenerate all
   from `python3 make-icons.py` if the mark ever changes.

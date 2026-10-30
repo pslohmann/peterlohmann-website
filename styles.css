@@ -113,9 +113,10 @@ nav.top .links a:hover{ color:var(--primary); text-decoration:none; }
 nav.top .links a.active{ color:var(--primary); font-weight:600; }
 nav.top .cta{ margin-left:auto; }
 
-/* "Resources" menu group (Blog, Free Courses, PeterBot). On desktop it's a small dropdown that
-   opens on hover or keyboard focus with no script needed; site.js adds click/tap to open and
-   close. Inside the phone Menu it's just a labeled group that is always open (see the 1080px rule). */
+/* "Resources" menu group (Blog, Free Courses, PeterBot). On desktop the word links to the blog and
+   the dropdown opens on hover or keyboard focus with no script needed; site.js handles touch screens
+   (first tap opens, second goes to the blog). Inside the phone Menu it's just a labeled group that is
+   always open (see the 1080px rule). */
 nav.top .nav-group{ position:relative; display:flex; align-items:center; }
 nav.top .nav-group-btn{ display:inline-flex; align-items:center; gap:6px; padding:0; border:0; background:none; cursor:pointer;
   font:inherit; font-size:14.5px; font-weight:500; color:var(--navy); white-space:nowrap; }

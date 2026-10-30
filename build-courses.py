@@ -603,7 +603,7 @@ def shell():
     nav = nav.replace(' class="active"', "")
     # mark "Free Courses" (and the menu group holding it) as the current section
     nav = nav.replace('<a href="/courses/">', '<a href="/courses/" class="active">')
-    nav = re.sub(r'(<button type="button" class="nav-group-btn)(")(?=[^>]*>Resources)', r"\1 active\2", nav)
+    nav = re.sub(r'(<a href="/blog" class="nav-group-btn)(")', r"\1 active\2", nav)
     foot = foot.replace(' class="active"', "")
     return nav, foot, v
 

@@ -25,7 +25,7 @@ BLOGDIR = os.path.join(HERE, "blog")
 os.makedirs(IMGDIR, exist_ok=True)
 os.makedirs(BLOGDIR, exist_ok=True)
 LIMIT = int(os.environ.get("LIMIT", "0"))
-ASSET_V = "29"  # cache-bust version for styles.css / site.js (keep in sync with the rest of the site)
+ASSET_V = "30"  # cache-bust version for styles.css / site.js (keep in sync with the rest of the site)
 
 # Google Analytics (GA4) — injected right before </head> on every generated page.
 GA4 = ('<!-- Google Analytics (GA4) -->\n'
@@ -326,7 +326,7 @@ NAV = """  <div class="bar">
       <a href="../largest-pm-companies.html">Largest PM Companies</a>
       <a href="../api-grader/index.html">API Grader</a>
       <div class="nav-group">
-        <button type="button" class="nav-group-btn active" aria-expanded="false" aria-controls="nav-resources">Resources</button>
+        <a href="/blog" class="nav-group-btn active" aria-haspopup="true" aria-expanded="false">Resources</a>
         <div class="nav-menu" id="nav-resources">
           <a href="../blog.html" class="active">Blog</a>
           <a href="/courses/">Free Courses</a>
@@ -593,7 +593,7 @@ def write_index(posts):
       <a href="largest-pm-companies.html">Largest PM Companies</a>
       <a href="api-grader/index.html">API Grader</a>
       <div class="nav-group">
-        <button type="button" class="nav-group-btn active" aria-expanded="false" aria-controls="nav-resources">Resources</button>
+        <a href="/blog" class="nav-group-btn active" aria-haspopup="true" aria-expanded="false">Resources</a>
         <div class="nav-menu" id="nav-resources">
           <a href="blog.html" class="active">Blog</a>
           <a href="/courses/">Free Courses</a>
