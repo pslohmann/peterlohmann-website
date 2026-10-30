@@ -37,7 +37,7 @@ HERE = pathlib.Path(__file__).parent
 OUTDIR = HERE / "api-grader"                 # served at /api-grader/
 PAGE = OUTDIR / "index.html"
 SITE = "https://www.peterlohmann.com"
-ASSET_V = "30"                               # keep in step with styles.css?v= on every page
+ASSET_V = "31"                               # keep in step with styles.css?v= on every page
 OG_DIR = HERE / "images" / "api-grader"      # per-platform share cards
 
 # The five scoring categories, in table-column order, with their v1.1 maxima.

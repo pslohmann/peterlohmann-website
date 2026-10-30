@@ -239,7 +239,7 @@ functional breaks. These are marked in each page.
   (do NOT rerun build-largest-list.py just for this: it pulls live JotForm data and the 2026 list is final)
   then commit + push. styles.css and site.js share ONE version number on every page and in
   build-largest-list.py, and in the ASSET_V constants at the top of build-podcast.py, build-blog.py and
-  build-api-grader.py; keep them all in step. (Current version: v=30, set 2026-10-30 when the word Resources became a link to the blog.)
+  build-api-grader.py; keep them all in step. (Current version: v=31, set 2026-10-30 when the homepage Blog card became Blog & Free Courses with two buttons.)
 - Icons: favicon.svg + favicon-32.png (tabs), favicon.ico (root, auto-requested),
   apple-touch-icon.png (iOS), icon-192/512.png via site.webmanifest (Android). Regenerate all
   from `python3 make-icons.py` if the mark ever changes.

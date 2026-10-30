@@ -181,6 +181,15 @@ a.card{ position:relative; overflow:hidden; }
           color:var(--primary); opacity:.09; pointer-events:none; z-index:0; }
 a.card > h3, a.card > p, a.card > .arrow{ position:relative; z-index:1; }
 a.card:hover .card-ic{ opacity:.14; transition:opacity .16s ease; }
+/* Explore card with two links (Blog + Free Courses): the card itself isn't a link, the two small buttons are */
+.card-duo{ position:relative; overflow:hidden; }
+.card-duo > h3, .card-duo > p, .card-duo > .card-btns{ position:relative; z-index:1; }
+.card-btns{ display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+.card-btn{ background:var(--card); border:1px solid #c7d6e2; border-radius:999px; padding:5px 10px;
+           color:var(--primary); font-weight:700; font-size:13.5px; white-space:nowrap;
+           transition:color .16s ease, border-color .16s ease; }
+.card-btn:hover{ text-decoration:none; color:var(--orange-dark); border-color:var(--orange-dark); }
+@media (min-width:901px) and (max-width:1023px){ .card-btn{ font-size:12px; padding:4px 7px; } }   /* narrowest 3-column widths: keep both on one line */
 .num-badge{ width:38px; height:38px; border-radius:10px; background:var(--wash); color:var(--primary-dark);
             display:flex; align-items:center; justify-content:center; font-weight:700; margin-bottom:14px; }
 
