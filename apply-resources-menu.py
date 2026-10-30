@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-One-time menu change: groups Blog, Free Courses and PeterBot under a "Resources" dropdown in the
+One-time menu change: groups Blog, Free Courses, AI Timeline and PeterBot under a "Resources" dropdown in the
 top menu, adds Free Courses to the footer, and bumps the styles.css / site.js cache version so
 browsers fetch the new menu styles.
 
@@ -47,7 +47,7 @@ def new_nav(m):
     lines = [a(k) for k in ORDER_BEFORE]
     group = (f'<div class="nav-group">{nl}{sub}<a href="/blog" class="{btn_cls}" aria-haspopup="true" aria-expanded="false">Resources</a>'
              f'{nl}{sub}<div class="nav-menu" id="nav-resources">'
-             f'{nl}{sub}  {a("Blog")}{nl}{sub}  <a href="/courses/">Free Courses</a>{nl}{sub}  {a("PeterBot")}'
+             f'{nl}{sub}  {a("Blog")}{nl}{sub}  <a href="/courses/">Free Courses</a>{nl}{sub}  <a href="/blog/ai-property-management-timeline/">AI Timeline</a>{nl}{sub}  {a("PeterBot")}'
              f'{nl}{sub}</div>{nl}{ind}</div>')
     lines.append(group)
     lines += [a(k) for k in ORDER_AFTER]

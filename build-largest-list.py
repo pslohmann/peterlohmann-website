@@ -713,6 +713,7 @@ NAV_LINKS = """      <a href="newsletter.html">Newsletter</a>
         <div class="nav-menu" id="nav-resources">
           <a href="blog.html">Blog</a>
           <a href="/courses/">Free Courses</a>
+          <a href="/blog/ai-property-management-timeline/">AI Timeline</a>
           <a href="peterbot.html">PeterBot</a>
         </div>
       </div>

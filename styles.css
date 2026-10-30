@@ -113,7 +113,7 @@ nav.top .links a:hover{ color:var(--primary); text-decoration:none; }
 nav.top .links a.active{ color:var(--primary); font-weight:600; }
 nav.top .cta{ margin-left:auto; }
 
-/* "Resources" menu group (Blog, Free Courses, PeterBot). On desktop the word links to the blog and
+/* "Resources" menu group (Blog, Free Courses, AI Timeline, PeterBot). On desktop the word links to the blog and
    the dropdown opens on hover or keyboard focus with no script needed; site.js handles touch screens
    (first tap opens, second goes to the blog). Inside the phone Menu it's just a labeled group that is
    always open (see the 1080px rule). */
