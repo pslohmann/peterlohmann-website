@@ -61,7 +61,7 @@ CATEGORIES = [
         ["Boom", "ShowMojo", "Tenant Turner", "RentEngine", "Rently",
          "Showdigs", "Findigs", "RentSpree", "Rent Butter", "AmRent", "Leasey.AI"]),
     ("workflow",     "Workflow &amp; CRM",
-        ["LeadSimple", "Aptly", "Process Street", "Follow Up Boss"]),
+        ["LeadSimple", "Aptly", "Process Street", "Follow Up Boss", "Monday.com"]),
     ("maintenance",  "Maintenance",
         ["Property Meld", "Vendoroo", "Mason", "Latchel", "FixGrid"]),
     ("banks",        "Banks",
