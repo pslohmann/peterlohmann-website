@@ -47,7 +47,10 @@ build-largest-list.py (NAV_LINKS / FOOT_LINKS) and build-api-grader.py, so a men
 - Signature touches (all in styles.css): slim tricolor accent line under the nav (`nav.top::after`),
   hero tick marks (`.ticks`), standout hero headshot (blob + accent dot + white ring + floating
   `.hero-badge`), colorful stat tiles (`.stats-color`), modern rank badges (`.rank-badge`),
-  blog featured banner (`.feature-post`) + 3-up image cards (`.post-card` / `.ph-img`).
+  blog top pair (`.top-posts`: Latest in orange, Featured in blue) + 3-up image cards (`.post-card` / `.ph-img`).
+  The Latest card updates itself when publish-scheduled.py runs. The Featured card is hand-picked and only
+  changes by hand: edit its block in blog.html, and when swapping posts, put the old one back in the card grid
+  by date and take the new one out, so no post shows twice. It is currently the AI timeline.
 
 ## Live embeds (third-party, fine on GitHub Pages)
 - Newsletter: Beehiiv subscribe iframe + subscribe URL https://peter.beehiiv.com/subscribe
@@ -239,7 +242,7 @@ functional breaks. These are marked in each page.
   (do NOT rerun build-largest-list.py just for this: it pulls live JotForm data and the 2026 list is final)
   then commit + push. styles.css and site.js share ONE version number on every page and in
   build-largest-list.py, and in the ASSET_V constants at the top of build-podcast.py, build-blog.py and
-  build-api-grader.py; keep them all in step. (Current version: v=31, set 2026-10-30 when the homepage Blog card became Blog & Free Courses with two buttons.)
+  build-api-grader.py; keep them all in step. (Current version: v=32, set 2026-10-30 when the blog got the Latest + Featured pair at the top.)
 - Icons: favicon.svg + favicon-32.png (tabs), favicon.ico (root, auto-requested),
   apple-touch-icon.png (iOS), icon-192/512.png via site.webmanifest (Android). Regenerate all
   from `python3 make-icons.py` if the mark ever changes.
@@ -257,8 +260,8 @@ functional breaks. These are marked in each page.
 - Test a share with LinkedIn Post Inspector: https://www.linkedin.com/post-inspector/
 - ALSO run `python3 make-blog-thumbs.py <slug>` for a new post. blog.html cards load a small
   800x450 `--thumb.webp` instead of the full cover (cut the list page's card images from
-  10.4 MB to 4.1 MB). publish-scheduled.py uses the thumbnail when it demotes the featured
-  post to a card, and falls back to the full image if the thumbnail is missing.
+  10.4 MB to 4.1 MB). publish-scheduled.py uses the thumbnail when it moves the old Latest
+  post down to a card, and falls back to the full image if the thumbnail is missing.
 
 ## Writing rules
 - **No em dashes or en dashes** anywhere (Andrew's standing rule). Use commas, parentheses,

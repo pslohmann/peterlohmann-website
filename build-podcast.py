@@ -15,7 +15,7 @@ from site_common import finalize
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "podcast.html")
-ASSET_V = "31"   # keep in sync with the site's ?v= cache version
+ASSET_V = "32"   # keep in sync with the site's ?v= cache version
 
 # Google Analytics (GA4) — injected right before </head> on every generated page.
 GA4 = ('<!-- Google Analytics (GA4) -->\n'

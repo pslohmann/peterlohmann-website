@@ -8,8 +8,8 @@ How the whole thing fits together:
   2. This script checks which queued posts are due, then for each one:
        - refuses to publish if the post file or any image it uses is missing
        - strips the noindex line (the post becomes indexable)
-       - makes it the featured post on blog.html, demoting the old featured post
-         into the regular card grid
+       - makes it the Latest card on blog.html, moving the old Latest post into the
+         regular card grid (the Featured card next to it is hand-picked and stays put)
        - bumps the "N posts and counting" number in the blog hero
        - drops the entry from the queue so it never publishes twice
   3. build-sitemap.py is re-run so the new post is in the sitemap.
@@ -31,19 +31,20 @@ TZ        = ZoneInfo("America/New_York")
 
 NOINDEX_RE = re.compile(r'^[ \t]*<meta name="robots" content="noindex" data-scheduled="1" />\r?\n', re.M)
 
-# The current featured post block on blog.html, so we can demote it to a card.
-FEATURE_RE = re.compile(
-    r'[ \t]*<a class="feature-post" href="(?P<href>[^"]+)">\s*'
+# The current Latest card on blog.html, so we can move it down to the card grid.
+LATEST_RE = re.compile(
+    r'[ \t]*<a class="top-post top-latest" href="(?P<href>[^"]+)">\s*'
+    r'<div class="tp-banner">Latest</div>\s*'
     r'<div class="ph-img"><img src="(?P<img>[^"]+)"[^>]*></div>\s*'
-    r'<div class="fp-body">\s*'
-    r'<span class="tag tag-warn">Latest</span>\s*'
+    r'<div class="tp-body">\s*'
     r'<div class="date">(?P<date>[^<]*)</div>\s*'
     r'<h2>(?P<title>.*?)</h2>\s*'
     r'<p>(?P<desc>.*?)</p>\s*'
     r'<span class="arrow">Read the post &rarr;</span>\s*'
-    r'</div>\s*</a>\s*'
-    r'(?P<cards><div class="post-cards mt-lg">)',
+    r'</div>\s*</a>\n',
     re.S)
+
+CARDS_OPEN = '<div class="post-cards mt-lg">\n'
 
 LOCAL_IMG_RE = re.compile(r'<img[^>]+src="(?!https?:)([^"]+)"')
 
@@ -93,10 +94,10 @@ def publish(entry, idx_html):
     else:
         print(f"  (no noindex line found in blog/{slug}.html; leaving it as-is)")
 
-    # 2. Demote the current featured post to a card, promote this one.
-    m = FEATURE_RE.search(idx_html)
-    if not m:
-        fail("could not find the featured-post block on blog.html; blog.html was not changed.")
+    # 2. Move the current Latest post down to a card, make this one Latest.
+    m = LATEST_RE.search(idx_html)
+    if not m or CARDS_OPEN not in idx_html:
+        fail("could not find the Latest card or the card grid on blog.html; blog.html was not changed.")
 
     # A card only needs the small 800px thumbnail (made by make-blog-thumbs.py). Use it when it
     # exists; otherwise fall back to the featured image so publishing never breaks.
@@ -115,21 +116,21 @@ def publish(entry, idx_html):
         f'        </a>\n'
     )
 
-    new_feature = (
-        f'      <a class="feature-post" href="/blog/{slug}">\n'
-        f'        <div class="ph-img"><img src="{entry["card_image"]}" alt="" loading="lazy"></div>\n'
-        f'        <div class="fp-body">\n'
-        f'          <span class="tag tag-warn">Latest</span>\n'
-        f'          <div class="date">{entry["date_label"]}</div>\n'
-        f'          <h2>{entry["title"]}</h2>\n'
-        f'          <p>{entry["description"]}</p>\n'
-        f'          <span class="arrow">Read the post &rarr;</span>\n'
-        f'        </div>\n'
-        f'      </a>\n'
-        f'      {m.group("cards")}\n'
+    new_latest = (
+        f'        <a class="top-post top-latest" href="/blog/{slug}">\n'
+        f'          <div class="tp-banner">Latest</div>\n'
+        f'          <div class="ph-img"><img src="{entry["card_image"]}" alt="" loading="lazy"></div>\n'
+        f'          <div class="tp-body">\n'
+        f'            <div class="date">{entry["date_label"]}</div>\n'
+        f'            <h2>{entry["title"]}</h2>\n'
+        f'            <p>{entry["description"]}</p>\n'
+        f'            <span class="arrow">Read the post &rarr;</span>\n'
+        f'          </div>\n'
+        f'        </a>\n'
     )
 
-    idx_html = idx_html[:m.start()] + new_feature + demoted + idx_html[m.end():]
+    idx_html = idx_html[:m.start()] + new_latest + idx_html[m.end():]
+    idx_html = idx_html.replace(CARDS_OPEN, CARDS_OPEN + demoted, 1)
 
     # 3. Bump the post count in the hero line.
     def bump(mo):
@@ -138,7 +139,7 @@ def publish(entry, idx_html):
     if not bumped:
         print("  WARNING: could not find the 'N posts and counting' line to bump.")
 
-    print(f"  featured on blog.html: {entry['title']}")
+    print(f"  now Latest on blog.html: {entry['title']}")
     return idx_html
 
 
@@ -162,7 +163,7 @@ def main():
     with open(BLOG_IDX, encoding="utf-8") as f:
         idx_html = f.read()
 
-    # Oldest scheduled first, so the newest ends up as the featured post.
+    # Oldest scheduled first, so the newest ends up as the Latest post.
     for entry in sorted(due, key=lambda p: p.get("publish_on", "")):
         print(f"Publishing: {entry['slug']}")
         idx_html = publish(entry, idx_html)

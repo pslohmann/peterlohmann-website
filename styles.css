@@ -505,6 +505,27 @@ a.feature-post:hover{ text-decoration:none; transform:translateY(-3px); box-shad
 .feature-post .arrow{ color:var(--primary); font-weight:700; }
 @media (max-width:760px){ .feature-post{ grid-template-columns:1fr; } .feature-post .ph-img{ min-height:200px; } }
 
+/* top of the blog: Latest + Featured side by side, each with a color banner and a faint matching glow */
+.top-posts{ display:grid; grid-template-columns:repeat(2,1fr); gap:30px; }
+.top-post{ display:flex; flex-direction:column; background:#fff; border:1px solid; border-radius:var(--radius);
+   overflow:hidden; color:inherit; transition:transform .16s ease, box-shadow .16s ease; }
+a.top-post:hover{ text-decoration:none; transform:translateY(-3px); }
+.top-latest{ border-color:rgba(201,94,45,.5); box-shadow:0 8px 44px rgba(224,112,60,.28); }
+a.top-latest:hover{ box-shadow:0 12px 56px rgba(224,112,60,.42); }
+.top-featured{ border-color:rgba(44,124,176,.5); box-shadow:0 8px 44px rgba(44,124,176,.28); }
+a.top-featured:hover{ box-shadow:0 12px 56px rgba(44,124,176,.42); }
+.tp-banner{ color:#fff; font-size:13px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:9px 28px; }
+.top-latest .tp-banner{ background:var(--orange-dark); }
+.top-featured .tp-banner{ background:var(--primary); }
+.top-post .ph-img{ aspect-ratio:16/9; min-height:0; height:auto; }
+.top-post .tp-body{ padding:22px 28px 26px; display:flex; flex-direction:column; flex:1; }
+.top-post .date{ font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--primary-dark); }
+.top-post h2{ font-size:clamp(23px,2.5vw,29px); margin:8px 0 10px; line-height:1.15; }
+.top-post p{ color:var(--muted); font-size:16px; margin:0 0 16px; }
+.top-post .arrow{ color:var(--primary); font-weight:700; margin-top:auto; }
+@media (max-width:760px){ .top-posts{ grid-template-columns:1fr; gap:24px; }
+  .tp-banner{ padding:8px 22px; } .top-post .tp-body{ padding:20px 22px 24px; } }
+
 /* 3-up card grid for the rest of the posts */
 .post-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
 .post-card{ display:flex; flex-direction:column; background:#fff; border:1px solid var(--line);

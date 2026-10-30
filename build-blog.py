@@ -25,7 +25,7 @@ BLOGDIR = os.path.join(HERE, "blog")
 os.makedirs(IMGDIR, exist_ok=True)
 os.makedirs(BLOGDIR, exist_ok=True)
 LIMIT = int(os.environ.get("LIMIT", "0"))
-ASSET_V = "31"  # cache-bust version for styles.css / site.js (keep in sync with the rest of the site)
+ASSET_V = "32"  # cache-bust version for styles.css / site.js (keep in sync with the rest of the site)
 
 # Google Analytics (GA4) — injected right before </head> on every generated page.
 GA4 = ('<!-- Google Analytics (GA4) -->\n'
