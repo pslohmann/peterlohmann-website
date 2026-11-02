@@ -12,7 +12,7 @@ tags: ["Operations", "Leadership"]
 
 Every June, I disappear for the entire month. No Slack, no email, no phone calls, and nobody on my team checks in with me. Four years running now, and nothing has caught fire.
 
-This isn't a tiny shop. My property management company in Columbus, Ohio has 720 doors, 35 employees, and about $3.4 million in revenue per year. For a long time I took pride in being the most important person in the building. But if the company can't run without you, you own a job.
+This isn't a tiny shop. My property management company in Columbus, Ohio has 700+ doors, 35 employees, and about $3.4 million in revenue per year. For a long time I took pride in being the most important person in the building. But if the company can't run without you, you own a job.
 
 I'm an engineer, so I rebuilt mine like a machine. When I started, about 40 tasks had my name on them. Today it's four. This course walks through the three systems that got me there, so you can build your own. It's for PM owners who can't take a day off, let alone a month.
 

@@ -14,7 +14,7 @@ Every core process at my property management company runs through LeadSimple: mo
 
 You'll see the AI get a few things wrong, and you'll see me fix them. That's the useful part. By the end, the process emails the resident, routes them based on their answer, gets owner approval, sends the renewal for e-signature, and starts itself automatically 90 days before a lease expires.
 
-This course is a follow-along build. Open LeadSimple in another tab and work through it with me. We manage about 700 doors in Columbus, Ohio, on Buildium, but LeadSimple integrates with the major PM platforms, including AppFolio, Rentvine, and Rent Manager, so it should work much the same for you.
+This course is a follow-along build. Open LeadSimple in another tab and work through it with me. We manage 700+ doors in Columbus, Ohio, on Buildium, but LeadSimple integrates with the major PM platforms, including AppFolio, Rentvine, and Rent Manager, so it should work much the same for you.
 
 ## What you'll learn
 

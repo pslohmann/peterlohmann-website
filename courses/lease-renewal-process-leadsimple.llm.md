@@ -9,7 +9,7 @@
 
 ## Summary
 
-Every core process at my property management company (move-ins, move-outs, new owners, and lease renewals) runs through LeadSimple, a workflow tool that integrates with our property management software. We manage about 700 doors in Columbus, Ohio, on Buildium; LeadSimple also integrates with AppFolio, Rentvine, and Rent Manager. In this live, unscripted build, I create a lease renewal process from scratch using LeadSimple's AI-assisted process builder: I describe the process in plain language, let the AI draft the stages, steps, custom fields, and emails, fix what it gets wrong, add outcome stages for reporting, connect e-signature, test the process, and set autopilot rules that start it automatically about 90 days before each lease expires.
+Every core process at my property management company (move-ins, move-outs, new owners, and lease renewals) runs through LeadSimple, a workflow tool that integrates with our property management software. We manage 700+ doors in Columbus, Ohio, on Buildium; LeadSimple also integrates with AppFolio, Rentvine, and Rent Manager. In this live, unscripted build, I create a lease renewal process from scratch using LeadSimple's AI-assisted process builder: I describe the process in plain language, let the AI draft the stages, steps, custom fields, and emails, fix what it gets wrong, add outcome stages for reporting, connect e-signature, test the process, and set autopilot rules that start it automatically about 90 days before each lease expires.
 
 ## Key terms
 

@@ -8,7 +8,7 @@
 
 ## Summary
 
-I take the entire month of June off every year, with no Slack, no email, no phone calls, and no check-ins from my team. I have done this four years running. My property management company in Columbus, Ohio has 720 doors, 35 employees, and about $3.4 million in revenue per year. Most property management owners cannot step away because the business stops when they leave. My company used to depend on me for three reasons: I was the only person who could see the whole business at once, every task ultimately landed on me, and I was the answer to almost every question. I built one system for each reason: a weekly scorecard, a task map, and a company wiki in Notion. Using the task map, I reduced the tasks with my name as owner from about 40 to four. This course explains how to build each system and how I structure the month away.
+I take the entire month of June off every year, with no Slack, no email, no phone calls, and no check-ins from my team. I have done this four years running. My property management company in Columbus, Ohio has 700+ doors, 35 employees, and about $3.4 million in revenue per year. Most property management owners cannot step away because the business stops when they leave. My company used to depend on me for three reasons: I was the only person who could see the whole business at once, every task ultimately landed on me, and I was the answer to almost every question. I built one system for each reason: a weekly scorecard, a task map, and a company wiki in Notion. Using the task map, I reduced the tasks with my name as owner from about 40 to four. This course explains how to build each system and how I structure the month away.
 
 ## Key terms
 
