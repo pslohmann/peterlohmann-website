@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260">
+<title>Three growth stages</title>
+<desc>Three stages of building a property management company: 0-50 doors set up and sell, 50-100 doors first hire and first systems, 100-250 doors team, EOS, and workflows.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2d78a7"/></marker></defs>
+<rect x="10" y="40" width="216" height="180" rx="8" fill="#ffffff" stroke="#2d78a7" stroke-width="2"/>
+<text x="118.0" y="107.7" text-anchor="middle" font-size="26" font-weight="700" fill="#1f2a36">0-50 doors</text>
+<text x="118.0" y="137.7" text-anchor="middle" font-size="22" fill="#1f2a36">Set up</text>
+<text x="118.0" y="167.7" text-anchor="middle" font-size="22" fill="#1f2a36">and sell</text>
+<rect x="252" y="40" width="216" height="180" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+<text x="360.0" y="107.7" text-anchor="middle" font-size="26" font-weight="700" fill="#1f2a36">50-100 doors</text>
+<text x="360.0" y="137.7" text-anchor="middle" font-size="22" fill="#1f2a36">First hire,</text>
+<text x="360.0" y="167.7" text-anchor="middle" font-size="22" fill="#1f2a36">first systems</text>
+<rect x="494" y="40" width="216" height="180" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+<text x="602.0" y="107.7" text-anchor="middle" font-size="26" font-weight="700" fill="#1f2a36">100-250 doors</text>
+<text x="602.0" y="137.7" text-anchor="middle" font-size="22" fill="#1f2a36">Team, EOS,</text>
+<text x="602.0" y="167.7" text-anchor="middle" font-size="22" fill="#1f2a36">workflows</text>
+<line x1="228" y1="130" x2="250" y2="130" stroke="#2d78a7" stroke-width="2" marker-end="url(#a)"/>
+<line x1="470" y1="130" x2="492" y2="130" stroke="#2d78a7" stroke-width="2" marker-end="url(#a)"/>
+</svg>

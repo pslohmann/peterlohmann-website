@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420">
+<title>Key security layers</title>
+<desc>Keys sit behind three locks (a locked key cabinet, a locked closet door, and a locked office with an alarm system), and the keys themselves are unlabeled with a hidden legend.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2d78a7"/></marker></defs>
+<rect x="10" y="20" width="216" height="215" rx="8" fill="#ffffff" stroke="#2d78a7" stroke-width="2"/>
+<text x="118" y="188" text-anchor="middle" font-size="22" fill="#1f2a36">Locked key</text>
+<text x="118" y="218" text-anchor="middle" font-size="22" fill="#1f2a36">cabinet</text>
+<rect x="70" y="52" width="96" height="92" rx="6" fill="#e8f1f7" stroke="#2d78a7" stroke-width="3"/>
+<circle cx="90" cy="68" r="5" fill="none" stroke="#1f2a36" stroke-width="2"/><line x1="90" y1="73" x2="90" y2="84" stroke="#1f2a36" stroke-width="2"/>
+<circle cx="118" cy="68" r="5" fill="none" stroke="#1f2a36" stroke-width="2"/><line x1="118" y1="73" x2="118" y2="84" stroke="#1f2a36" stroke-width="2"/>
+<circle cx="146" cy="68" r="5" fill="none" stroke="#1f2a36" stroke-width="2"/><line x1="146" y1="73" x2="146" y2="84" stroke="#1f2a36" stroke-width="2"/>
+<circle cx="90" cy="94" r="5" fill="none" stroke="#1f2a36" stroke-width="2"/><line x1="90" y1="99" x2="90" y2="110" stroke="#1f2a36" stroke-width="2"/>
+<circle cx="118" cy="94" r="5" fill="none" stroke="#1f2a36" stroke-width="2"/><line x1="118" y1="99" x2="118" y2="110" stroke="#1f2a36" stroke-width="2"/>
+<circle cx="146" cy="94" r="5" fill="none" stroke="#1f2a36" stroke-width="2"/><line x1="146" y1="99" x2="146" y2="110" stroke="#1f2a36" stroke-width="2"/>
+<circle cx="90" cy="120" r="5" fill="none" stroke="#1f2a36" stroke-width="2"/><line x1="90" y1="125" x2="90" y2="136" stroke="#1f2a36" stroke-width="2"/>
+<circle cx="118" cy="120" r="5" fill="none" stroke="#1f2a36" stroke-width="2"/><line x1="118" y1="125" x2="118" y2="136" stroke="#1f2a36" stroke-width="2"/>
+<circle cx="146" cy="120" r="5" fill="none" stroke="#1f2a36" stroke-width="2"/><line x1="146" y1="125" x2="146" y2="136" stroke="#1f2a36" stroke-width="2"/>
+<path d="M157,136 V129 A7,7 0 0 1 171,129 V136" fill="none" stroke="#2d78a7" stroke-width="3"/><rect x="152" y="135" width="24" height="19" rx="3" fill="#2d78a7"/><circle cx="164" cy="144" r="2.5" fill="#ffffff"/>
+<circle cx="36" cy="46" r="16" fill="#2d78a7"/><text x="36" y="53" text-anchor="middle" font-size="20" font-weight="700" fill="#ffffff">1</text>
+<rect x="252" y="20" width="216" height="215" rx="8" fill="#ffffff" stroke="#2d78a7" stroke-width="2"/>
+<text x="360" y="188" text-anchor="middle" font-size="22" fill="#1f2a36">Locked closet</text>
+<text x="360" y="218" text-anchor="middle" font-size="22" fill="#1f2a36">door</text>
+<rect x="326" y="48" width="68" height="100" rx="4" fill="#e8f1f7" stroke="#2d78a7" stroke-width="3"/>
+<rect x="338" y="58" width="44" height="34" rx="2" fill="none" stroke="#2d78a7" stroke-width="2"/>
+<rect x="338" y="100" width="44" height="38" rx="2" fill="none" stroke="#2d78a7" stroke-width="2"/>
+<circle cx="386" cy="98" r="4" fill="#1f2a36"/>
+<path d="M397,136 V129 A7,7 0 0 1 411,129 V136" fill="none" stroke="#2d78a7" stroke-width="3"/><rect x="392" y="135" width="24" height="19" rx="3" fill="#2d78a7"/><circle cx="404" cy="144" r="2.5" fill="#ffffff"/>
+<circle cx="278" cy="46" r="16" fill="#2d78a7"/><text x="278" y="53" text-anchor="middle" font-size="20" font-weight="700" fill="#ffffff">2</text>
+<rect x="494" y="20" width="216" height="215" rx="8" fill="#ffffff" stroke="#2d78a7" stroke-width="2"/>
+<text x="602" y="188" text-anchor="middle" font-size="22" fill="#1f2a36">Locked office,</text>
+<text x="602" y="218" text-anchor="middle" font-size="22" fill="#1f2a36">alarm system</text>
+<rect x="544" y="64" width="72" height="84" rx="3" fill="#e8f1f7" stroke="#2d78a7" stroke-width="3"/>
+<rect x="554" y="74" width="12" height="12" fill="#ffffff" stroke="#2d78a7" stroke-width="2"/>
+<rect x="574" y="74" width="12" height="12" fill="#ffffff" stroke="#2d78a7" stroke-width="2"/>
+<rect x="594" y="74" width="12" height="12" fill="#ffffff" stroke="#2d78a7" stroke-width="2"/>
+<rect x="554" y="96" width="12" height="12" fill="#ffffff" stroke="#2d78a7" stroke-width="2"/>
+<rect x="574" y="96" width="12" height="12" fill="#ffffff" stroke="#2d78a7" stroke-width="2"/>
+<rect x="594" y="96" width="12" height="12" fill="#ffffff" stroke="#2d78a7" stroke-width="2"/>
+<rect x="571" y="120" width="18" height="28" fill="#ffffff" stroke="#2d78a7" stroke-width="2"/>
+<path d="M642,76 Q642,50 656,50 Q670,50 670,76 L674,81 L638,81 Z" fill="#2d78a7"/><circle cx="656" cy="86" r="4" fill="#2d78a7"/><path d="M680,52 Q688,64 680,76" fill="none" stroke="#2d78a7" stroke-width="3"/><path d="M632,52 Q624,64 632,76" fill="none" stroke="#2d78a7" stroke-width="3"/>
+<path d="M609,136 V129 A7,7 0 0 1 623,129 V136" fill="none" stroke="#2d78a7" stroke-width="3"/><rect x="604" y="135" width="24" height="19" rx="3" fill="#2d78a7"/><circle cx="616" cy="144" r="2.5" fill="#ffffff"/>
+<circle cx="520" cy="46" r="16" fill="#2d78a7"/><text x="520" y="53" text-anchor="middle" font-size="20" font-weight="700" fill="#ffffff">3</text>
+<line x1="228" y1="110" x2="250" y2="110" stroke="#2d78a7" stroke-width="2" marker-end="url(#a)"/>
+<line x1="470" y1="110" x2="492" y2="110" stroke="#2d78a7" stroke-width="2" marker-end="url(#a)"/>
+<line x1="602" y1="239" x2="540" y2="286" stroke="#2d78a7" stroke-width="2" marker-end="url(#a)"/>
+<rect x="130" y="290" width="460" height="120" rx="8" fill="#e8f1f7" stroke="#2d78a7" stroke-width="2"/>
+<circle cx="196" cy="330" r="16" fill="#ffffff" stroke="#2d78a7" stroke-width="3"/><line x1="212" y1="330" x2="266" y2="330" stroke="#2d78a7" stroke-width="4"/><line x1="252" y1="330" x2="252" y2="342" stroke="#2d78a7" stroke-width="4"/><line x1="262" y1="330" x2="262" y2="340" stroke="#2d78a7" stroke-width="4"/><line x1="196" y1="346" x2="196" y2="360" stroke="#6b7785" stroke-width="2"/><rect x="178" y="360" width="36" height="34" rx="4" fill="#ffffff" stroke="#6b7785" stroke-width="2"/><text x="196" y="385" text-anchor="middle" font-size="22" font-weight="700" fill="#6b7785">?</text>
+<text x="430" y="342" text-anchor="middle" font-size="24" fill="#1f2a36">Unlabeled keys,</text>
+<text x="430" y="374" text-anchor="middle" font-size="24" fill="#1f2a36">hidden legend</text>
+</svg>
