@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<style>
+  html,body{margin:0;width:1200px;height:675px;overflow:hidden;}
+  body{background:radial-gradient(900px 560px at 50% 50%, #24465e 0%, #1b3446 55%, #142838 100%);position:relative;font-family:"Helvetica Neue",Arial,sans-serif;}
+  .dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1.2px, transparent 1.3px);background-size:28px 28px;}
+  svg{position:absolute;inset:0;}
+</style></head>
+<body><div class="dots"></div>
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<defs>
+  <radialGradient id="glowO" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#E0703C" stop-opacity=".55"/><stop offset="60%" stop-color="#E0703C" stop-opacity=".13"/><stop offset="100%" stop-color="#E0703C" stop-opacity="0"/></radialGradient>
+  <radialGradient id="glowB" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#2C7CB0" stop-opacity=".5"/><stop offset="100%" stop-color="#2C7CB0" stop-opacity="0"/></radialGradient>
+  <filter id="halo" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="lift" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0b1a26" flood-opacity=".45"/></filter>
+  <filter id="rim" x="-25%" y="-70%" width="150%" height="240%"><feMorphology in="SourceAlpha" operator="dilate" radius="4" result="w"/><feGaussianBlur in="w" stdDeviation="9" result="s"/><feFlood flood-color="#7FB4DD" flood-opacity=".45"/><feComposite in2="s" operator="in" result="h"/><feMerge><feMergeNode in="h"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<circle cx="560" cy="420" r="340" fill="url(#glowB)" opacity=".5"/>
+<rect x="250" y="546" width="92" height="14" rx="12" fill="#2C7CB0" filter="url(#soft)"/>
+<rect x="376" y="370" width="92" height="190" rx="12" fill="#2C7CB0" filter="url(#soft)"/>
+<rect x="502" y="427" width="92" height="133" rx="12" fill="#2C7CB0" filter="url(#soft)"/>
+<rect x="628" y="199" width="92" height="361" rx="12" fill="#E0703C" filter="url(#soft)"/>
+<rect x="754" y="360" width="92" height="200" rx="12" fill="#2C7CB0" filter="url(#soft)"/>
+<rect x="880" y="494" width="92" height="66" rx="12" fill="#2C7CB0" filter="url(#soft)"/>
+<path d="M220 576H1000" stroke="#fff" stroke-opacity=".2" stroke-width="2"/>
+<circle cx="668" cy="120" r="136.4" fill="url(#glowO)"/><circle cx="668" cy="120" r="82" stroke="#E0703C" stroke-opacity=".4" stroke-width="2"/><circle cx="668" cy="120" r="62" fill="#E0703C" filter="url(#soft)"/><g transform="translate(639.0 91.0) scale(2.417)" stroke="#fff" stroke-width="1.90" fill="none"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></g>
+<circle cx="758" cy="64" r="36" fill="#2C7CB0"/><g transform="translate(741.0 47.0) scale(1.417)" stroke="#fff" stroke-width="2.00" fill="none"><path d="M3 10.2 12 3l9 7.2V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></g>
+</svg>
+</body></html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<style>
+  html,body{margin:0;width:1200px;height:675px;overflow:hidden;}
+  body{background:radial-gradient(900px 560px at 50% 50%, #ffffff 0%, #f6f9fc 60%, #eef3f8 100%);position:relative;font-family:"Helvetica Neue",Arial,sans-serif;}
+  .dots{position:absolute;inset:0;background-image:radial-gradient(rgba(31,42,54,.07) 1.2px, transparent 1.3px);background-size:28px 28px;}
+  svg{position:absolute;inset:0;}
+</style></head>
+<body><div class="dots"></div>
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<defs>
+  <radialGradient id="glowO" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#E0703C" stop-opacity=".32"/><stop offset="60%" stop-color="#E0703C" stop-opacity=".08"/><stop offset="100%" stop-color="#E0703C" stop-opacity="0"/></radialGradient>
+  <radialGradient id="glowB" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#2C7CB0" stop-opacity=".25"/><stop offset="100%" stop-color="#2C7CB0" stop-opacity="0"/></radialGradient>
+  <filter id="halo" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="lift" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0b1a26" flood-opacity=".22"/></filter>
+  <filter id="rim" x="-25%" y="-70%" width="150%" height="240%"><feMorphology in="SourceAlpha" operator="dilate" radius="4" result="w"/><feGaussianBlur in="w" stdDeviation="9" result="s"/><feFlood flood-color="#7FB4DD" flood-opacity="0"/><feComposite in2="s" operator="in" result="h"/><feMerge><feMergeNode in="h"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<circle cx="600" cy="200" r="260" fill="url(#glowO)"/>
+<path d="M544 190 A 70 70 0 0 1 656 190" stroke="#E0703C" stroke-opacity="1" stroke-width="16" filter="url(#soft)"/>
+<path d="M496 168 A 130 130 0 0 1 704 168" stroke="#E0703C" stroke-opacity="0.8" stroke-width="16" filter="url(#soft)"/>
+<path d="M448 148 A 190 190 0 0 1 752 148" stroke="#E0703C" stroke-opacity="0.6" stroke-width="16" filter="url(#soft)"/>
+<circle cx="600" cy="226" r="16" fill="#E0703C" filter="url(#soft)"/>
+<g filter="url(#lift)"><rect x="430" y="272" width="340" height="330" rx="18" fill="#24435a"/></g>
+<rect x="466" y="304" width="52" height="42" rx="8" fill="#2C7CB0" fill-opacity="1"/>
+<rect x="538" y="304" width="52" height="42" rx="8" fill="#ffffff" fill-opacity="0.14"/>
+<rect x="610" y="304" width="52" height="42" rx="8" fill="#ffffff" fill-opacity="0.14"/>
+<rect x="682" y="304" width="52" height="42" rx="8" fill="#2C7CB0" fill-opacity="1"/>
+<rect x="466" y="370" width="52" height="42" rx="8" fill="#ffffff" fill-opacity="0.14"/>
+<rect x="538" y="370" width="52" height="42" rx="8" fill="#ffffff" fill-opacity="0.14"/>
+<rect x="610" y="370" width="52" height="42" rx="8" fill="#2C7CB0" fill-opacity="1"/>
+<rect x="682" y="370" width="52" height="42" rx="8" fill="#ffffff" fill-opacity="0.14"/>
+<rect x="466" y="436" width="52" height="42" rx="8" fill="#ffffff" fill-opacity="0.14"/>
+<rect x="538" y="436" width="52" height="42" rx="8" fill="#2C7CB0" fill-opacity="1"/>
+<rect x="610" y="436" width="52" height="42" rx="8" fill="#ffffff" fill-opacity="0.14"/>
+<rect x="682" y="436" width="52" height="42" rx="8" fill="#ffffff" fill-opacity="0.14"/>
+<rect x="466" y="502" width="52" height="42" rx="8" fill="#2C7CB0" fill-opacity="1"/>
+<rect x="682" y="502" width="52" height="42" rx="8" fill="#2C7CB0" fill-opacity="1"/>
+<rect x="548" y="502" width="104" height="100" rx="10" fill="#1b3446"/>
+<path d="M430 470 C 360 470 330 420 290 420" stroke="#5f7a8f" stroke-opacity=".6" stroke-width="2.5" stroke-dasharray="3 9"/>
+<path d="M770 470 C 840 470 870 420 910 420" stroke="#5f7a8f" stroke-opacity=".6" stroke-width="2.5" stroke-dasharray="3 9"/>
+<circle cx="240" cy="420" r="54" fill="#2C7CB0"/><g transform="translate(216.0 396.0) scale(2.000)" stroke="#fff" stroke-width="2.00" fill="none"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></g>
+<circle cx="960" cy="420" r="54" fill="#2C7CB0"/><g transform="translate(935.0 395.0) scale(2.083)" stroke="#fff" stroke-width="2.00" fill="none"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2M16 3.13a4 4 0 0 1 0 7.75M21 21v-2a4 4 0 0 0-3-3.85"/></g>
+</svg>
+</body></html>

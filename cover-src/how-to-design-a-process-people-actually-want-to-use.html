@@ -1,0 +1,39 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<style>
+  html,body{margin:0;width:1200px;height:675px;overflow:hidden;}
+  body{background:radial-gradient(900px 560px at 50% 50%, #ffffff 0%, #f6f9fc 60%, #eef3f8 100%);position:relative;font-family:"Helvetica Neue",Arial,sans-serif;}
+  .dots{position:absolute;inset:0;background-image:radial-gradient(rgba(31,42,54,.07) 1.2px, transparent 1.3px);background-size:28px 28px;}
+  svg{position:absolute;inset:0;}
+</style></head>
+<body><div class="dots"></div>
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<defs>
+  <radialGradient id="glowO" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#E0703C" stop-opacity=".32"/><stop offset="60%" stop-color="#E0703C" stop-opacity=".08"/><stop offset="100%" stop-color="#E0703C" stop-opacity="0"/></radialGradient>
+  <radialGradient id="glowB" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#2C7CB0" stop-opacity=".25"/><stop offset="100%" stop-color="#2C7CB0" stop-opacity="0"/></radialGradient>
+  <filter id="halo" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="lift" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0b1a26" flood-opacity=".22"/></filter>
+  <filter id="rim" x="-25%" y="-70%" width="150%" height="240%"><feMorphology in="SourceAlpha" operator="dilate" radius="4" result="w"/><feGaussianBlur in="w" stdDeviation="9" result="s"/><feFlood flood-color="#7FB4DD" flood-opacity="0"/><feComposite in2="s" operator="in" result="h"/><feMerge><feMergeNode in="h"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<path d="M243 193 S 377 160 330 282 S 134 341 125 310 S 139 168 284 473 S 161 223 367 523 S 347 295 510 149 S 462 250 169 179 S 236 469 184 371 S 372 285 335 156 S 134 215 389 307 S 239 373 296 254 S 436 420 210 368 S 325 493 409 249 C 560 300 590 330 630 338" stroke="#5f7a8f" stroke-opacity=".75" stroke-width="3"/>
+<circle cx="860" cy="338" r="260" fill="url(#glowO)"/>
+<g filter="url(#lift)"><rect x="640" y="110" width="420" height="456" rx="26" fill="#24435a"/></g>
+<rect x="684" y="170" width="56" height="56" rx="14" fill="#E0703C" filter="url(#soft)"/>
+<g transform="translate(695.0 181.0) scale(1.417)" stroke="#fff" stroke-width="2.60" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5"/></g>
+<rect x="768" y="184" width="220" height="11" rx="5.5" fill="#9fb6c6" fill-opacity=".85"/>
+<rect x="768" y="206" width="150" height="8" rx="4" fill="#9fb6c6" fill-opacity=".45"/>
+<rect x="684" y="268" width="56" height="56" rx="14" fill="#E0703C" filter="url(#soft)"/>
+<g transform="translate(695.0 279.0) scale(1.417)" stroke="#fff" stroke-width="2.60" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5"/></g>
+<rect x="768" y="282" width="180" height="11" rx="5.5" fill="#9fb6c6" fill-opacity=".85"/>
+<rect x="768" y="304" width="190" height="8" rx="4" fill="#9fb6c6" fill-opacity=".45"/>
+<rect x="684" y="366" width="56" height="56" rx="14" fill="#E0703C" filter="url(#soft)"/>
+<g transform="translate(695.0 377.0) scale(1.417)" stroke="#fff" stroke-width="2.60" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5"/></g>
+<rect x="768" y="380" width="240" height="11" rx="5.5" fill="#9fb6c6" fill-opacity=".85"/>
+<rect x="768" y="402" width="120" height="8" rx="4" fill="#9fb6c6" fill-opacity=".45"/>
+<rect x="684" y="464" width="56" height="56" rx="14" fill="#E0703C" filter="url(#soft)"/>
+<g transform="translate(695.0 475.0) scale(1.417)" stroke="#fff" stroke-width="2.60" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5"/></g>
+<rect x="768" y="478" width="160" height="11" rx="5.5" fill="#9fb6c6" fill-opacity=".85"/>
+<rect x="768" y="500" width="170" height="8" rx="4" fill="#9fb6c6" fill-opacity=".45"/>
+</svg>
+</body></html>

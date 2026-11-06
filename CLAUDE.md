@@ -260,7 +260,16 @@ functional breaks. These are marked in each page.
   Oct 9 conference calendar LIGHT, Oct 16 NARPM Week DARK, Oct 27 AI timeline DARK, Oct 29 discovery
   call LIGHT, Oct 30 Zillow fee lawsuit DARK, Nov 3 AI data follow-up LIGHT, Nov 6 AppFolio/Buildium
   drawbridge LIGHT, so the NEXT drawn cover is DARK. Check the last drawn cover before making the next.
-  The Sep 8 to Oct 16 five come from one generator (shared icons and glows); its output is in cover-src/.
+  Batch 2 (2026-11-06), Nov 2025 to Sep 2026, alternating by date: Nov 17 newsletter L, Dec 5 owner
+  leads D, Dec 16 role design L, Feb 11 tapeworm vendors D, Feb 16 OpenClaw L, Mar 5 company structure D,
+  Mar 23 FTC letters L, Mar 31 RPU D, Apr 8 ESA lawsuit L, Apr 17 accounting software D, May 5 Google
+  reviews L, May 11 Zillow squeeze D, Jun 22 AI news rule L, Jun 29 iPhone D, Jul 20 email systems L,
+  Aug 7 ACH rules D, Aug 12 process design L, Sep 29 group rate internet L.
+  Left as is on purpose: photos, podcast thumbnails, company logos, report covers, the Nov 11 2025
+  hearing notice, the Jan 11 calculator screenshot; Aug 18/21/25 posts have no header cover at all.
+  GENERATORS: cover-src/cover_kit.py (backgrounds, glows, colors, icons) used by make-five-covers.py
+  and make-batch-2-covers.py (run with slugs as arguments to rebuild only those). Render each HTML with
+  headless Chrome at 1200x675, save as --cover.webp, then make-og-share-images.py + make-blog-thumbs.py.
   For the owner draw and franchise posts, the same image is also saved as --card.webp (their share
   image source).
 - Each cover is an HTML drawing rendered to PNG with headless Chrome at 1200x675, then saved as

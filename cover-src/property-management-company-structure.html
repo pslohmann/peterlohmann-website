@@ -1,0 +1,34 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<style>
+  html,body{margin:0;width:1200px;height:675px;overflow:hidden;}
+  body{background:radial-gradient(900px 560px at 50% 50%, #24465e 0%, #1b3446 55%, #142838 100%);position:relative;font-family:"Helvetica Neue",Arial,sans-serif;}
+  .dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1.2px, transparent 1.3px);background-size:28px 28px;}
+  svg{position:absolute;inset:0;}
+</style></head>
+<body><div class="dots"></div>
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" stroke-linecap="round" stroke-linejoin="round">
+<defs>
+  <radialGradient id="glowO" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#E0703C" stop-opacity=".55"/><stop offset="60%" stop-color="#E0703C" stop-opacity=".13"/><stop offset="100%" stop-color="#E0703C" stop-opacity="0"/></radialGradient>
+  <radialGradient id="glowB" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#2C7CB0" stop-opacity=".5"/><stop offset="100%" stop-color="#2C7CB0" stop-opacity="0"/></radialGradient>
+  <filter id="halo" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="lift" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0b1a26" flood-opacity=".45"/></filter>
+  <filter id="rim" x="-25%" y="-70%" width="150%" height="240%"><feMorphology in="SourceAlpha" operator="dilate" radius="4" result="w"/><feGaussianBlur in="w" stdDeviation="9" result="s"/><feFlood flood-color="#7FB4DD" flood-opacity=".45"/><feComposite in2="s" operator="in" result="h"/><feMerge><feMergeNode in="h"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<circle cx="600" cy="338" r="330" fill="url(#glowB)" opacity=".5"/>
+<g filter="url(#rim)"><rect x="330" y="96" width="258" height="228" rx="24" fill="#2a4a61" stroke="#4c6a80" stroke-width="1.5"/></g>
+<circle cx="459" cy="196" r="52" fill="#2C7CB0"/><g transform="translate(434.0 171.0) scale(2.083)" stroke="#fff" stroke-width="2.00" fill="none"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></g>
+<rect x="399" y="272" width="120" height="10" rx="5" fill="#9fb6c6" fill-opacity=".7"/>
+<g filter="url(#rim)"><rect x="612" y="96" width="258" height="228" rx="24" fill="#2a4a61" stroke="#4c6a80" stroke-width="1.5"/></g>
+<circle cx="741" cy="196" r="52" fill="#2C7CB0"/><g transform="translate(716.0 171.0) scale(2.083)" stroke="#fff" stroke-width="2.00" fill="none"><path d="M3 10.2 12 3l9 7.2V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></g>
+<rect x="681" y="272" width="120" height="10" rx="5" fill="#9fb6c6" fill-opacity=".7"/>
+<g filter="url(#rim)"><rect x="330" y="352" width="258" height="228" rx="24" fill="#2a4a61" stroke="#4c6a80" stroke-width="1.5"/></g>
+<circle cx="459" cy="452" r="52" fill="#2C7CB0"/><g transform="translate(434.0 427.0) scale(2.083)" stroke="#fff" stroke-width="2.00" fill="none"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2M16 3.13a4 4 0 0 1 0 7.75M21 21v-2a4 4 0 0 0-3-3.85"/></g>
+<rect x="399" y="528" width="120" height="10" rx="5" fill="#9fb6c6" fill-opacity=".7"/>
+<g filter="url(#rim)"><rect x="612" y="352" width="258" height="228" rx="24" fill="#2a4a61" stroke="#4c6a80" stroke-width="1.5"/></g>
+<circle cx="741" cy="452" r="52" fill="#2C7CB0"/><g transform="translate(716.0 427.0) scale(2.083)" stroke="#fff" stroke-width="2.00" fill="none"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></g>
+<rect x="681" y="528" width="120" height="10" rx="5" fill="#9fb6c6" fill-opacity=".7"/>
+<circle cx="600" cy="338" r="127.60000000000001" fill="url(#glowO)"/><circle cx="600" cy="338" r="78" stroke="#E0703C" stroke-opacity=".4" stroke-width="2"/><circle cx="600" cy="338" r="58" fill="#E0703C" filter="url(#soft)"/><g transform="translate(572.0 310.0) scale(2.333)" stroke="#fff" stroke-width="1.90" fill="none"><path d="M3 14v-3a9 9 0 0 1 18 0v3"/><path d="M21 16a2 2 0 0 1-2 2h-1v-6h1a2 2 0 0 1 2 2zM3 16a2 2 0 0 0 2 2h1v-6H5a2 2 0 0 0-2 2z"/><path d="M18 18a4 4 0 0 1-4 3h-2"/></g>
+</svg>
+</body></html>
