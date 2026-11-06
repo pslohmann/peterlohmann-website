@@ -247,6 +247,18 @@ functional breaks. These are marked in each page.
   apple-touch-icon.png (iOS), icon-192/512.png via site.webmanifest (Android). Regenerate all
   from `python3 make-icons.py` if the mark ever changes.
 
+## Drawn blog covers: alternate light and dark (Andrew, 2026-11-06)
+- Covers I draw (not podcast thumbnails, not real photos or screenshots) ALTERNATE themes, post to post.
+  Light = the Sep 15 franchise cover look: #F6F9FC ground, white cards with #D3DEE7 outlines, brand blue
+  #2C7CB0 and orange #E0703C. Dark = navy radial ground (#24465e to #142838) with faint white dots.
+  Current run: Zillow fee lawsuit (Oct 30) DARK; discovery call (Oct 29), AI data follow-up (Nov 3) and
+  AppFolio/Buildium drawbridge (Nov 6) LIGHT, so the NEXT drawn cover is DARK. Check the last drawn
+  cover before making the next one.
+- Each cover is an HTML drawing rendered to PNG with headless Chrome at 1200x675, then saved as
+  images/blog/<slug>--cover.webp. Keep the source in cover-src/<slug>.html (logos in cover-src/logos/);
+  cover-src/ is noindexed and blocked in robots.txt. After changing a cover, rerun
+  make-og-share-images.py and make-blog-thumbs.py for that slug.
+
 ## Social share images for blog posts (IMPORTANT for new posts)
 - Every blog post shares with `images/blog/<slug>--og.jpg` (1200x630 JPG), not its WebP cover.
   LinkedIn needs roughly 1.91:1 and handles WebP unreliably, and covers come in every shape.

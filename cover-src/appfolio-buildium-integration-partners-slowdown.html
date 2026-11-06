@@ -1,0 +1,112 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<style>
+  html,body{margin:0;width:1200px;height:675px;overflow:hidden;}
+  body{background:radial-gradient(900px 560px at 50% 50%, #ffffff 0%, #f6f9fc 60%, #eef3f8 100%);}
+  .dots{position:absolute;inset:0;background-image:radial-gradient(rgba(31,42,54,.07) 1.2px, transparent 1.3px);background-size:28px 28px;}
+  svg{position:absolute;inset:0;}
+  .plaque{position:absolute;background:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(31,42,54,.14);border:1px solid #d3dee7;display:flex;align-items:center;justify-content:center;}
+  .plaque img{display:block;}
+</style></head>
+<body><div class="dots"></div>
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#E0703C" stop-opacity=".22"/>
+      <stop offset="60%" stop-color="#E0703C" stop-opacity=".1"/>
+      <stop offset="100%" stop-color="#E0703C" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="stone" width="64" height="40" patternUnits="userSpaceOnUse">
+      <path d="M0 0.5H64M0 20.5H64M32 0V20M0 20V40M64 20V40" stroke="#b7c7d4" stroke-opacity=".9" stroke-width="1.5"/>
+    </pattern>
+    <filter id="edge" x="-10%" y="-20%" width="120%" height="140%">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="1.5" result="thick"/>
+      <feFlood flood-color="#9db3c4" flood-opacity=".9"/>
+      <feComposite in2="thick" operator="in" result="rim"/>
+      <feMorphology in="SourceAlpha" operator="dilate" radius="4" result="wide"/>
+      <feGaussianBlur in="wide" stdDeviation="10" result="soft"/>
+      <feFlood flood-color="#1f2a36" flood-opacity=".12"/>
+      <feComposite in2="soft" operator="in" result="halo"/>
+      <feMerge><feMergeNode in="halo"/><feMergeNode in="rim"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <circle cx="600" cy="400" r="230" fill="url(#glow)"/>
+
+  <g filter="url(#edge)">
+  <!-- curtain wall -->
+  <rect x="340" y="262" width="520" height="242" fill="#e6edf3"/>
+  <rect x="340" y="262" width="520" height="242" fill="url(#stone)"/>
+  <g fill="#e6edf3">
+    <rect x="352" y="236" width="36" height="30" rx="3"/><rect x="414" y="236" width="36" height="30" rx="3"/>
+    <rect x="476" y="236" width="36" height="30" rx="3"/><rect x="688" y="236" width="36" height="30" rx="3"/>
+    <rect x="750" y="236" width="36" height="30" rx="3"/><rect x="812" y="236" width="36" height="30" rx="3"/>
+    <rect x="538" y="236" width="124" height="30" rx="3"/>
+  </g>
+
+  <!-- towers -->
+  <g>
+    <rect x="150" y="160" width="210" height="344" fill="#dbe5ed"/>
+    <rect x="150" y="160" width="210" height="344" fill="url(#stone)"/>
+    <g fill="#dbe5ed">
+      <rect x="150" y="128" width="40" height="36" rx="3"/><rect x="235" y="128" width="40" height="36" rx="3"/><rect x="320" y="128" width="40" height="36" rx="3"/>
+    </g>
+    <rect x="840" y="160" width="210" height="344" fill="#dbe5ed"/>
+    <rect x="840" y="160" width="210" height="344" fill="url(#stone)"/>
+    <g fill="#dbe5ed">
+      <rect x="840" y="128" width="40" height="36" rx="3"/><rect x="925" y="128" width="40" height="36" rx="3"/><rect x="1010" y="128" width="40" height="36" rx="3"/>
+    </g>
+    <!-- arrow slits -->
+    <g fill="#1f2a36"><rect x="249" y="372" width="12" height="44" rx="6"/><rect x="939" y="372" width="12" height="44" rx="6"/></g>
+  </g>
+
+  </g>
+
+  <!-- gate opening and the raised drawbridge -->
+  <path d="M520 504V362a80 80 0 0 1 160 0v142z" fill="#1f2a36"/>
+  <!-- chains from the wall to the top of the raised bridge -->
+  <g stroke="#2C7CB0" stroke-width="3" stroke-dasharray="7 5">
+    <path d="M498 300 L 532 340"/>
+    <path d="M702 300 L 668 340"/>
+  </g>
+  <circle cx="498" cy="300" r="6" fill="#1f2a36" stroke="#2C7CB0" stroke-width="2"/>
+  <circle cx="702" cy="300" r="6" fill="#1f2a36" stroke="#2C7CB0" stroke-width="2"/>
+  <rect x="528" y="336" width="144" height="166" rx="6" fill="#E0703C"/>
+  <g stroke="#b95527" stroke-width="2.5">
+    <path d="M564 340V498M600 340V498M636 340V498"/>
+  </g>
+  <g stroke="#fff" stroke-opacity=".85" stroke-width="5"><path d="M540 370h120M540 468h120"/></g>
+  <rect x="522" y="497" width="156" height="12" rx="6" fill="#1f2a36" stroke="#2C7CB0" stroke-width="2"/>
+
+  <!-- moat -->
+  <rect x="0" y="504" width="1200" height="72" fill="#2C7CB0" fill-opacity=".22"/>
+  <g stroke="#2C7CB0" stroke-opacity=".45" stroke-width="2.5">
+    <path d="M60 530q20-10 40 0t40 0M260 552q20-10 40 0t40 0M430 528q20-10 40 0t40 0M700 548q20-10 40 0t40 0M880 528q20-10 40 0t40 0M1060 552q20-10 40 0t40 0"/>
+  </g>
+  <!-- near bank -->
+  <rect x="0" y="576" width="1200" height="99" fill="#e9eff4"/>
+
+  <!-- vendors waiting outside -->
+  <g>
+    <rect x="232" y="596" width="60" height="60" rx="13" fill="#2C7CB0"/>
+    <g transform="translate(244 608) scale(1.5)" stroke="#fff" stroke-width="2"><path d="M3 10.2 12 3l9 7.2V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></g>
+
+    <rect x="352" y="596" width="60" height="60" rx="13" fill="#ffffff" stroke="#d3dee7" stroke-width="1.5"/>
+    <g transform="translate(364 608) scale(1.5)" stroke="#2C7CB0" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></g>
+
+    <rect x="472" y="596" width="60" height="60" rx="13" fill="#2C7CB0"/>
+    <g transform="translate(484 608) scale(1.5)" stroke="#fff" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></g>
+
+    <rect x="668" y="596" width="60" height="60" rx="13" fill="#ffffff" stroke="#d3dee7" stroke-width="1.5"/>
+    <g transform="translate(680 608) scale(1.5)" stroke="#2C7CB0" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></g>
+
+    <rect x="788" y="596" width="60" height="60" rx="13" fill="#2C7CB0"/>
+    <g transform="translate(800 608) scale(1.5)" stroke="#fff" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></g>
+
+    <rect x="908" y="596" width="60" height="60" rx="13" fill="#ffffff" stroke="#d3dee7" stroke-width="1.5"/>
+    <g transform="translate(920 608) scale(1.5)" stroke="#2C7CB0" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></g>
+  </g>
+</svg>
+<div class="plaque" style="left:166px;top:232px;width:178px;height:72px;"><img src="logos/appfolio.svg" style="width:140px;" alt=""></div>
+<div class="plaque" style="left:856px;top:232px;width:178px;height:72px;"><img src="logos/buildium.svg" style="width:146px;" alt=""></div>
+</body></html>

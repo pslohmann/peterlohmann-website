@@ -1,0 +1,79 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<style>
+  html,body{margin:0;width:1200px;height:675px;overflow:hidden;}
+  body{background:radial-gradient(900px 560px at 50% 50%, #ffffff 0%, #f6f9fc 60%, #eef3f8 100%);}
+  .dots{position:absolute;inset:0;background-image:radial-gradient(rgba(31,42,54,.07) 1.2px, transparent 1.3px);background-size:28px 28px;}
+  svg{position:absolute;inset:0;}
+</style></head>
+<body><div class="dots"></div>
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#E0703C" stop-opacity=".28"/>
+      <stop offset="55%" stop-color="#E0703C" stop-opacity=".13"/>
+      <stop offset="100%" stop-color="#E0703C" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2C7CB0" stop-opacity=".22"/>
+      <stop offset="100%" stop-color="#2C7CB0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- streams: company knowledge flowing into the model -->
+  <g stroke="#a9bccb" stroke-opacity=".9" stroke-width="2.5">
+    <path d="M300 128 C 430 128 470 300 560 330"/>
+    <path d="M300 338 C 420 338 470 338 560 338"/>
+    <path d="M300 548 C 430 548 470 376 560 346"/>
+  </g>
+  <g fill="#7FB4DD">
+    <circle cx="420" cy="196" r="5"/><circle cx="430" cy="338" r="5"/><circle cx="420" cy="480" r="5"/>
+  </g>
+  <!-- payout stream to the right -->
+  <path d="M760 338 C 830 338 860 338 905 338" stroke="#E0703C" stroke-opacity=".75" stroke-width="3" stroke-dasharray="2 12"/>
+
+  <!-- left: SOP document -->
+  <g>
+    <rect x="150" y="70" width="150" height="116" rx="12" fill="#ffffff" stroke="#d3dee7" stroke-width="1.5"/>
+    <rect x="150" y="70" width="5" height="116" rx="2.5" fill="#7FB4DD"/>
+    <rect x="174" y="92" width="96" height="10" rx="5" fill="#9fb6c6" fill-opacity=".9"/>
+    <rect x="174" y="116" width="80" height="7" rx="3.5" fill="#c9d6e0"/>
+    <rect x="174" y="134" width="100" height="7" rx="3.5" fill="#c9d6e0"/>
+    <rect x="174" y="152" width="64" height="7" rx="3.5" fill="#c9d6e0"/>
+  </g>
+  <!-- left: chat thread -->
+  <g>
+    <rect x="150" y="280" width="150" height="116" rx="12" fill="#ffffff" stroke="#d3dee7" stroke-width="1.5"/>
+    <rect x="168" y="300" width="84" height="26" rx="13" fill="#2C7CB0"/>
+    <rect x="198" y="336" width="84" height="26" rx="13" fill="#dbe5ed"/>
+    <rect x="168" y="366" width="60" height="16" rx="8" fill="#2C7CB0" fill-opacity=".7"/>
+  </g>
+  <!-- left: house / properties -->
+  <g>
+    <rect x="150" y="490" width="150" height="116" rx="12" fill="#ffffff" stroke="#d3dee7" stroke-width="1.5"/>
+    <g transform="translate(189 512) scale(3)" stroke="#2C7CB0" stroke-width="1.6"><path d="M3 10.2 12 3l9 7.2V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></g>
+  </g>
+
+  <!-- center: the AI model as a chip -->
+  <circle cx="660" cy="338" r="230" fill="url(#glow)"/>
+  <g stroke="#E0703C" stroke-width="4" stroke-opacity=".8">
+    <path d="M610 230v-26M660 230v-26M710 230v-26"/>
+    <path d="M610 446v26M660 446v26M710 446v26"/>
+    <path d="M552 288h-26M552 338h-26M552 388h-26"/>
+    <path d="M768 288h26M768 338h26M768 388h26"/>
+  </g>
+  <rect x="552" y="230" width="216" height="216" rx="30" fill="#E0703C"/>
+  <rect x="592" y="270" width="136" height="136" rx="16" stroke="#fff" stroke-opacity=".9" stroke-width="5"/>
+  <!-- sparkle in the chip -->
+  <path d="M660 300 C 664 326 672 334 698 338 C 672 342 664 350 660 376 C 656 350 648 342 622 338 C 648 334 656 326 660 300 Z" fill="#fff"/>
+
+  <!-- right: payment, and the clock running -->
+  <circle cx="990" cy="338" r="150" fill="url(#glowB)"/>
+  <circle cx="990" cy="338" r="82" fill="#2C7CB0"/>
+  <circle cx="990" cy="338" r="100" stroke="#2C7CB0" stroke-opacity=".25" stroke-width="2"/>
+  <g transform="translate(950 298) scale(3.33)" stroke="#fff" stroke-width="2"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></g>
+  <!-- hourglass: a short window -->
+  <circle cx="1068" cy="128" r="44" fill="#ffffff" stroke="#d3dee7" stroke-width="1.5" stroke-width="1.5"/>
+  <g transform="translate(1044 104) scale(2)" stroke="#2C7CB0" stroke-width="1.8"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.17a2 2 0 0 0-.59-1.42L12 12l-4.41 4.41A2 2 0 0 0 7 17.83V22"/><path d="M7 2v4.17a2 2 0 0 0 .59 1.42L12 12l4.41-4.41A2 2 0 0 0 17 6.17V2"/></g>
+</svg>
+</body></html>

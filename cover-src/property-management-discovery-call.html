@@ -1,0 +1,91 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<style>
+  html,body{margin:0;width:1200px;height:675px;overflow:hidden;}
+  body{background:radial-gradient(900px 560px at 50% 50%, #ffffff 0%, #f6f9fc 60%, #eef3f8 100%);}
+  .dots{position:absolute;inset:0;background-image:radial-gradient(rgba(31,42,54,.07) 1.2px, transparent 1.3px);background-size:28px 28px;}
+  svg{position:absolute;inset:0;}
+</style></head>
+<body><div class="dots"></div>
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#E0703C" stop-opacity=".3"/>
+      <stop offset="55%" stop-color="#E0703C" stop-opacity=".14"/>
+      <stop offset="100%" stop-color="#E0703C" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- the web: concentric rings around the call -->
+  <g stroke="#7d97ab" stroke-width="1.5">
+    <ellipse cx="600" cy="338" rx="205" ry="150" stroke-opacity=".14"/>
+    <ellipse cx="600" cy="338" rx="350" ry="230" stroke-opacity=".12" stroke-dasharray="4 10"/>
+    <ellipse cx="600" cy="338" rx="500" ry="300" stroke-opacity=".08" stroke-dasharray="4 12"/>
+  </g>
+  <!-- outer strands linking the satellites -->
+  <path d="M250 158 Q 420 92 600 88 Q 780 92 950 158 Q 1050 240 1040 338 Q 1050 436 950 518 Q 780 584 600 588 Q 420 584 250 518 Q 150 436 160 338 Q 150 240 250 158" stroke="#7d97ab" stroke-opacity=".22" stroke-width="2" stroke-dasharray="3 9"/>
+  <!-- spokes out from the call -->
+  <g stroke="#a9bccb" stroke-opacity=".9" stroke-width="2.5">
+    <path d="M600 338 Q 420 280 250 158"/>
+    <path d="M600 338 Q 600 200 600 88"/>
+    <path d="M600 338 Q 780 280 950 158"/>
+    <path d="M600 338 Q 820 330 1040 338"/>
+    <path d="M600 338 Q 780 400 950 518"/>
+    <path d="M600 338 Q 600 480 600 588"/>
+    <path d="M600 338 Q 420 400 250 518"/>
+    <path d="M600 338 Q 380 330 160 338"/>
+  </g>
+  <!-- small joints along the spokes -->
+  <g fill="#7FB4DD">
+    <circle cx="422" cy="264" r="5"/><circle cx="778" cy="264" r="5"/>
+    <circle cx="422" cy="412" r="5"/><circle cx="778" cy="412" r="5"/>
+    <circle cx="380" cy="334" r="5"/><circle cx="820" cy="334" r="5"/>
+  </g>
+
+  <!-- satellite: phone -->
+  <circle cx="250" cy="158" r="50" fill="#2C7CB0"/>
+  <g transform="translate(226 134) scale(2)" stroke="#fff" stroke-width="1.9"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.630-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></g>
+
+  <!-- satellite: house -->
+  <circle cx="950" cy="158" r="50" fill="#2C7CB0"/>
+  <g transform="translate(926 134) scale(2)" stroke="#fff" stroke-width="1.9"><path d="M3 10.2 12 3l9 7.2V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></g>
+
+  <!-- satellite: email -->
+  <circle cx="250" cy="518" r="50" fill="#2C7CB0"/>
+  <g transform="translate(226 494) scale(2)" stroke="#fff" stroke-width="1.9"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></g>
+
+  <!-- satellite: signed -->
+  <circle cx="950" cy="518" r="50" fill="#2C7CB0"/>
+  <path d="M928 519l15 15 29-32" stroke="#fff" stroke-width="5.5"/>
+
+  <!-- note cards -->
+  <g>
+    <rect x="542" y="58" width="116" height="58" rx="9" fill="#ffffff" stroke="#d3dee7" stroke-width="1.5"/>
+    <rect x="542" y="58" width="4" height="58" rx="2" fill="#7FB4DD"/>
+    <rect x="558" y="74" width="74" height="8" rx="4" fill="#9fb6c6" fill-opacity=".9"/>
+    <rect x="558" y="91" width="48" height="7" rx="3.5" fill="#c9d6e0"/>
+
+    <rect x="542" y="560" width="116" height="58" rx="9" fill="#ffffff" stroke="#d3dee7" stroke-width="1.5"/>
+    <rect x="542" y="560" width="4" height="58" rx="2" fill="#7FB4DD"/>
+    <rect x="558" y="576" width="74" height="8" rx="4" fill="#9fb6c6" fill-opacity=".9"/>
+    <rect x="558" y="593" width="48" height="7" rx="3.5" fill="#c9d6e0"/>
+
+    <rect x="102" y="309" width="116" height="58" rx="9" fill="#ffffff" stroke="#d3dee7" stroke-width="1.5"/>
+    <rect x="102" y="309" width="4" height="58" rx="2" fill="#7FB4DD"/>
+    <rect x="118" y="325" width="74" height="8" rx="4" fill="#9fb6c6" fill-opacity=".9"/>
+    <rect x="118" y="342" width="48" height="7" rx="3.5" fill="#c9d6e0"/>
+
+    <rect x="982" y="309" width="116" height="58" rx="9" fill="#ffffff" stroke="#d3dee7" stroke-width="1.5"/>
+    <rect x="982" y="309" width="4" height="58" rx="2" fill="#7FB4DD"/>
+    <rect x="998" y="325" width="74" height="8" rx="4" fill="#9fb6c6" fill-opacity=".9"/>
+    <rect x="998" y="342" width="48" height="7" rx="3.5" fill="#c9d6e0"/>
+  </g>
+
+  <!-- center: the video call, large -->
+  <circle cx="600" cy="338" r="235" fill="url(#glow)"/>
+  <circle cx="600" cy="338" r="158" stroke="#E0703C" stroke-opacity=".26" stroke-width="2"/>
+  <circle cx="600" cy="338" r="134" stroke="#E0703C" stroke-opacity=".42" stroke-width="2"/>
+  <circle cx="600" cy="338" r="112" fill="#E0703C"/>
+  <g transform="translate(542 280) scale(4.85)" stroke="#fff" stroke-width="1.6"><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2"/></g>
+</svg>
+</body></html>

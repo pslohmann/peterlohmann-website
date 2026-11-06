@@ -4,6 +4,7 @@
 User-agent: *
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 
 # Google: rank the Free Courses pages, not their plain-text companions (/courses/<slug>.llm.md),
 # which stay open to the AI crawlers below. A crawler follows only its own group, so this group
@@ -11,55 +12,68 @@ Disallow: /courses-src/
 User-agent: Googlebot
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 Disallow: /courses/*.llm.md$
 
 # AI assistants / answer engines (explicitly allowed so the content can be cited)
 User-agent: GPTBot
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 
 User-agent: OAI-SearchBot
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 
 User-agent: ChatGPT-User
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 
 User-agent: ClaudeBot
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 
 User-agent: Claude-Web
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 
 User-agent: anthropic-ai
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 
 User-agent: PerplexityBot
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 
 User-agent: Google-Extended
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 
 User-agent: Applebot
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 
 User-agent: Applebot-Extended
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 
 User-agent: Bingbot
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 
 User-agent: CCBot
 Allow: /
 Disallow: /courses-src/
+Disallow: /cover-src/
 
 Sitemap: https://www.peterlohmann.com/sitemap.xml
