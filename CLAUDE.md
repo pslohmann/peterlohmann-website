@@ -255,9 +255,14 @@ functional breaks. These are marked in each page.
   thin connector lines darkened to #7d97ab. Do NOT turn the pieces white on a light ground.
   Dark = navy radial ground (#24465e to #142838) with faint white dots; pieces may need a soft light
   edge glow to stand out (the castle did).
-  Current run: Zillow fee lawsuit (Oct 30) DARK; discovery call (Oct 29), AI data follow-up (Nov 3) and
-  AppFolio/Buildium drawbridge (Nov 6) LIGHT, so the NEXT drawn cover is DARK. Check the last drawn
-  cover before making the next one.
+  Current run (redrawn 2026-11-06 in the new style: minimal words, icon-heavy, soft glows):
+  Sep 8 owner draw DARK, Sep 15 franchises LIGHT, Sep 22 API Report Card DARK (the one with words),
+  Oct 9 conference calendar LIGHT, Oct 16 NARPM Week DARK, Oct 27 AI timeline DARK, Oct 29 discovery
+  call LIGHT, Oct 30 Zillow fee lawsuit DARK, Nov 3 AI data follow-up LIGHT, Nov 6 AppFolio/Buildium
+  drawbridge LIGHT, so the NEXT drawn cover is DARK. Check the last drawn cover before making the next.
+  The Sep 8 to Oct 16 five come from one generator (shared icons and glows); its output is in cover-src/.
+  For the owner draw and franchise posts, the same image is also saved as --card.webp (their share
+  image source).
 - Each cover is an HTML drawing rendered to PNG with headless Chrome at 1200x675, then saved as
   images/blog/<slug>--cover.webp. Keep the source in cover-src/<slug>.html (logos in cover-src/logos/);
   cover-src/ is noindexed and blocked in robots.txt. After changing a cover, rerun

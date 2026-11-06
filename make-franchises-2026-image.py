@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 """
+RETIRED 2026-11-06: this post's cover was redrawn in the new cover style. The source is now
+cover-src/<slug>.html. Running this script would overwrite the new cover, so don't.
+
+
 Cover and card image for the 2026 PM franchise post (1200x675, used for both).
 
 The motif comes from the post's first chart: four franchise systems' outlet counts over

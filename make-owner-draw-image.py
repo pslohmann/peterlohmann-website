@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 """
+RETIRED 2026-11-06: this post's cover was redrawn in the new cover style. The source is now
+cover-src/<slug>.html. Running this script would overwrite the new cover, so don't.
+
+
 Featured image for the owner-draw automation post.
 
 The motif comes straight out of the post: a reconciliation table where most rows
