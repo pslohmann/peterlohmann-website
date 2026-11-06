@@ -249,8 +249,12 @@ functional breaks. These are marked in each page.
 
 ## Drawn blog covers: alternate light and dark (Andrew, 2026-11-06)
 - Covers I draw (not podcast thumbnails, not real photos or screenshots) ALTERNATE themes, post to post.
-  Light = the Sep 15 franchise cover look: #F6F9FC ground, white cards with #D3DEE7 outlines, brand blue
-  #2C7CB0 and orange #E0703C. Dark = navy radial ground (#24465e to #142838) with faint white dots.
+  The theme is the BACKGROUND only, and the drawn pieces always contrast with it (Andrew, 2026-11-06):
+  Light = the Sep 15 franchise cover's #F6F9FC ground (white center, faint navy dots) with the SAME dark
+  pieces as a dark cover: navy cards #2a4a61/#24435a, brand blue #2C7CB0, orange #E0703C, white icons;
+  thin connector lines darkened to #7d97ab. Do NOT turn the pieces white on a light ground.
+  Dark = navy radial ground (#24465e to #142838) with faint white dots; pieces may need a soft light
+  edge glow to stand out (the castle did).
   Current run: Zillow fee lawsuit (Oct 30) DARK; discovery call (Oct 29), AI data follow-up (Nov 3) and
   AppFolio/Buildium drawbridge (Nov 6) LIGHT, so the NEXT drawn cover is DARK. Check the last drawn
   cover before making the next one.
