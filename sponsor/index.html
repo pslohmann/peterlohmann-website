@@ -17,7 +17,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="Sponsorship and media opportunities with Peter Lohmann: targeted exposure to over 25,000 property management professionals." />
-<title>Peter Lohmann · Sponsorship &amp; Media Kit 2026</title>
+<title>Peter Lohmann · Sponsorship &amp; Media Kit 2027</title>
 <!-- Favicon: bold uppercase blue "P" (SVG for sharpness, PNG fallback) -->
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
@@ -26,7 +26,7 @@
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="canonical" href="https://www.peterlohmann.com/sponsor/" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Peter Lohmann &middot; Sponsorship &amp; Media Kit 2026" />
+<meta property="og:title" content="Peter Lohmann &middot; Sponsorship &amp; Media Kit 2027" />
 <meta property="og:description" content="Sponsorship and media opportunities with Peter Lohmann: targeted exposure to over 25,000 property management professionals." />
 <meta property="og:url" content="https://www.peterlohmann.com/sponsor/" />
 <meta property="og:image" content="https://www.peterlohmann.com/images/og-default.png?v=2" />
@@ -242,7 +242,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   .band .h-lead + *{ margin-top:34px; }
   .band .h-lead + .sub{ margin-top:12px; }
   .sub + .grid, .sub + .charts, .sub + .stats, .sub + .deal-grid{ margin-top:34px; }
-  /* The 2027 note is a second .sub under the examples heading; it belongs with
+  /* The pricing-year note is a second .sub under the examples heading; it belongs with
      the sentence above it, and the first example group should not sit 58px away. */
   .sub + .sub{ margin-top:6px; }
   .sub + .example-group{ margin-top:26px; }
@@ -469,8 +469,9 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   .eg-head{ margin-bottom:16px; }
   .eg-head h3{ font-size:21px; }
   .eg-price{ color:var(--primary-dark); font-weight:700; }
-  .rise-2027{ margin-top:10px; font-size:12.5px; line-height:1.45; color:var(--orange-dark);
+  .rate-2026{ margin-top:10px; font-size:12.5px; line-height:1.45; color:var(--orange-dark);
               background:#fff3ec; border:1px solid #f6d3c1; border-radius:8px; padding:7px 10px; }
+  .rate-2026 a{ color:inherit; font-weight:700; text-decoration:underline; }
   .eg-soldout{ color:var(--orange-dark); font-weight:600; font-size:0.8em; }
   .eg-meta{ display:block; color:var(--muted); font-size:14px; margin-top:4px; }
   .eg-hint{ display:block; color:var(--muted-2); font-size:13px; font-style:italic; margin-top:2px; }
@@ -604,7 +605,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
       <div class="hero-text">
         <p class="eyebrow reveal">Partner With</p>
         <h1 id="hero-title" class="reveal">Peter Lohmann</h1>
-        <p class="subtitle reveal">Sponsorship &amp; Media Opportunities · 2026</p>
+        <p class="subtitle reveal">Sponsorship &amp; Media Opportunities · 2027</p>
         <p class="tagline reveal">Targeted exposure to over 25,000 property management professionals, every week.</p>
         <div class="cta-row reveal">
           <a class="btn btn-primary" id="heroBook" href="#">Book a Partnership</a>
@@ -793,7 +794,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     <div class="wrap">
       <h2 id="fmt-h" class="h-lead reveal">See the placements in action.</h2>
       <p class="sub reveal">A few real examples of each format. Sample slots are shown below; live examples drop in here.</p>
-      <p class="sub reveal" style="margin-top:6px;color:var(--orange-dark);font-weight:600;">Pricing increases in 2027 for primary newsletter and podcast placements.</p>
+      <p class="sub reveal" style="margin-top:6px;color:var(--orange-dark);font-weight:600;">Showing 2027 pricing. A handful of primary newsletter and podcast slots remain at 2026 rates. <a href="#" class="js-contact" style="color:inherit;text-decoration:underline;">Contact for more information</a>.</p>
 
       <div class="example-group reveal">
         <div class="eg-head">
@@ -901,7 +902,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
   <footer class="site">
     <div class="wrap">
       <p><a id="footSite" href="#" target="_blank" rel="noopener">peterlohmann.com</a> &nbsp;•&nbsp; <a id="footEmail" href="#">aswensen@rlpmg.com</a></p>
-      <p style="margin:0;">Peter Lohmann · Sponsorship &amp; Media · 2026</p>
+      <p style="margin:0;">Peter Lohmann · Sponsorship &amp; Media · 2027</p>
     </div>
   </footer>
 
@@ -949,15 +950,13 @@ const CONFIG = {
 
   // ---- A LA CARTE PRODUCTS (standard/rack pricing) ----
   products: {
-    // `price` is the 2026 rate and is what every calculation uses. `price2027` is
-    // display only: it renders a "rises to X in 2027" line on the card and never
-    // enters a bundle, deal or discount. Omit it where the rate is not changing.
-    primaryNewsletter:   { label: "Primary Newsletter Ad",       price: 3500, price2027: 3750 },
+    // `price` is the 2027 rate and is what every calculation uses. `price2026` is
+    // display only: it renders the orange "2026 rate" box on the card (a handful of
+    // 2026 slots remain) and never enters a bundle, deal or discount. Delete it once
+    // the 2026 slots are gone, and the box disappears.
+    primaryNewsletter:   { label: "Primary Newsletter Ad",       price: 3750, price2026: 3500 },
     secondaryNewsletter: { label: "Secondary Newsletter Ad",     price: 1250 },
-    // seasonBase2027 holds the season programs at the rate they were priced from (1,975),
-    // so raising the podcast card to 2,000 did not move the Presenting Partner or
-    // Half-Season prices. Delete it to let the season programs follow price2027 again.
-    podcastAd:           { label: "Podcast Ad Slot",             price: 1835, price2027: 2000, seasonBase2027: 1975, requiresPodcast: true },
+    podcastAd:           { label: "Podcast Ad Slot",             price: 2000, price2026: 1835, requiresPodcast: true },
     podcastRead:         { label: "Podcast Ad Read by Peter",    price: 250,  requiresPodcast: true },
     // Long-form YouTube videos on Peter's main channel. Introductory (preliminary) pricing
     // while these roll out; the ad read by Peter is included. Not in any bundle or deal yet.
@@ -996,7 +995,8 @@ const CONFIG = {
   // ---- SEASON PROGRAMS (podcast-gated) ----
   seasonPrograms: [
     {
-      id: "presenting", name: "Presenting Partner", price2026: 35000, is2027: true,
+      // 2027 season prices are set directly (they were priced from a 1,975 podcast rate).
+      id: "presenting", name: "Presenting Partner", price: 37700, is2027: true,
       valueNote: "$50,000+ value", requiresPodcast: true,
       blurb: "Full-season sponsorship (25 episodes).",
       features: [
@@ -1009,7 +1009,7 @@ const CONFIG = {
       ],
     },
     {
-      id: "halfseason", name: "Half-Season Sponsorship", price2026: 16500, is2027: true,
+      id: "halfseason", name: "Half-Season Sponsorship", price: 17800, is2027: true,
       valueNote: "$22,000+ value", requiresPodcast: true,
       blurb: "12 episodes.",
       features: [
@@ -1103,17 +1103,7 @@ function computeBundle(bundle){
   return { sum:sum, price:price, savingsPct:savingsPct, hasPending:hasPending, lines:lines };
 }
 
-// Season programs move with the podcast rate rather than carrying their own
-// hardcoded 2027 number, so one edit to podcastAd keeps everything in step.
-function podcastUplift(){
-  const p = CONFIG.products.podcastAd;
-  const base = p.seasonBase2027 || p.price2027;
-  return base ? base / p.price : 1;
-}
-function seasonPrice(s){
-  if (!s.is2027) return s.price;
-  return roundUpTo(s.price2026 * podcastUplift(), 50);
-}
+function seasonPrice(s){ return s.price; }
 
 // Discount % for an urgent deal.
 function dealPct(original, deal){ return Math.round((original - deal) / original * 100); }
@@ -1142,8 +1132,8 @@ function runSelfCheck(){
   // Bundles always include podcast in the price (podcast delivers on return), so the
   // price is independent of the availability flag.
   const m = computeBundle(CONFIG.bundles[0]), d = computeBundle(CONFIG.bundles[1]);
-  check("Momentum bundle price",          m.price, 5195);
-  check("Market Domination bundle price", d.price, 9160);
+  check("Momentum bundle price",          m.price, 5510);
+  check("Market Domination bundle price", d.price, 9715);
   check("Momentum savings %",             m.savingsPct, 24);
   check("Market Domination savings %",    d.savingsPct, 33);
   const allPass = results.every(function(r){ return r.pass; });
@@ -1358,10 +1348,11 @@ function renderAlaCarte(){
 
   const podGated = P.podcastAd.requiresPodcast && !CONFIG.podcast.available;
   const chip = podGated ? '<div style="margin-top:12px;"><span class="chip chip-soldout">Sold out until '+returnDateStr()+'</span></div>' : "";
-  // Display-only 2027 signal. Never enters a calculation; omitted where a rate holds.
+  // Display-only 2026 rate for the handful of 2026 slots left. Never enters a calculation.
   function rise(prod){
-    return prod.price2027
-      ? '<div class="rise-2027">Rises to '+money(prod.price2027)+' in 2027</div>'
+    return prod.price2026
+      ? '<div class="rate-2026">2026 rate: <b>'+money(prod.price2026)+'</b>. A handful of 2026 slots remain. '
+        + '<a href="#" class="js-contact">Contact for more information</a>.</div>'
       : "";
   }
 
@@ -1442,8 +1433,8 @@ function renderBundles(){
       return '<li><span class="q">'+l.qty+'×</span><span class="name">'+l.label+'</span>'+note+'</li>';
     }).join("");
     // This box used to explain the podcast sell-out. It now carries the
-    // 2026-pricing notice and always shows, rather than being conditional.
-    const rejoin = '<div class="rejoin">Reflects 2026 pricing. Rates increase in 2027. Very limited availability remaining for 2026.</div>';
+    // pricing-year notice and always shows, rather than being conditional.
+    const rejoin = '<div class="rejoin">Reflects 2027 pricing.</div>';
     return '<div class="bundle'+orange+'">'
          +   '<div class="b-top"><h3>'+b.name+'</h3><span class="save">'+r.savingsPct+'% savings</span></div>'
          +   '<div class="price">'+money(r.price)+'<small> /mo</small></div>'
