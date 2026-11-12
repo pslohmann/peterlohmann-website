@@ -1,6 +1,6 @@
 """Nov 10, 2026 cover: 2026 property management industry reports (DARK).
-A fan of eight report cards, each with its topic icon, and a glowing orange magnifier
-with a check mark: the eight worth reading. Writes cover-src/<slug>.html."""
+A fan of nine report cards (eight at first; the ProfitCoach report was added Nov 12), each with its topic icon, and a glowing orange magnifier
+with a check mark: the nine worth reading. Writes cover-src/<slug>.html."""
 import math, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from cover_kit import *
@@ -25,9 +25,9 @@ def report_card(icon_name, w=172, h=228):
 
 def cover():
     b = ['<circle cx="600" cy="330" r="360" fill="url(#glowB)" opacity=".5"/>']
-    icons = ["chart", "sparkle", "users", "house", "key", "dollar", "clock", "alert"]
+    icons = ["chart", "sparkle", "users", "house", "key", "dollar", "pin", "clock", "alert"]
     pivot_x, pivot_y, radius = 600, 930, 630
-    angles = [-35 + i * 10 for i in range(8)]
+    angles = [-36 + i * 9 for i in range(9)]
     cards = []
     for name, a in zip(icons, angles):
         r = math.radians(a)
@@ -37,7 +37,7 @@ def cover():
     # left to right, like a hand of cards, so every topic icon (top left) stays visible
     for _, svg in cards:
         b.append(svg)
-    # magnifier: the eight worth reading
+    # magnifier: the nine worth reading
     lx, ly, lr = 690, 478, 78
     b.append(f'<circle cx="{lx}" cy="{ly}" r="190" fill="url(#glowO)"/>')
     b.append(f'<path d="M{lx + 54} {ly + 54} L{lx + 132} {ly + 132}" stroke="#fff" stroke-width="22" filter="url(#soft)"/>')
