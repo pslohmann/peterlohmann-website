@@ -255,6 +255,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <div>
           <p class="sub" style="margin-top:0;">Property managers should be able to get their own data out of the software they pay for, and right now some platforms make that easy and some make it nearly impossible. We&#x27;re grading the APIs of the major PM platforms and point solutions to find out which is which, and we can&#x27;t personally test every product ourselves.</p>
           <p class="sub" style="margin-top:14px;">This takes about 15 to 20 minutes. <strong>You will never be named in the published report</strong>, so there&#x27;s no risk of blowback from a vendor. Click below to get started.</p>
+          <p style="margin-top:14px;font-size:14px;color:var(--muted);">Updated for methodology v1.2: testers now collect the evidence, and PLM does the grading.</p>
           <p style="margin-top:18px;font-size:14px;color:var(--muted);">Inspired by SaaStr&#x27;s <a href="https://saastr.ai/api-report-card" target="_blank" rel="noopener">AI Agent API Report Card</a>.</p>
           <div class="hero-jump" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;">
             <a class="btn btn-primary" href="#what-you-need">Get started &darr;</a>
@@ -305,7 +306,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
                  /files/ and update this href (the version is in the filename on purpose, so
                  testers can tell which rubric they ran). -->
             <a class="btn btn-primary" href="/files/pm-api-report-card-methodology.md" download>Download the .md file</a>
-            <p style="margin:14px 0 0;font-size:13px;color:var(--muted);">Methodology v1.1</p>
+            <p style="margin:14px 0 0;font-size:13px;color:var(--muted);">Methodology v1.2</p>
           </div>
         </div>
       </div>
@@ -326,7 +327,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <div class="card">
           <div class="step-head"><div class="num-badge">2</div><h3>Open Claude Code</h3></div>
           <p>If you don&#x27;t already have it set up, go to <a href="https://claude.com/claude-code" target="_blank" rel="noopener">claude.com/claude-code</a> and follow the install instructions. If you&#x27;re already using Claude Code for anything else, you&#x27;re good to go.</p>
-          <p style="margin-top:10px;"><strong>Important:</strong> set the model to <strong>Opus 4.8 or higher</strong> and the reasoning effort to <strong>Max</strong>. Scores from smaller models or lower effort settings aren&#x27;t comparable, so we can&#x27;t use them.</p>
+          <p style="margin-top:10px;"><strong>Important:</strong> Set the model to <strong>Claude Opus 5.5</strong> and reasoning effort to <strong>High</strong>. Scores from smaller models or lower effort settings aren&#x27;t comparable, so we can&#x27;t use them.</p>
         </div>
 
         <div class="card">
@@ -335,14 +336,26 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           <ol style="margin:0 0 10px;padding-left:20px;color:var(--muted);font-size:15.5px;">
             <li style="margin-bottom:6px;">The <code>.md</code> grading file you downloaded</li>
             <li style="margin-bottom:6px;">A link to (or copy of) the platform&#x27;s API/developer documentation</li>
-            <li>Your live API credentials</li>
+            <li>An API key for the platform&#x27;s account</li>
           </ol>
           <p>Ask it to run the test, and tell it you have access to the live API and will provide the credentials.</p>
 
           <details class="prompt-box">
             <summary>Click to see the prompt we use</summary>
             <div class="pb-body">
-              <p class="prompt-quote">This is a fresh session. I want you to ignore all previous API grader runs and data and treat this as a clean room. Please run this MD file against [PLATFORM] using my actual API credentials, which I will give to you if you don&#x27;t have access already.</p>
+              <div class="prompt-quote">
+                <p>This is a fresh session. Ignore all previous API grader runs and data and treat this as a clean room. Use only the attached methodology-v1.2.md, anything else I attach here, the vendor&#x27;s public materials, and the API; don&#x27;t read other files on this computer. Run the methodology against [PLATFORM] as the tester: do the evidence session only, and stop once the evidence packet is frozen. Don&#x27;t score it. Testing is read-only: make no call that creates, changes, or deletes data. My API credentials: [PASTE KEY]</p>
+                <p>Save the frozen packet as one Markdown file named [PLATFORM]-evidence-packet-[today&#x27;s date as YYYY-MM-DD].md, send it to me in this chat, and tell me where it&#x27;s saved. Don&#x27;t leave any other files behind, and don&#x27;t create a CLAUDE.md or README. The packet must let a grader work without opening any links or calling the API. Include:</p>
+                <ul style="margin:4px 0 7px;padding-left:20px;font-size:13.5px;line-height:1.6;color:var(--muted);">
+                  <li>the packet ID and freeze date</li>
+                  <li>the frozen coverage table</li>
+                  <li>every source with its URL, evidence label, and the saved text of the parts that matter</li>
+                  <li>every standard location checked and what was found</li>
+                  <li>the evidence-amendment log</li>
+                  <li>every live test, with the request sent and the response received</li>
+                </ul>
+                <p>Leave out the API key, any personal or tenant data, and your provisional marks.</p>
+              </div>
               <p>If you&#x27;re testing more than one platform, start a separate session for each and repeat the clean-room line, so an earlier score can&#x27;t colour a later one.</p>
               <p><strong>Two things that noticeably improve accuracy.</strong> A screenshot of the screen where you generate API keys: Claude often can&#x27;t tell what key types exist (read-only versus read-write, or whether you can issue more than one), and that feeds several checks directly. And the API documentation itself if it&#x27;s downloadable, rather than just a link to it.</p>
             </div>
@@ -350,18 +363,8 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         </div>
 
         <div class="card">
-          <div class="step-head"><div class="num-badge">4</div><h3>Let it run, then ask for runs 2 and 3</h3></div>
-          <p>The first pass takes about 15 to 20 minutes. Claude will work through each category and hand you a score with its reasoning.</p>
-          <p style="margin-top:10px;"><strong>You&#x27;re not done there.</strong> The grading file calls for three independent runs, and Claude won&#x27;t start the other two on its own. Once the first score comes back, remind it to complete runs 2 and 3 with a subagent, per the instructions.</p>
-
-          <details class="prompt-box">
-            <summary>Click to see the prompt for runs 2 and 3</summary>
-            <div class="pb-body">
-              <p class="prompt-quote">Now do runs 2 and 3 with a subagent (independent grader) per the instructions.</p>
-              <p>Stay in the <strong>same chat window</strong>, and don&#x27;t change the model or effort settings partway through. This step does not hit your API again: it re-grades the evidence already collected, then resolves any disagreements between the runs instead of averaging them. That&#x27;s what catches a bad assumption in a single run, and it&#x27;s why we ask for it.</p>
-              <p>If it doesn&#x27;t hand you a new file at the end, ask for one: <em>&#x22;I&#x27;m ready for the final report card MD file.&#x22;</em></p>
-            </div>
-          </details>
+          <div class="step-head"><div class="num-badge">4</div><h3>Let it run</h3></div>
+          <p>The session reads the platform&#x27;s docs, runs a few read-only tests, and saves one evidence packet file. It won&#x27;t ask you anything, and it won&#x27;t give you a score: PLM grades every packet three separate times.</p>
 
           <p style="margin-top:14px;">Skim the final output. If something looks off, or the documentation was incomplete, tell us. We&#x27;d rather know than publish a false score.</p>
         </div>
@@ -379,7 +382,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <ul class="feat" style="margin-top:0;">
           <li>Your name and email <em>(so we can follow up if we have a question or need a re-run; never published)</em></li>
           <li>Platform name</li>
-          <li>The completed grading output, as the <code>.md</code> file</li>
+          <li>The evidence packet (<code>.md</code> file)</li>
         </ul>
         <div class="anon-note">
           <p><strong>You will never be named in the published report.</strong> We identify the platform being graded, never the operator who graded it. No vendor will know the score came from you.</p>
