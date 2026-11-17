@@ -1,0 +1,460 @@
+{
+  "name": "Column",
+  "slug": "column",
+  "report_file": "/Users/andrewswensen/Documents/Claude/Projects/API Grader Runs/Column-2026-11-17/2-grading/Column-API-Report-Card-2026-11-17.md",
+  "score": 95,
+  "grade": "A",
+  "pre_mcp": {
+    "score": 95,
+    "grade": "A"
+  },
+  "meta": {
+    "run": "Nov 17, 2026",
+    "method": "1.2",
+    "model": "Claude Opus 5.5 (high effort)",
+    "tier": "Baseline verified",
+    "packet": "COLUMN-EP-2026-11-17-F1",
+    "product_type": "Banking/payments"
+  },
+  "gate1": {
+    "allows": "A",
+    "c5_1": "yes",
+    "c5_2": "yes",
+    "read": "You can sign up, get sandbox keys, and start building today without a sales call. Going live requires the bank's normal identity and business checks (KYC/KYB). Column publishes no price list, so ask about account and payment fees."
+  },
+  "gate2": {
+    "allows": "A",
+    "coverage_pct": 95.0,
+    "earned": 38.0,
+    "weight": 40,
+    "write_pct": 100.0,
+    "c1_4": "yes",
+    "critical_zero": false,
+    "read": "Through the API you can open accounts, give each property or owner its own account number, see balances and every transaction, and send, cancel, return, or reverse payments on every major rail. You can also pull statements and settlement reports and get signed alerts when payments settle or fail. The published documentation shows no way to freeze an account yourself, or to close one except by deleting it at a $0 balance. It also shows no way to edit a saved payee."
+  },
+  "letter": "A",
+  "binding_gate": "none",
+  "placement": {
+    "c2": [
+      8.0,
+      12
+    ],
+    "c3": [
+      5.0,
+      6
+    ],
+    "c4": [
+      3.5,
+      4
+    ],
+    "share_pct": 75.0,
+    "math": "90 + round(6 x 0.75) = 90 + round(4.5) = 95"
+  },
+  "mcp": {
+    "has": false,
+    "note": "No official MCP server turned up in the MCP Registry, on either Column domain, on GitHub or npm, or in the docs, so the one-step MCP bump did not apply."
+  },
+  "reads": {
+    "c2": "The API is modern and predictable. Payments can be retried without sending money twice, webhooks are signed and retried, paging and exports work as documented, and the status page is public. The published documentation shows no protection against two tools overwriting each other's edits, and no version pinning or promised notice before API changes. Rate-limit headers are not exposed, and a missing record comes back as a 400 error instead of the documented 404.",
+    "c3": "You can give each tool or AI agent its own narrowly limited key, for example read-only, or ACH credits from the trust account only. You can require approvals, build in a free sandbox, and shut off a key yourself. The published documentation shows no sign-in-and-approve (OAuth) option, so connecting an outside app means handing it a key.",
+    "c4": "A developer or an AI coding tool such as Claude or ChatGPT can learn the whole API from public files without logging in. The weak spot is change tracking. The changelog covers the product rather than the API, and it lags behind the reference."
+  },
+  "checklist": [
+    {
+      "item": "Accounts",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Open, list, read, update, and delete bank accounts through the API. Confirmed with a live sandbox read."
+    },
+    {
+      "item": "Balances",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Available, pending, locked, and holding balances in whole cents, plus balance history. Read-only, as a computed balance should be."
+    },
+    {
+      "item": "Transactions",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Transfer lists for every payment rail, plus an activity feed with a running balance. Confirmed with live sandbox reads."
+    },
+    {
+      "item": "Payment initiation",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Send money by ACH, wire, instant (realtime), book transfer, check, and international wire."
+    },
+    {
+      "item": "Statements",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Monthly bank statements are available through the reporting API."
+    },
+    {
+      "item": "Reconciliation data",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Settlement reports by transaction and by account summary (CSV, JSON, or Parquet), plus activity lines with a running balance."
+    },
+    {
+      "item": "Settlement webhooks",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Signed alerts when ACH settles, wires and instant payments complete, checks settle, and reports finish."
+    },
+    {
+      "item": "Sub-accounts or virtual account numbers per property or owner",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Create many account numbers on one account, so each property or owner can have its own. FBO and custom account types are supported."
+    },
+    {
+      "item": "Incoming payment remittance detail",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Incoming ACH carries addenda detail (CTX), wires carry four originator-to-beneficiary lines, and international wires carry remittance info."
+    },
+    {
+      "item": "Counterparty metadata",
+      "kind": "object",
+      "class": "optional",
+      "weight": 1,
+      "state": "present",
+      "score": 1.0,
+      "note": "Saved payees (counterparties) can be created, listed, read, and deleted. The missing edit is scored in the last row."
+    },
+    {
+      "item": "Read balances and transactions",
+      "kind": "workflow",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Works, and was confirmed with live sandbox reads."
+    },
+    {
+      "item": "Initiate a payment",
+      "kind": "workflow",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Works on every rail, with an idempotency key so a retry does not send money twice."
+    },
+    {
+      "item": "Reconcile settlement",
+      "kind": "workflow",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Settlement reports, settled dates, settled events, and running balances. Needs a one-time time-zone setting in the dashboard."
+    },
+    {
+      "item": "Cancel a pending payment",
+      "kind": "lifecycle",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Cancel pending ACH, held wires, and instant, book, and international wire payments, and stop payment on checks."
+    },
+    {
+      "item": "Initiate a return or reversal",
+      "kind": "lifecycle",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Reverse or return ACH, request wire returns, return instant payments, and return checks and international wires."
+    },
+    {
+      "item": "Freeze or close an account",
+      "kind": "lifecycle",
+      "class": "important",
+      "weight": 2,
+      "state": "partial",
+      "score": 0.5,
+      "note": "Close only by deleting the account at a $0 balance, after which it reads as not found. Only Column's team can freeze an account."
+    },
+    {
+      "item": "Update counterparty details",
+      "kind": "lifecycle",
+      "class": "optional",
+      "weight": 1,
+      "state": "absent",
+      "score": 0.0,
+      "note": "The published documentation shows no way to edit a saved payee. You delete it and create it again."
+    }
+  ],
+  "checks": [
+    {
+      "id": "C1.1",
+      "group": 1,
+      "title": "Object coverage",
+      "mark": "100.0%",
+      "why": "All 10 checklist objects are present (23 of 23 weight), backed by the OpenAPI spec and live sandbox reads."
+    },
+    {
+      "id": "C1.2",
+      "group": 1,
+      "title": "Write coverage",
+      "mark": "100.0%",
+      "why": "Both write workflows, initiating a payment and reconciling settlement, are fully documented (6 of 6 weight). The read-only workflow is left out of this measure."
+    },
+    {
+      "id": "C1.3",
+      "group": 1,
+      "title": "Lifecycle coverage",
+      "mark": "75.0%",
+      "why": "Cancel and return or reverse are fully present, freeze or close is partial, and editing a saved payee is absent (6 of 8 weight)."
+    },
+    {
+      "id": "C1.4",
+      "group": 1,
+      "title": "Change notification",
+      "mark": "yes",
+      "why": "Signed webhooks cover payment states on every rail, statement and report completion, and frozen or overdrafted accounts, estimated at 87-91% of key changes (the bar is 85%). The published documentation shows no account opened or closed event and no account-number event."
+    },
+    {
+      "id": "C2.1",
+      "group": 2,
+      "title": "Modern API conventions",
+      "mark": "yes",
+      "why": "Resource-oriented REST with standard verbs and JSON, defined in an OpenAPI spec and confirmed in live testing. Actions such as cancel use POST, an accepted convention."
+    },
+    {
+      "id": "C2.2",
+      "group": 2,
+      "title": "Consistent typing",
+      "mark": "partial",
+      "why": "Money is whole cents in 49 of 50 amount fields and on every live response, and IDs and booleans keep one type. A few fields slip: one amount typed as a string, an error code typed wrong in the spec, and status casing that varies by endpoint."
+    },
+    {
+      "id": "C2.3",
+      "group": 2,
+      "title": "Structured errors",
+      "mark": "partial",
+      "why": "Errors carry a documented body with a stable string code, a message, and a docs link. But live, a missing record returned 400 instead of the documented 404, and a wrong key returned 401 with an empty body."
+    },
+    {
+      "id": "C2.4",
+      "group": 2,
+      "title": "Duplicate prevention",
+      "mark": "yes",
+      "why": "An <code>Idempotency-Key</code> header protects every money-moving create (ACH, book, wire, realtime, check, international wire, and reversals) plus account creation."
+    },
+    {
+      "id": "C2.5",
+      "group": 2,
+      "title": "Graceful handling under load",
+      "mark": "partial",
+      "why": "The docs give clear retry guidance for rate limits (start at 1 second, double each time, wait at most 30 seconds, stop after 5 retries). But no rate-limit or <code>Retry-After</code> header appeared on any of 32 live responses, which caps this at partial."
+    },
+    {
+      "id": "C2.6",
+      "group": 2,
+      "title": "Pagination for large collections",
+      "mark": "yes",
+      "why": "Documented cursor paging with a has-more flag and a 100-record limit. Live, all 13 sandbox transfers came back across 3 pages with no duplicates or gaps."
+    },
+    {
+      "id": "C2.7",
+      "group": 2,
+      "title": "Bulk or incremental export",
+      "mark": "yes",
+      "why": "Background settlement-report jobs export every balance-affecting transaction as CSV, JSON, or Parquet (up to 93 days per job), and created-since filters and an events feed support incremental sync. There is no updated-since filter."
+    },
+    {
+      "id": "C2.8",
+      "group": 2,
+      "title": "Webhook security and delivery reliability",
+      "mark": "yes",
+      "why": "Webhooks are signed with HMAC-SHA256 and retried up to 25 times over 3 days. Event IDs stay the same on redelivery, and an events API recovers missed events."
+    },
+    {
+      "id": "C2.9",
+      "group": 2,
+      "title": "Concurrency and conflict control",
+      "mark": "no",
+      "why": "Several records can be edited, but the published documentation shows no ETag, version field, or other way to reject a stale write."
+    },
+    {
+      "id": "C2.10",
+      "group": 2,
+      "title": "Versioning and backward compatibility",
+      "mark": "no",
+      "why": "The published documentation shows no version identifier in the path or headers and no breaking-change or deprecation policy. The API terms allow changes with notice by any reasonable means and no minimum period."
+    },
+    {
+      "id": "C2.11",
+      "group": 2,
+      "title": "Request traceability",
+      "mark": "partial",
+      "why": "A unique <code>request-id</code> header appeared on all 32 live responses, including errors. It is not documented anywhere."
+    },
+    {
+      "id": "C2.12",
+      "group": 2,
+      "title": "Service availability and status transparency",
+      "mark": "yes",
+      "why": "status.column.com shows each component (Sandbox, Production, FedWire, and FedACH), 90-day uptime of 100%, and incident history with RSS and Atom feeds."
+    },
+    {
+      "id": "C3.1",
+      "group": 3,
+      "title": "Read-only credentials",
+      "mark": "yes",
+      "why": "Keys can be issued with a View Only permission."
+    },
+    {
+      "id": "C3.2",
+      "group": 3,
+      "title": "Scoped credentials",
+      "mark": "yes",
+      "why": "Custom keys can be limited by transfer type and by resource, with overrides per entity or account and per-key approval rules."
+    },
+    {
+      "id": "C3.3",
+      "group": 3,
+      "title": "Multiple keys",
+      "mark": "yes",
+      "why": "The docs recommend one key per workload, so each application gets its own key."
+    },
+    {
+      "id": "C3.4",
+      "group": 3,
+      "title": "Rotation and revocation",
+      "mark": "yes",
+      "why": "Keys are rotated self-serve in the dashboard (issue a replacement, cut over, delete the old one), and a compromised key can be revoked immediately."
+    },
+    {
+      "id": "C3.5",
+      "group": 3,
+      "title": "Test environment and isolation",
+      "mark": "yes",
+      "why": "A free, self-serve sandbox mirrors production, with separate <code>test_</code> keys, isolated data, and simulation routes. The live tests ran on a sandbox key."
+    },
+    {
+      "id": "C3.6",
+      "group": 3,
+      "title": "Delegated access",
+      "mark": "no",
+      "why": "Only static API keys are documented. The published documentation shows no OAuth or other delegated sign-in flow, and there is no MCP server."
+    },
+    {
+      "id": "C4.1",
+      "group": 4,
+      "title": "Complete self-serve reference",
+      "mark": "yes",
+      "why": "A public reference gives every endpoint its method, path, parameters, a curl request, and a JSON response, plus guides on authentication, errors, paging, idempotency, and webhooks. Minor gaps: response headers and the batch and NACHA upload endpoints are undocumented."
+    },
+    {
+      "id": "C4.2",
+      "group": 4,
+      "title": "Reliable machine-consumable integration path",
+      "mark": "yes",
+      "why": "A public OpenAPI spec (JSON and YAML, 254 operations) that the docs recommend for generating SDKs and importing into Postman. It has minor defects, and there is no official general SDK or MCP server."
+    },
+    {
+      "id": "C4.3",
+      "group": 4,
+      "title": "AI-readable documentation",
+      "mark": "yes",
+      "why": "An llms.txt index, a 2.18 MB llms-full.txt corpus covering every endpoint, and every docs page available as Markdown."
+    },
+    {
+      "id": "C4.4",
+      "group": 4,
+      "title": "Kept current",
+      "mark": "partial",
+      "why": "A dated product changelog runs through Sep 16, 2026, with older deprecation notices. There are no API-specific release notes, and batch and NACHA upload features announced Jul 30, 2026 are still missing from the public spec."
+    },
+    {
+      "id": "C5.1",
+      "group": 5,
+      "title": "Self-serve API key",
+      "mark": "yes",
+      "why": "Self-serve signup, with keys created in the dashboard and no sales call or ticket. Going live requires KYC/KYB, a legal step that does not count against this check."
+    },
+    {
+      "id": "C5.2",
+      "group": 5,
+      "title": "Not commercially gated",
+      "mark": "yes",
+      "why": "First-party materials show no plan tiers, API fees, or paid add-ons, and the sandbox is free. Column publishes no pricing at all, so commercial terms go through Contact sales."
+    }
+  ],
+  "runs": {
+    "scores": [
+      95,
+      95,
+      95
+    ],
+    "agreement": "28 of 28 checks unanimous; 16 of 17 checklist items unanimous",
+    "disagreements": [
+      {
+        "what": "Checklist item 16, freeze or close an account",
+        "runs": "1.0 / 0.5 / 0.5",
+        "resolved": "0.5",
+        "why": "Run 1 counted deleting a $0 account as closing it. The evidence supports only half credit: the delete is a hard delete, no operation lets you set a closed or frozen status, and only Column's team can freeze an account.",
+        "score_effect": "none"
+      }
+    ],
+    "summary": "All three runs scored 95 (A) and gave every check the same mark. Run 1's reading of item 16 would raise C1.3 to 87.5% and capability coverage to 97.5%, but the gates, placement, and score would not change."
+  },
+  "sensitivity": "No run made this call, but reading Column's lack of any published pricing as partial on C5.2 would cap gate 1 at B and give 87 (B+).",
+  "strengths": [
+    "An actual bank (Column N.A., Member FDIC), not software on another bank",
+    "Separate account numbers for each property or owner, created through the API",
+    "Send money by ACH, wire, instant, book, check, and international wire",
+    "Cancel, return, or reverse payments on every major rail",
+    "Idempotency keys stop a retried payment from sending money twice",
+    "Signed webhooks, retried up to 25 times over 3 days",
+    "Statements and settlement reports in CSV, JSON, or Parquet for reconciliation",
+    "Read-only and narrowly scoped keys, with per-key approval rules",
+    "Free self-serve sandbox with separate test keys and isolated data",
+    "Public OpenAPI spec and llms-full.txt let AI tools learn the whole API"
+  ],
+  "watch": [
+    "No property-management trust-accounting endpoints, so your PMS still keeps the ledgers",
+    "The published documentation shows no protection against tools overwriting each other's edits",
+    "The published documentation shows no version pinning or deprecation policy",
+    "The published documentation shows no OAuth sign-in or official MCP server",
+    "Only Column's team can freeze an account; closing means deleting at $0",
+    "The published documentation shows no way to edit a saved payee",
+    "Rate-limit headers are not exposed, so you cannot see a limit coming",
+    "A missing record returns a 400 error instead of the documented 404",
+    "No published price list, so ask about account and payment fees",
+    "The changelog is product-level and lags the API reference"
+  ],
+  "bottom": "Column is a real, nationally chartered bank (Column N.A., Member FDIC), so your money is held at Column itself rather than at a software company sitting on top of another bank. For an operator who wants to build, its API ranks among the most complete banking APIs available. Through it you can open accounts and per-property or per-owner account numbers, move money on every major U.S. payment rail, cancel or reverse payments, and pull statement and settlement data, all with tightly limited self-serve keys and a free sandbox. Retried payments do not double-send, webhooks are signed and retried, and an AI tool can read the full documentation in one file. The gaps come from what the published documentation leaves out, not from failures seen in testing: it shows no version or deprecation contract, no protection against two tools overwriting each other's edits, no OAuth sign-in for outside apps, and no official MCP server. Column markets property-management trust accounts and an AppFolio integration, but the API itself is general-purpose banking, so you still need a PMS or trust-accounting system for tenant and owner ledgers.",
+  "provider_fit": "Column is a nationally chartered bank that gives developers API access to FDIC-insured accounts and payment rails, with a dedicated property-management page and an AppFolio integration. You still need a PMS or trust-accounting system for tenant and owner ledgers, and going live requires KYC/KYB checks."
+}

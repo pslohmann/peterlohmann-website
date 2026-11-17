@@ -104,12 +104,13 @@ DELICATE AREA: make no edits to the grader pages, scores, copy or the methodolog
   sitemap; not-yet-graded platforms carry noindex (thin placeholders) until their report lands.
 - `api-grader/reports/*.md` .. the published (redacted) reports each page offers for download.
 - `api-grader/report.css` .... grader-only styles. `/files/methodology-v1.2.md` = the grading file, kept under the EXACT
-  filename Andrew uploads (2026-11-17). New version = new file + site-wide find-and-replace of the filename
+  filename Andrew uploads (2026-11-17); `/files/methodology-v1.1.md` = the old file, linked only from pages still
+  showing a v1.1 grade. New version = new file + site-wide find-and-replace of the filename
   (guide, /api-grader/, build-api-grader.py, faq.html, llms.txt).
 - `images/api-grader/og-*.png` 1200x630 share cards (one per graded platform + og-api-grader.png), generated.
 - `data/api-grader-checks.json` per-check detail extracted from the published reports.
 - Local, gitignored: `grader-reports/reports/` (raw archived reports) and `grader-reports/runs/`.
-TO PUBLISH A NEW OR UPDATED REPORT CARD:
+TO PUBLISH A NEW OR UPDATED v1.1 REPORT CARD (old method; for v1.2 see below):
   1. archive the report as grader-reports/reports/<slug>-<date>.md and point SOURCES at it in
      publish-api-grader-reports.py (plus any REDACT / CORRECTIONS entries)
   2. `python3 publish-api-grader-reports.py && python3 extract-api-grader-checks.py`
@@ -121,6 +122,43 @@ REGRADE PILLS (2026-11-17): every graded platform on /api-grader/ shows a pill u
 regrade_pill() in build-api-grader.py from that platform's RESULTS meta "method": below 1.2 = orange
 "Regrading in progress", 1.2 or later = green "Regraded". Publishing a v1.2 regrade (meta method "1.2")
 flips it automatically on the next build.
+METHODOLOGY v1.2 PLATFORMS (2026-11-17):
+- One JSON per regraded platform in `data/api-grader-v12/<slug>.json`; format and house rules in
+  `data/api-grader-v12/SCHEMA.md`. If the file exists, the platform is shown from it (table row, page, share
+  card, SEO, JSON-LD); its old v1.1 RESULTS entry stays in build-api-grader.py as history only (SHOWN =
+  RESULTS with the v1.2 files laid over it). meta "method": "1.2" turns its pill green ("Regraded").
+- TO PUBLISH THE NEXT REGRADED PLATFORM: drop its JSON into data/api-grader-v12/ (its "report_file" points at
+  the final report card in ~/Documents/Claude/Projects/API Grader Runs/...), run `python3 build-api-grader.py`,
+  then `python3 build-sitemap.py && python3 qa-check.py`, commit + push. The build copies the report VERBATIM
+  to api-grader/reports/<slug>.md (publish_v12_reports() in publish-api-grader-reports.py; only the REDACT
+  identifier list is applied, and the 4 current reports had no hits), replacing the old v1.1 report.
+  publish-api-grader-reports.py skips SOURCES entries for v1.2 platforms; extract-api-grader-checks.py skips
+  them too and keeps their old v1.1 entry in data/api-grader-checks.json.
+- v1.2 CHECK_MATH (check_math_v12; the build refuses on any mismatch): 28 checks C1.1..C5.2 in order; gate 1
+  from C5.1/C5.2 (both yes A, any no C, else B); gate 2 recomputed from the checklist (weights 3/2/1,
+  coverage = score x weight / weight; 85%+ with C1.2 >= 70% and C1.4 yes/partial = A, 60% B, 35% C, else D;
+  a critical item at 0 caps at B); letter = lower gate, binding gate checked; placement earned/applicable
+  recomputed from the group 2-4 marks (partial = 0.5, na/unverified left out); score = A 90 + round(6 x
+  share), B/C/D base + round(9 x share), exact halves up; then the MCP step (one band up, to the bottom of the
+  next band) when mcp.has; published score and grade must match.
+- TABLE COLUMNS (every row, "What gets graded" order): Gates (coverage + cost) | Design & Reliability |
+  Access Control | Docs & AI-Ready | Official MCP | Preliminary Score | Preliminary Grade. v1.2 rows: "Letter X"
+  with access + coverage lines, "n / m checks", "+1 step"/"No". v1.1 rows: Coverage and Access & Cost points
+  stacked in col 1, "n / m pts", "Not scored in v1.1". Built by table_cells() / card_rows(); cell styles in
+  report.css. Column widths still come from the index's inline <style>.
+- v1.2 PAGE (build_v12_page, template SUB_PAGE_V12 = SUB_PAGE's head/foot + V12_MAIN): hero (pill, slab,
+  meta incl. product type), "How X got its grade" (its own gate boxes, letter, score bar with its pin and a
+  "before MCP" pin, placement math, MCP result) + the "See the grading ladder" panel copied from the index,
+  closed, with its rows/band/grade highlighted; bottom line + what works/what to watch; the five "What gets
+  graded" items (open details, numbered circles, tags, result, read, checks); the coverage checklist (table,
+  cards on phones); three runs + disagreements + sensitivity; downloads + a v1.2 method note; fix note.
+  C1.1-C1.3 percentages are normalized at render time (mark_pct: "87.0%" -> 87%, "81.8%" stays).
+  The index's acc/ladder/pill CSS is COPIED into report.css for these pages (index keeps its inline copy).
+- METHODOLOGY LINKS FOLLOW THE GRADE (Andrew, 2026-11-17): pages still on v1.1 link /files/methodology-v1.1.md
+  (restored verbatim) and carry a v1.1 note near the top (v1.1 points are not comparable to v1.2 checks, regrade
+  in progress, links to /api-grader/#what-gets-graded and the new v1.2 file); v1.2 pages, pending pages and
+  /api-grader/ itself link /files/methodology-v1.2.md. Driven by methodology_file() from meta "method".
+- report.css is loaded as ?v=11 (bumped 2026-11-17); bump it in build-api-grader.py and index.html together.
 
 ## AI & Property Management: A Comprehensive Timeline (blog post), built 2026-10-22, public 2026-10-27
 URL: https://www.peterlohmann.com/blog/ai-property-management-timeline/  PUBLIC since 2026-10-27 (HIDDEN = False;

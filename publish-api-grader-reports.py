@@ -13,12 +13,13 @@ Run after a new report lands:
 
     python3 publish-api-grader-reports.py
 """
-import re
+import json, re
 from pathlib import Path
 
 HERE = Path(__file__).parent
 SRC = HERE / "grader-reports" / "reports"     # local archive, gitignored
 DST = HERE / "api-grader" / "reports"         # published, served at /api-grader/reports/
+V12_DIR = HERE / "data" / "api-grader-v12"    # one JSON per platform regraded under v1.2
 
 # vendor slug -> the report file behind the PUBLISHED score. Kept in step with
 # SOURCES in extract-api-grader-checks.py; a superseded run must never be offered here.
@@ -187,12 +188,59 @@ CORRECTIONS = {
 }
 
 
+# ---------------------------------------------------------------------------
+# METHODOLOGY v1.2 REPORTS (added 2026-11-17)
+#
+# A platform regraded under v1.2 has a JSON file in data/api-grader-v12/ whose
+# "report_file" points at its final report card. That report is published
+# VERBATIM as api-grader/reports/<slug>.md, replacing the old v1.1 report, and
+# the SOURCES entry above is skipped for it. The only thing applied on the way
+# is the REDACT list (live account identifiers), and every hit is printed; the
+# current v1.2 reports have none. build-api-grader.py calls this too, so a plain
+# build is enough to publish the next regraded platform.
+# ---------------------------------------------------------------------------
+def v12_slugs():
+    return {p.stem for p in V12_DIR.glob("*.json")}
+
+
+def publish_v12_reports():
+    """Copy every v1.2 platform's final report to api-grader/reports/<slug>.md.
+    Returns the number of files written (unchanged files are left alone)."""
+    DST.mkdir(parents=True, exist_ok=True)
+    n = 0
+    for p in sorted(V12_DIR.glob("*.json")):
+        d = json.loads(p.read_text(encoding="utf-8"))
+        src, dst = Path(d["report_file"]), DST / f"{d['slug']}.md"
+        if not src.exists():
+            # The run folders live on Andrew's Mac only. Elsewhere, keep the copy
+            # already published rather than failing.
+            state = "kept the published copy" if dst.exists() else "NOT PUBLISHED, no copy yet"
+            print(f"  ! {d['slug']}: report_file not found ({src}); {state}")
+            continue
+        text = src.read_text(encoding="utf-8")
+        hits = []
+        for pat, repl in REDACT:
+            text, count = re.subn(pat, repl, text)
+            if count:
+                hits.append(f"{pat} x{count}")
+        if dst.exists() and dst.read_text(encoding="utf-8") == text:
+            continue
+        dst.write_text(text, encoding="utf-8")
+        n += 1
+        print(f"  {d['slug']:20} {len(text):>7,} bytes  v1.2 report"
+              + (("  redacted: " + ", ".join(hits)) if hits else "  (verbatim)"))
+    return n
+
+
 def main():
     if not SRC.is_dir():
         raise SystemExit(f"source reports not found: {SRC.resolve()}")
     DST.mkdir(parents=True, exist_ok=True)
     n = 0
+    regraded = v12_slugs()
     for slug, fname in sorted(SOURCES.items()):
+        if slug in regraded:          # published from its v1.2 report instead, below
+            continue
         src = SRC / fname
         if not src.exists():
             print(f"  ! {slug}: missing {fname}")
@@ -233,7 +281,8 @@ def main():
         if corrected:
             note += f"  |  {corrected} correction(s) applied"
         print(f"  {slug:20} {len(text):>7,} bytes{note}")
-    print(f"\nPublished {n} reports to {DST}/")
+    v12 = publish_v12_reports()
+    print(f"\nPublished {n} v1.1 reports and {v12} new or changed v1.2 reports to {DST}/")
 
 
 if __name__ == "__main__":

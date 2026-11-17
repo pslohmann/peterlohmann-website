@@ -11,9 +11,16 @@ WHY THIS EXISTS
     truth: edit DATA below, run `python3 build-api-grader.py`, and both are
     rewritten from the same numbers.
 
-TO ADD A NEW GRADED COMPANY
+TO PUBLISH A PLATFORM REGRADED UNDER METHODOLOGY v1.2 (the current method)
+    Drop its JSON in data/api-grader-v12/<slug>.json (format: SCHEMA.md in that
+    folder) and re-run this script. It checks the v1.2 math (check_math_v12),
+    copies the report Markdown to api-grader/reports/<slug>.md, and rebuilds the
+    table row, the platform page (build_v12_page), the share card and the SEO.
+    The platform's old v1.1 RESULTS entry, if any, stays below as history.
+
+TO ADD A v1.1 GRADED COMPANY (older method, kept for platforms not yet regraded)
     Find it in CATEGORIES (the name must match exactly), then add an entry to
-    RESULTS keyed by that same name. Re-run this script. That is the whole job.
+    RESULTS keyed by that same name. Re-run this script.
 
     Each RESULTS entry needs:
       score / grade   the published 0-100 number and its letter
@@ -3058,6 +3065,63 @@ RESULTS = {
 
 
 # ---------------------------------------------------------------------------
+# METHODOLOGY v1.2 PLATFORMS (added 2026-11-17)
+#
+# A platform regraded under v1.2 has one JSON file in data/api-grader-v12/
+# (format: data/api-grader-v12/SCHEMA.md). If the file exists, the platform is
+# shown from it: its row on /api-grader/, its own page, its share card and its
+# SEO. Its old v1.1 entry in RESULTS above stays as history and is not shown.
+# To publish the next regraded platform, drop its JSON in that folder and rerun
+# this script (it also copies the report Markdown, see publish_v12_reports()).
+# ---------------------------------------------------------------------------
+V12_DIR = HERE / "data" / "api-grader-v12"
+
+
+def load_v12():
+    """Every data/api-grader-v12/*.json, keyed by platform name."""
+    out = {}
+    names = {co for _, _, cos in CATEGORIES for co in cos}
+    for p in sorted(V12_DIR.glob("*.json")):
+        try:
+            d = json.loads(p.read_text(encoding="utf-8"))
+        except ValueError as e:
+            raise SystemExit(f"{p.name}: not valid JSON ({e})")
+        for k in ("name", "slug", "score", "grade", "pre_mcp", "meta", "gate1", "gate2",
+                  "letter", "binding_gate", "placement", "mcp", "reads", "checklist",
+                  "checks", "runs", "strengths", "watch", "bottom"):
+            if k not in d:
+                raise SystemExit(f"{p.name}: missing the field \"{k}\" (see SCHEMA.md)")
+        if d["name"] not in names:
+            raise SystemExit(f"{p.name}: \"{d['name']}\" is not a company in CATEGORIES "
+                             f"(the name must match exactly)")
+        if d["slug"] != slug(d["name"]) or p.stem != d["slug"]:
+            raise SystemExit(f"{p.name}: slug should be \"{slug(d['name'])}\" and the file "
+                             f"should be named {slug(d['name'])}.json")
+        out[d["name"]] = d
+    return out
+
+
+def shown_results():
+    """What the board actually shows: the v1.1 RESULTS entries, with every platform
+    that has a v1.2 file replaced by (or, if new, added from) that file. Each v1.2
+    entry carries the whole JSON under "v12"."""
+    shown = {co: r for co, r in RESULTS.items() if co not in V12}
+    for co, d in V12.items():
+        shown[co] = {"score": d["score"], "grade": d["grade"], "meta": d["meta"],
+                     "strengths": d["strengths"], "watch": d["watch"],
+                     "bottom": d["bottom"], "v12": d}
+    return shown
+
+
+def slug(name):
+    return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+
+
+V12 = load_v12()
+SHOWN = shown_results()
+
+
+# ---------------------------------------------------------------------------
 # Rendering
 # ---------------------------------------------------------------------------
 
@@ -3079,12 +3143,113 @@ def tier(points, maximum):
 def grade_class(g):
     return "grade-" + g[0].lower() if g else "grade-none"
 
-def slug(name):
-    return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
-
 def fmt_pts(v):
     """15.0 -> 15, 7.5 -> 7.5. Keeps the table from reading like a spreadsheet."""
     return str(int(v)) if float(v) == int(v) else str(v)
+
+
+# ---- The five result columns ------------------------------------------------
+# Same order as "What gets graded" on /api-grader/ (Andrew, 2026-11-17):
+#   1 Gates (coverage + cost)  2 Design & Reliability  3 Access Control
+#   4 Docs & AI-Ready          5 Official MCP
+# v1.2 platforms show gate results and checks earned; v1.1 platforms show their
+# old points. Every cell names its own unit, so points and checks never mix.
+TABLE_COLS = [
+    ("Gates", "coverage + cost"),
+    ("Design &amp; Reliability", ""),
+    ("Access Control", ""),
+    ("Docs &amp; AI-Ready", ""),
+    ("Official MCP", ""),
+]
+V12_GROUP_KEYS = [("c2", "Design &amp; Reliability"), ("c3", "Access Control"),
+                  ("c4", "Docs &amp; AI-Ready")]
+# v1.1 RESULTS "cats" order: 0 Functional Coverage, 1 Design, 2 Access Control,
+# 3 Docs, 4 Access & Cost.
+
+
+def letter_tier(g):
+    """Colour for a letter from the gates: A and B blue, C orange, D red."""
+    return {"A": "hi", "B": "hi", "C": "mid"}.get((g or "D")[0], "lo")
+
+
+def fmt_pct(v):
+    """83.3 -> "83.3%", 100.0 -> "100%". One rule for every coverage figure."""
+    v = round(float(v), 1)
+    return (f"{v:.0f}%" if v == int(v) else f"{v:.1f}%")
+
+
+def mark_pct(mark):
+    """C1.1-C1.3 marks arrive as "87.0%", "100%" or "81.8%". Parse and reformat so
+    every page shows them the same way; anything else (e.g. "na") passes through."""
+    m = re.fullmatch(r"\s*([0-9]+(?:\.[0-9]+)?)\s*%?\s*", str(mark))
+    return fmt_pct(m.group(1)) if m else None
+
+
+def table_cells(r):
+    """The five result cells (inner HTML) for one graded row, in TABLE_COLS order."""
+    d = r.get("v12")
+    if d:
+        g1, g2 = d["gate1"]["allows"], d["gate2"]
+        out = [(f'<span class="cat-score {letter_tier(d["letter"])}">Letter {d["letter"]}</span>'
+                f'<span class="u-line">Access {g1}</span>'
+                f'<span class="u-line">Coverage {fmt_pct(g2["coverage_pct"])}</span>')]
+        for key, _ in V12_GROUP_KEYS:
+            earned, appl = d["placement"][key]
+            out.append(f'<span class="cat-score {tier(earned, appl) if appl else "none"}">'
+                       f'{fmt_pts(earned)}</span><span class="u">/ {appl} checks</span>')
+        out.append('<span class="cat-score hi">+1 step</span>' if d["mcp"]["has"]
+                   else '<span class="cat-score none">No</span>')
+        return out
+    c = r["cats"]
+    def pts(i, label=None):
+        p = c[i][0]
+        mx = CAT_LABELS[i][1]
+        lab = f'<span class="u-k">{label}</span>' if label else ""
+        return (f'{lab}<span class="cat-score {tier(p, mx)}">{fmt_pts(p)}</span>'
+                f'<span class="u">/ {mx} pts</span>')
+    return [
+        f'<span class="cell-2">{pts(0, "Coverage")}</span>'
+        f'<span class="cell-2">{pts(4, "Access &amp; Cost")}</span>',
+        pts(1), pts(2), pts(3),
+        '<span class="cell-na">Not scored in v1.1</span>',
+    ]
+
+
+def card_rows(r):
+    """The phone card's result rows, in the same order as the table columns."""
+    def row(label, value, bar=None, t="hi", sub=""):
+        b = (f'<span class="mc-bar"><b class="{t}" style="width:{bar:.0f}%"></b></span>'
+             if bar is not None else "")
+        if sub:
+            b += f'<span class="mc-sub">{sub}</span>'
+        return (f'<div class="mc-cat"><span class="mc-k">{label}</span>'
+                f'<span class="mc-v">{value}</span>{b}</div>')
+    d = r.get("v12")
+    out = []
+    if d:
+        out.append(row("Gates",
+                       f'<span class="cat-score {letter_tier(d["letter"])}">Letter {d["letter"]}</span>',
+                       sub=f'Access allows {d["gate1"]["allows"]}, coverage '
+                           f'{fmt_pct(d["gate2"]["coverage_pct"])} allows {d["gate2"]["allows"]}'))
+        for key, label in V12_GROUP_KEYS:
+            earned, appl = d["placement"][key]
+            pct = float(earned) / appl * 100 if appl else 0
+            t = tier(earned, appl) if appl else "lo"
+            out.append(row(label, f'<span class="cat-score {t}">{fmt_pts(earned)}</span>'
+                                  f'<i> / {appl} checks</i>', pct, t))
+        out.append(row("Official MCP",
+                       '<span class="cat-score hi">+1 step</span>' if d["mcp"]["has"]
+                       else '<span class="cat-score none">No</span>'))
+        return "".join(out)
+    for i, label in ((0, "Coverage"), (4, "Access &amp; Cost"), (1, "Design &amp; Reliability"),
+                     (2, "Access Control"), (3, "Docs &amp; AI-Ready")):
+        p, mx = r["cats"][i][0], CAT_LABELS[i][1]
+        t = tier(p, mx)
+        out.append(row(label, f'<span class="cat-score {t}">{fmt_pts(p)}</span>'
+                              f'<i> / {mx} pts</i>',
+                       max(0.0, min(100.0, float(p) / mx * 100)), t))
+    out.append(row("Official MCP", '<span class="cell-na">Not scored in v1.1</span>'))
+    return "".join(out)
 
 
 def build_pills(prefix="cat", extra=" pills-desk"):
@@ -3103,7 +3268,7 @@ def order_by_grade(companies):
     on a customer, then anything with no API. Sorting by grade rather than
     alphabetically is the whole point of a ranking table."""
     def key(co):
-        r = RESULTS.get(co)
+        r = SHOWN.get(co)
         if r:
             return (0, -r["score"], co.lower())
         if co in NO_API:
@@ -3144,7 +3309,7 @@ def build_rows():
             f'<span class="grp-n">{len(companies)} listed</span></td></tr>'
         )
         for co in companies:
-            r = RESULTS.get(co)
+            r = SHOWN.get(co)
             if co in NO_API:
                 rows.append(
                     f'<tr class="no-api"><td class="plat">'
@@ -3190,12 +3355,7 @@ def build_rows():
                 cells = ('<td class="num" colspan="5"><span class="cat-legacy">'
                          'graded on the older v2.0 scale, see details</span></td>')
             else:
-                maxes = [m for _, m in CAT_LABELS]
-                cells = "".join(
-                    f'<td class="num"><span class="cat-score '
-                    f'{tier(p, maxes[i])}">{fmt_pts(p)}</span></td>'
-                    for i, (p, _, _) in enumerate(r["cats"])
-                )
+                cells = "".join(f'<td class="num">{c}</td>' for c in table_cells(r))
             flag = ' <span class="row-flag">v2.0</span>' if r.get("legacy") else ""
             rows.append(
                 f'<tr class="has-detail" data-co="{slug(co)}">'
@@ -3228,7 +3388,7 @@ def build_cards():
         out.append(f'<h3 class="mc-grp" id="mcat-{s}">{heading}'
                    f'<span class="grp-n">{len(companies)} listed</span></h3>')
         for co in companies:
-            r = RESULTS.get(co)
+            r = SHOWN.get(co)
             if co in NO_API:
                 out.append(f'<div class="mcard is-muted"><div class="mc-head">'
                            f'<span class="mc-name">{co}</span></div>'
@@ -3251,16 +3411,7 @@ def build_cards():
                 cats = ('<p class="mc-note">Category scores were graded on the older v2.0 scale, '
                         'see details</p>')
             else:
-                rows = []
-                for i, (p, _, _) in enumerate(r["cats"]):
-                    pct = max(0.0, min(100.0, float(p) / maxes[i] * 100))
-                    t = tier(p, maxes[i])
-                    rows.append(
-                        f'<div class="mc-cat"><span class="mc-k">{CAT_LABELS[i][0]}</span>'
-                        f'<span class="mc-v"><span class="cat-score {t}">{fmt_pts(p)}</span>'
-                        f'<i> / {maxes[i]}</i></span>'
-                        f'<span class="mc-bar"><b class="{t}" style="width:{pct:.0f}%"></b></span></div>')
-                cats = '<div class="mc-cats">' + "".join(rows) + '</div>'
+                cats = '<div class="mc-cats">' + card_rows(r) + '</div>'
             out.append(
                 f'<a class="mcard" href="{slug(co)}.html"><div class="mc-head">'
                 f'<span class="mc-name">{co}{flag}</span>'
@@ -3276,7 +3427,7 @@ def build_cards():
 
 
 def build_stats():
-    graded = [r for r in RESULTS.values()]
+    graded = [r for r in SHOWN.values()]
     listed = sum(len(c) for _, _, c in CATEGORIES)
     # Round half up, matching the methodology's own rule for scores.
     # Python's round() is banker's rounding: it would turn 72.5 into 72.
@@ -3284,7 +3435,7 @@ def build_stats():
            if graded else "&ndash;")
     best = max(graded, key=lambda r: r["score"]) if graded else None
     best_txt = f'{best["grade"]}' if best else "&ndash;"
-    best_who = next((n for n, r in RESULTS.items() if r is best), "")
+    best_who = next((n for n, r in SHOWN.items() if r is best), "")
     return (
         '<div class="stats stats-color g4" aria-label="At a glance">'
         f'<div class="stat"><div class="v">{listed}</div><div class="k">Platforms listed</div></div>'
@@ -3460,7 +3611,7 @@ def build_switcher(current):
         for co in companies:
             if co in NO_API:
                 continue
-            r = RESULTS.get(co)
+            r = SHOWN.get(co)
             cur = ' aria-current="page"' if co == current else ""
             if r:
                 chip = f'<span class="grade {grade_class(r["grade"])}">{r["grade"]}</span>'
@@ -3508,7 +3659,7 @@ SUB_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=10" />
+<link rel="stylesheet" href="/api-grader/report.css?v=11" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -3581,7 +3732,8 @@ SUB_PAGE = """<!--
         </div>
       </div>
 
-      <p class="disclosure-note" style="margin:18px 0 0;"><strong>NOTE:</strong> This grade is produced by an AI analysis run against the same published grading file, which you can <a href="/files/methodology-v1.2.md" download>download and check here</a>. The scope is deliberately narrow: API and data access. It is not Peter Lohmann&#x27;s opinion of {name} as a software platform, and it says nothing about {name}&#x27;s features, reliability, interface, support, or standing in the industry.</p>
+      <p class="disclosure-note" style="margin:18px 0 0;"><strong>NOTE:</strong> This grade is produced by an AI analysis run against the same published grading file, which you can <a href="{methfile}" download>download and check here</a>. The scope is deliberately narrow: API and data access. It is not Peter Lohmann&#x27;s opinion of {name} as a software platform, and it says nothing about {name}&#x27;s features, reliability, interface, support, or standing in the industry.</p>
+      {v11note}
     </div>
   </section>
 
@@ -3647,8 +3799,8 @@ SUB_PAGE = """<!--
         </div>
         <div class="card">
           <h3>The grading file</h3>
-          <p>The exact rubric behind every score on this page. Same file, every platform. Run it yourself and compare.</p>
-          <a class="btn btn-ghost" href="/files/methodology-v1.2.md" download>Download the methodology</a>
+          <p>Methodology v{methver}, the exact rubric behind the score on this page. Same file, every platform graded on v{methver}. Run it yourself and compare.</p>
+          <a class="btn btn-ghost" href="{methfile}" download>Download the methodology (v{methver})</a>
         </div>
       </div>
     </div>
@@ -3814,7 +3966,7 @@ PENDING_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=10" />
+<link rel="stylesheet" href="/api-grader/report.css?v=11" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -4040,7 +4192,7 @@ def build_pending_page(co, cat_heading):
         intro = (f"{co} is on the list but has not been graded yet. Nothing here "
                  f"is a judgement about the product or its API: it means the run "
                  f"has not happened. When it does, this page fills in with the "
-                 f"score, all 27 checks and the full report, exactly like every "
+                 f"score, every check and the full report, exactly like every "
                  f"platform already graded.")
     return PENDING_PAGE.format(
         name=co,
@@ -4059,9 +4211,592 @@ def build_pending_page(co, cat_heading):
     )
 
 
+# =============================================================================
+# v1.2 PLATFORM PAGE (methodology v1.2, added 2026-11-17)
+#
+# Same chrome as SUB_PAGE (head, nav, banner, footer, scripts): the template is
+# SUB_PAGE with its <main> swapped for V12_MAIN, so a change to the shared parts
+# of SUB_PAGE reaches both. The body follows the "What gets graded" structure on
+# /api-grader/: the two gates that set the letter, the three groups that set
+# placement, and the MCP step. Styles live in api-grader/report.css ("v1.2
+# platform page" section).
+# =============================================================================
+
+V12_MAIN = """<main id="main">
+
+  <section class="band tight">
+    <div class="wrap">
+      <a class="rc-back" href="index.html#results">&larr; All platforms</a>
+      <p class="rc-eyebrow">API Report Card &middot; {cat} &middot; Methodology v1.2</p>
+      <h1 class="rc-title">{name}</h1>
+      <p class="rc-status">{pill}<span>Regraded under methodology v1.2, run {run}</span></p>
+
+      <div class="rc-slab">
+        <div class="rc-score {gcls}">
+          <div class="lab">Preliminary grade</div>
+          <div class="rc-gnum">
+            <span class="letter">{grade}</span>
+            <span class="num">{score}<i>/100</i></span>
+          </div>
+          <div class="raw">{rawline}</div>
+        </div>
+        <div class="rc-meta">
+          <div><div class="k">Evidence tier</div><div class="v">{tier}</div></div>
+          <div><div class="k">Date run</div><div class="v">{run}</div></div>
+          <div><div class="k">Evaluating model</div><div class="v">{model}</div></div>
+          <div><div class="k">Product type</div><div class="v">{ptype}</div></div>
+          <div><div class="k">Methodology</div><div class="v">v1.2, graded 3 times</div></div>
+          <div><div class="k">Checks</div><div class="v">{checkcount}</div></div>
+        </div>
+      </div>
+
+      <p class="disclosure-note" style="margin:18px 0 0;"><strong>NOTE:</strong> This grade is produced by an AI analysis run against the same published grading file, which you can <a href="/files/methodology-v1.2.md" download>download and check here</a>. The scope is deliberately narrow: API and data access. It is not Peter Lohmann&#x27;s opinion of {name} as a software platform, and it says nothing about {name}&#x27;s features, reliability, interface, support, or standing in the industry.</p>
+    </div>
+  </section>
+
+  <!-- HOW THE GRADE WAS REACHED -->
+  <section class="band tight wash" id="grade">
+    <div class="wrap">
+      <h2 class="h-lead">How {name} got its grade.</h2>
+      <p class="sub" style="margin:10px 0 22px;">Two gates set the letter, and the lower one wins. The other checks set the score inside that letter&#x27;s range, and an official MCP server can add one step.</p>
+      {ladder}
+      {fullladder}
+    </div>
+  </section>
+
+  <!-- VERDICT -->
+  <section class="band tight">
+    <div class="wrap">
+      <h2 class="h-lead">The bottom line.</h2>
+      <div class="panel t-blue v12-bottom">
+        <p>{bottom}</p>
+        {fit}
+      </div>
+      <div class="rc-pair" style="margin-top:18px;">
+        <div class="panel">
+          <h2>What works</h2>
+          <ul class="rc-list">{strengths}</ul>
+        </div>
+        <div class="panel">
+          <h2>What to watch</h2>
+          <ul class="rc-list">{watch}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE FIVE GROUPS: result, plain-English read and checks for each -->
+  <section class="band tight wash" id="checks">
+    <div class="wrap">
+      <h2 class="h-lead">What gets graded, and how {name} did.</h2>
+      <p class="sub" style="margin:10px 0 22px;">The same 28 checks in five groups as <a href="/api-grader/#what-gets-graded">What gets graded</a>, applied to every platform. Each mark below is from the run&#x27;s own report. Marks are AI-generated and cover API access only.</p>
+      <div class="acc-list v12-groups">
+        {groups}
+      </div>
+    </div>
+  </section>
+
+  <!-- COVERAGE CHECKLIST (gate 2) -->
+  <section class="band tight" id="checklist">
+    <div class="wrap">
+      <h2 class="h-lead">The coverage checklist.</h2>
+      <p class="sub" style="margin:10px 0 8px;">Gate 2 is scored against the published checklist for {ptype_lc} software, fixed before the API was inspected and the same for every platform of that type. Critical items weigh 3, important items 2, and optional items 1. An item scores 1 when it is present with the operations it needs, 0.5 when it is partial, read-only where writes are expected, or only announced by an alert, and 0 when the published documentation shows no way to do it.</p>
+      <p class="sub" style="margin:0 0 22px;"><strong>{name} earned {ck_earned} of {ck_weight} weight points: {ck_cov} coverage.</strong></p>
+      {checklist}
+    </div>
+  </section>
+
+  <!-- THREE RUNS -->
+  <section class="band tight wash" id="runs">
+    <div class="wrap">
+      <h2 class="h-lead">Three independent grading runs.</h2>
+      <p class="sub" style="margin:10px 0 22px;">PLM graded the same frozen evidence three separate times on the same model. Disagreements are settled against the evidence, not averaged.</p>
+      {runs}
+    </div>
+  </section>
+
+  <!-- DOWNLOADS -->
+  <section class="band tight">
+    <div class="wrap">
+      <h2 class="h-lead">Check it yourself.</h2>
+      <p class="sub" style="margin:10px 0 10px;">Both files behind this page, in full.</p>
+      <p class="disclosure-note" style="margin:0 0 22px;"><strong>NOTE:</strong> Grades are AI-generated from the published grading file, and cover API access only.</p>
+      <div class="rc-dl">
+        <div class="card">
+          <h3>{name}&rsquo;s full report</h3>
+          <p>The complete Markdown report this page is built from, including the evidence packet, the three grading runs, and every check in full.</p>
+          {dlbtn}
+        </div>
+        <div class="card">
+          <h3>The grading file</h3>
+          <p>Methodology v1.2, the exact rubric behind this grade. Same file, every platform. Run it yourself and compare.</p>
+          <a class="btn btn-ghost" href="/files/methodology-v1.2.md" download>Download the methodology</a>
+        </div>
+      </div>
+      <div class="v12-method">
+        <h3>How methodology v1.2 grades</h3>
+        <p>Two gates, open access and documented capability, each allow a highest letter, and the lower one becomes the letter. The share of design, access-control, and documentation checks a platform passes sets its score inside that letter&#x27;s range, and an official MCP server moves the grade up one step. <a href="/api-grader/#what-gets-graded">See what gets graded</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORRECTIONS -->
+  <section class="band tight wash">
+    <div class="wrap">
+      {fixnote}
+    </div>
+  </section>
+
+  <section class="band tight">
+    <div class="wrap center">
+      <p class="sponsor-note" style="justify-content:center;">
+        Methodology inspired by <a href="https://saastr.ai/api-report-card" target="_blank" rel="noopener">SaaStr&rsquo;s AI Agent API Report Card</a>.
+      </p>
+    </div>
+  </section>
+
+</main>"""
+
+_SP_HEAD, _SP_REST = SUB_PAGE.split('<main id="main">', 1)
+_SP_FOOT = _SP_REST.split('</main>', 1)[1]
+_V11_DESC = ("{name} scored {score}/100 ({grade}) on the PM API Report Card. "
+             "All 27 checks, the evidence behind each mark, and the full report.")
+assert _V11_DESC in _SP_HEAD, "SUB_PAGE description changed: update _V11_DESC"
+SUB_PAGE_V12 = (_SP_HEAD.replace(_V11_DESC, "{desc}") + V12_MAIN + _SP_FOOT)
+
+GROUP_INFO = [
+    # number, title (as on /api-grader/ "What gets graded"), tag
+    (1, "Functional Coverage and Usefulness + Accessibility and Cost", "sets the letter"),
+    (2, "API Design, Reliability, and Operability", "sets placement"),
+    (3, "Access Control and Safe Automation", "sets placement"),
+    (4, "Documentation and AI-Agent Readiness", "sets placement"),
+    (5, "Official MCP Server", "+1 step"),
+]
+KIND_LABEL = {"object": "Object", "workflow": "Workflow", "lifecycle": "Lifecycle action"}
+STATE_LABEL = {"present": ("Present", "m-yes"), "partial": ("Partial", "m-partial"),
+               "alert-only": ("Alert only", "m-partial"), "absent": ("Absent", "m-no"),
+               "na": ("N-A", "m-na"), "n-a": ("N-A", "m-na"),
+               "unverified": ("Unverified", "m-unverified")}
+GATE2_RULE = {
+    "A": "85% or more, with writes at 70% or more and change alerts: allows an A",
+    "B": "60% or more allows a B",
+    "C": "35% to 59% allows a C",
+    "D": "Below 35% allows a D",
+}
+SEGS = [("D", 60, 69, "s-d"), ("C", 70, 79, "s-c"), ("B", 80, 89, "s-b"),
+        ("A", 90, 96, "s-a"), ("A+", 97, 100, "s-ap")]
+ARROW_UP = ('<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" '
+            'stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+            '<path d="M12 19V5M5 12l7-7 7 7"/></svg>')
+
+
+def _g(letter, extra=""):
+    """A letter chip, using the page's .grade colours."""
+    return f'<b class="grade grade-{letter[0].lower()}{extra}">{letter}</b>'
+
+
+def _mark(m):
+    m = str(m).strip().lower()
+    pct = mark_pct(m)
+    if pct:
+        return f'<span class="mark m-pct">{pct}</span>'
+    return f'<span class="mark m-{m}">{MARK_LABEL.get(m, m)}</span>'
+
+
+def _seg_pos(score):
+    """Where a score sits on the five equal D / C / B / A / A+ segments, in %."""
+    for i, (_, lo, hi, _) in enumerate(SEGS):
+        if lo <= score <= hi:
+            return (i + (score - lo + 0.5) / (hi - lo + 1)) / len(SEGS) * 100
+    return 0.0
+
+
+def _seg_index(score):
+    return next((i for i, (_, lo, hi, _) in enumerate(SEGS) if lo <= score <= hi), None)
+
+
+def v12_binding_text(d):
+    return {"none": "Both gates allow an A, so neither held it back.",
+            "gate1": "Gate 1, open access, set the letter.",
+            "gate2": "Gate 2, documented capability, set the letter.",
+            "both": f"Both gates allow a {d['letter']}."}[d["binding_gate"]]
+
+
+def v12_gate2_reason(g2):
+    """Plain-English reason for the letter gate 2 allows."""
+    if g2["allows"] == "B" and g2["critical_zero"]:
+        return "A critical item at zero rules out an A"
+    if g2["allows"] == "B" and float(g2["coverage_pct"]) >= 85:
+        return "85% or more, but without the writes or change alerts an A needs: allows a B"
+    return GATE2_RULE[g2["allows"]]
+
+
+def v12_ladder(co, d):
+    """The platform's own path through the ladder, always visible."""
+    g1, g2, pl, mcp = d["gate1"], d["gate2"], d["placement"], d["mcp"]
+    marks = {c["id"]: c["mark"] for c in d["checks"]}
+    pre, final = d["pre_mcp"]["score"], d["score"]
+    e = sum(float(pl[k][0]) for k in ("c2", "c3", "c4"))
+    a = sum(int(pl[k][1]) for k in ("c2", "c3", "c4"))
+    g1_rule = {"A": "Both yes: allows an A", "B": "A partial, no no: allows a B at most",
+               "C": "A no on either: allows a C at most"}[g1["allows"]]
+    gate1 = (
+        '<div class="lad-box">'
+        '<p class="lad-h">Gate 1: Open access</p>'
+        '<ul class="lad-rows">'
+        f'<li><span>Self-serve API key (C5.1)</span>{_mark(g1["c5_1"])}</li>'
+        f'<li><span>Not commercially gated (C5.2)</span>{_mark(g1["c5_2"])}</li>'
+        '</ul>'
+        f'<p class="lad-allow"><span>Allows</span>{_g(g1["allows"])}<i>{g1_rule}</i></p>'
+        '</div>')
+    crit = "Yes, rules out an A" if g2["critical_zero"] else "None"
+    gate2 = (
+        '<div class="lad-box">'
+        '<p class="lad-h">Gate 2: Documented capability</p>'
+        '<ul class="lad-rows">'
+        f'<li><span>Checklist coverage <i>({fmt_pts(g2["earned"])} of {g2["weight"]} weight)</i></span>'
+        f'<b class="lad-v">{fmt_pct(g2["coverage_pct"])}</b></li>'
+        f'<li><span>Write coverage (C1.2)</span><b class="lad-v">{fmt_pct(g2["write_pct"])}</b></li>'
+        f'<li><span>Change alerts (C1.4)</span>{_mark(g2["c1_4"])}</li>'
+        f'<li><span>Critical item at zero</span><b class="lad-v">{crit}</b></li>'
+        '</ul>'
+        f'<p class="lad-allow"><span>Allows</span>{_g(g2["allows"])}<i>{v12_gate2_reason(g2)}</i></p>'
+        '</div>')
+    # The score bar, with this platform's score pinned above it and, when the MCP
+    # step applied, its score before the step marked below it.
+    segs = "".join(
+        f'<div class="lad-seg {cls}{" is-here" if _seg_index(final) == i else ""}">'
+        f'<b>{g}</b>{lo}-{hi}</div>'
+        for i, (g, lo, hi, cls) in enumerate(SEGS))
+    pins = (f'<span class="lad-pin" style="left:{_seg_pos(final):.1f}%">'
+            f'<b>{final}</b></span>')
+    if mcp["has"]:
+        pins += (f'<span class="lad-pin is-pre" style="left:{_seg_pos(pre):.1f}%">'
+                 f'<b>{pre} before MCP</b></span>')
+    if mcp["has"]:
+        mcp_html = (f'<div class="mcp-card is-on"><h4 class="lad-h4" style="margin:0 0 6px;">'
+                    f'<span class="lad-mcp">{ARROW_UP}MCP step applied: {pre} '
+                    f'({d["pre_mcp"]["grade"]}) to {final} ({d["grade"]})</span></h4>'
+                    f'<p>{mcp["note"]}</p></div>')
+    else:
+        mcp_html = (f'<div class="mcp-card is-off"><h4 class="lad-h4" style="margin:0 0 6px;">'
+                    f'MCP step not applied</h4><p>{mcp["note"]}</p></div>')
+    return (
+        '<div class="v12-ladder" aria-label="How the grade was reached">'
+        f'<div class="lad-gates">{gate1}{gate2}</div>'
+        '<svg class="lad-join" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">'
+        '<path d="M25 0 L50 38 M75 0 L50 38" fill="none" stroke="#8aa0b2" stroke-width="2" '
+        'vector-effect="non-scaling-stroke"/></svg>'
+        '<div class="lad-stem lad-m" aria-hidden="true"></div>'
+        '<div class="lad-tip" aria-hidden="true"></div>'
+        f'<div class="lad-min">Letter from the gates: {d["letter"]}'
+        f'<span class="lad-why">{v12_binding_text(d)}</span></div>'
+        '<div class="lad-stem" aria-hidden="true"></div>'
+        '<div class="lad-tip" aria-hidden="true"></div>'
+        f'<div class="lad-track{" has-pre" if mcp["has"] else ""}">'
+        f'<div class="lad-bar">{segs}</div>{pins}</div>'
+        f'<p class="lad-cap"><strong>Placement:</strong> {co} earned {fmt_pts(e)} of {a} '
+        f'design, access-control, and documentation checks ({fmt_pct(pl["share_pct"])}).<br>'
+        f'{html_escape(pl["math"])} ({d["pre_mcp"]["grade"]})</p>'
+        f'{mcp_html}'
+        '</div>')
+
+
+def v12_full_ladder(co, d):
+    """The "See the grading ladder" panel from /api-grader/, closed by default,
+    with this platform's own rows, letter, band and grade highlighted."""
+    g1, g2 = d["gate1"]["allows"], d["gate2"]["allows"]
+    def rows(items, here):
+        return "".join(
+            f'<li{" class=\"is-here\"" if k == here else ""}><span>{label}</span>'
+            f'<i aria-hidden="true">&rarr;</i><b class="grade grade-{k.lower()}">{chip}</b></li>'
+            for k, label, chip in items)
+    gate1 = rows([("A", "Free + self-serve key", "A"), ("B", "Partly paid", "B max"),
+                  ("C", "Paid add-on, top-tier only, or sales call", "C max")], g1)
+    gate2 = rows([("A", "85%+ with writes and alerts", "A"), ("B", "60%+", "B"),
+                  ("C", "35%+", "C"), ("D", "Under 35%", "D")], g2)
+    crit = " is-here" if d["gate2"]["critical_zero"] else ""
+    final = d["score"]
+    segs = "".join(
+        f'<div class="lad-seg {cls}{" is-here" if _seg_index(final) == i else ""}">'
+        f'<b>{g}</b>{lo}-{hi}</div>'
+        for i, (g, lo, hi, cls) in enumerate(SEGS))
+    cells = []
+    for fam, cls in (("D", "s-d"), ("C", "s-c"), ("B", "s-b"), ("A", "s-a")):
+        cs = []
+        for lo, g in V12_STEPS:
+            if g[0] != fam:
+                continue
+            hi = next((l2 - 1 for l2, _ in V12_STEPS if l2 > lo), 100)
+            extra = (" lg-mcp" if g == "A+" else "") + (" is-here" if g == d["grade"] else "")
+            cs.append(f'<div class="lg-cell{extra}"><b>{g}</b>{lo}-{hi}</div>')
+        cells.append(f'<div class="lg-grp {cls}"><div class="lg-cells">{"".join(cs)}</div></div>')
+    pl = d["placement"]
+    if d["mcp"]["has"]:
+        step = (f" Its official MCP server moves it up one step to {d['grade']} ({final}).")
+    else:
+        step = " It has no official MCP server, so there is no step."
+    eg = (f"<strong>{co}:</strong> Gate 1 allows {g1} and Gate 2 allows {g2}, so the letter is "
+          f"{d['letter']}. It passes {fmt_pct(pl['share_pct'])} of the other checks, so it lands at "
+          f"{html_escape(pl['math'])} ({d['pre_mcp']['grade']}).{step}")
+    return f"""<details class="ladder">
+        <summary>See the grading ladder</summary>
+        <div class="ladder-body">
+          <div class="lad-gates">
+            <div class="lad-box">
+              <p class="lad-h">Gate 1: Open access</p>
+              <ul class="lad-rows">{gate1}</ul>
+            </div>
+            <div class="lad-box">
+              <p class="lad-h">Gate 2: Documented capability</p>
+              <ul class="lad-rows">{gate2}</ul>
+              <p class="lad-note{crit}">Missing a critical item &rarr; no A</p>
+            </div>
+          </div>
+          <svg class="lad-join" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M25 0 L50 38 M75 0 L50 38" fill="none" stroke="#8aa0b2" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+          <div class="lad-stem lad-m" aria-hidden="true"></div>
+          <div class="lad-tip" aria-hidden="true"></div>
+          <div class="lad-min">The lower of the two is the letter<span class="lad-why">{co}: {d['letter']}</span></div>
+          <div class="lad-stem" aria-hidden="true"></div>
+          <div class="lad-tip" aria-hidden="true"></div>
+          <div class="lad-barrow"><div class="lad-bar">{segs}</div></div>
+          <p class="lad-cap"><span class="lad-mcp">{ARROW_UP}+1 step with an official MCP server</span><br>The other checks set the score inside the letter&#x27;s range.</p>
+          <p class="lad-eg">{eg}</p>
+          <h4 class="lad-h4">Letter grades</h4>
+          <div class="lg-bar">{"".join(cells)}</div>
+          <p class="lad-small">F means no qualifying API. A+ (97-100) is reachable only with the MCP step.</p>
+          <div class="mcp-card">
+            <h4 class="lad-h4" style="margin:0 0 6px;">The MCP step</h4>
+            <p>An official MCP server moves the final grade up one step on the scale, once. It applies even past a gate&#x27;s limit, and the score moves to the bottom of the new step&#x27;s range.</p>
+            <div class="mcp-egs">
+              <span><b>C+ (77)</b> &rarr; <b>B- (80)</b></span>
+              <span><b>B+ (88)</b> &rarr; <b>A- (90)</b></span>
+              <span><b>A (94)</b> &rarr; <b>A+ (97)</b></span>
+            </div>
+          </div>
+        </div>
+      </details>"""
+
+
+def v12_check_rows(d, ids):
+    out = []
+    for c in d["checks"]:
+        if c["id"] not in ids:
+            continue
+        out.append(
+            f'<div class="rc-chk">'
+            f'<div class="id">{c["id"]}</div>'
+            f'<div><h4>{c["title"]}</h4><p>{c["why"]}</p></div>'
+            f'{_mark(c["mark"])}'
+            f'</div>')
+    return '<div class="rc-checks v12-checks">' + "".join(out) + '</div>'
+
+
+def v12_groups(co, d):
+    """The five "What gets graded" items, each open, with this platform's result,
+    its plain-English read and its checks."""
+    pl, g1, g2 = d["placement"], d["gate1"], d["gate2"]
+    def item(n, title, tag, result, body, anchor):
+        return (f'<details class="acc" open id="{anchor}">'
+                f'<summary><span class="acc-n">{n}</span>'
+                f'<span class="acc-t">{title}</span>'
+                f'<span class="cat-pts">{tag}</span>'
+                f'<span class="acc-res">{result}</span></summary>'
+                f'<div class="acc-body">{body}</div></details>')
+    out = []
+    # 1: the two gates
+    # Same order as the item's title (and its body on /api-grader/): coverage, then cost.
+    body1 = (
+        f'<h3 class="v12-sub">Functional Coverage and Usefulness (Gate 2) <span>allows {_g(g2["allows"])}</span></h3>'
+        f'<p>{g2["read"]}</p>'
+        f'<p class="v12-facts">Checklist coverage {fmt_pct(g2["coverage_pct"])} '
+        f'({fmt_pts(g2["earned"])} of {g2["weight"]} weight points), write coverage '
+        f'{fmt_pct(g2["write_pct"])}. <a href="#checklist">See the coverage checklist</a></p>'
+        f'{v12_check_rows(d, {"C1.1", "C1.2", "C1.3", "C1.4"})}'
+        f'<h3 class="v12-sub">Accessibility and Cost (Gate 1) <span>allows {_g(g1["allows"])}</span></h3>'
+        f'<p>{g1["read"]}</p>'
+        f'{v12_check_rows(d, {"C5.1", "C5.2"})}'
+        f'<p class="v12-facts"><strong>Letter from the gates: {d["letter"]}.</strong> '
+        f'{v12_binding_text(d)}</p>')
+    res1 = f'Letter {d["letter"]}'
+    out.append(item(1, GROUP_INFO[0][1], GROUP_INFO[0][2], res1, body1, "group-1"))
+    # 2-4: placement groups
+    for n, key in ((2, "c2"), (3, "c3"), (4, "c4")):
+        earned, appl = pl[key]
+        ids = {c["id"] for c in d["checks"] if c["id"].startswith(f"C{n}.")}
+        na = sum(1 for c in d["checks"] if c["id"] in ids
+                 and str(c["mark"]).lower() in ("na", "unverified"))
+        extra = f" ({na} not applicable or unverified, left out)" if na else ""
+        body = (f'<p class="v12-facts"><strong>{fmt_pts(earned)} of {appl} checks earned</strong>'
+                f'{extra}. A partial counts as half.</p>'
+                f'<p>{d["reads"][key]}</p>'
+                f'{v12_check_rows(d, ids)}')
+        out.append(item(n, GROUP_INFO[n - 1][1], GROUP_INFO[n - 1][2],
+                        f'{fmt_pts(earned)} / {appl} checks', body, f"group-{n}"))
+    # 5: MCP
+    mcp = d["mcp"]
+    if mcp["has"]:
+        body5 = (f'<p class="v12-facts"><strong>Applied: {d["pre_mcp"]["score"]} '
+                 f'({d["pre_mcp"]["grade"]}) to {d["score"]} ({d["grade"]}).</strong></p>'
+                 f'<p>{mcp["note"]}</p>')
+        res5 = "Applied"
+    else:
+        body5 = (f'<p class="v12-facts"><strong>Not applied.</strong></p><p>{mcp["note"]}</p>')
+        res5 = "No"
+    out.append(item(5, GROUP_INFO[4][1], GROUP_INFO[4][2], res5, body5, "group-5"))
+    return "\n        ".join(out)
+
+
+def v12_checklist(d):
+    rows = []
+    for i, r in enumerate(d["checklist"], 1):
+        st = str(r.get("state", "")).lower()
+        lab, cls = STATE_LABEL.get(st, (st.title(), "m-na"))
+        sc = r.get("score")
+        sc = fmt_pts(sc) if isinstance(sc, (int, float)) else "N-A"
+        klass = str(r.get("class", "")).lower()
+        rows.append(
+            f'<tr>'
+            f'<td class="ck-item" data-k="Item"><span class="ck-n">{i}</span>{r["item"]}</td>'
+            f'<td class="ck-f" data-k="Kind">{KIND_LABEL.get(r.get("kind"), r.get("kind", ""))}</td>'
+            f'<td class="ck-f" data-k="Class"><span class="ck-cls c-{klass}">{klass.title()}</span></td>'
+            f'<td class="ck-f n" data-k="Weight">{r.get("weight", "")}</td>'
+            f'<td class="ck-f" data-k="State"><span class="mark {cls}">{lab}</span></td>'
+            f'<td class="ck-f n" data-k="Score"><b>{sc}</b></td>'
+            f'<td class="ck-note">{r.get("note", "")}</td>'
+            f'</tr>')
+    return ('<div class="ck-wrap"><table class="ck-table">'
+            '<thead><tr><th>Item</th><th>Kind</th><th>Class</th><th class="n">Weight</th>'
+            '<th>State</th><th class="n">Score</th><th>Note</th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody></table></div>')
+
+
+def v12_runs(d):
+    rn = d["runs"]
+    boxes = "".join(
+        f'<div class="run-box"><div class="k">Run {i}</div>'
+        f'<div class="v">{s}</div>{_g(v12_band(s))}</div>'
+        for i, s in enumerate(rn["scores"], 1))
+    out = [f'<div class="run-row">{boxes}</div>',
+           f'<p class="v12-facts"><strong>Agreement:</strong> {rn.get("agreement", "")}</p>']
+    dis = rn.get("disagreements") or []
+    if dis:
+        items = "".join(
+            f'<div class="dis-item"><h4>{x["what"]}</h4>'
+            f'<p class="dis-facts"><span>Runs 1 / 2 / 3: <b>{x["runs"]}</b></span>'
+            f'<span>Resolved: <b>{x["resolved"]}</b></span>'
+            f'<span>Effect on the score: <b>{x.get("score_effect", "none")}</b></span></p>'
+            f'<p>{x["why"]}</p></div>'
+            for x in dis)
+        out.append(f'<h3 class="v12-sub" style="margin-top:22px;">Where the runs disagreed, '
+                   f'and how it was settled</h3><div class="dis-list">{items}</div>')
+    else:
+        out.append('<p class="v12-facts">The three runs agreed on every check and checklist item.</p>')
+    if rn.get("summary"):
+        out.append(f'<p class="v12-sum">{rn["summary"]}</p>')
+    if d.get("sensitivity"):
+        out.append(f'<p class="lad-eg"><strong>Sensitivity:</strong> {d["sensitivity"]}</p>')
+    return "\n      ".join(out)
+
+
+def build_v12_page(co, d, cat_heading):
+    r = SHOWN[co]
+    pl = d["placement"]
+    marks = [str(c["mark"]).lower() for c in d["checks"]]
+    na = sum(m == "na" for m in marks)
+    unv = sum(m == "unverified" for m in marks)
+    checkcount = f"{len(marks) - na - unv} of {len(marks)} scored"
+    if na:
+        checkcount += f", {na} N-A"
+    if unv:
+        checkcount += f", {unv} unverified"
+    rawline = (f"Gates: letter {d['letter']} &middot; placement {fmt_pct(pl['share_pct'])}"
+               + (" &middot; MCP +1 step" if d["mcp"]["has"] else ""))
+    md = OUTDIR / "reports" / f"{slug(co)}.md"
+    if md.exists():
+        dl = (f'<a class="btn btn-primary" href="/api-grader/reports/{slug(co)}.md" '
+              f'download>Download the {co} report</a>')
+    else:
+        dl = '<span class="sub" style="font-size:14.5px;">Publishing shortly.</span>'
+    fit = (f'<p><strong>What it is:</strong> {d["provider_fit"]}</p>'
+           if d.get("provider_fit") else "")
+    g2 = d["gate2"]
+    return SUB_PAGE_V12.format(
+        name=co,
+        desc=_attr(v12_desc(co, d)),
+        cat=re.sub("&amp;", "&", cat_heading),
+        pill=regrade_pill(r),
+        score=d["score"], grade=d["grade"],
+        gcls=grade_letter_class(d["grade"]),
+        rawline=rawline,
+        tier=d["meta"].get("tier", "Not listed"),
+        run=d["meta"].get("run", "Not listed"),
+        model=d["meta"].get("model", "Not listed"),
+        ptype=d["meta"].get("product_type", "Not listed"),
+        ptype_lc=re.sub(r"^([A-Z])(?=[a-z])", lambda m: m.group(1).lower(),
+                        d["meta"].get("product_type", "")),
+        checkcount=checkcount,
+        ladder=v12_ladder(co, d),
+        fullladder=v12_full_ladder(co, d),
+        bottom=d["bottom"], fit=fit,
+        strengths="".join(f"<li>{s}</li>" for s in d["strengths"]),
+        watch="".join(f"<li>{s}</li>" for s in d["watch"]),
+        groups=v12_groups(co, d),
+        ck_earned=fmt_pts(g2["earned"]), ck_weight=g2["weight"],
+        ck_cov=fmt_pct(g2["coverage_pct"]),
+        checklist=v12_checklist(d),
+        runs=v12_runs(d),
+        dlbtn=dl,
+        fixnote=fix_html(),
+        banner=banner_html(co),
+        asset_v=ASSET_V,
+        robots="",
+        seo=seo_vendor(co, r, cat_heading),
+    )
+
+
+def v12_desc(co, d):
+    return (f"{co} scored {d['score']}/100 ({d['grade']}) on the PM API Report Card, "
+            f"methodology v1.2: how the two gates set the letter, every check, the "
+            f"coverage checklist, and the full report.")
+
+
 # Pages for platforms that have left the board under an old name. They are hand
 # written redirects, not generated, and must never be clobbered by a build.
 KEEP_AS_IS = set()   # e.g. {"old-name.html"} for a hand-written redirect after a rebrand
+
+
+def method_version(r):
+    """(major, minor) of the methodology a shown result was graded under."""
+    try:
+        return tuple(int(x) for x in str((r.get("meta") or {}).get("method", "1.1")).split(".")[:2])
+    except ValueError:
+        return (1, 1)
+
+
+def methodology_file(r):
+    """The grading file a platform page links to, from its own methodology version
+    (Andrew, 2026-11-17): a page whose current grade is v1.1 offers
+    /files/methodology-v1.1.md; v1.2 pages (and pages not graded yet) offer
+    /files/methodology-v1.2.md. Flips automatically when a v1.2 JSON lands.
+    Returns (url, "1.1")."""
+    ver = "%d.%d" % method_version(r)
+    if not (HERE / "files" / f"methodology-v{ver}.md").exists():
+        raise SystemExit(f"files/methodology-v{ver}.md is missing, but a platform is graded on v{ver}")
+    return f"/files/methodology-v{ver}.md", ver
+
+
+def v11_note(co):
+    """The note at the top of every page still showing a v1.1 grade."""
+    return (
+        '<div class="v11-note">'
+        '<p><strong>This grade uses methodology v1.1</strong>: five weighted categories, with '
+        f'points adding up to a score out of 100. {co} is being regraded under methodology '
+        'v1.2 for the December update. The v1.1 points on this page are not comparable to '
+        'the v1.2 checks shown for regraded platforms.</p>'
+        '<p><a href="/api-grader/#what-gets-graded">How v1.2 grades</a> &middot; '
+        '<a href="/files/methodology-v1.2.md" download>Download the new methodology (v1.2)</a></p>'
+        '</div>')
 
 
 def build_subpages(checks_data):
@@ -4071,7 +4806,15 @@ def build_subpages(checks_data):
         for co in companies:
             if co in NO_API:
                 continue
-            r = RESULTS.get(co)
+            r = SHOWN.get(co)
+            if r and r.get("v12"):
+                out = OUTDIR / f"{slug(co)}.html"
+                if out.name in KEEP_AS_IS:
+                    continue
+                out.write_text(finalize(build_v12_page(co, r["v12"], cat_heading),
+                                        f"/api-grader/{slug(co)}.html"), encoding="utf-8")
+                written += 1
+                continue
             if not r:
                 out = OUTDIR / f"{slug(co)}.html"
                 if out.name in KEEP_AS_IS:
@@ -4176,6 +4919,9 @@ def build_subpages(checks_data):
                 asset_v=ASSET_V,
                 robots="",
                 seo=seo_vendor(co, r, cat_heading),
+                methfile=methodology_file(r)[0],
+                methver=methodology_file(r)[1],
+                v11note=v11_note(co),
             )
             out = OUTDIR / f"{slug(co)}.html"
             if out.name in KEEP_AS_IS:
@@ -4249,8 +4995,11 @@ INDEX_IMG = SITE + "/images/api-grader/og-api-grader.png"
 
 def seo_vendor(co, r, cat_heading):
     url = f"{SITE}/api-grader/{slug(co)}"
-    desc = (f"{co} scored {r['score']}/100 ({r['grade']}) on the PM API Report Card. "
-            f"All 27 checks, the evidence behind each mark, and the full report.")
+    if r.get("v12"):
+        desc = v12_desc(co, r["v12"])
+    else:
+        desc = (f"{co} scored {r['score']}/100 ({r['grade']}) on the PM API Report Card. "
+                f"All 27 checks, the evidence behind each mark, and the full report.")
     img = f"{SITE}/images/api-grader/og-{slug(co)}.png"
     review = {
         "@type": "Review",
@@ -4286,8 +5035,8 @@ def seo_pending(co):
 
 def graded_in_order():
     """Every graded platform on the board, best score first."""
-    on_board = [co for _, _, cos in CATEGORIES for co in cos if co in RESULTS]
-    return sorted(on_board, key=lambda c: (-RESULTS[c]["score"], c.lower()))
+    on_board = [co for _, _, cos in CATEGORIES for co in cos if co in SHOWN]
+    return sorted(on_board, key=lambda c: (-SHOWN[c]["score"], c.lower()))
 
 
 def seo_index():
@@ -4306,7 +5055,7 @@ def seo_index():
          "numberOfItems": len(graded),
          "itemListElement": [
              {"@type": "ListItem", "position": i + 1,
-              "name": f"{co}: {RESULTS[co]['score']}/100 ({RESULTS[co]['grade']})",
+              "name": f"{co}: {SHOWN[co]['score']}/100 ({SHOWN[co]['grade']})",
               "url": f"{SITE}/api-grader/{slug(co)}"}
              for i, co in enumerate(graded)]},
         _crumbs(("Home", SITE + "/"), ("API Grader", INDEX_URL)),
@@ -4369,14 +5118,15 @@ def make_share_cards():
     n = 0
     cat_of = {co: re.sub("&amp;", "&", h) for _, h, cos in CATEGORIES for co in cos}
     for co in graded_in_order():
-        r = RESULTS[co]
+        r = SHOWN[co]
         img = Image.new("RGB", (W, H), "white")
         d = ImageDraw.Draw(img)
         d.rectangle([0, 0, W, 10], fill=BLUE)
         d.text((80, 92), "THE PM API REPORT CARD", font=_font(28), fill=BLUE)
         d.text((80, 150), co, font=_fit(d, co, 92, 640), fill=NAVY)
         d.text((80, 290), cat_of.get(co, ""), font=_font(34, bold=False), fill=MUTED)
-        d.text((80, 340), "Preliminary score, methodology v1.1", font=_font(30, bold=False), fill=MUTED)
+        d.text((80, 340), "Preliminary score, methodology v%d.%d" % method_version(r),
+               font=_font(30, bold=False), fill=MUTED)
         bg, fg = GRADE_RGB.get(r["grade"][0], GRADE_RGB["B"])
         d.rounded_rectangle([790, 110, 1120, 440], radius=36, fill=bg)
         g = r["grade"]
@@ -4437,15 +5187,167 @@ def check_math():
                 f"{name}: {r['score']}/100 is {letter} under the v1.1 bands, "
                 f"but the grade is set to {r['grade']}")
         print(f"  ok  {name:15} {raw:5.2f}/{sum(maxima)} -> {r['score']} {r['grade']}")
+    for name, d in V12.items():
+        check_math_v12(name, d)
+
+
+# The v1.2 bands in ascending order, for the MCP step: one step up lands on the
+# bottom of the next band (methodology v1.2, "How scoring works").
+V12_STEPS = [(60, "D-"), (63, "D"), (67, "D+"), (70, "C-"), (73, "C"), (77, "C+"),
+             (80, "B-"), (83, "B"), (87, "B+"), (90, "A-"), (93, "A"), (97, "A+")]
+V12_RANGE = {"A": (90, 6), "B": (80, 9), "C": (70, 9), "D": (60, 9)}   # base, width
+V12_CHECK_IDS = ([f"C1.{i}" for i in range(1, 5)] + [f"C2.{i}" for i in range(1, 13)]
+                 + [f"C3.{i}" for i in range(1, 7)] + [f"C4.{i}" for i in range(1, 5)]
+                 + ["C5.1", "C5.2"])
+MARK_POINTS = {"yes": 1.0, "partial": 0.5, "no": 0.0}
+
+
+def v12_band(score):
+    return next(g for lo, g in reversed(V12_STEPS) if score >= lo) if score >= 60 else "F"
+
+
+def check_math_v12(name, d):
+    """Recompute a v1.2 grade from its own parts and refuse to build on any mismatch.
+
+    Methodology v1.2: gate 1 from C5.1/C5.2, gate 2 from capability coverage, the
+    letter is the lower gate, the score is the letter's base plus round(width x
+    share) with exact halves rounded up (A 90 + round(6x), B/C/D base + round(9x)),
+    where share = Category 2+3+4 points earned / applicable checks. Then an
+    official MCP server moves the grade up one step, to the bottom of the next
+    band. Every number on the page comes from the JSON, so it has to add up."""
+    from fractions import Fraction as F
+    import math
+    def fail(msg):
+        raise SystemExit(f"{name} (data/api-grader-v12/{d['slug']}.json): {msg}")
+    order = "ABCD"
+
+    # --- the 28 checks ---------------------------------------------------------
+    ids = [c["id"] for c in d["checks"]]
+    if ids != V12_CHECK_IDS:
+        fail(f"checks must be the 28 checks C1.1 to C5.2 in order; got {', '.join(ids)}")
+    marks = {c["id"]: str(c["mark"]).strip().lower() for c in d["checks"]}
+    for cid, m in marks.items():
+        if cid in ("C1.1", "C1.2", "C1.3"):
+            if mark_pct(m) is None and m != "na":
+                fail(f"{cid} mark should be a percentage or na, not {m!r}")
+        elif m not in MARK_LABEL:
+            fail(f"{cid} mark {m!r} is not one of yes, partial, no, na, unverified")
+
+    # --- gate 1 ----------------------------------------------------------------
+    g1 = d["gate1"]
+    for k, cid in (("c5_1", "C5.1"), ("c5_2", "C5.2")):
+        if g1[k] != marks[cid]:
+            fail(f"gate1 {k} is {g1[k]!r} but check {cid} is marked {marks[cid]!r}")
+    pair = (marks["C5.1"], marks["C5.2"])
+    if "unverified" in pair:
+        fail("C5.1 or C5.2 is unverified, so the grade must be withheld")
+    want1 = "C" if "no" in pair else ("A" if pair == ("yes", "yes") else "B")
+    if g1["allows"] != want1:
+        fail(f"gate 1 should allow {want1} (C5.1 {pair[0]}, C5.2 {pair[1]}), JSON says {g1['allows']}")
+
+    # --- gate 2 ----------------------------------------------------------------
+    g2 = d["gate2"]
+    rows = [r for r in d["checklist"] if isinstance(r.get("score"), (int, float))
+            and str(r.get("state", "")).lower() not in ("na", "n-a", "unverified")]
+    for r in d["checklist"]:
+        if r.get("weight") != {"critical": 3, "important": 2, "optional": 1}.get(r.get("class")):
+            fail(f"checklist item {r.get('item')!r}: class {r.get('class')} should weigh "
+                 f"3/2/1 (critical/important/optional), not {r.get('weight')}")
+    earned = sum(F(str(r["score"])) * r["weight"] for r in rows)
+    weight = sum(r["weight"] for r in rows)
+    if F(str(g2["earned"])) != earned or g2["weight"] != weight:
+        fail(f"checklist adds up to {float(earned)} of {weight} weight, "
+             f"gate2 says {g2['earned']} of {g2['weight']}")
+    cov = earned / weight * 100
+    if abs(float(cov) - float(g2["coverage_pct"])) > 0.051:
+        fail(f"coverage is {float(cov):.2f}%, gate2 says {g2['coverage_pct']}%")
+    crit0 = any(r["class"] == "critical" and float(r["score"]) == 0 for r in rows)
+    if bool(g2["critical_zero"]) != crit0:
+        fail(f"critical_zero is {g2['critical_zero']} but the checklist says {crit0}")
+    if g2["c1_4"] != marks["C1.4"]:
+        fail(f"gate2 c1_4 is {g2['c1_4']!r} but check C1.4 is marked {marks['C1.4']!r}")
+    write = float(g2["write_pct"])
+    if cov >= 85 and write >= 70 and g2["c1_4"] in ("yes", "partial"):
+        want2 = "A"
+    elif cov >= 60:
+        want2 = "B"
+    elif cov >= 35:
+        want2 = "C"
+    else:
+        want2 = "D"
+    if crit0 and want2 == "A":
+        want2 = "B"
+    if g2["allows"] != want2:
+        fail(f"gate 2 should allow {want2} (coverage {float(cov):.1f}%, writes {write}%, "
+             f"C1.4 {g2['c1_4']}, critical at zero {crit0}), JSON says {g2['allows']}")
+
+    # --- the letter --------------------------------------------------------------
+    letter = max(want1, want2, key=order.index)
+    if d["letter"] != letter:
+        fail(f"the lower of gate 1 ({want1}) and gate 2 ({want2}) is {letter}, JSON says {d['letter']}")
+    binding = ("none" if want1 == want2 == "A" else "both" if want1 == want2
+               else "gate1" if order.index(want1) > order.index(want2) else "gate2")
+    if d["binding_gate"] != binding:
+        fail(f"binding gate should be {binding!r}, JSON says {d['binding_gate']!r}")
+
+    # --- placement -----------------------------------------------------------------
+    pl = d["placement"]
+    tot_e, tot_a = F(0), 0
+    for g, key in ((2, "c2"), (3, "c3"), (4, "c4")):
+        got = [marks[c] for c in V12_CHECK_IDS if c.startswith(f"C{g}.") and marks[c] in MARK_POINTS]
+        e = sum(F(str(MARK_POINTS[m])) for m in got)
+        if F(str(pl[key][0])) != e or pl[key][1] != len(got):
+            fail(f"group {g}: the check marks give {float(e)} of {len(got)}, "
+                 f"placement {key} says {pl[key][0]} of {pl[key][1]}")
+        tot_e += e
+        tot_a += len(got)
+    share = tot_e / tot_a
+    if abs(float(share) * 100 - float(pl["share_pct"])) > 0.051:
+        fail(f"placement share is {float(share) * 100:.2f}%, JSON says {pl['share_pct']}%")
+    base, width = V12_RANGE[letter]
+    pre = base + math.floor(width * share + F(1, 2))      # exact halves round up
+    if d["pre_mcp"]["score"] != pre:
+        fail(f"{base} + round({width} x {float(share):.4f}) = {pre}, "
+             f"but pre_mcp score is {d['pre_mcp']['score']}")
+    pre_g = v12_band(pre)
+    if d["pre_mcp"]["grade"] != pre_g or pre_g[0] != letter:
+        fail(f"{pre} is {pre_g}, but pre_mcp grade is {d['pre_mcp']['grade']}")
+
+    # --- MCP step ------------------------------------------------------------------
+    if d["mcp"]["has"]:
+        i = [g for _, g in V12_STEPS].index(pre_g)
+        final = V12_STEPS[min(i + 1, len(V12_STEPS) - 1)][0]
+    else:
+        final = pre
+    if d["score"] != final or d["grade"] != v12_band(final):
+        fail(f"published score should be {final} ({v12_band(final)}) "
+             f"{'after' if d['mcp']['has'] else 'with no'} MCP step, JSON says {d['score']} ({d['grade']})")
+    if len(d["runs"].get("scores", [])) != 3:
+        fail("runs.scores should hold the three runs' scores")
+    print(f"  ok  {name:15} v1.2 gates {want1}/{want2} -> {letter}, share "
+          f"{float(share) * 100:.1f}% -> {pre} {pre_g}"
+          + (f", MCP -> {final} {d['grade']}" if d["mcp"]["has"] else ""))
+
+
+def publish_v12_reports():
+    """Copy each v1.2 platform's final report to api-grader/reports/<slug>.md, using
+    the same function as publish-api-grader-reports.py (verbatim, REDACT list only)."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "publish_api_grader_reports", HERE / "publish-api-grader-reports.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.publish_v12_reports()
 
 
 def main():
     check_math()
+    print(f"v1.2 reports: {publish_v12_reports()} copied to api-grader/reports/")
     checks_data = load_checks()
     html = PAGE.read_text(encoding="utf-8")
 
     results_block = f"""      <h2 class="h-lead">The results.</h2>
-      <p class="sub" style="margin:10px 0 14px;">Scores are point-in-time, based on first-party documentation and, where available, live testing. Open any graded platform for its own page: all 27 checks, the evidence behind each mark, and the full report to download.</p>
+      <p class="sub" style="margin:10px 0 14px;">Scores are point-in-time, based on first-party documentation and, where available, live testing. Open any graded platform for its own page: every check, the evidence behind each mark, and the full report to download.</p>
 
       <p class="sub" style="margin:0 0 18px;">Every grade on this page is produced by an AI analysis run against the same published grading file, which you can <a href="/files/methodology-v1.2.md" download>download and check here</a>. The scope is deliberately narrow: API and data access. A grade is not Peter Lohmann&#x27;s opinion of a company, and it does not reflect any financial interest in, or professional relationship with, it. It also says nothing about a platform&#x27;s features, reliability, interface, support, or standing in the industry.</p>
 
@@ -4460,10 +5362,10 @@ def main():
           <thead>
             <tr>
               <th>Platform</th>
-{chr(10).join(f'              <th class="num col-cat">{l}<span class="th-max">/{m}</span></th>' for l, m in CAT_LABELS)}
+{chr(10).join(f'              <th class="num col-cat">{l}' + (f'<span class="th-sub">{sub}</span>' if sub else '') + '</th>' for l, sub in TABLE_COLS)}
               <th class="num">Preliminary<br />Score<button class="info" type="button"
                     aria-label="How the score is calculated"
-                    data-tip="The five category scores add up to a raw total out of 50, which is doubled to a score out of 100 and mapped to a letter grade: A+ at 97 and above, down to F below 60. Scores are absolute, never curved against other platforms. A number is only published when the run clears the methodology&#x27;s verification bar; otherwise the score is withheld."><span aria-hidden="true">i</span></button></th>
+                    data-tip="Regraded platforms (methodology v1.2): two gates, open access and documented coverage, set the letter, the share of design, access-control, and documentation checks passed sets the score inside it, and an official MCP server adds one step. Platforms not yet regraded show v1.1 points: five categories add up to 50, doubled to a score out of 100. Scores are absolute, never curved against other platforms."><span aria-hidden="true">i</span></button></th>
               <th class="num">Preliminary<br />Grade</th>
             </tr>
           </thead>
@@ -4475,7 +5377,7 @@ def main():
 
       {build_cards()}
 
-      <p class="tbl-note small">Scores are point-in-time and tied to the evidence access date. Preview scores use methodology v1.1; the December update uses v1.2.</p>
+      <p class="tbl-note small">Scores are point-in-time and tied to the evidence access date. Platforms marked Regraded use methodology v1.2 and show checks; the rest still show their v1.1 points until their regrade lands in the December update. v1.1 points and v1.2 checks are not comparable.</p>
       <p class="tbl-note"><strong>Categories still to come:</strong> Market Rent &amp; Property Data, Inspections, Pets, Security Deposits, Insurance, E-sign, and Other. Platforms in those categories are not graded yet and are not counted anywhere on this page.</p>"""
 
     html = re.sub(
@@ -4509,7 +5411,7 @@ def main():
     PAGE.write_text(finalize(html, "/api-grader/index.html"), encoding="utf-8")
     print(f"Wrote {PAGE}")
     print(f"  {sum(len(c) for _,_,c in CATEGORIES)} companies in "
-          f"{len(CATEGORIES)} categories, {len(RESULTS)} graded")
+          f"{len(CATEGORIES)} categories, {len(SHOWN)} graded")
 
     n = build_subpages(checks_data)
     print(f"Wrote {n} vendor pages: api-grader/<platform>.html")

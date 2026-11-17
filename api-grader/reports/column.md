@@ -1,195 +1,331 @@
-# API Report Card: Column N.A. - Column API
+# API Report Card: Column N.A. Column API
+
+**Score: 95 / 100 · Grade: A** · baseline verified · all three grading runs scored 95 (A)
 
 ## Run metadata
-- Methodology version: 1.1
-- Evaluating model: Claude Opus 5 (claude-opus-5)
-- Independent grading runs: 3, all against final frozen packet COL-2026-09-09-F1; check-level agreement 27/27 (see reconciliation section)
-- Date run: 2026-09-09
-- Provisional evidence-packet version or ID: COL-2026-09-09-P1
-- Final evidence-packet version or ID: COL-2026-09-09-F1 (frozen after controlled verification pass)
-- Evidence-discovery mode: tool-enabled discovery
-- Evidence tier: **Fully verified - sandbox**
-- Live-write method and safety: sandbox (`test_` key, platform `plat_3ImbvCTSTnhU67ek3h7gp8X9RPZ`). All fixtures named `APITEST-DELETE`; cleanup verified - Operating Account restored to its exact pre-test balance of 100,000,000 cents, fixture bank account deleted, webhook endpoint deleted, counterparty deleted.
-- Minimum live-test battery: **complete** (steps 1-8 all run; none N-A)
-- Live tests performed: (1) authenticate; (2) read + full cursor traversal of a core collection; (3) incremental/filtered queries (`created.gte`, `type`, future-date negative control); (4) four deliberate errors (malformed ID, bad auth, missing required field, unknown route); (5) response header inspection for traceability and rate-limit signals; (6) create + update + delete of core resources (bank account, counterparty, book transfer, ACH transfer) and lifecycle transitions (HOLD→CANCELED, HOLD→COMPLETED, ACH INITIATED→CANCELED); (7) idempotency double-send with identical `Idempotency-Key`; (8) webhook endpoint registration, event trigger, and delivery-record observation.
-- Live tests not possible: none
-- Documentation-graded checks: none at the check level. **Disclosure:** within C2.8, the HMAC `Column-Signature` payload signature was documentation-graded rather than observed, because no operator-controlled receiving endpoint was available; registration, event generation, subscription filtering, delivery attempt and delivery-history retrieval were all observed live.
+- Methodology version: 1.2
+- Grading model (fixed for this version): Claude Opus 5.5 (`claude-opus-5-5`) at high effort
+- Date run: 2026-11-17
+- Provisional evidence-packet version or ID: COLUMN-EP-2026-11-17-P1
+- Final evidence-packet version or ID: COLUMN-EP-2026-11-17-F1 (frozen 2026-11-17)
+- Evidence-discovery mode: supplied final packet. The grading runs did no discovery, opened no links and made no API calls.
+- Evidence tier: baseline verified
+- Credential: a Column sandbox key (`test_` prefix), used by the tester for read (GET) calls only. The key does not appear in the packet or in this report.
+- Minimum live-test battery: complete (steps 1–5; packet §8)
+- Live tests performed: T01–T30 (32 GET requests, 2026-11-17 17:40:04Z–17:40:59Z UTC)
+  - Authentication: T03 returned 200; T22 (wrong key) returned 401
+  - Core reads with a full cursor traversal: 13 transfers across 3 pages (T03–T05, T11, T12, T24, T25, T27–T29)
+  - Filtered and incremental queries: T06–T10, T13, T14, T30
+  - Deliberate errors: T15–T23
+  - Header tally on all 32 responses
+- Documentation-graded checks: C1.2, C1.3, C2.4, C2.8, C2.9 (write path), plus C1.4, C2.7, C2.10, C2.12, C3.1–C3.6, C4.1–C4.4, C5.1 and C5.2
+- Checks applicable: 28 of 28 (none N-A, none unverified)
 
 ## Final evidence packet manifest
-- https://docs.column.com/llms.txt
-- https://docs.column.com/llms-full.txt (1,242,286 bytes, 21,243 lines - complete documentation corpus)
-- https://docs.column.com/openapi.json (825,678 bytes; OpenAPI 3.0.3; 141 paths, 180 operations, 224 schemas)
-- https://docs.column.com/sitemap.xml (308 URLs)
-- https://docs.column.com/markdown/working-with-the-api/authentication.md
-- https://docs.column.com/markdown/working-with-the-api/pagination.md
-- https://docs.column.com/markdown/working-with-the-api/idempotency.md
-- https://docs.column.com/markdown/working-with-the-api/errors.md
-- https://docs.column.com/markdown/working-with-the-api/events-and-webhooks.md
-- https://docs.column.com/markdown/guides/api-key-security.md
-- https://docs.column.com/markdown/guides/roles-and-permissions.md
-- https://docs.column.com/markdown/guides/sandbox-and-testing.md
-- https://docs.column.com/markdown/guides/getting-started.md
-- https://docs.column.com/markdown/guides/going-live.md
-- https://docs.column.com/markdown/guides/statements.md
-- https://docs.column.com/markdown/guides/reporting.md
-- https://docs.column.com/markdown/api.md
-- https://column.com/llms.txt
-- https://column.com/llms-full.txt
-- https://column.com/property-management/
-- https://column.com/changelog/
-- https://status.column.com
-- https://github.com/column (first-party org: name "Column", blog `https://column.com`)
-- Live API observations against `https://api.column.com`, sandbox key `test_3Imck…`, 2026-09-09 (all captured request/response pairs)
+All sources are first-party, were read 2026-11-17 and are labeled [Documented] unless marked otherwise. Nothing is labeled Discovered (supplied).
+
+| ID | Source |
+|---|---|
+| S01 | column.com homepage |
+| S02 | column.com/llms.txt and /llms-full.txt (product overview) |
+| S03 | docs.column.com/llms.txt (API index) |
+| S04 | docs.column.com/llms-full.txt (2.18 MB full API corpus) |
+| S05 | docs.column.com/openapi.json and /openapi.yaml (OpenAPI 3.0.3, info.version 1.4, 202 paths, 254 operations) |
+| S06 | Authentication |
+| S07 | Sandbox and Testing |
+| S08 | Getting Started |
+| S09 | API Key Security |
+| S10 | Roles & Permissions |
+| S11 | Pagination |
+| S12 | Idempotency |
+| S13 | Errors |
+| S14 | Events and Webhooks |
+| S15 | Reporting guide |
+| S16 | Bank Statements |
+| S17 | Bank account API reference |
+| S18 | Account Number data model |
+| S19 | Transfer lifecycle endpoints |
+| S20 | Transfer objects (remittance and settlement fields) |
+| S21 | Counterparty |
+| S22 | Reporting API reference |
+| S23 | Going live |
+| S24 | Bank Accounts use-case guide |
+| S25 | column.com/changelog |
+| S26 | status.column.com, plus /history, RSS and 90-day uptime |
+| S27 | column.com/property-management |
+| S28 | column.com/appfolio |
+| S29 | API Terms of Service |
+| S30 | github.com/column and npm @column-na/card-reveal |
+| S31 | Card Reveal SDK version policy |
+| S32 | International wire transfer fees |
+| S33 | Pricing: record of absence after search |
+| T01–T30 | Live sandbox reads [Live-tested] |
+
+**Standard locations checked** (packet §4, 2026-11-17):
+
+| Location | docs.column.com | column.com |
+|---|---|---|
+| llms.txt | 200 (API index) | 200 (product index) |
+| llms-full.txt | 200 (full API corpus) | 200 (product overview) |
+| openapi.json / openapi.yaml | 200 | 404 |
+| swagger.json | 404 | 404 |
+| sitemap | sitemap.xml 200 | sitemap-index.xml 200 |
+| Changelog | 404 | /changelog 200 |
+| release-notes | 404 | 404 |
+| MCP page and /.well-known/mcp.json | 404 | 404 |
+
+- Status page: status.column.com 200.
+- The official MCP Registry has no Column listing.
+- The developer., developers., api-docs. and dev. subdomains did not respond.
+- The documentation-home sequence was completed in full with dates (packet §3).
 
 ## Evidence-amendment log
-- **C2.9 (concurrency):** added live conflict probes (cancel an already-CANCELED transfer; clear an already-COMPLETED transfer) and an ETag/Last-Modified header probe, plus confirmation that `invalid_record_status` is a documented error code (llms-full.txt line 1824). Mark moved from provisional `no` to `partial`.
-- **C2.10 (versioning):** added live probes for a version response header and for `/v1/…` and `/api/…` versioned paths (both 404), plus a full-corpus search for "backward compatible / breaking / deprecation policy" (no hits). Mark confirmed `no`.
-- **C2.11 (traceability):** added a targeted corpus search for the `request-id` response header - present on every observed response but absent from all first-party documentation. Mark moved from provisional `yes` to `partial`.
-- **C2.12 (status/uptime):** added https://status.column.com (returned 200; per-component 90-day uptime and incident history). Mark moved from provisional `unverified` to `yes`.
-- **C4.2 (machine-consumable path):** added GitHub org verification and an OpenAPI integrity audit (180/180 operations carry `operationId`, summary and a 2xx response schema; 0 dangling `$ref`s). Confirmed `yes` on the specification; confirmed Column publishes **no** official SDKs (its 4 public repos are forks of third-party Go libraries: zerolog, enumer, go-gin-prometheus, oapi-codegen) and no MCP server.
-- **C4.4 (kept current):** added https://column.com/changelog/ and a sitemap `lastmod` uniformity check - all 308 URLs share one build timestamp (`2026-09-08T23:43:23.918Z`), so sitemap dates are **not** evidence of per-page currency. Mark moved from provisional `yes` to `partial`.
+Amendments A1–A12, from the tester's single controlled verification pass (packet §7):
+
+| # | Check(s) | Result |
+|---|---|---|
+| A1 | C5.2 | S32 and S33 added |
+| A2 | C2.5 | Nothing new |
+| A3 | C2.10, C4.4 | S25 deprecation entries and S31 added |
+| A4 | C3.6 | No OAuth found |
+| A5 | C2.11 | `request-id` header seen live but documented nowhere |
+| A6 | C2.9 | No concurrency control found |
+| A7 | C2.7 | S25 batch-upload entries added |
+| A8 | Checklist item 16 | S25 note added: Column's team, not the customer, sets the frozen status |
+| A9 | Checklist item 17 | S21 annotated: no update operation |
+| A10 | C2.3 | A missing record returns 400; a wrong key returns 401 with an empty body |
+| A11 | C2.2 | Type inconsistencies recorded |
+| A12 | C1.4, C2.12 | Full event list and uptime data added |
+
+No sources were removed. The grading runs added nothing.
+
+## Grading runs
+- Evidence session (tester: discovery, verification, live battery, packet frozen): 2026-11-17
+- Runs 1–3 (PLM; methodology and frozen packet only; no vendor-specific guidance): 2026-11-17. The three runs ran at the same time as separate, isolated subagents on Claude Opus 5.5 at high effort.
+- Check-level agreement: **28 of 28 checks unanimous.**
+- Coverage-checklist agreement: 16 of 17 items unanimous.
+- C1.3 and capability coverage differ only because of that one checklist item (item 16).
+- Score agreement: all three runs scored 95 (A).
+
+| Check / item | Run 1 | Run 2 | Run 3 | Resolved | Basis |
+|---|---|---|---|---|---|
+| Checklist item 16: Freeze or close an account (important, weight 2) | 1.0 | 0.5 | 0.5 | **0.5** | See below |
+| → C1.3 Lifecycle coverage | 87.5% | 75.0% | 75.0% | **75.0%** | Follows item 16 |
+| → Capability coverage | 97.5% | 95.0% | 95.0% | **95.0%** | Follows item 16 |
+
+**Basis for item 16.** The only documented operator action is `DELETE /bank-accounts/{id}`, which works only at a $0 balance (S17). Run 1 counted that delete as "close" and gave full credit. The evidence supports only partial credit, for three reasons:
+- It is a hard delete, not a close. Afterward the account reads back as "not found" (T15), not as `closed`.
+- No documented operation lets the operator set the `closed` or `frozen` status. The PATCH body has no status field (S05).
+- Only Column's team can freeze an account (S25, Sep 30 2025).
+
+The item's operations are therefore present but limited, so it scores 0.5.
+
+- Unresolved disagreements: none.
+- If run 1's reading were used, capability coverage would be 97.5% and C1.3 87.5%. The gates, placement and score would not change: still **95 (A)**.
+
+Other differences between runs did not change any mark:
+- **C1.4 push-coverage estimates:** 88.2%, 87.1% and 90.8%. Each is at least 85%, so all three runs marked C1.4 yes.
+- **Rounding edge (noted by every run):** placement is exactly 6 × 0.75 = 4.5, which rounds up. Losing half a point anywhere in Categories 2–4 (for example C2.6 or C2.7 dropping to partial) would give 94, still an A.
+- **C5.2 (run 2's note):** reading the absence of any published pricing as "partial" would cap gate 1 at B (87, B+). No run made that call. The packet shows no plan tiers, API fee or paid add-on after a targeted search (S33, A1), and the API terms list no fees (S29).
 
 ## API eligibility
-- Qualifying API: **yes**
-- API operator: Column N.A. - "Column N.A. is the first nationally chartered bank created to serve developers and builders" (docs.column.com/llms.txt, header). API served from `https://api.column.com` (openapi.json, `servers`).
-- Access or credential issuer: Column N.A., via its own dashboard - "You can create `sandbox` and `production` keys in the developer dashboard" (Authentication); "Keys are issued and managed from the dashboard" (API Key Security → intro).
-- Eligibility basis: The interface exposes Column's own banking functions (bank accounts, balances, transfers across ACH/wire/book/realtime/check/SWIFT, statements, reporting) and Column itself issues the credentials. Verified live: the supplied `test_` key authenticated and returned Column-issued bank accounts bearing Column's own routing number `121145307` and BIC `CLNOUS66` (GET /bank-accounts, 2026-09-09, HTTP 200).
+- Qualifying API: yes
+- Interface label: none
+- API operator: Column, N.A. ("Bank") [S29 API Terms, parties clause; S05 `servers: https://api.column.com/`]
+- Access or credential issuer: Column N.A., through its self-serve developer dashboard [S06; S09]
+- Eligibility basis: Column has a public REST API at api.column.com, defined by a public OpenAPI spec of 254 operations. The API covers Column's own accounts and payment rails [S05]. A sandbox key authenticated and returned data live [T03].
 
 ## Context
-- Software category: **banking or payments**
-- What the API is for and its core objects and workflows: The Column API lets a developer open and operate FDIC-insured bank accounts at Column and move money over every major US rail (ACH, FedWire, FedNow, book transfers, checks) plus international SWIFT wires. Its core objects are entities, bank accounts, account numbers, counterparties, transfers and events; its core workflows are reading balances and transaction activity, initiating and controlling payments through their full lifecycle, and reconciling settlement through statements, reports and webhooks.
+- Product type: Banking/payments
+- What the API is for: Column is a bank. Its API opens and manages deposit accounts and account numbers, and sends or receives money over ACH, wire, realtime (instant), book transfer, check and international wire. It also exposes balances, transaction activity, statements, settlement reports and signed webhooks. The core objects are accounts, balances, transactions, payments, statements and reconciliation data.
 
 ## Provider and property-management fit
-- What this product is: A nationally chartered bank that delivers its own banking and payments functions through a developer API. [column.com/llms.txt: "Column N.A. is a nationally chartered bank built for developers. Access banking infrastructure including ACH, wires, real-time payments, checks, lending, and card issuing through a modern API."]
-- Bank status, when relevant: **bank** [column.com/property-management/: "Nationally Chartered", "OCC-regulated", "Member FDIC"; docs.column.com/llms.txt: "the first nationally chartered bank created to serve developers and builders"]
-- Who provides any bank account or regulated banking service: **the evaluated vendor (Column N.A. itself)**. No third-party sponsor bank is named anywhere in the reviewed first-party materials; accounts are opened "at Column" [docs guides/bank-accounts: "Programmatically open and manage FDIC insured bank accounts at Column on behalf of your customers"].
-- What the customer actually receives: Real FDIC-insured demand deposit accounts held at Column N.A., each with a Column routing number and one or more account numbers, plus Column's ledger as the system of record. Verified live: accounts returned `"fdic_insurance": "standard"`, `"routing_number": "121145307"`, `"bic": "CLNOUS66"`, and a four-part balance object (available / pending / locked / holding).
-- Property-management fit: **dedicated PM offering**. Column serves a broad developer market but publishes a named property-management offering with domain-specific workflows [column.com/llms.txt lists "Property Management & HOAs" under Specialty Deposits; column.com/property-management/].
-- Documented PM-specific workflows: client trust accounts and "Broker Trust Account FBO"; separation of trust and operating funds ("Separate trust and operating funds, enforce approvals, and keep an audit-ready record"); security deposit refunds; rent collection; owner distributions; vendor payments; remote deposit capture "with trust guardrails"; and transaction sync "into your property management accounting software" [all column.com/property-management/].
-- Trust or fiduciary workflow support, when relevant: **documented**, with a caveat about where the evidence lives. The API documentation supports the *structure* fiduciary work needs - FBO and SFBO account structures, virtual sub-accounts for ledgering, and consolidated statements across FBO subledgers ["A 'For the Benefit of' (FBO) account describes a compilation of entities and account objects under a single root entity" (data-models/account); "If your platform has 'bank accounts' that are part of an SFBO or FBO account structure, the bank accounts are considered subledgers of the SFBO/FBO such that a single statement will be generated encompassing all activity across all subledgers" (guides/statements)] - and holds/escrow are documented ["Used for escrow, marketplace disbursements, or pre-authorization" (guides/book-transfers-and-holds)]. The explicitly *property-management* framing of those structures (trust vs. operating, security deposits, owner distributions) appears on the marketing page rather than in the API reference; the API itself exposes generic FBO/virtual-account primitives that an operator or their software assembles into trust accounting.
-- Operational role and dependencies: Column is the bank and the money-movement layer; it is not a property management system, and it does not keep leases, tenants, owner statements or a property-level general ledger, so an operator still needs a PMS or accounting system on top of it (which is what Column's own page implies when it describes syncing transactions "into your property management accounting software").
+- What this product is: a nationally chartered bank that gives developers API access to bank accounts and payment rails [S01; S02].
+- Bank status: **bank**. Column N.A. is nationally chartered and Member FDIC [S01 hero "Column NA Member FDIC"; S29].
+- Who provides any bank account or regulated banking service: Column N.A. itself [S24; S27; S28].
+- What the customer actually receives: FDIC-insured deposit accounts held at Column, with any number of account numbers per account, money movement, statements and reports, run through the API or the dashboard [S16; S18; S24].
+- Property-management fit: **dedicated PM offering**. Column serves a broad developer and fintech market, but it has a dedicated "Property Management & HOAs" page [S27], an AppFolio partnership page [S28] and a Real Estate industry tab [S01].
+- Documented PM-specific workflows:
+  - client and broker trust accounts (FBO owner), operating accounts and per-property balances [S27]
+  - owner disbursements, vendor payments and security-deposit refunds [S27]
+  - trust-account check deposits and Positive Pay [S27]
+  - reconciliation sync into PM accounting software [S27]
+  - next-business-day owner distributions inside AppFolio [S28]
+
+  All of these are described as banking, dashboard or AppFolio-integration features. None names an API endpoint [packet §6].
+- Trust or fiduciary workflow support: **limited**.
+  - PM trust-account workflows are documented at the product level [S27; S28].
+  - The API reference is general-purpose banking. It offers FBO/sub-ledger account types and multiple account numbers per account [S16; S18; S24], but no endpoints specific to PM trust accounting, security deposits or owner ledgers [S04; S05].
+  - The "Trust accounts" in the Jul 30 2026 changelog are revocable and irrevocable personal trusts, not PM client-trust accounting [S25].
+- Operational role and dependencies: Column supplies the bank accounts and payment rails. An operator still needs a PMS or trust-accounting system (for example AppFolio, which has a direct Column integration) to keep tenant and owner ledgers. Going live requires KYC/KYB [S23], and opening accounts for end customers requires a Program Management Agreement [S24].
 
 ## Coverage classification (fixed before inspection)
-Default banking/payments classification from the methodology, recorded before the API was inspected. Not altered afterward.
+- Checklist: Banking/payments published v1.2 list, no deviation. It was frozen 2026-11-17T17:36:04Z, before any API reference was read or any call was made [packet §1–2].
+- Size, re-added in code from the item rows: 17 items, total weight 40. This matches the stated totals.
+  - Objects: 10 items, weight 23
+  - Workflows: 3 items, weight 9
+  - Lifecycle actions: 4 items, weight 8
+- One missing critical item = 3 ÷ 40 = **7.5%** of capability coverage
 
-| Object or workflow | Class | Weight | Present / read-only / absent |
-|---|---|---|---|
-| Accounts | critical | 3 | Present with full operations (create, read, update, delete) |
-| Balances | critical | 3 | Present (computed values - writes N-A) |
-| Transactions | critical | 3 | Present (immutable records - writes N-A) |
-| Payment initiation | critical | 3 | Present with create + lifecycle control |
-| Statements | important | 2 | Present (generated documents - writes N-A) |
-| Reconciliation data | important | 2 | Present with create (report generation) and read |
-| Settlement webhooks | important | 2 | Present with create, read, update, delete |
-| Counterparty metadata | optional | 1 | Present with create, read, delete |
-| **Workflow:** read balances and transactions | critical | 3 | Present |
-| **Workflow:** initiate a payment | critical | 3 | Present |
-| **Workflow:** reconcile settlement | critical | 3 | Present |
+| Item | Kind | Class | Weight | State | Score |
+|---|---|---|---|---|---|
+| Accounts | object | critical | 3 | present: GET/POST `/bank-accounts`, GET/PATCH/DELETE `/bank-accounts/{id}` [S05; S17; T03] | 1.0 |
+| Balances | object | critical | 3 | present (computed, read-only by nature): `balances` {available, pending, locked, holding} in integer cents; `/history` [S17; T03] | 1.0 |
+| Transactions | object | critical | 3 | present: `/transfers`, per-rail lists, `/activities` with running balance [S05; S17; T04–T06, T25] | 1.0 |
+| Payment initiation | object | critical | 3 | present: POST `/transfers/ach`, `/wire`, `/realtime`, `/book`, `/checks/issue`, `/international-wire` [S05; S12] | 1.0 |
+| Statements | object | important | 2 | present: monthly statements via the reporting API; `GET /reporting/customized-bank-account-statement` [S16; S22] | 1.0 |
+| Reconciliation data | object | important | 2 | present: settlement reports by transaction and by account summary (CSV, JSON, Parquet); activities with running balance [S15; S17; S22] | 1.0 |
+| Settlement webhooks | object | important | 2 | present: `ach.*.settled`, wire and realtime `.completed`, check settled, `reporting.*.completed`, all HMAC-signed [S14] | 1.0 |
+| Sub-accounts or virtual account numbers per property or owner | object | important | 2 | present: `POST /bank-accounts/{id}/account-numbers` (many per account); FBO and custom account types [S05; S18; S24] | 1.0 |
+| Incoming payment remittance detail | object | important | 2 | present: ACH `payment_related_info` (CTX up to 9,999 × 80 characters); wire `originator_to_beneficiary_information_line_1–4`; international wire `remittance_info` [S20] | 1.0 |
+| Counterparty metadata | object | optional | 1 | present: create, list, get, delete [S05; S21; T28] (the missing update is scored in item 17) | 1.0 |
+| Read balances and transactions | workflow | critical | 3 | present, live-tested [T03–T06, T25] | 1.0 |
+| Initiate a payment | workflow | critical | 3 | present on all rails, with Idempotency-Key [S05; S12] | 1.0 |
+| Reconcile settlement | workflow | critical | 3 | present: `POST /reporting` settlement reports, `settled_at` fields, settled events, activity running balances [S15; S17; S20; S22]. Needs a one-time dashboard time-zone setting [S15; T26]. | 1.0 |
+| Cancel a pending payment | lifecycle | critical | 3 | present: ACH cancel (INITIATED or HOLD), held wire, realtime, book and international wire cancel, check stop-payment [S19; S05] | 1.0 |
+| Initiate a return or reversal | lifecycle | important | 2 | present: ACH reverse and return; wire return-request and incoming reverse; realtime return and return-request; check and international wire returns [S19; S05] | 1.0 |
+| Freeze or close an account | lifecycle | important | 2 | partial: close only by hard `DELETE` at a $0 balance, after which the account reads as not found [S17; T15]. No operator freeze: the frozen status is set only by Column's team [S25 Sep 30 2025; S05 PATCH has no status field]. | 0.5 |
+| Update counterparty details | lifecycle | optional | 1 | absent: no PATCH or PUT [S05; S21; A9] | 0.0 |
 
 ## Functional coverage map
-- **Core objects:**
-  - *Accounts* (critical, 3) - **present, full operations.** `GET/POST /bank-accounts`, `GET/PATCH/DELETE /bank-accounts/{id}`. Live-verified: created `bacc_3J5oDvE7fw1e52c00cCELiRnB8G` (HTTP 200), PATCHed its description (HTTP 200, value confirmed changed), DELETEd it (HTTP 200, absent from subsequent list). Score 1.0
-  - *Balances* (critical, 3) - **present.** Every bank account carries `balances{available_amount, holding_amount, locked_amount, pending_amount}`. Live-verified on GET /bank-accounts. Computed balances: writes N-A per the weighted-coverage method. Score 1.0
-  - *Transactions* (critical, 3) - **present.** `GET /transfers` (unified across all rails, live-verified, `total_results_count: 6`), per-rail list endpoints, and `GET /bank-accounts/{id}/history` for a running per-transaction balance ledger. Immutable financial records: writes N-A. *Observed limitation:* the `/history` endpoint returned `feature_not_enabled` - "The reporting time zone of your platform is not set yet. Please set it in Platform Settings in Dashboard first." This is a one-time dashboard configuration prerequisite, not a missing capability, and transaction history remained fully readable through `/transfers` and the reporting API. Score 1.0
-  - *Payment initiation* (critical, 3) - **present, full operations.** `POST /transfers/ach`, `/transfers/wire`, `/transfers/book`, `/transfers/realtime`, `/transfers/checks/issue`, `/transfers/international-wire`. Live-verified: book transfer `book_3J5oG6IVIanPYRD8n8JFOGJMgjr` (HTTP 200, status COMPLETED) and ACH transfer `acht_3J5oSwtzkKrvXYtcqBVMIOAXmJn` (HTTP 200, status INITIATED). Score 1.0
-  - *Statements* (important, 2) - **present.** Monthly statements for all open accounts, in CSV and PDF, retrievable via the reporting API and announced by a `reporting.bank_account_monthly_statement.completed` event; consolidated statements for FBO/SFBO structures are API-only (guides/statements). Generated documents: writes N-A. Score 1.0
-  - *Reconciliation data* (important, 2) - **present with writes.** `GET/POST /reporting`, `GET /reporting/{settlement_report_id}`, `GET /reporting/customized-bank-account-statement`. The `bank_account_transaction` report carries per-transaction deltas *and* running balances (`available_amount`/`available_balance`, `pending_*`, `locked_*`, `holding_*`) in CSV, JSON and Parquet (guides/reporting). Live-verified readable (HTTP 200). Score 1.0
-  - *Settlement webhooks* (important, 2) - **present, full operations.** `GET/POST /webhook-endpoints`, `GET/PATCH/DELETE /webhook-endpoints/{id}`, `POST /webhook-endpoints/{id}/verify`, plus `GET /webhook-deliveries/endpoint/{id}` and `/event/{id}`. Live-verified create and delete. Score 1.0
-  - *Counterparty metadata* (optional, 1) - **present.** `GET/POST /counterparties`, `GET/DELETE /counterparties/{id}`, plus `GET /institutions` and `GET /iban/{iban}` lookups. Live-verified create (`cpty_3J5oDnCM1EBCq2Xv0EypXKry9wI`, HTTP 200) and delete. Score 1.0
-- **Primary operational workflows:** read balances and transactions (verified live); initiate a payment (verified live, book + ACH); reconcile settlement (reporting endpoints readable live; settlement/statement event types documented).
-- **Principal lifecycle changes:** cancel (verified live, book + ACH), clear/settle (verified live), return (`POST /transfers/ach/{id}/return`, `/transfers/checks/{id}/return`, `/transfers/realtime/{id}/return`, `/transfers/international-wire/{id}/return`), reverse (`POST /transfers/ach/{id}/reverse`, `/transfers/wire/{id}/reverse`), stop payment (`POST /transfers/checks/{id}/stop-payment`), account close (`DELETE /bank-accounts/{id}`, verified live), and approve/reject (`/transfers/wire/return-requests/{id}/approve|reject`, `/transfers/wire/drawdown/{id}/approve`, `/transfers/realtime/request-for-payment/{id}/accept|reject`).
+- Core objects: all 10 present (23 of 23 weight):
+  - accounts (critical, 3)
+  - balances (critical, 3)
+  - transactions (critical, 3)
+  - payment initiation (critical, 3)
+  - statements (important, 2)
+  - reconciliation data (important, 2)
+  - settlement webhooks (important, 2)
+  - sub-accounts and account numbers (important, 2)
+  - remittance detail (important, 2)
+  - counterparty metadata (optional, 1)
+- Primary operational workflows:
+  - read balances and transactions (live-confirmed)
+  - initiate payments on six rails
+  - schedule settlement reports and pull activity lines to reconcile
+- Lifecycle actions:
+  - cancel a pending payment: present (critical, 3)
+  - return or reversal: present (important, 2)
+  - freeze or close: partial (important, 2)
+  - update counterparty: absent (optional, 1)
 
-## Category 1: Functional Coverage and Usefulness: 15.0/15
-- **C1.1 Object coverage: yes** - weighted coverage = 100% (19/19 weight; no critical object absent). Every object in the fixed classification is present with the operations its role requires; the read-only ones (balances, transactions, statements) are computed or immutable records and are N-A for writes under the weighted-coverage method. [openapi.json paths listed in the coverage map; live GET /bank-accounts and GET /transfers, 2026-09-09]
-- **C1.2 Core operational actions: yes** - weighted coverage = 100% (11/11 applicable weight; no critical write workflow absent). Accounts create/update (weight 3), payment initiation create (weight 3), reconciliation report creation (weight 2), webhook subscription create/update/delete (weight 2), counterparty create (weight 1) - all observed live. This is emphatically not an observational API. [live POST /bank-accounts, PATCH /bank-accounts/{id}, POST /transfers/book, POST /transfers/ach, POST /counterparties, POST /webhook-endpoints, 2026-09-09]
-- **C1.3 Delete or lifecycle actions: yes** - weighted coverage = 100%; no critical lifecycle action absent. Live-observed transitions: `book_3J5oT1oNh6dlBdKDkvkjyWnCs93` HOLD → CANCELED via `POST /transfers/book/{id}/cancel`; `book_3J5oT1Dxzhj88x2Fozwp376VDuI` HOLD → COMPLETED via `POST /transfers/book/{id}/clear`; `acht_3J5oSwtzkKrvXYtcqBVMIOAXmJn` INITIATED → CANCELED via `POST /transfers/ach/{id}/cancel`; bank account closed via `DELETE /bank-accounts/{id}`. Return, reverse, stop-payment and approve/reject paths documented per-rail in openapi.json.
-- **C1.4 Change notification: yes** - 175 distinct documented event types across ACH (22), check (39), realtime (31), wire (29), SWIFT (23), loan (14), reporting (10) and book (5) families, covering initiation, settlement, completion, return and cancellation state changes - well above the 0.85 weighted threshold for critical-plus-important changes. Independently, efficient incremental polling is available (`created.gt/gte/lt/lte` plus `types` and `object_ids` filters on `GET /events`; `created.*` on per-rail lists). Live-verified: `book.transfer.completed` event `evnt_3J5oLbHntWcksXYYICu70PCwqhI` was generated by a test transfer and matched to the subscription; `created.gte=2026-01-01` returned 3 events while `created.gte=2030-01-01` correctly returned 0. [working-with-the-api/events-and-webhooks; live GET /events and GET /webhook-deliveries/endpoint/{id}]
+## Category 1: Functional Coverage and Usefulness (gate 2)
+- **C1.1 Object coverage: 100%** (23/23) [Documented S05, S14–S22; Live-tested T03–T05, T25, T28]
+- **C1.2 Write coverage: 100%** (6/6: initiate a payment, reconcile settlement; the read-only workflow is excluded) [Documented S05 POST /transfers/*, S12, S15, S22]
+- **C1.3 Lifecycle coverage: 75.0%** (6/8) [Documented S17, S19, S21, S25]
+- **C1.4 Change notification: yes** [Documented S14; Live-tested T08, T09]
+  - Signed webhooks cover transfer states on every rail: initiated, submitted, settled, completed, returned, canceled, hold and manual review.
+  - They also cover statement and report completion, `account.frozen` and `account.overdrafted`.
+  - Gaps: no account opened or closed event, and no account-number event.
+  - Weighted push coverage of critical-plus-important state changes was estimated at 87–91% across runs, above the 85% threshold.
+  - Missed events can be caught up through `GET /events?created.gte=` (live-confirmed, T09).
 
-Score math: earned 4 of 4 applicable checks; unrounded fraction = 1.000; category points = 15.0/15; verification coverage = 100% (4/4)
+Gate 2 math: capability coverage = **95.0%** (38/40) over 40 weight; write coverage 100%; C1.4 yes; critical item scored 0: none; unverified weight: 0%; **gate 2 allows: A**; verification coverage = 100% (4/4).
 
-**What this means for you:** This is the strongest part of Column's API and it is genuinely rare. You can open bank accounts, read exact balances broken into available/pending/locked/holding, pull every transaction, send money on any rail, and then cancel, clear, return, reverse or stop-pay it - all from code, and all confirmed working live rather than just promised in documentation. If you can describe a money movement, you can almost certainly automate it here.
+What this means for you: through the API you can open accounts, give each property or owner its own account number, and see balances and every transaction. You can also send, cancel, return or reverse payments on every major rail, pull statements and settlement reports, and get signed alerts when payments settle or fail. Two small gaps:
+- The published documentation shows no way to freeze an account yourself, or to close one except by deleting it once it holds $0.
+- The published documentation shows no way to edit a saved payee. You delete it and create it again.
 
-## Category 2: API Design, Reliability, and Operability: 7.5/10
-- **C2.1 Modern API conventions: yes** - Resource-oriented REST over HTTPS with standard verbs (GET/POST/PATCH/DELETE), JSON responses, and a published OpenAPI 3.0.3 document. Live-verified across GET, POST, PATCH and DELETE, all returning `content-type: application/json; charset=utf-8`. [openapi.json; live observations 2026-09-09]
-- **C2.2 Consistent typing: partial** - Core typing is excellent: across 811 typed field names in the spec, `amount` is `integer` in all 40 schemas that use it, `currency_code` is `string` in all 38, `id` `string` in all 40, `has_more` `boolean` in all 31, and the live balance reads returned integers exactly as specified. **The exact limitation:** 13 field names carry conflicting declared types across schemas, and several sit on paths an integration actually traverses. `check_number` is typed `string` in `UnifiedTransfer` (the array element of `ListTransfers`, the response schema for `GET /transfers`) but `integer`/`int64` in `CheckTransfer` (the response for `GET /transfers/checks/{id}`), so the same value changes type depending on which endpoint you read it from. Worse for round-tripping, `account_usage` is `array` in `CreateBusinessEntity` and `UpdateBusinessEntity` but `string` in `BusinessDetails`, so a value written as an array reads back as a string on the same object; `purpose_of_account` splits `string` on the three business-entity schemas against `array` on the three person-entity schemas, so one client model cannot cover both entity types. The remainder: `payment_related_info` (`string` on `ACHTransfer`/`CreateAchTransfer`, `array` on `IATAddenda`), `national_id` (`object` on person schemas, `string` on `IBAN`), `fx_rate` (`number` on card schemas, `string` on SWIFT), `tax_year` (`string` on wire schemas, `integer` on tax-form schemas), `total_fee`, `total_principal`, `total_interest` and `sale_price` (`string` on loan-sale summaries, `integer` on `LoanSummary`, despite all being documented "in cents"), and the generic containers `data` and `details`. A rendered example on the balance-history endpoint additionally prints `available_balance_credit` as the string `"100"` while `BankAccountSummary` declares it an integer, so the inconsistency reaches rendered examples and not only schemas.
-- **C2.3 Structured errors: partial** - The error *body* is excellent and was confirmed live: every failure returned `type`, a populated stable machine-readable `code`, a human-readable `message`, a `documentation_url`, and a `details` object naming the offending field. Observed codes included `invalid_resource_id_format`, `bank_account_not_found`, `invalid_currency_code`, `mandatory_parameter_missing` (with `details.required_field`), `invalid_field_value` (with `details.unknown_field`), `invalid_record_status` and `resource_not_found`. **The exact limitation is HTTP status semantics.** Column's own errors table defines `404` as "Not Found. The requested resource does not exist," but a GET for a well-formed, nonexistent bank account (`bacc_3ImcPgxvreKMx9KaatOZw8LYbnZ`) returned **HTTP 400** with `bank_account_not_found`, not 404 - so an integration cannot branch on status code alone and must read the body. Separately, an invalid credential returned **HTTP 401 with a zero-byte body** (`content-length: 0`), so authentication failures carry no structured error at all. [working-with-the-api/errors; live probes 2026-09-09]
-- **C2.4 Duplicate prevention: yes** - `Idempotency-Key` is documented for 25 consequential write endpoints, covering every money-moving path (ACH, book, wire, international wire, realtime, check deposit and issue, reversals) plus account, entity and document creation. **Live-verified:** two identical `POST /transfers/book` calls with the same key `apitest-grading-1788960191` both returned transfer id `book_3J5oGA5oMiVjoKXau0MdA0ekBa6` with `idempotency_key` echoed on the object - one transfer, not two. [working-with-the-api/idempotency; live double-send 2026-09-09]
-- **C2.5 Graceful handling under load: yes** - `429 Too Many Requests` is documented together with explicit numeric backoff guidance: "Retry using exponential backoff with jitter, starting after 1 second and doubling after each `429` response, up to a maximum delay of 30 seconds. Stop after 5 retries." That satisfies the check's numeric-guidance branch. (No `RateLimit`/`Retry-After` headers were present on observed 200 responses, and no rate limit was triggered during testing; the check expressly does not penalize a vendor for not publishing exact limit numbers.) [working-with-the-api/errors, HTTP status table]
-- **C2.6 Pagination for large collections: yes** - Documented cursor pagination via `starting_after`/`ending_before` with `limit` (default 10, max 100) and a `has_more` flag, on "All endpoints that list objects," with an explicit stable ordering guarantee ("return objects in inverse chronological order, such that the most recently created object will be returned first"). `GET /transfers` additionally returns `total_results_count`. **Live-verified:** a full traversal at `limit=2` returned 3 unique bank accounts across 2 pages with no duplicates and correct `has_more` termination. [working-with-the-api/pagination; live traversal 2026-09-09]
-- **C2.7 Bulk or incremental export: yes** - A dedicated reporting path retrieves full datasets without per-record calls: `POST/GET /reporting` produces `bank_account_transaction` and `bank_account_summary` reports "available in CSV, JSON, and Parquet formats," containing all transactions affecting balances in a period. Incremental sync is independently available via `created.gt/gte/lt/lte` plus cursor pagination on 21 list endpoints. *Noted without deduction:* there is no `updated_since`-style filter anywhere in the spec (21 endpoints expose `created.*`; none expose `updated.*`), so change detection for mutated records relies on the events feed rather than on re-querying by modification time; the check is satisfied by the dedicated export path independently of this. [guides/reporting; openapi.json `/reporting`; live GET /reporting HTTP 200]
-- **C2.8 Webhook security and delivery reliability: yes** - All three required elements are documented: (1) signatures - "every webhook event payload is signed with a signature that is passed through as the HTTP header `Column-Signature`… HMAC with SHA-256, by applying the webhook endpoint's signing secret as the key"; (2) a retry policy - "If an event delivery failed, our system will retry up to `25` times within `3` days with exponential backoffs. The first retry happens one minute after the original failed delivery"; and (3) replay/idempotency guidance for consumers - "An event may occasionally be delivered multiple times to a webhook endpoint with the same unique event ID. We advise you to guard against duplicated event receipts by making your event processing idempotent," reinforced by an explicit warning that ordering is not guaranteed. **Live-verified:** endpoint `whep_3J5oK7wqDhGzWvlzWxOroxgJSTl` was created and returned a per-endpoint signing secret (`whsr_…`); a triggered book transfer produced event `evnt_3J5oLbHntWcksXYYICu70PCwqhI`, which was correctly matched to the `book.transfer.completed` subscription and recorded in `GET /webhook-deliveries/endpoint/{id}` with `scheduled_at` and `status`. *Disclosed:* the subscription deliberately pointed at a non-routable host so no sandbox data left Column, so the delivery status was `FAILED` by design and the HMAC signature itself was documentation-graded, not observed. [working-with-the-api/events-and-webhooks; live registration, trigger and delivery-record read 2026-09-09]
-- **C2.9 Concurrency and conflict control: partial** - **The half that is present:** conflicting writes are rejected by a documented state guard, not silently applied. `invalid_record_status` is a published error code (llms-full.txt line 1824), and live probes confirmed it: cancelling an already-CANCELED transfer returned `invalid_record_status` with `details.status: "canceled"`, and clearing an already-COMPLETED transfer returned `invalid_record_status` with `details.status: "completed"`. **The half that is missing:** there is no optimistic concurrency mechanism - a GET on a bank account returned no `ETag` or `Last-Modified` header, the object carries no version field (keys observed: balances, bic, created_at, currency_code, default_account_number, default_account_number_id, description, fdic_insurance, id, interest_config_id, is_interest_bearing, is_overdraftable, overdraft_reserve_account_id, owners, routing_number, status, type), `If-Match` is unsupported, and no concurrency limits or concurrent-write behavior are documented anywhere in the corpus. Conflicts also return 400 rather than 409.
-- **C2.10 Versioning and backward compatibility: no** - There is no version contract a client can rely on. No version identifier is exposed in the path or in a header: live probes of `/v1/bank-accounts` and `/api/bank-accounts` both returned 404, and no version-related response header appears on any observed response. A full-corpus search for backward-compatibility language ("backward", "breaking", "non-breaking", "additive", "deprecation policy") across all 21,243 lines of llms-full.txt returned no policy - the only hit is the unrelated phrase "backward pagination." The sole version signal is `info.version: "1.4"` inside the OpenAPI document, which describes the specification file and cannot be selected or pinned by a caller. (Deprecation *announcements* do appear in the changelog; that is change-communication currency and is scored in C4.4, not double-counted here.)
-- **C2.11 Request traceability: partial** - A unique correlation identifier is present on **every** observed response, including errors and the bodiless 401: `request-id: apir_3J5nnjsNeJOOoE1fb5a4VScmuvN`, `apir_3J5nsmZjs8bhwiTyjAV6HG0mfbS`, `apir_3J5nulcvJrpSFBtoyk0s0A2u5qE`, `apir_3J5numnEVH0zVPtMDPwadkjhzYN` - all distinct, alongside a constant `platform-id`. **The exact limitation:** the header is entirely undocumented. A targeted search of the complete documentation corpus for the `request-id` header returned no hits, so nothing establishes that the identifier is stable, retained, or usable when contacting Column support - which is what the check's `yes` requires.
-- **C2.12 Service availability and status transparency: yes** - https://status.column.com is a public Atlassian Statuspage showing "All Systems Operational" with four separately monitored components (Sandbox, Production, FedWire, FedACH), each carrying a 90-day uptime percentage (100.0% at time of access), a dated incident history log, a "View historical uptime" link, and email/SMS/Slack/RSS subscription options. [https://status.column.com, accessed 2026-09-09]
+## Category 2: API Design, Reliability, and Operability (placement)
+- **C2.1 Modern conventions: yes.** Resource-oriented REST using GET, POST, PATCH and DELETE with JSON, defined in OpenAPI. Actions such as cancel use POST, which is an accepted convention. [Documented S05; Live-tested T03–T30]
+- **C2.2 Consistent typing: partial.** Money is integer minor units in 49 of 50 `amount` schemas and on every live response. IDs and booleans keep one type. Limitations [Documented S05, S17; Live-tested T04, T11, T24; A11]:
+  - `CustomerFacingAdminTransfer.amount` is typed as a string.
+  - The spec types the error `code` as an integer, but it is a string live.
+  - The docs show balances as `number`; the spec says integer.
+  - Status casing differs by endpoint for the same value: `completed` vs `COMPLETED`.
+- **C2.3 Structured errors: partial.** The documented body (`type`, a stable string `code`, `message`, `documentation_url`, `details`) appeared on every non-401 error [Documented S13; Live-tested T01, T15–T21, T23]. Scored on observed behavior, which falls short in two ways:
+  - A missing record returns HTTP 400 instead of the documented 404 [T15, T23].
+  - A wrong key returns 401 with an empty body and no code [T22].
+- **C2.4 Duplicate prevention: yes.** An `Idempotency-Key` header works on every money-moving create: ACH, book, wire, realtime, check issue and deposit, international wire, and ACH and wire reverse. Account creation is covered too. A worked example shows a repeated request returning the same ID. [Documented S12]
+- **C2.5 Load handling: partial.** The docs give 429 retry guidance with numbers: start at 1 s, double each time, wait at most 30 s, stop after 5 retries [S13]. But no rate-limit or `Retry-After` header appeared on any of 32 responses, and no 429 was met. The evidence-parity rule therefore caps this at partial. [Documented S13; Live-tested §8 header tally]
+- **C2.6 Pagination: yes.** Cursor pagination with `starting_after`/`ending_before`, a `has_more` flag, newest-first order and a 100-record limit [Documented S11]. Live, 13 of 13 transfers were read in 3 pages with no duplicates or gaps, and `total_results_count` matched [Live-tested T05]. Minor caveat: no tie-break order is documented for identical timestamps (§8 note 6).
+- **C2.7 Bulk or incremental export: yes.** Background settlement-report jobs export every balance-affecting transaction and per-account summary as CSV, JSON or Parquet (up to 93 days per job), alongside automatic daily reports. Created-since filters and the `/events` feed support incremental sync. Limitation: there is no updated-since filter. [Documented S15, S22, S05; Live-tested T06, T09, T27]
+- **C2.8 Webhook security and delivery: yes.** HMAC-SHA256 `Column-Signature` header with a per-endpoint secret. Failed deliveries are retried up to 25 times over 3 days with exponential backoff. Event IDs stay the same on redelivery, the docs say to process idempotently, and an events API recovers missed events. [Documented S14]
+- **C2.9 Concurrency control: no.** PATCH exists on bank accounts, account numbers, book transfers and webhook endpoints, but there is no ETag, If-Match, version field or stale-write rejection. The corpus has 0 matches for "ETag", "If-Match" or "optimistic", and the only 409 is a card-fee configuration conflict. [Documented S04, S05; A6]
+- **C2.10 Versioning: no.**
+  - There is no version identifier in the path (`https://api.column.com/`) or in any header. The spec's `info.version` "1.4" labels the document but gives integrations nothing to pin.
+  - No breaking-change definition or deprecation policy is published ("deprecat" 0, "sunset" 0).
+  - The API terms allow changes with notice "by any reasonable means" and no minimum period.
+  - [Documented S05, S04, S29 §5; A3]
+- **C2.11 Request traceability: partial.** A unique `request-id` header (`apir_…`) appeared on 32 of 32 responses, including errors and the 401. It is documented nowhere: the spec declares no response headers and the corpus has 0 matches. [Live-tested §8; Documented S05; A5]
+- **C2.12 Status transparency: yes.** status.column.com shows each component (Sandbox, Production, FedWire, FedACH), 90-day uptime (100%), a historical uptime page, and incident history with RSS/Atom feeds listing incidents from 2025 and 2026. [Documented S26]
 
-Score math: earned 9.0 of 12 applicable checks (7 yes = 7.0; 4 partial = 2.0; 1 no = 0); unrounded fraction = 0.750; category points = 7.5/10; verification coverage = 100% (12/12)
+Checks earned: **8.0 of 12** applicable; verification coverage = 100%.
 
-**What this means for you:** The parts that protect your money are excellent. Double-clicking "send" cannot double-send - that was proven live, not just documented. Retries, pagination, bulk export and webhook security are all handled properly, and Column publishes real uptime numbers. The soft spots are the ones you would hit while building and maintaining: error responses do not use the right HTTP status codes, so your code has to read the error body rather than trusting the status; a failed login returns a completely empty response; there is no API version you can pin, so a future change could alter behavior under you with only a changelog post as warning; and although every response carries a trace ID that would be perfect for support tickets, Column never documents it, so you cannot count on it being honored.
+What this means for you: the API is modern and predictable. Payments can be retried without sending money twice, webhooks are signed and retried, and paging and exports work as documented. The status page is public. Things to watch:
+- The published documentation shows no protection against two tools overwriting each other's edits.
+- There is no version pinning or promised notice before API changes.
+- Rate-limit headers are not exposed.
+- A "not found" comes back as a 400 instead of the documented 404.
 
-## Category 3: Access Control and Safe Automation: 5.0/5
-- **C3.1 Read-only credentials: yes** - "View Only — Key can view all account activity, but cannot make changes to account information or use the account to initiate transfers." [guides/api-key-security → Permissions]
-- **C3.2 Scoped credentials: yes** - Fine-grained resource *and* action scoping, not merely role-based. Transfer permissions are set per transfer type: "Each transfer type — ACH credits, ACH debits, ACH returns, wires, deposit checks, issued checks, book transfers, realtime transfers, and stop payments — is set independently, so a key can be granted Create & Edit on ACH credits while remaining View Only on wires." Transfers, entities and bank accounts additionally support per-resource overrides: "Permissions on transfers, entities, and accounts may be overridden on a per-entity and per-account basis." Counterparties, loans, and reports/statements are separately controllable. A further safety layer exists: an API key can never approve a transfer, and per-key Transfer Approvals can hold every eligible transfer from that key for human review. [guides/api-key-security → Custom, Access Levels, Transfer Approvals]
-- **C3.3 Multiple keys: yes** - "**One key per workload.** Each of your applications should use a separate key. This improves your ability to track and reduce the blast radius of compromised keys." Each key is independently permissioned and bound to one platform and one mode. [guides/api-key-security → Best Practices; → Sandbox and Live Mode]
-- **C3.4 Rotation and revocation: yes** - Self-serve through the dashboard, with a documented procedure: "**Rotate periodically.** Keys do not expire, so rotation is a procedure you own: issue the replacement, cut traffic over, and confirm the old key is no longer in-use before deleting," and "**Revoke compromised keys.** If you believe a key has been compromised, revoke it immediately." Key lifecycle is deliberately kept out of the API as a security control - "Keys cannot create, delete or access other keys (or themselves)" - but remains self-serve for a Developer or Admin in the dashboard, requiring no support ticket. [guides/api-key-security → Best Practices, Limitations; guides/roles-and-permissions → Roles]
-- **C3.5 Test and production isolation: yes** - Separate credentials and hard data separation are both documented and were observed. "When you create an API key, you must specify if that key can access sandbox or live mode. Once created, a key's mode may not change," with `test_` and `live_` prefixes making mode visible at a glance; and "Because of this data isolation, your data is not transferable between sandbox and production." Live-verified: the supplied `test_` key operated a complete, fully functional sandbox - "Every route is sandboxed and data persists exactly like in production" - including dedicated simulation endpoints (`/simulate/receive-wire`, `/simulate/receive-ach-credit`, `/simulate/transfers/ach/settle`, and 12 more) for exercising incoming transfers, settlement and ACH return codes. [guides/api-key-security; guides/sandbox-and-testing; live session 2026-09-09]
+## Category 3: Access Control and Safe Automation (placement)
+- **C3.1 Read-only credentials: yes.** "View Only" key permission. [Documented S09]
+- **C3.2 Scoped credentials: yes.** "Custom" keys can be limited:
+  - per transfer type (ACH credits and debits, returns, wires, checks, book, realtime, stop payments)
+  - per resource (entities, bank accounts, counterparties, loans, reports)
+  - with overrides per entity or account, and per-key approval rules
 
-Score math: earned 5 of 5 applicable checks; unrounded fraction = 1.000; category points = 5.0/5; verification coverage = 100% (5/5)
+  [Documented S09]
+- **C3.3 Multiple keys: yes.** The docs say "One key per workload", one key per application. [Documented S09; S06]
+- **C3.4 Rotation and revocation: yes.** Self-serve in the dashboard: issue a replacement, cut over, then delete the old key. Compromised keys can be revoked immediately. [Documented S09; S10]
+- **C3.5 Test environment: yes.** A self-serve sandbox mirrors production, with separate `test_` keys, isolated data and simulation routes. [Documented S07, S01; Live-tested on the sandbox key, T03]
+- **C3.6 Delegated access: no.** Only static API keys (HTTP Basic). No OAuth or other delegated-authorization flow is documented ("OAuth" 0 matches), and there is no MCP server. [Documented S04, S06; A4; §3]
 
-**What this means for you:** This is exactly what you want before pointing an AI agent or a new automation at your bank account. You can mint a key that can only read, or one that can send ACH credits but not wires, or one that only touches a single account - and you can require a human to approve every transfer that key initiates, which no amount of clever prompting can bypass because keys are structurally forbidden from self-approving. You get a full free sandbox with its own keys that cannot touch live money, and you can revoke any key yourself the moment something looks wrong.
+Checks earned: **5 of 6** applicable; verification coverage = 100%.
 
-## Category 4: Documentation and AI-Agent Readiness: 4.4/5
-- **C4.1 Complete self-serve reference: yes** - A complete, public, example-rich reference. Authentication is documented with a working curl invocation; the API reference at docs.column.com/api is organized by resource across every rail; and the corpus carries worked request *and* response examples for the core endpoints - the idempotency guide, for instance, shows two full curl calls with their JSON responses demonstrating the deduplicated result. Live testing corroborated the reference: documented request shapes, field names and behaviors matched observed responses on every endpoint exercised, with no reverse-engineering required. [docs.column.com/api; working-with-the-api/authentication, /idempotency, /pagination, /errors; guides/getting-started]
-- **C4.2 Reliable machine-consumable integration path: yes** - A complete, maintained OpenAPI specification suitable for code and tool generation, published in both JSON and YAML. Integrity audit of openapi.json: 141 paths, 180 operations, 224 component schemas; **180 of 180** operations carry an `operationId`, **180 of 180** carry a summary or description, **180 of 180** define a 2xx response schema, and **0 of 219** distinct `$ref`s are dangling. One strong mechanism is sufficient for `yes`, and this qualifies comfortably. *Noted for completeness, without deduction:* Column publishes **no** official SDKs - its GitHub organization (verified first-party: name "Column", blog `https://column.com`) contains only 4 public repositories, all forks of third-party Go libraries (zerolog, enumer, go-gin-prometheus, oapi-codegen) - and no MCP server was evidenced. The check awards no extra credit for additional mechanisms. [https://docs.column.com/openapi.json; https://docs.column.com/openapi.yaml; https://github.com/column]
-- **C4.3 AI-readable documentation: yes** - Three complementary first-party resources purpose-built for AI retrieval, and the comprehensiveness requirement is clearly met. `llms.txt` provides a structured index of the entire documentation tree; `llms-full.txt` is the complete corpus as a single file (1,242,286 bytes / 21,243 lines) - not an index stub but the full text, which is what this run's own analysis was performed against; and every page is individually retrievable as clean Markdown, documented in Column's own words: "Every page is available as clean Markdown by appending `.md` to its path under https://docs.column.com/markdown/." Verified by retrieving 11 individual `.md` pages successfully. Column also publishes a second `llms.txt`/`llms-full.txt` pair on its marketing domain. [https://docs.column.com/llms.txt; /llms-full.txt; /markdown/*.md]
-- **C4.4 Kept current: partial** - **What is present:** https://column.com/changelog/ carries genuine API-level detail rather than marketing summaries, including new endpoints ("Column's Check Deposit API makes it easy for you to deposit checks remotely"; wire drawdowns moving to general availability), new fields ("The wire transfer object now contains the `business_function_code`"; "We have added a new field to the ACH object called `payment_related_info`"), and explicit deprecation notices ("The following webhook events have been deprecated and merged to their corresponding events: `ach.outgoing_return.initiated`"). **The exact limitation:** publication is irregular and batched rather than continuous - the four most recent entries are dated 30 Sep 2025, 31 Oct 2025, 22 Dec 2025 and 30 Jul 2026, leaving a roughly seven-month gap between December 2025 and July 2026, and the newest entry is about six weeks older than this run date. There is no per-release API changelog, no deprecation-window commitment, and no versioning notes to fall back on (see C2.10). One candidate currency signal was tested and rejected: the sitemap's `lastmod` dates are not per-page edit timestamps - all 308 URLs share a single identical value (`2026-09-08T23:43:23.918Z`), i.e. a build timestamp - so they are not evidence that any given page is current.
+What this means for you: you can give each tool or AI agent its own narrowly limited key, for example read-only, or "ACH credits from the trust account only". You can require approvals, build in a free sandbox, and kill a key yourself. The published documentation shows no sign-in-and-approve (OAuth) option, so connecting an outside app means giving it a key.
 
-Score math: earned 3.5 of 4 applicable checks (3 yes = 3.0; 1 partial = 0.5); unrounded fraction = 0.875; category points = 4.4/5; verification coverage = 100% (4/4)
+## Category 4: Documentation and AI-Agent Readiness (placement)
+- **C4.1 Complete self-serve reference: yes.** A public per-endpoint reference with method, path, parameters, a curl request and a JSON response for each endpoint, plus guides on authentication, errors, pagination, idempotency and webhooks. Minor gaps: the response headers and the batch and NACHA upload endpoints are undocumented. [Documented S04, S06, S11–S14]
+- **C4.2 Machine-consumable path: yes.** A public OpenAPI spec (JSON and YAML, 254 operations) that the docs recommend for generating SDKs and importing into Postman. Minor defects: it claims version 3.1 but is 3.0.3, and the error `code` type is wrong. There is no official general SDK (the npm packages are card-reveal UI only), and no MCP server. [Documented S05, S04, S30]
+- **C4.3 AI-readable docs: yes.** docs.column.com/llms.txt is an API index, llms-full.txt is a 2.18 MB corpus covering every endpoint, and every page is available as Markdown. The OpenAPI spec is credited under C4.2, not here. [Documented S03, S04]
+- **C4.4 Kept current: partial.** There is a dated changelog through Sep 16 2026, with deprecation notices from 2021–2022 [Documented S25]. Limitations [S25, S03, S05; A7; §4]:
+  - It is a product changelog; there are no API-specific release notes.
+  - API features announced on Jul 30 2026 (batch-file and NACHA uploads) are still missing from the public spec and reference.
+  - llms.txt says "OpenAPI 3.1" while the spec served is 3.0.3.
+- AI agent path: none found. There is no official MCP server: no Registry listing, no MCP page, and 0 mentions in the docs corpus. Machine-readable resources are a public OpenAPI 3.0.3 spec, llms.txt and llms-full.txt. There is no general SDK. MCP standard version checked: N-A [§3; S05; S03; S04; S30].
 
-**What this means for you:** If you or an AI coding assistant sit down to build against Column, you have everything you need: a complete machine-readable spec that tools can generate working code from, and the entire documentation set published in clean formats built for AI retrieval. Documentation quality is not a barrier here. The one soft spot is knowing when something changes - the changelog is genuinely detailed when it appears, but it appears in irregular batches with gaps of several months, and since there is no API version you can pin, that changelog is your only early warning.
+Checks earned: **3.5 of 4** applicable; verification coverage = 100%.
 
-## Category 5: Accessibility and Cost: 15.0/15
-- **C5.1 Self-serve API key: yes** - Credential creation is self-serve in the dashboard, with no sales call, support ticket, or key-approval step: "You can create `sandbox` and `production` keys in the developer dashboard" (Authentication), and the getting-started guide instructs the operator directly - "you'll need to navigate to [the dashboard](https://dashboard.column.com) and copy your `api-key`." Keys are self-permissioned at creation (Full Access / View Only / Custom), and a Developer or Admin role can manage them without Column's involvement. Live-verified: an operator-created sandbox key authenticated on first use and exercised 180-operation surface areas including reads, writes, lifecycle transitions and webhook management, with no provisioning step required. [working-with-the-api/authentication; guides/getting-started; guides/api-key-security; live session 2026-09-09]
-- **C5.3 Not commercially gated: yes** - No first-party material conditions API access on a premium, top-tier, or upgraded plan, and no meaningful capability was found to be tier-gated. The API *is* the product: Column's entire documented surface - all 180 operations across accounts, every payment rail, statements, reporting and webhooks - is reached with an ordinary key, and the sandbox is fully featured and free to use ("Every route is sandboxed and data persists exactly like in production"; "Our goal is to allow you to simulate everything that you'll experience in production in our sandbox"). The only documented conditions on reaching production are compliance and identity verification - KYC/KYB on a root entity and, for ACH *debit* origination specifically, a funded program reserve sized to rolling 60-day debit volume as collateral against returns (guides/going-live). Under this check's own instruction, identity and regulatory verification legally required to conduct the real activity does not count as commercial gating; the program reserve is likewise a risk-collateral requirement tied to originating debits, held in the operator's own named account and returnable, not a fee or a plan tier. One further consideration was weighed and rejected: the corpus documents a per-platform feature-enablement model (error code `feature_not_enabled`, "Your platform is not enabled for the requested feature. Please contact us"; incoming-transfer holds "available if enabled for your platform"; prenotes requiring feature enablement), and the live run hit `feature_not_enabled` on the balance-history endpoint. That is not commercial gating on this rubric's terms: nothing in the packet ties any enablement to a price, a plan, or a tier, and the check's `partial` band asks specifically whether capabilities are tier-gated. **Scoring note:** the absence of a public pricing page is not a requirement of any check in this rubric and was not treated as a deduction here. [guides/sandbox-and-testing; guides/going-live; guides/api-key-security]
+What this means for you: a developer or an AI coding tool (Claude, ChatGPT and the like) can learn this whole API from public files without logging in. The weak spot is change tracking. The changelog is product-level and lags the reference.
 
-Score math: earned 2 of 2 applicable checks; unrounded fraction = 1.000; category points = 15.0/15; verification coverage = 100% (2/2)
+## Category 5: Accessibility and Cost (gate 1)
+- **C5.1 Self-serve API key: yes.** Self-serve signup ("Create an account — Start building in sandbox"), with keys created in the dashboard and no sales call or ticket. Going live requires KYC/KYB, a legally required step that does not count against this check. [Documented S01, S06, S08, S09, S23]
+- **C5.2 Not commercially gated: yes.**
+  - First-party materials show no plan tiers, API fees or paid add-ons after a targeted search, and the API terms list no fees.
+  - The sandbox is free and self-serve.
+  - KYC/KYB and the Program Management Agreement are compliance requirements, not commercial gating.
+  - Caveat: Column publishes no pricing at all; commercial terms go through "Contact sales".
+  - [Documented S01, S07, S23, S24, S29, S33; A1]
 
-**What this means for you:** You can be building today. Sign up, create a sandbox key yourself, and the entire API - every rail, every endpoint - works immediately against realistic simulated money, at no cost and with nobody to ask. Nothing is held back for an enterprise tier. The only thing standing between the sandbox and moving real dollars is the bank compliance review any real bank must run on you, which is the law rather than an upsell.
+Gate 1 allows: **A** (both yes); verification coverage = 100%.
 
-## Total
-- Raw: 46.88 / 50 (15.0 + 7.5 + 5.0 + 4.375 + 15.0 = 46.875)
-- Normalized before rounding: 93.75 / 100
-- **Published numeric score: 94 / 100**
+What this means for you: you can sign up, get sandbox keys and start building today without talking to sales. Going live requires the bank's normal identity and business checks. Column publishes no price list, so ask about account and payment fees.
+
+## Grade
+- Gate 1, open access: allows **A** (C5.1 yes, C5.2 yes)
+- Gate 2, documented capability: allows **A** (capability coverage 95.0%; write coverage 100%; C1.4 yes; no critical item at 0; unverified weight 0%)
+- Letter from the gates: **A**; binding gate: **none**
+- Placement share: 16.5 of 22 Category 2–4 checks = **75.0%** (Category 2: 8.0/12; Category 3: 5/6; Category 4: 3.5/4)
+- Score math (computed in code): 90 + round(6 × 0.75) = 90 + round(4.5) = 90 + 5 = **95 (A)**. The exact half rounds up.
+- Official MCP server (one-step bump): no. None was found in the MCP Registry, on either domain, on GitHub or npm, or in the docs corpus [§3]. Not applied.
+- **Published numeric score: 95 / 100**
 - **Letter grade: A**
-- Evidence tier: **Fully verified - sandbox**
-- Overall verification coverage: **100%** (27 of 27 applicable checks verified; 0 unverified; 0 N-A). Gate satisfied: no category Unable to verify (all five at 100%, well above 0.70), overall coverage ≥ 80%, and the minimum live-test battery is complete.
-- Partial-result flag: **no**
-- Unresolved evaluator disagreements: **none**. Three independent grading runs were performed against the same final frozen packet (COL-2026-09-09-F1) per step 12, and they agree on **all 27 checks**, on all five category scores, and on the published number. See the reconciliation section below for the check-level comparison and the sensitivity of the score to the close calls.
+- Evidence tier: baseline verified
+- Overall verification coverage: 100% (28/28). Every group is at 100%, unverified checklist weight is 0%, gate 1 is verified, and overall coverage is at least 80%.
+- Partial-result flag: no
+- Unresolved evaluator disagreements: none. One checklist-item disagreement (item 16) was resolved against the evidence with no score effect; see "Grading runs".
 
-## Independent-run reconciliation (methodology step 12)
-
-Three runs graded the identical frozen packet. Runs 2 and 3 were performed by independent graders that were given the methodology and the packet only: no web access, no new sources, no sight of any other run's marks.
-
-| | Run 1 | Run 2 | Run 3 |
-|---|---|---|---|
-| Marks (yes / partial / no) | 21 / 5 / 1 | 21 / 5 / 1 | 21 / 5 / 1 |
-| C1 Functional Coverage | 15.0 | 15.0 | 15.0 |
-| C2 Design, Reliability, Operability | 7.5 | 7.5 | 7.5 |
-| C3 Access Control | 5.0 | 5.0 | 5.0 |
-| C4 Documentation and AI Readiness | 4.4 | 4.4 | 4.4 |
-| C5 Accessibility and Cost | 15.0 | 15.0 | 15.0 |
-| Raw / 50 | 46.875 | 46.875 | 46.875 |
-| **Published** | **94 (A)** | **94 (A)** | **94 (A)** |
-
-**Check-level agreement: 27 of 27.** All three runs independently marked the same four checks `partial` (C2.2 typing, C2.3 structured errors, C2.9 concurrency, C2.11 traceability) and the same single check `no` (C2.10 versioning). No check required resolution against the evidence, because no run diverged.
-
-**Corrections adopted from the independent runs.** Runs 2 and 3 both independently recounted the type-consistency analysis and found **13** conflicting field names where Run 1 had reported 7. Run 1's count was wrong: its filter compared only scalar primitives (string/integer/number/boolean) and silently discarded `array`-versus-`object` conflicts. Re-run without that restriction, the correct figure is 13, confirming both graders. C2.2 above has been corrected, and the additional conflicts they surfaced are now cited, including two that Run 1 missed entirely and that matter more than anything it had found: `account_usage` is an `array` on the business-entity write schemas but a `string` on the read schema, so a value written as an array reads back as a string; and `purpose_of_account` is `string` across the business-entity schemas but `array` across the person-entity ones. Run 3 additionally found a rendered example printing `available_balance_credit` as the string `"100"` against an integer schema declaration, which extends the finding from schemas to rendered examples. The mark stays `partial`, on materially stronger evidence.
-
-**Other findings adopted.** Run 2 established by parameter census that no `updated_since`-style filter exists anywhere in the spec (21 endpoints expose `created.*`; none expose `updated.*`), now noted under C2.7. Both runs surfaced Column's per-platform feature-enablement model as a candidate argument against C5.3; both weighed and rejected it, and the reasoning is now recorded under that check. Run 3 also noted that `GET /bank-accounts/{id}/history` documents its two mandatory date parameters only inside a curl example, absent from both its parameter list and the OpenAPI spec, which is precisely the failure encountered during live testing.
-
-**Arithmetic note.** Run 2's narrative summary line stated "19 yes, 6 partial, 1 no" (26 checks). Its own check table records 21 / 5 / 1 across 27 checks, and its category math was computed from the table, so the slip is confined to that one summary sentence and does not affect its category scores or its published number, both of which reconcile exactly.
-
-**Score sensitivity.** The runs converged on the number, but they were candid that several checks sit near a band boundary, and a fourth grader could reasonably land elsewhere. The largest single lever is C5.3, worth 7.5 points: reading Column's per-platform feature enablement as tier-gating would make it `partial` and drop the published score to 90 (A-). Within Category 2, each check is worth about 0.42 points, so the individually close calls (C2.3 to `yes`, C2.10 to `partial`, C2.2 to `no`, C2.9 to `no`, C2.8 to `partial` on the unobserved signature) move the total by well under a point each; C4.4 moving to `no` costs 0.6. Every one of these alternatives leaves the grade in the A band except the C5.3 reading, which is why that check carries the fullest reasoning above.
+## Good for / Not built for
+- Good for: holding operating and trust-style funds at an FDIC bank and giving each property or owner its own account number. Also sending and receiving ACH, wire, instant and check payments with duplicate protection, cancelling or returning payments, and pulling transactions, statements and settlement reports into your own reconciliation tools or AI agents.
+- Not built for: tenant, owner or lease ledgers and trust-accounting rules (that stays in your PMS). The published documentation also shows no OAuth app connections, no official MCP server, no self-serve account freeze, no way to edit saved payees and no overwrite protection on edits.
 
 ## Bottom line for a property manager
-Column is a real bank - nationally chartered, OCC-regulated and FDIC-insured, holding the accounts itself rather than renting them from a sponsor bank behind the scenes - and its API is one of the most genuinely buildable we have measured, earning a 94 with every category live-tested rather than taken on faith. In practice that means you can open accounts, read balances and transactions, send and receive money on every rail, and cancel, return, reverse or stop-pay anything, all from your own code, with the safety features that matter for automation: read-only and narrowly scoped keys, mandatory human approval on transfers a key initiates, proven protection against accidental double-payments, and a free, fully functional sandbox you can build against today without talking to anyone. The real limitations are for the people maintaining the integration, not the money: error responses use the wrong HTTP status codes and an invalid key returns a blank response, there is no API version you can pin, and the changelog that would warn you about changes publishes in irregular batches with multi-month gaps. Understand clearly what Column is and is not: it is the bank and the payment rails, not a property management system. It documents FBO and sub-account structures, holds and escrow, and consolidated statements that make trust and operating separation workable, and its property-management page names trust accounts, security deposits, rent, owner distributions and vendor payments - but the API itself has no concept of a lease, a tenant, a unit, or an owner statement, and the property-management framing lives largely on the marketing page rather than in the API reference. You would still run a PMS or trust-accounting system on top; a high API score here means Column would be an unusually programmable bank underneath it, not a replacement for it.
+Column is an actual bank (Column N.A., Member FDIC), so your money sits at Column itself, not at a software company layered on someone else's bank. Its API is one of the most complete banking APIs an operator can build on. You can open accounts and per-property or per-owner account numbers, move money on every major U.S. payment rail, cancel or reverse payments, and pull statement and settlement data. You can do all of that with tightly limited, self-serve keys and a free sandbox. Its biggest strengths are payments that can be retried without double-sending, signed and retried webhooks, and documentation an AI tool can read in one file.
+
+Its main limits come from the published documentation, not from observed failures:
+- The documentation shows no version or deprecation contract.
+- It shows no protection against two tools overwriting each other's edits.
+- It shows no OAuth sign-in for outside apps and no official MCP server.
+
+Column markets property-management trust accounts, owner distributions and an AppFolio integration. The API itself is general-purpose banking, with no property-management trust-accounting endpoints, so you still need a PMS or trust-accounting system for tenant and owner ledgers alongside it.

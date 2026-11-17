@@ -1,0 +1,476 @@
+{
+  "name": "Leasey.AI",
+  "slug": "leasey-ai",
+  "report_file": "/Users/andrewswensen/Documents/Claude/Projects/API Grader Runs/Leasey-2026-11-17/2-grading/Leasey-API-Report-Card-2026-11-17.md",
+  "score": 95,
+  "grade": "A",
+  "pre_mcp": {
+    "score": 95,
+    "grade": "A"
+  },
+  "meta": {
+    "run": "Nov 17, 2026",
+    "method": "1.2",
+    "model": "Claude Opus 5.5 (high effort)",
+    "tier": "Baseline verified",
+    "packet": "LEASEY-EP-2026-11-17-F1",
+    "product_type": "Listings and showings"
+  },
+  "gate1": {
+    "allows": "A",
+    "c5_1": "yes",
+    "c5_2": "yes",
+    "read": "If you are a Leasey customer on any plan, the API, webhooks, and sandbox come at no extra cost and with no usage cap. Admins create their own keys. Becoming a customer still starts with a sales demo."
+  },
+  "gate2": {
+    "allows": "A",
+    "coverage_pct": 89.7,
+    "earned": 35.0,
+    "weight": 39,
+    "write_pct": 100.0,
+    "c1_4": "partial",
+    "critical_zero": false,
+    "read": "You can create and update listings, publish them to or pull them from marketplaces, capture and update leads, and book, move, confirm, or cancel showings by API. The published documentation shows no way to set showing availability, manage team members, read lead messages, or handle lockbox access. No documented webhook fires for showing changes, so your system checks the showings report instead."
+  },
+  "letter": "A",
+  "binding_gate": "none",
+  "placement": {
+    "c2": [
+      9.0,
+      12
+    ],
+    "c3": [
+      4.5,
+      6
+    ],
+    "c4": [
+      4.0,
+      4
+    ],
+    "share_pct": 79.5,
+    "math": "90 + round(6 x 0.795455) = 95"
+  },
+  "mcp": {
+    "has": false,
+    "note": "No official MCP server was found (the MCP registry, standard MCP paths, and mcp.leasey.ai all came up empty), so the one-step bump did not apply."
+  },
+  "reads": {
+    "c2": "The API behaves predictably. Errors carry clear codes, every request has an ID you can quote to support, retries are safe, and you can page or sync only what changed. Weak spots: some older fields send numbers as text, money is a plain decimal number, and the published documentation shows no protection against two systems overwriting each other's edits. The terms also let Leasey change the service without notice, and rate-limit headers were documented but not seen live.",
+    "c3": "You can give an AI agent or reporting tool its own key, make it read-only, limit it to areas like leads or showings, set an expiry, and revoke it yourself. Getting a sandbox means going through your Leasey contact. The published documentation shows no \"Sign in with Leasey\" (OAuth) flow, so third-party apps still need a pasted key.",
+    "c4": "A developer, or an AI coding tool, can build straight from the published files: a full Markdown guide, an <code>llms-full.txt</code> copy for AI tools, an OpenAPI file for Postman or code generators, and a dated changelog. There is no official Leasey MCP server for connecting an account directly to an AI assistant."
+  },
+  "checklist": [
+    {
+      "item": "Listings",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Create, update, list, and read units, with per-marketplace status. Listing reads go through the properties report."
+    },
+    {
+      "item": "Showings or tours",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Book, read, list, reschedule, cancel, confirm, and report on showings by API."
+    },
+    {
+      "item": "Prospects or leads",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Leads can be pulled, created, and updated through the leads, reports, and applications endpoints, plus a new-lead webhook."
+    },
+    {
+      "item": "Units/properties",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Same unit endpoints as listings, with building and floorplan fields."
+    },
+    {
+      "item": "Showing availability or schedules",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "partial",
+      "score": 0.5,
+      "note": "Availability can be read by API. The published documentation shows no way to set availability windows; that happens in the Leasey app."
+    },
+    {
+      "item": "Prospect activity",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "partial",
+      "score": 0.5,
+      "note": "Prescreening answers and showing feedback are readable only as report columns. The published documentation shows no message or conversation endpoint."
+    },
+    {
+      "item": "Agents or users",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "partial",
+      "score": 0.5,
+      "note": "Team members can be assigned or created only while saving a unit. The published documentation shows no user list, read, or update endpoint."
+    },
+    {
+      "item": "Syndication to rental sites",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Publish or unpublish per marketplace, read status, a syndication report, and publish and unpublish webhooks."
+    },
+    {
+      "item": "Access devices",
+      "kind": "object",
+      "class": "optional",
+      "weight": 1,
+      "state": "absent",
+      "score": 0.0,
+      "note": "The published documentation shows no lockbox or access-device features."
+    },
+    {
+      "item": "Reporting",
+      "kind": "object",
+      "class": "optional",
+      "weight": 1,
+      "state": "present",
+      "score": 1.0,
+      "note": "Five report endpoints."
+    },
+    {
+      "item": "Application hand-off links",
+      "kind": "object",
+      "class": "optional",
+      "weight": 1,
+      "state": "present",
+      "score": 1.0,
+      "note": "Each unit can carry a rental application link, and applications can be sent by API."
+    },
+    {
+      "item": "Create or update a listing",
+      "kind": "workflow",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Create and update listings by API."
+    },
+    {
+      "item": "Schedule a showing",
+      "kind": "workflow",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Book showings by API, including a waitlist."
+    },
+    {
+      "item": "Create or update a prospect",
+      "kind": "workflow",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Create and update prospects through applications. Booking a showing also creates or updates the lead."
+    },
+    {
+      "item": "Cancel or reschedule a showing",
+      "kind": "lifecycle",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Cancel and reschedule showings by API."
+    },
+    {
+      "item": "Activate or deactivate a listing",
+      "kind": "lifecycle",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Turning a marketplace on or off publishes or unpublishes the listing. Archiving the unit record itself is not documented."
+    },
+    {
+      "item": "Update a prospect's status",
+      "kind": "lifecycle",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Change an applicant's stage, decision, or archived status by API."
+    },
+    {
+      "item": "Confirm or complete a showing",
+      "kind": "lifecycle",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Showings can be confirmed by API. The published documentation shows no way to mark a showing completed or attended."
+    }
+  ],
+  "checks": [
+    {
+      "id": "C1.1",
+      "group": 1,
+      "title": "Object coverage",
+      "mark": "81.8%",
+      "why": "Object rows earn 18.0 of 22 weight. Availability, prospect activity, and team members are only partly covered, and access devices are missing."
+    },
+    {
+      "id": "C1.2",
+      "group": 1,
+      "title": "Write coverage",
+      "mark": "100%",
+      "why": "All three core workflows (create or update a listing, schedule a showing, and create or update a prospect) can be done by API."
+    },
+    {
+      "id": "C1.3",
+      "group": 1,
+      "title": "Lifecycle coverage",
+      "mark": "100%",
+      "why": "All four lifecycle actions are covered: cancel or reschedule a showing, publish or unpublish a listing, change a prospect's status, and confirm a showing."
+    },
+    {
+      "id": "C1.4",
+      "group": 1,
+      "title": "Change notification",
+      "mark": "partial",
+      "why": "Webhooks cover listing publish and unpublish, new leads, and application changes, but no showing or unit events. Listing, showing, and lead changes can be caught by polling with <code>updated_since</code>, verified live."
+    },
+    {
+      "id": "C2.1",
+      "group": 2,
+      "title": "Modern API conventions",
+      "mark": "yes",
+      "why": "A standard REST and JSON API with normal verbs and resource paths, confirmed across live calls."
+    },
+    {
+      "id": "C2.2",
+      "group": 2,
+      "title": "Consistent typing",
+      "mark": "no",
+      "why": "Some core lead and listing fields (such as <code>application_id</code>, <code>rent_amount</code>, and <code>price</code>) are text on some endpoints and numbers on others. Money is a plain decimal number."
+    },
+    {
+      "id": "C2.3",
+      "group": 2,
+      "title": "Structured errors",
+      "mark": "yes",
+      "why": "Every observed error carried a stable machine-readable code, a message, a request ID, and the correct HTTP status."
+    },
+    {
+      "id": "C2.4",
+      "group": 2,
+      "title": "Duplicate prevention",
+      "mark": "yes",
+      "why": "An <code>Idempotency-Key</code> header works on every write, so a retried request does not create a duplicate. It is required for paid screening orders."
+    },
+    {
+      "id": "C2.5",
+      "group": 2,
+      "title": "Graceful handling under load",
+      "mark": "partial",
+      "why": "The docs describe 429 responses, a <code>Retry-After</code> header, backoff guidance, and stated limits, but no rate-limit header appeared on any of 37 live responses."
+    },
+    {
+      "id": "C2.6",
+      "group": 2,
+      "title": "Pagination for large collections",
+      "mark": "yes",
+      "why": "Page-based paging with totals, a has-more flag, a fixed order, and documented caps. Paging and the cap were verified live."
+    },
+    {
+      "id": "C2.7",
+      "group": 2,
+      "title": "Bulk or incremental export",
+      "mark": "yes",
+      "why": "Reports return a full dataset in one call or in pages, with <code>updated_since</code> sync on properties, leads, showings, billing, and leasing lists."
+    },
+    {
+      "id": "C2.8",
+      "group": 2,
+      "title": "Webhook security and delivery reliability",
+      "mark": "yes",
+      "why": "Webhooks are signed (HMAC-SHA256), failed deliveries are retried up to five attempts, and consumers get guidance on duplicates. Webhooks were not live-tested."
+    },
+    {
+      "id": "C2.9",
+      "group": 2,
+      "title": "Concurrency and conflict control",
+      "mark": "no",
+      "why": "The published documentation shows no ETag, record version, or other way to stop one system from overwriting another's changes."
+    },
+    {
+      "id": "C2.10",
+      "group": 2,
+      "title": "Versioning and backward compatibility",
+      "mark": "partial",
+      "why": "There is a <code>/v1</code> version, a written breaking-change policy, 12 months of support after a new version, and a dated changelog. But the Terms of Service allow changes without prior notice."
+    },
+    {
+      "id": "C2.11",
+      "group": 2,
+      "title": "Request traceability",
+      "mark": "yes",
+      "why": "Every live response carried an <code>X-Request-Id</code>, and the docs say to quote it to support."
+    },
+    {
+      "id": "C2.12",
+      "group": 2,
+      "title": "Service availability and status transparency",
+      "mark": "yes",
+      "why": "A public status page shows uptime and response times, with an incident history kept on GitHub (no incidents recorded). A contractual SLA comes only on the Custom plan."
+    },
+    {
+      "id": "C3.1",
+      "group": 3,
+      "title": "Read-only credentials",
+      "mark": "yes",
+      "why": "Read-only keys can only make GET calls, and any write gets a 403. Read-only keys were seen in the live account."
+    },
+    {
+      "id": "C3.2",
+      "group": 3,
+      "title": "Scoped credentials",
+      "mark": "yes",
+      "why": "Keys can be limited to specific areas such as properties, leads, showings, or reports, combined with read-only or full access."
+    },
+    {
+      "id": "C3.3",
+      "group": 3,
+      "title": "Multiple keys",
+      "mark": "yes",
+      "why": "Admins can create several labeled keys, and the live account listed many distinct keys."
+    },
+    {
+      "id": "C3.4",
+      "group": 3,
+      "title": "Rotation and revocation",
+      "mark": "yes",
+      "why": "Keys can be created and revoked self-serve in the dashboard or by API, with optional expiry and a documented rotation procedure."
+    },
+    {
+      "id": "C3.5",
+      "group": 3,
+      "title": "Test environment and isolation",
+      "mark": "partial",
+      "why": "A fully isolated sandbox with its own keys and Stripe test mode is included on every plan, but sandbox credentials come only through your Leasey contact."
+    },
+    {
+      "id": "C3.6",
+      "group": 3,
+      "title": "Delegated access",
+      "mark": "no",
+      "why": "The published documentation shows no OAuth or other delegated sign-in. Only API keys are documented, and there is no official MCP server."
+    },
+    {
+      "id": "C4.1",
+      "group": 4,
+      "title": "Complete self-serve reference",
+      "mark": "yes",
+      "why": "A public guide covers authentication, environments, errors, and every endpoint, with a full request and a real response for each. It is not linked from the site's header or footer."
+    },
+    {
+      "id": "C4.2",
+      "group": 4,
+      "title": "Reliable machine-consumable integration path",
+      "mark": "yes",
+      "why": "A public OpenAPI 3.0.3 file with 68 operations is kept in step with the guide. There is no official SDK or MCP server."
+    },
+    {
+      "id": "C4.3",
+      "group": 4,
+      "title": "AI-readable documentation",
+      "mark": "yes",
+      "why": "An API-specific <code>llms.txt</code> and an <code>llms-full.txt</code> copy of the full guide are published for AI tools, plus a Markdown version of the guide."
+    },
+    {
+      "id": "C4.4",
+      "group": 4,
+      "title": "Kept current",
+      "mark": "yes",
+      "why": "A dated changelog runs from version 1.0 (Aug 26, 2026) to 3.19 (Nov 9, 2026), and the OpenAPI version matches it. Deprecated fields are flagged."
+    },
+    {
+      "id": "C5.1",
+      "group": 5,
+      "title": "Self-serve API key",
+      "mark": "yes",
+      "why": "Company admins create production keys themselves in the dashboard or by API, with no approval step. Becoming a customer starts with a demo."
+    },
+    {
+      "id": "C5.2",
+      "group": 5,
+      "title": "Not commercially gated",
+      "mark": "yes",
+      "why": "Every plan, starting with Starter at $299, includes the full API, webhooks, and sandbox at no extra cost and with no usage quota."
+    }
+  ],
+  "runs": {
+    "scores": [
+      95,
+      95,
+      95
+    ],
+    "agreement": "26 of 28 checks unanimous; all 18 checklist rows unanimous",
+    "disagreements": [
+      {
+        "what": "C2.2 Consistent typing",
+        "runs": "partial / no / partial",
+        "resolved": "no",
+        "why": "Core lead and listing fields (identifiers, rent, and price) change type between endpoints, and the partial mark is only for non-core fields. The typed copies help but the text versions are still returned.",
+        "score_effect": "none"
+      },
+      {
+        "what": "C3.5 Test environment and isolation",
+        "runs": "partial / partial / yes",
+        "resolved": "partial",
+        "why": "The sandbox is fully isolated, but credentials come only through the Leasey technical contact, which matches \"available only on request.\"",
+        "score_effect": "none"
+      }
+    ],
+    "summary": "All three runs gave 95 (A) on their own, with identical checklist scores. The two disputed checks were settled against the evidence, and no alternate mark, alone or together, changes the score."
+  },
+  "sensitivity": "If checklist rows 16 (activate or deactivate a listing) and 18 (confirm or complete a showing) were both scored 0.5 instead of 1.0, capability coverage would fall to 84.6%, just under the 85% an A needs, and the score would drop to 87 (B+); all three runs scored both rows at 1.0, and only one of them at 0.5 still leaves an A.",
+  "strengths": [
+    "API, webhooks, and sandbox included on every plan, with no usage cap",
+    "Create, update, and publish listings to marketplaces by API",
+    "Book, reschedule, confirm, or cancel showings, including from voice or chat agents",
+    "Pull and update leads, and move applicants through stages",
+    "Read-only and area-limited keys you create and revoke yourself",
+    "Clear error codes and a request ID on every response",
+    "Safe retries: an idempotency key works on every write",
+    "Full exports and incremental sync with <code>updated_since</code>",
+    "Signed, retried webhooks for listings, new leads, and application changes",
+    "Full guide, OpenAPI file, and <code>llms-full.txt</code> for AI coding tools"
+  ],
+  "watch": [
+    "The published documentation shows no way to set showing availability by API",
+    "The published documentation shows no team management beyond assigning members to units",
+    "The published documentation shows no endpoint for lead message threads",
+    "The published documentation shows no lockbox or access-code features",
+    "No documented webhook for showing changes, so you poll the showings report",
+    "Some older fields send numbers as text, and money is a plain decimal",
+    "The published documentation shows no guard against two systems overwriting edits",
+    "Sandbox access goes through your Leasey contact, not self-serve",
+    "The published documentation shows no OAuth sign-in, so apps need a pasted key",
+    "The terms let Leasey change the service without prior notice"
+  ],
+  "bottom": "Leasey.AI earns a 95 (A), close to the 96 ceiling for a vendor without an official MCP server. A property manager can build their own tools on it to put units on rental marketplaces, bring in leads, and let an AI agent book and manage showings. The API comes with every plan, keys can be made read-only or limited to certain areas and revoked without calling support, and the docs are complete enough for an AI coding tool to work from directly. The limits: the published documentation shows no way to set showing availability, manage users, sign in through OAuth, or stop two systems from overwriting the same record, and no webhook fires when a showing changes. Getting a sandbox also means going through your Leasey contact.",
+  "provider_fit": "Leasey.AI is an AI leasing platform that lists units, answers leads, schedules showings, screens applicants, and signs leases. It is a leasing front end, not a bank, PMS, or trust-accounting system, so you still need property management software (Leasey connects to Rent Manager, Buildium, DoorLoop, AppFolio, and Property Vista) as your system of record."
+}

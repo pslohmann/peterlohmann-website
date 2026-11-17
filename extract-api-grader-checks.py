@@ -129,11 +129,30 @@ def parse(path):
     return checks, meta
 
 
+# Platforms regraded under methodology v1.2 have a JSON file in data/api-grader-v12/
+# (their checks come from there), and their published report in api-grader/reports/
+# is now the v1.2 report, which this v1.1 parser cannot read. They are skipped, and
+# their old v1.1 entry in the output is kept unchanged as history.
+V12_DIR = HERE / "data" / "api-grader-v12"
+
+
+def v12_files():
+    """slug -> True for every v1.2 platform (the report file names match the slugs)."""
+    return {p.stem + ".md" for p in V12_DIR.glob("*.json")}
+
+
 def main():
     if not REPORTS.is_dir():
         sys.exit(f"reports directory not found: {REPORTS.resolve()}")
     out, problems = {}, []
+    old = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {}
+    regraded = v12_files()
     for company, fname in sorted(SOURCES.items()):
+        if fname in regraded:
+            if company in old:
+                out[company] = old[company]
+            print(f"  {company:20} skipped: regraded under v1.2 (data/api-grader-v12/)")
+            continue
         p = REPORTS / fname
         if not p.exists():
             problems.append(f"{company}: missing {fname}")
