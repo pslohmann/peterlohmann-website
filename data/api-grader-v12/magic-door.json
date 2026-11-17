@@ -1,0 +1,595 @@
+{
+  "name": "Magic Door",
+  "slug": "magic-door",
+  "report_file": "/Users/andrewswensen/Documents/Claude/Projects/API Grader Runs/MagicDoor-2026-11-17/2-grading/MagicDoor-API-Report-Card-2026-11-17.md",
+  "score": 87,
+  "grade": "B+",
+  "pre_mcp": {
+    "score": 85,
+    "grade": "B"
+  },
+  "meta": {
+    "run": "Nov 17, 2026",
+    "method": "1.2",
+    "model": "Claude Opus 5.5 (high effort)",
+    "tier": "Baseline verified",
+    "packet": "MD-EVP-2026-11-17-v1.0",
+    "product_type": "Accounting/PMS"
+  },
+  "gate1": {
+    "allows": "A",
+    "c5_1": "yes",
+    "c5_2": "yes",
+    "read": "Any MagicDoor customer can create an API key on their own, under Profile, then Developer. Pricing lists API and MCP access as included on the Advanced, Professional, and Enterprise plans, with no tiers and no gated features, so there is no sales call or extra fee."
+  },
+  "gate2": {
+    "allows": "B",
+    "coverage_pct": 98.6,
+    "earned": 68.0,
+    "weight": 69,
+    "write_pct": 100.0,
+    "c1_4": "no",
+    "critical_zero": false,
+    "read": "On paper, almost everything you run the business on can be read and changed through the API, including leases, rent and deposit ledgers, bills, bank reconciliations, owner distributions, and work orders. Coverage is 98.6%, well above the 85% an A needs, and the only missing item is optional inventory. Gate 2 still stops at B because change notification (C1.4) is no, and an A requires yes or partial. The published documentation shows no webhooks and no changed-since filter, so automations have to re-check the data on a schedule."
+  },
+  "letter": "B",
+  "binding_gate": "gate2",
+  "placement": {
+    "c2": [
+      4.0,
+      11
+    ],
+    "c3": [
+      4.5,
+      6
+    ],
+    "c4": [
+      3.0,
+      4
+    ],
+    "share_pct": 54.8,
+    "math": "80 + round(9 x 0.547619) = 80 + round(4.93) = 85"
+  },
+  "mcp": {
+    "has": true,
+    "note": "MagicDoor maintains an official MCP server, <code>@magicdoor/mcp</code>, that is read-only and runs locally on your computer with an API key you paste in. A read-only server still qualifies, so the one-step bump applied: 85 (B) to 87 (B+)."
+  },
+  "reads": {
+    "c2": "The basics are solid. It is ordinary REST, it warns you when you are near the rate limit, and errors carry a trace ID you can quote to support. Running it in production is riskier: MagicDoor says the API can change at any time without notice, there is no version number, and there is no status page. The published documentation also shows nothing that stops a retried payment post from being recorded twice or two tools from overwriting each other's edits.",
+    "c3": "You can give each tool or AI agent its own key, limit it to exactly what it needs (read-only, accounting-only, and so on), and revoke it instantly. That is a strong setup for safe automation. The docs offer no published way to test without touching your real data. There is also no approval flow where an outside app signs in with MagicDoor, so any third-party app needs one of your keys.",
+    "c4": "The documentation is unusually complete and ready for AI coding tools. Claude, Cursor, and similar tools can load the whole reference at once. What is missing is a machine-readable spec or official code library, an MCP connector that can act and not just read, and a changelog to warn you when things change."
+  },
+  "checklist": [
+    {
+      "item": "Properties",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "List, get, batch, create, update, deactivate, and delete are documented. Paging through properties was confirmed in live tests."
+    },
+    {
+      "item": "Units",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Create, read, update, and delete, plus move and deactivate."
+    },
+    {
+      "item": "Leases",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Create, read, update, and delete, plus activate a draft, end, and reactivate. Reads were confirmed in live tests."
+    },
+    {
+      "item": "Tenants",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Create, read, update, and delete, plus deactivate, reactivate, and move in or out of a lease."
+    },
+    {
+      "item": "Lease ledgers / transactions",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Ledger reads, plus charges, payments, and credits that can be added, adjusted, and deleted. A ledger read was confirmed live."
+    },
+    {
+      "item": "General ledger",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Chart of accounts create, read, update, and delete, manual journal entries with posting, and a general ledger report. Chart of accounts confirmed live."
+    },
+    {
+      "item": "Bank accounts",
+      "kind": "object",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Create, read, update, and delete, activate and deactivate, plus Plaid bank feeds."
+    },
+    {
+      "item": "Owners",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Create, read, update, and delete, plus deactivate and reactivate."
+    },
+    {
+      "item": "Bills",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Vendor bills with create, read, update, and delete, plus pay and settle."
+    },
+    {
+      "item": "Payments",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Record, adjust, delete, return, and refund payments."
+    },
+    {
+      "item": "Applicants",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Rental applications with decisions and conversion to a tenant. Reads were confirmed in live tests."
+    },
+    {
+      "item": "Work orders / tasks",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Create, read, update, and delete, plus status, vendor, and visits. Reads worked live, but the documented <code>closedAfter</code> filter was not honored."
+    },
+    {
+      "item": "Reconciliation",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Manual reconciliations, reconciliation periods, and reconciliation items are documented."
+    },
+    {
+      "item": "Vendors",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Create, read, update, and delete, plus deactivate and reactivate."
+    },
+    {
+      "item": "Recurring charges",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Full create, read, update, and delete."
+    },
+    {
+      "item": "Security deposits (hold, apply, refund)",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Deposits can be added, allocated, and released, with a separate deposit ledger."
+    },
+    {
+      "item": "Owner distributions or statements",
+      "kind": "object",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Distributions can be calculated, disbursed, and posted, and owner statement reports are available."
+    },
+    {
+      "item": "Files",
+      "kind": "object",
+      "class": "optional",
+      "weight": 1,
+      "state": "present",
+      "score": 1.0,
+      "note": "Documented as present. Files can also be removed through the API."
+    },
+    {
+      "item": "Communications",
+      "kind": "object",
+      "class": "optional",
+      "weight": 1,
+      "state": "present",
+      "score": 1.0,
+      "note": "Chats, emails, and announcements."
+    },
+    {
+      "item": "Custom fields",
+      "kind": "object",
+      "class": "optional",
+      "weight": 1,
+      "state": "present",
+      "score": 1.0,
+      "note": "Documented as present. Custom-field values can also be cleared."
+    },
+    {
+      "item": "Associations",
+      "kind": "object",
+      "class": "optional",
+      "weight": 1,
+      "state": "present",
+      "score": 1.0,
+      "note": "HOA architectural requests, board members, surveys, and violations."
+    },
+    {
+      "item": "Inventory",
+      "kind": "object",
+      "class": "optional",
+      "weight": 1,
+      "state": "absent",
+      "score": 0.0,
+      "note": "The published documentation shows no inventory-item object, only an inventory report for portfolios, properties, and units."
+    },
+    {
+      "item": "Read core records",
+      "kind": "workflow",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Core records are readable, confirmed across the live test battery."
+    },
+    {
+      "item": "Post ledger charges and payments",
+      "kind": "workflow",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Documented endpoints post lease charges, payments, deposit payments, and credits."
+    },
+    {
+      "item": "Create and update leases",
+      "kind": "workflow",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Documented endpoints create, update, and activate leases."
+    },
+    {
+      "item": "Change lease status through move-out",
+      "kind": "lifecycle",
+      "class": "critical",
+      "weight": 3,
+      "state": "present",
+      "score": 1.0,
+      "note": "Documented move-out and lease-end endpoints."
+    },
+    {
+      "item": "Void or reverse a posted lease-ledger transaction",
+      "kind": "lifecycle",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Deleting or adjusting a charge, payment, or credit unwinds it. No endpoint is called void, but deleted records keep their history."
+    },
+    {
+      "item": "Record a returned or refunded payment",
+      "kind": "lifecycle",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Payment returns, credit and deposit releases, and application-fee refunds are documented."
+    },
+    {
+      "item": "Void a bill",
+      "kind": "lifecycle",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "A vendor-bill soft delete, plus voiding a check."
+    },
+    {
+      "item": "Finalize or undo a bank reconciliation",
+      "kind": "lifecycle",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Complete, cancel, or delete a reconciliation, and lock or reopen a period."
+    },
+    {
+      "item": "Deactivate or archive a property, unit, tenant, or owner",
+      "kind": "lifecycle",
+      "class": "important",
+      "weight": 2,
+      "state": "present",
+      "score": 1.0,
+      "note": "Properties, units, tenants, and owners all have a documented deactivate action."
+    },
+    {
+      "item": "Delete or archive optional records",
+      "kind": "lifecycle",
+      "class": "optional",
+      "weight": 1,
+      "state": "present",
+      "score": 1.0,
+      "note": "Delete notes, remove files, clear custom fields, and archive chats."
+    }
+  ],
+  "checks": [
+    {
+      "id": "C1.1",
+      "group": 1,
+      "title": "Object coverage",
+      "mark": "97.8%",
+      "why": "Objects earn 45 of 46 weight. Every object is fully covered except inventory, an optional item missing from the published documentation."
+    },
+    {
+      "id": "C1.2",
+      "group": 1,
+      "title": "Write coverage",
+      "mark": "100.0%",
+      "why": "Both write workflows are documented: posting lease charges and payments, and creating and updating leases (6 of 6 weight)."
+    },
+    {
+      "id": "C1.3",
+      "group": 1,
+      "title": "Lifecycle coverage",
+      "mark": "100.0%",
+      "why": "All seven lifecycle actions are documented (14 of 14 weight), including move-outs, reversing ledger entries, returned payments, and finalizing or undoing a reconciliation."
+    },
+    {
+      "id": "C1.4",
+      "group": 1,
+      "title": "Change notification",
+      "mark": "no",
+      "why": "The docs say there are no webhooks and to poll instead, and no list has a changed-since filter. The one documented date filter tested, <code>closedAfter</code> on work orders, was not honored live."
+    },
+    {
+      "id": "C2.1",
+      "group": 2,
+      "title": "Modern API conventions",
+      "mark": "yes",
+      "why": "Resource-based REST with standard verbs over JSON. Deactivating with DELETE and using POST for actions are accepted conventions."
+    },
+    {
+      "id": "C2.2",
+      "group": 2,
+      "title": "Consistent typing",
+      "mark": "no",
+      "why": "The docs say IDs are always text, but 15 reference pages show IDs as numbers, including core financial endpoints. Money is a plain JSON number, not cents or a fixed-decimal string."
+    },
+    {
+      "id": "C2.3",
+      "group": 2,
+      "title": "Structured errors",
+      "mark": "partial",
+      "why": "Errors follow a documented standard format with correct status codes and a trace ID. Stable machine-readable error codes exist on only a few endpoints, and error shapes varied in live tests."
+    },
+    {
+      "id": "C2.4",
+      "group": 2,
+      "title": "Duplicate prevention",
+      "mark": "no",
+      "why": "There is no idempotency key, and the docs say a retried POST creates a second record. The only exception covers paying MagicDoor's own invoice."
+    },
+    {
+      "id": "C2.5",
+      "group": 2,
+      "title": "Graceful handling under load",
+      "mark": "yes",
+      "why": "A 429 response with a Retry-After header is documented, and rate-limit headers appeared on every live response."
+    },
+    {
+      "id": "C2.6",
+      "group": 2,
+      "title": "Pagination for large collections",
+      "mark": "partial",
+      "why": "Page and page-size paging with total counts is documented and worked live. Core lists state no sort order, and the docs warn pages can shift mid-walk."
+    },
+    {
+      "id": "C2.7",
+      "group": 2,
+      "title": "Bulk or incremental export",
+      "mark": "partial",
+      "why": "There are no bulk export endpoints and no changed-since filter. An unpaged list-all exists only for work orders and active vendors; everything else means paging or batch reads of up to 100 IDs."
+    },
+    {
+      "id": "C2.8",
+      "group": 2,
+      "title": "Webhook security and delivery reliability",
+      "mark": "na",
+      "why": "MagicDoor offers no webhooks or events, so this check does not apply. That gap is already counted under change notification (C1.4)."
+    },
+    {
+      "id": "C2.9",
+      "group": 2,
+      "title": "Concurrency and conflict control",
+      "mark": "no",
+      "why": "No ETag, version field, or stale-write error is documented. A property update rewrites the whole record, and a posted journal entry can be re-edited."
+    },
+    {
+      "id": "C2.10",
+      "group": 2,
+      "title": "Versioning and backward compatibility",
+      "mark": "no",
+      "why": "There is no version identifier, and the docs say the API can change at any time without notice, with no deprecation window."
+    },
+    {
+      "id": "C2.11",
+      "group": 2,
+      "title": "Request traceability",
+      "mark": "partial",
+      "why": "Errors carry a documented trace ID to quote to support. A trace header appeared on every live response, but it is undocumented, so successful responses carry only an undocumented ID."
+    },
+    {
+      "id": "C2.12",
+      "group": 2,
+      "title": "Service availability and status transparency",
+      "mark": "no",
+      "why": "There is no public status page, incident history, or SLA. A marketing claim of 99.9%+ uptime does not count as a status signal."
+    },
+    {
+      "id": "C3.1",
+      "group": 3,
+      "title": "Read-only credentials",
+      "mark": "yes",
+      "why": "Each key takes a list of resource-and-action permissions, so a read-only key is possible. The live permission catalog lists 55 read permissions."
+    },
+    {
+      "id": "C3.2",
+      "group": 3,
+      "title": "Scoped credentials",
+      "mark": "yes",
+      "why": "Keys can use any subset of 149 permissions across 57 categories. Leaving the list out gives an unscoped key."
+    },
+    {
+      "id": "C3.3",
+      "group": 3,
+      "title": "Multiple keys",
+      "mark": "yes",
+      "why": "Named keys can be created on the Developer page or through the API, and a company-wide list shows every key."
+    },
+    {
+      "id": "C3.4",
+      "group": 3,
+      "title": "Rotation and revocation",
+      "mark": "yes",
+      "why": "Revocation is self-serve, immediate, and permanent. You rotate by issuing a new key and revoking the old one, and keys can carry an expiry date."
+    },
+    {
+      "id": "C3.5",
+      "group": 3,
+      "title": "Test environment and isolation",
+      "mark": "partial",
+      "why": "The docs say there is no sandbox and calls hit production. A separate staging environment with its own keys does exist, but no MagicDoor page offers it to customers."
+    },
+    {
+      "id": "C3.6",
+      "group": 3,
+      "title": "Delegated access",
+      "mark": "no",
+      "why": "No OAuth or other delegated sign-in is documented, and the docs say plainly that this is not OAuth. The MCP server takes a pasted key, which earns no credit here."
+    },
+    {
+      "id": "C4.1",
+      "group": 4,
+      "title": "Complete self-serve reference",
+      "mark": "yes",
+      "why": "The public reference covers all 967 endpoints with authentication and typed parameters. Every page has a cURL example, 863 include a response example, and guides include TypeScript and Python code."
+    },
+    {
+      "id": "C4.2",
+      "group": 4,
+      "title": "Reliable machine-consumable integration path",
+      "mark": "partial",
+      "why": "There is no OpenAPI file and no official code library. The only machine path is the official MCP server, which is read-only and so counts as partial."
+    },
+    {
+      "id": "C4.3",
+      "group": 4,
+      "title": "AI-readable documentation",
+      "mark": "yes",
+      "why": "<code>llms.txt</code> indexes all 975 pages, <code>llms-full.txt</code> holds every reference page in full, and every page has a Markdown version."
+    },
+    {
+      "id": "C4.4",
+      "group": 4,
+      "title": "Kept current",
+      "mark": "partial",
+      "why": "There is no API changelog. Thin signals exist: the reference is generated from source, 16 endpoints carry undated deprecation notices, and monthly product posts occasionally mention the API."
+    },
+    {
+      "id": "C5.1",
+      "group": 5,
+      "title": "Self-serve API key",
+      "mark": "yes",
+      "why": "Any signed-in property manager can create a key under Profile, then Developer, with no sales or support step."
+    },
+    {
+      "id": "C5.2",
+      "group": 5,
+      "title": "Not commercially gated",
+      "mark": "yes",
+      "why": "Pricing says no tiers and no gated features and lists API and MCP access as included. The MCP server costs nothing extra."
+    }
+  ],
+  "runs": {
+    "scores": [
+      87,
+      87,
+      87
+    ],
+    "agreement": "26 of 27 applicable checks unanimous",
+    "disagreements": [
+      {
+        "what": "C2.11, request traceability",
+        "runs": "yes / partial / yes",
+        "resolved": "partial",
+        "why": "Yes needs a documented ID on every response. The documented trace ID covers only errors, and the header on successful responses is undocumented, which is the literal partial definition.",
+        "score_effect": "none (at yes, the share is 12.0 of 21, which still gives 85 before the MCP step and 87 after)"
+      }
+    ],
+    "summary": "All three runs scored 87 (B+), or 85 (B) before the MCP step, and scored all 32 checklist items the same. The only split, C2.11, moves the placement share between 11.5 and 12.0 of 21, and both give the same score."
+  },
+  "sensitivity": "Change notification (C1.4) is the only mark that could change the grade: if it were partial instead of no, gate 2 would allow an A, for 93 (A) before the MCP step and 97 (A+) after, but all three runs marked it no because the published documentation shows no changed-since filter for efficient polling.",
+  "strengths": [
+    "API and MCP access included at no extra cost, with no gated tiers.",
+    "Customers create their own API keys, with no sales call or approval.",
+    "967 documented endpoints, each with a cURL example.",
+    "Read and change leases, tenants, and rent and deposit ledgers.",
+    "Bills, bank reconciliations, owner distributions, and work orders are all reachable.",
+    "Reverse ledger entries, record returned payments, and release security deposits.",
+    "Trust accounting features, like deposit ledgers and period locks, reachable through the API.",
+    "Fine-grained keys limited to exactly what each tool needs, revocable instantly.",
+    "Full API docs in AI-ready formats, including <code>llms-full.txt</code> and Markdown pages.",
+    "Official read-only MCP server lets AI assistants answer portfolio questions."
+  ],
+  "watch": [
+    "The published documentation shows no webhooks or changed-since filter.",
+    "MagicDoor says the API can change at any time without notice.",
+    "No version number and no deprecation window.",
+    "The published documentation shows no protection against double-posting a retried payment.",
+    "The published documentation shows no protection against overwriting another tool's edits.",
+    "No published test environment; the docs say calls hit production.",
+    "No public status page, incident history, or SLA.",
+    "IDs change type between endpoints, and money is a plain number.",
+    "Error shapes vary, and stable error codes exist on only a few endpoints.",
+    "No OpenAPI file, official code library, or API changelog."
+  ],
+  "bottom": "MagicDoor's API reaches almost everything in the product. The published documentation shows how to read and change leases, tenants, rent and deposit ledgers, bills, bank reconciliations, owner distributions, and work orders, and any customer can create tightly limited keys at no extra cost. The biggest limitation is that MagicDoor publishes this as the interface its own apps use, not as a supported product, and its docs say the API can change at any time without notice. The published documentation also shows no way to be alerted when data changes and no protection against a retried payment post being recorded twice. MagicDoor is not a bank: payments run through third-party processors, the bank accounts are your own and link through Plaid, and its trust-accounting features are reachable through the API. Build on it for scheduled syncs, reporting, AI assistants, and carefully supervised write automations, and test writes carefully, because the docs offer no published sandbox.",
+  "provider_fit": "MagicDoor is AI-enabled property management software with built-in trust accounting, not a bank, with the API and MCP server included. You still need your own bank accounts (linked through Plaid), MagicDoor's third-party payment processors to move money, and scheduled re-checks to catch changes."
+}
