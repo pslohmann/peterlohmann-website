@@ -603,3 +603,6 @@
 .rank-table thead th:has(.info:hover), .rank-table thead th:has(.info:focus){ z-index:8 !important; }
 /* Phone cards: the MCP "B -> B+" sits on the same line as "+1 step". */
 .mc-v .u-line{ display:inline; margin-left:7px; }
+/* v1.2 platform pages: the MCP result box heading uses the site's sans-serif,
+   bold, at the same size (Andrew, 2026-11-17). h4 is serif site-wide by default. */
+.v12-ladder .mcp-card h4{ font-family:var(--sans); font-weight:800; letter-spacing:0; }
