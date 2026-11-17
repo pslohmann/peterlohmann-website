@@ -623,3 +623,22 @@
    grade chip earlier in the row. About 60% larger than the default chip. */
 #results .rank-table td:last-child .grade{ min-width:70px; padding:8px 14px; border-radius:10px;
   font-size:21px; font-weight:700; box-shadow:inset 0 0 0 1.5px currentColor; }
+/* Design, Access Control and Docs columns: the unit ("/ 12 checks", "/ 10 pts")
+   drops to its own line under the number, so a long value like "10.5 / 12 checks"
+   never crowds the cell edge at any table width (Andrew, 2026-11-17). */
+#results .rank-table td:nth-child(3) .u, #results .rank-table td:nth-child(4) .u,
+#results .rank-table td:nth-child(5) .u{ display:block; margin:2px 0 0; }
+/* Width rebalance, measured at 1024px and 1280px (Andrew, 2026-11-17): Platform
+   gives 2% to the Score column so "PRELIMINARY" and its info button fit; on
+   narrower desktops the header cells use slightly less side padding.
+   Sum: 19 + 16 + 3x10 + 11 + 12 + 12 = 100. */
+#results table.rank-table th:first-child{ width:19%; }
+#results table.rank-table th:nth-last-child(2){ width:12%; }
+@media (max-width:1180px){
+  #results .rank-table thead th{ padding-left:8px; padding-right:8px; letter-spacing:.04em; }
+  #results .rank-table th.col-base{ padding-left:24px; padding-right:24px; }
+}
+/* "Preliminary Grade" header in heavy type to match the bold grade chips (Andrew,
+   2026-11-17). Muli tops out at 700, which every header already uses, so this one
+   uses Inter (already loaded site-wide) at 800 in the navy text colour. */
+#results .rank-table thead th:last-child{ font-family:Inter, var(--sans); font-weight:800; color:var(--navy); }
