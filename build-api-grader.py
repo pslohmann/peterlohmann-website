@@ -3164,15 +3164,27 @@ TABLE_COLS = [
 # The "?" on the Base grade header (Andrew, 2026-11-17): a short plain-English
 # explanation of the v1.2 ladder. Same tooltip mechanics as the Score header's "i".
 BASE_TIP = ('<button class="info info-q info-left" type="button" '
-            'aria-label="How the base grade works" '
-            'data-tip="Methodology v1.2: two gates set the base grade, and the lower one wins. '
-            'Access: free with a self-serve key allows an A, partly paid a B, a paid add-on or '
-            'sales call a C. Coverage: how much of the product type&#x27;s checklist the API '
-            'documents, 85% or more for an A (an A also needs change alerts, like webhooks or a '
-            'changed-since filter, plus most write actions), 60% a B, 35% a C, below that a D. The other three '
-            'columns then set the score inside that letter, and an official MCP server adds one '
-            'step. Rows not yet regraded show their v1.1 points instead. Full diagram under '
-            'See the grading ladder, below."><span aria-hidden="true">?</span></button>')
+            'aria-label="How the base grade works. Methodology v1.2: two gates set the base '
+            'grade, and the lower one wins. Access and coverage each allow a highest letter. '
+            'The other three columns set the score inside that letter, and an official MCP '
+            'server adds one step.">'
+            '<span aria-hidden="true">?</span>'
+            # Real HTML (not a data-tip string) so it can carry bold labels and line
+            # breaks; shown on hover or focus by report.css (.tip-pop).
+            '<span class="tip-pop" aria-hidden="true">'
+            '<span class="tp-l"><b>Methodology v1.2:</b> two gates set the base grade, and the '
+            'lower one wins.</span>'
+            '<span class="tp-l"><b>Access:</b> free with a self-serve key allows an A, partly '
+            'paid a B, a paid add-on or sales call a C.</span>'
+            '<span class="tp-l"><b>Coverage:</b> how much of the product type&#x27;s checklist '
+            'the API documents. 85% or more for an A (an A also needs change alerts, like '
+            'webhooks or a changed-since filter, plus most write actions), 60% a B, 35% a C, '
+            'below that a D.</span>'
+            '<span class="tp-l">The other three columns then set the score inside that letter, '
+            'and an official MCP server adds one step.</span>'
+            '<span class="tp-l tp-muted">Rows not yet regraded show their v1.1 points instead. '
+            'Full diagram under See the grading ladder, below.</span>'
+            '</span></button>')
 V12_GROUP_KEYS = [("c2", "Design &amp; Reliability"), ("c3", "Access Control"),
                   ("c4", "Docs &amp; AI-Ready")]
 # v1.1 RESULTS "cats" order: 0 Functional Coverage, 1 Design, 2 Access Control,
@@ -3716,7 +3728,7 @@ SUB_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=22" />
+<link rel="stylesheet" href="/api-grader/report.css?v=23" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -4023,7 +4035,7 @@ PENDING_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=22" />
+<link rel="stylesheet" href="/api-grader/report.css?v=23" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;

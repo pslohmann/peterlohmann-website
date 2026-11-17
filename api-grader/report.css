@@ -646,3 +646,20 @@
    them wrap inside the Base grade cell rather than run into its edge. */
 .g-lines{ white-space:normal; }
 .g-lines b, .g-lines .g-bind{ display:inline; }
+/* Base grade "?" popup (Andrew, 2026-11-17): real HTML so labels can be bold and
+   each part sits on its own line. Same look as the navy .info tooltip. */
+.info.info-q::after{ display:none; }
+.info-q .tip-pop{ position:absolute; top:calc(100% + 10px); left:-8px; width:360px; z-index:40;
+  display:block; padding:13px 15px; border-radius:10px; background:var(--navy); color:#e6eef5;
+  font-family:var(--sans); font-size:13px; font-weight:500; font-style:normal; line-height:1.55;
+  letter-spacing:0; text-align:left; text-transform:none; white-space:normal;
+  box-shadow:0 16px 40px rgba(31,58,77,.28); opacity:0; visibility:hidden;
+  transition:opacity .13s ease; pointer-events:none; }
+.info-q:hover .tip-pop, .info-q:focus .tip-pop{ opacity:1; visibility:visible; }
+.info-q .tp-l{ display:block; }
+.info-q .tp-l + .tp-l{ margin-top:7px; }
+.info-q .tp-l b{ color:#fff; font-weight:700; }
+.info-q .tp-muted{ color:#b9c8d4; }
+@media (max-width:640px){ .info-q .tip-pop{ width:min(78vw,320px); } }
+/* Banner pill (Andrew, 2026-11-17): orange "Regrading in progress" on the navy bar. */
+.pre-bar .pre-tag{ background:var(--orange); color:#fff; }
