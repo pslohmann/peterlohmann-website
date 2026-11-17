@@ -3314,7 +3314,7 @@ CONTACT = "/contact"
 
 COPY = {
     # Thin bar across the top of every page.
-    "banner_tag":  "Preview Version",
+    "banner_tag":  "Regrading in progress",
     "banner":      ("These are <b>pre-release scores</b>, not final grades. "
                     "Every vendor's full markdown report is published here so the "
                     "scoring can be checked line by line. Regrading in progress: "
