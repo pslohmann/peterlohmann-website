@@ -524,18 +524,16 @@
   .s-d{ background:#fdecec; color:#b3382c; }  .s-c{ background:#fff3ec; color:var(--orange-dark); }
   .s-b{ background:var(--wash); color:var(--primary-dark); }  .s-a{ background:#e7f5ee; color:#248a5c; }
   .s-ap{ background:#cfeadb; color:#1d6f4a; }
-  .lad-mcp{ flex:none; display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:700;
-            color:#1d6f4a; background:#e7f5ee; border-radius:999px; padding:6px 12px; }
-  .lad-cap{ margin:8px 0 0; text-align:center; font-size:13.5px; color:var(--muted); }
+  .lad-mcp{ display:inline-flex; align-items:center; gap:5px; font-weight:700; color:#1d6f4a; }
+  .lad-cap{ margin:10px 0 0; text-align:center; font-size:13.5px; line-height:1.7; color:var(--muted); }
   .lad-eg{ margin:22px 0 0; padding:13px 16px; border-left:3px solid var(--primary); border-radius:8px;
            background:var(--wash-soft); color:var(--navy); font-size:15.5px; line-height:1.6; }
   .lad-h4{ margin:24px 0 8px; font-size:15.5px; color:var(--navy); }
   .lg-bar{ display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line);
            border-radius:10px; overflow:hidden; }
   .lg-grp + .lg-grp{ border-left:2px solid #fff; }
-  .lg-h{ text-align:center; font-weight:800; font-size:15px; padding:7px 0 3px; }
   .lg-cells{ display:grid; grid-template-columns:repeat(3,1fr); }
-  .lg-cell{ text-align:center; font-size:12px; line-height:1.3; padding:5px 2px 9px;
+  .lg-cell{ text-align:center; font-size:12px; line-height:1.3; padding:9px 2px;
             font-variant-numeric:tabular-nums; }
   .lg-cell b{ display:block; font-size:13.5px; }
   .lg-cell + .lg-cell{ border-left:1px solid rgba(255,255,255,.75); }
@@ -553,7 +551,6 @@
     .lg-grp:nth-child(n+3){ border-top:2px solid #fff; }
     .lad-join{ display:none; }  .lad-m{ display:block; }
     .lad-barrow{ flex-direction:column; align-items:stretch; }
-    .lad-mcp{ align-self:center; }
     .lad-seg{ font-size:11px; padding:7px 2px; }  .lad-seg b{ font-size:13.5px; }
   }
 </style>
@@ -958,14 +955,13 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
               <div class="lad-seg s-a"><b>A</b>90-96</div>
               <div class="lad-seg s-ap"><b>A+</b>97-100</div>
             </div>
-            <div class="lad-mcp"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>+1 step with an official MCP server</div>
           </div>
-          <p class="lad-cap">The other checks set the score inside the letter&#x27;s range.</p>
+          <p class="lad-cap"><span class="lad-mcp"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>+1 step with an official MCP server</span><br>The other checks set the score inside the letter&#x27;s range.</p>
 
           <p class="lad-eg"><strong>Example:</strong> A free API (Gate 1: A) that covers 75% of its checklist (Gate 2: B) gets a B. It passes 85% of the other checks, so it lands at 80 + 8 = 88 (B+). With an official MCP server, it moves up one step to A- (90).</p>
 
           <h4 class="lad-h4">Letter grades</h4>
-          <div class="lg-bar"><div class="lg-grp s-d"><div class="lg-h">D</div><div class="lg-cells"><div class="lg-cell"><b>D-</b>60-62</div><div class="lg-cell"><b>D</b>63-66</div><div class="lg-cell"><b>D+</b>67-69</div></div></div><div class="lg-grp s-c"><div class="lg-h">C</div><div class="lg-cells"><div class="lg-cell"><b>C-</b>70-72</div><div class="lg-cell"><b>C</b>73-76</div><div class="lg-cell"><b>C+</b>77-79</div></div></div><div class="lg-grp s-b"><div class="lg-h">B</div><div class="lg-cells"><div class="lg-cell"><b>B-</b>80-82</div><div class="lg-cell"><b>B</b>83-86</div><div class="lg-cell"><b>B+</b>87-89</div></div></div><div class="lg-grp s-a"><div class="lg-h">A</div><div class="lg-cells"><div class="lg-cell"><b>A-</b>90-92</div><div class="lg-cell"><b>A</b>93-96</div><div class="lg-cell lg-mcp"><b>A+</b>97-100</div></div></div></div>
+          <div class="lg-bar"><div class="lg-grp s-d"><div class="lg-cells"><div class="lg-cell"><b>D-</b>60-62</div><div class="lg-cell"><b>D</b>63-66</div><div class="lg-cell"><b>D+</b>67-69</div></div></div><div class="lg-grp s-c"><div class="lg-cells"><div class="lg-cell"><b>C-</b>70-72</div><div class="lg-cell"><b>C</b>73-76</div><div class="lg-cell"><b>C+</b>77-79</div></div></div><div class="lg-grp s-b"><div class="lg-cells"><div class="lg-cell"><b>B-</b>80-82</div><div class="lg-cell"><b>B</b>83-86</div><div class="lg-cell"><b>B+</b>87-89</div></div></div><div class="lg-grp s-a"><div class="lg-cells"><div class="lg-cell"><b>A-</b>90-92</div><div class="lg-cell"><b>A</b>93-96</div><div class="lg-cell lg-mcp"><b>A+</b>97-100</div></div></div></div>
           <p class="lad-small">F means no qualifying API. A+ (97-100) is reachable only with the MCP step.</p>
 
           <div class="mcp-card">
