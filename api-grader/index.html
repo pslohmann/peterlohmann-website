@@ -529,12 +529,28 @@
   .lad-cap{ margin:8px 0 0; text-align:center; font-size:13.5px; color:var(--muted); }
   .lad-eg{ margin:22px 0 0; padding:13px 16px; border-left:3px solid var(--primary); border-radius:8px;
            background:var(--wash-soft); color:var(--navy); font-size:15.5px; line-height:1.6; }
-  .lad-tables{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:22px; align-items:start; }
-  .lad-tables h4{ margin:0 0 6px; font-size:15.5px; color:var(--navy); }
-  .lad-tables .sm-table td{ padding:6px 8px; font-variant-numeric:tabular-nums; }
+  .lad-h4{ margin:24px 0 8px; font-size:15.5px; color:var(--navy); }
+  .lg-bar{ display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line);
+           border-radius:10px; overflow:hidden; }
+  .lg-grp + .lg-grp{ border-left:2px solid #fff; }
+  .lg-h{ text-align:center; font-weight:800; font-size:15px; padding:7px 0 3px; }
+  .lg-cells{ display:grid; grid-template-columns:repeat(3,1fr); }
+  .lg-cell{ text-align:center; font-size:12px; line-height:1.3; padding:5px 2px 9px;
+            font-variant-numeric:tabular-nums; }
+  .lg-cell b{ display:block; font-size:13.5px; }
+  .lg-cell + .lg-cell{ border-left:1px solid rgba(255,255,255,.75); }
+  .lg-mcp{ background:#cfeadb; color:#1d6f4a; }
+  .mcp-card{ margin-top:20px; padding:15px 18px; border:1px solid #cfe5d8; border-radius:12px; background:#f3faf6; }
+  .mcp-card p{ margin:0; color:var(--navy); font-size:15px; line-height:1.6; }
+  .mcp-egs{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .mcp-egs span{ background:#fff; border:1px solid #cfe5d8; border-radius:999px; padding:5px 12px;
+                 font-size:13.5px; color:#1d6f4a; font-variant-numeric:tabular-nums; }
   .lad-small{ margin:8px 0 0; font-size:13px; color:var(--muted); }
   @media (max-width:640px){
-    .lad-gates, .lad-tables{ grid-template-columns:1fr; }
+    .lad-gates{ grid-template-columns:1fr; }
+    .lg-bar{ grid-template-columns:repeat(2,1fr); }
+    .lg-grp:nth-child(3){ border-left:0; }
+    .lg-grp:nth-child(n+3){ border-top:2px solid #fff; }
     .lad-join{ display:none; }  .lad-m{ display:block; }
     .lad-barrow{ flex-direction:column; align-items:stretch; }
     .lad-mcp{ align-self:center; }
@@ -844,10 +860,12 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <details class="acc">
           <summary>
             <span class="acc-n">1</span>
-            <span class="acc-t">Functional Coverage and Usefulness</span>
-            <span class="cat-pts">feeds Gate 2</span>
+            <span class="acc-t">Functional Coverage and Usefulness + Accessibility and Cost</span>
+            <span class="cat-pts">sets the letter</span>
           </summary>
-          <div class="acc-body"><p>Can you get the data and take the actions your business runs on, and change them, not just read them? Coverage is scored against a predetermined critical, important, and optional weighting.</p></div>
+          <div class="acc-body"><p><strong>Functional Coverage and Usefulness (Gate 2):</strong> Can you get the data and take the actions your business runs on, and change them, not just read them? Coverage is scored against a predetermined critical, important, and optional weighting.</p>
+            <p style="margin-top:12px;"><strong>Accessibility and Cost (Gate 1):</strong> Can you get access without a sales call or a forced upgrade?</p>
+            <p style="margin-top:12px;"><strong>What happens next:</strong> each gate allows a highest possible letter, and the lower of the two becomes the platform&#x27;s letter. That letter is locked in. Groups 2, 3, and 4 are graded next, and they only decide where inside that letter&#x27;s range the platform lands: pass most of those checks and it sits near the top of the range, miss most and it sits near the bottom. Last, step 5 checks for an official MCP server, which can move the final grade up one step.</p></div>
         </details>
         <details class="acc">
           <summary>
@@ -876,10 +894,10 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <details class="acc">
           <summary>
             <span class="acc-n">5</span>
-            <span class="acc-t">Accessibility and Cost</span>
-            <span class="cat-pts">feeds Gate 1</span>
+            <span class="acc-t">Official MCP Server</span>
+            <span class="cat-pts">+1 step</span>
           </summary>
-          <div class="acc-body"><p>Can you get access without a sales call or a forced upgrade?</p></div>
+          <div class="acc-body"><p>Does the platform offer an official MCP server, the connection AI assistants use? If so, the final grade moves up one step, once, even past a gate&#x27;s limit. It&#x27;s the only way to reach an A+.</p></div>
         </details>
       </div>
       <p class="sub" style="margin:14px 0 0;">Each product type has its own published checklist: property management software, screening, listings and showings, workflow and CRM, maintenance, banking and payments, corporate accounting, and phone.</p>
@@ -946,15 +964,17 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 
           <p class="lad-eg"><strong>Example:</strong> A free API (Gate 1: A) that covers 75% of its checklist (Gate 2: B) gets a B. It passes 85% of the other checks, so it lands at 80 + 8 = 88 (B+). With an official MCP server, it moves up one step to A- (90).</p>
 
-          <div class="lad-tables">
-            <div>
-              <h4>MCP step</h4>
-              <table class="sm-table"><thead><tr><th>From</th><th>Moves to</th></tr></thead><tbody><tr><td>D-</td><td>&rarr; D (63)</td></tr><tr><td>D</td><td>&rarr; D+ (67)</td></tr><tr><td>D+</td><td>&rarr; C- (70)</td></tr><tr><td>C-</td><td>&rarr; C (73)</td></tr><tr><td>C</td><td>&rarr; C+ (77)</td></tr><tr><td>C+</td><td>&rarr; B- (80)</td></tr><tr><td>B-</td><td>&rarr; B (83)</td></tr><tr><td>B</td><td>&rarr; B+ (87)</td></tr><tr><td>B+</td><td>&rarr; A- (90)</td></tr><tr><td>A-</td><td>&rarr; A (93)</td></tr><tr><td>A</td><td>&rarr; A+ (97)</td></tr></tbody></table>
-              <p class="lad-small">Applied once, even past a gate&#x27;s limit. A+ is reachable only this way.</p>
-            </div>
-            <div>
-              <h4>Letter grades</h4>
-              <table class="sm-table"><thead><tr><th>Grade</th><th>Score</th></tr></thead><tbody><tr><td>A+</td><td>97-100</td></tr><tr><td>A</td><td>93-96</td></tr><tr><td>A-</td><td>90-92</td></tr><tr><td>B+</td><td>87-89</td></tr><tr><td>B</td><td>83-86</td></tr><tr><td>B-</td><td>80-82</td></tr><tr><td>C+</td><td>77-79</td></tr><tr><td>C</td><td>73-76</td></tr><tr><td>C-</td><td>70-72</td></tr><tr><td>D+</td><td>67-69</td></tr><tr><td>D</td><td>63-66</td></tr><tr><td>D-</td><td>60-62</td></tr><tr><td>F</td><td>No qualifying API</td></tr></tbody></table>
+          <h4 class="lad-h4">Letter grades</h4>
+          <div class="lg-bar"><div class="lg-grp s-d"><div class="lg-h">D</div><div class="lg-cells"><div class="lg-cell"><b>D-</b>60-62</div><div class="lg-cell"><b>D</b>63-66</div><div class="lg-cell"><b>D+</b>67-69</div></div></div><div class="lg-grp s-c"><div class="lg-h">C</div><div class="lg-cells"><div class="lg-cell"><b>C-</b>70-72</div><div class="lg-cell"><b>C</b>73-76</div><div class="lg-cell"><b>C+</b>77-79</div></div></div><div class="lg-grp s-b"><div class="lg-h">B</div><div class="lg-cells"><div class="lg-cell"><b>B-</b>80-82</div><div class="lg-cell"><b>B</b>83-86</div><div class="lg-cell"><b>B+</b>87-89</div></div></div><div class="lg-grp s-a"><div class="lg-h">A</div><div class="lg-cells"><div class="lg-cell"><b>A-</b>90-92</div><div class="lg-cell"><b>A</b>93-96</div><div class="lg-cell lg-mcp"><b>A+</b>97-100</div></div></div></div>
+          <p class="lad-small">F means no qualifying API. A+ (97-100) is reachable only with the MCP step.</p>
+
+          <div class="mcp-card">
+            <h4 class="lad-h4" style="margin:0 0 6px;">The MCP step</h4>
+            <p>An official MCP server moves the final grade up one step on the scale, once. It applies even past a gate&#x27;s limit, and the score moves to the bottom of the new step&#x27;s range.</p>
+            <div class="mcp-egs">
+              <span><b>C+ (77)</b> &rarr; <b>B- (80)</b></span>
+              <span><b>B+ (88)</b> &rarr; <b>A- (90)</b></span>
+              <span><b>A (94)</b> &rarr; <b>A+ (97)</b></span>
             </div>
           </div>
         </div>

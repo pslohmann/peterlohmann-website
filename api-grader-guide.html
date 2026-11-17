@@ -122,6 +122,16 @@
                  border-left:3px solid var(--primary); border-radius:8px;
                  padding:12px 14px; margin:0 0 10px; font-size:14.5px; line-height:1.6;
                  color:var(--navy); }
+  /* Copy prompt button (Andrew, 2026-11-17): big, blue and bold so testers don't
+     have to hand-select the prompt. Copies plain text, with the list as "- " lines. */
+  .copy-row{ display:flex; justify-content:flex-end; margin:0 0 8px; }
+  .copy-btn{ display:inline-flex; align-items:center; gap:7px; cursor:pointer;
+             font:inherit; font-size:15px; font-weight:800; color:#fff;
+             background:var(--primary); border:0; border-radius:999px; padding:8px 16px;
+             box-shadow:0 2px 8px rgba(44,124,176,.25); transition:background .15s ease; }
+  .copy-btn:hover{ background:var(--primary-dark); }
+  .copy-btn:focus-visible{ outline:2px solid var(--navy); outline-offset:2px; }
+  .copy-btn.done{ background:#248a5c; }
   .prompt-box .pb-body p{ margin:0; font-size:13.5px; line-height:1.6; color:var(--muted); }
   .prompt-box .pb-body p + p{ margin-top:7px; }
 
@@ -346,7 +356,13 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           <details class="prompt-box">
             <summary>Click to see the prompt we use</summary>
             <div class="pb-body">
-              <div class="prompt-quote">
+              <div class="copy-row">
+                <button type="button" class="copy-btn" data-copy="#promptMain" aria-live="polite">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>
+                  <span>Copy prompt</span>
+                </button>
+              </div>
+              <div class="prompt-quote" id="promptMain">
                 <p>This is a fresh session. Ignore all previous API grader runs and data and treat this as a clean room. Use only the attached methodology-v1.2.md, anything else I attach here, the vendor&#x27;s public materials, and the API; don&#x27;t read other files on this computer. Run the methodology against [PLATFORM] as the tester: do the evidence session only, and stop once the evidence packet is frozen. Don&#x27;t score it. Testing is read-only: make no call that creates, changes, or deletes data. My API credentials: [PASTE KEY]</p>
                 <p>Save the frozen packet as one Markdown file named [PLATFORM]-evidence-packet-[today&#x27;s date as YYYY-MM-DD].md, send it to me in this chat, and tell me where it&#x27;s saved. Don&#x27;t leave any other files behind, and don&#x27;t create a CLAUDE.md or README. The packet must let a grader work without opening any links or calling the API. Include:</p>
                 <ul style="margin:4px 0 7px;padding-left:20px;font-size:13.5px;line-height:1.6;color:var(--muted);">
@@ -460,6 +476,47 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 </div>
 
 
+<script>
+/* Copy prompt: builds plain text from the prompt box (paragraphs separated by a
+   blank line, list items as "- " lines) and puts it on the clipboard. */
+(function () {
+  function promptText(box) {
+    var out = [];
+    Array.prototype.forEach.call(box.children, function (el) {
+      if (el.tagName === 'UL' || el.tagName === 'OL') {
+        out.push(Array.prototype.map.call(el.querySelectorAll('li'), function (li) {
+          return '- ' + li.textContent.trim();
+        }).join('\n'));
+      } else {
+        out.push(el.textContent.trim().replace(/\s+/g, ' '));
+      }
+    });
+    return out.join('\n\n');
+  }
+  function fallback(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta); return ok;
+  }
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('.copy-btn');
+    if (!btn) return;
+    var box = document.querySelector(btn.getAttribute('data-copy'));
+    if (!box) return;
+    var text = promptText(box), label = btn.querySelector('span');
+    function done(ok) {
+      label.textContent = ok ? 'Copied!' : 'Press Ctrl/Cmd+C to copy';
+      if (ok) btn.classList.add('done');
+      setTimeout(function () { label.textContent = 'Copy prompt'; btn.classList.remove('done'); }, 2200);
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(fallback(text)); });
+    } else { done(fallback(text)); }
+  });
+})();
+</script>
 <script src="site.js?v=32"></script>
 </body>
 </html>
