@@ -150,6 +150,8 @@
 .rc-read p{ margin:10px 0 0; color:var(--muted); font-size:17px; line-height:1.65; }
 /* The category cards jump here, so keep the heading clear of the pinned bars. */
 .rc-read{ scroll-margin-top:calc(var(--nav-h, 59px) + var(--prebar-h, 0px) + 22px); }
+/* The banner links here, so the heading must land below the nav and the pinned bar. */
+#what-gets-graded{ scroll-margin-top:calc(var(--nav-h, 59px) + var(--prebar-h, 0px) + 22px) !important; }
 /* Hand-off from the plain-language read to that category's 27-check detail. */
 .rc-more{ display:inline-flex; align-items:center; gap:7px; margin-top:12px;
           font-size:15px; font-weight:700; color:var(--primary); }
@@ -232,6 +234,7 @@
   /* The preview bar scrolls away on phones: pinned, its four lines covered a
      quarter of the screen the whole way down the page. */
   .pre-bar{ position:static; font-size:13.5px; }
+  #what-gets-graded{ scroll-margin-top:calc(var(--nav-h, 59px) + 22px) !important; }   /* bar is not pinned on phones */
   .rc-dl{ grid-template-columns:minmax(0,1fr); }
   #main .btn{ white-space:normal; text-align:center; max-width:100%; }   /* long labels, e.g. "Download the QuickBooks Online report", wrap instead of overflowing */
   .rc-chk .id{ padding-top:0; }

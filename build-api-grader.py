@@ -3555,7 +3555,9 @@ COPY = {
     "banner":      ("These are <b>pre-release scores</b>, not final grades. "
                     "Every vendor's full markdown report is published here so the "
                     "scoring can be checked line by line. Regrading in progress: "
-                    "every platform is being regraded under methodology v1.2 for the "
+                    "every platform is being "
+                    '<a class="pre-jump" href="/api-grader/#what-gets-graded"><b>regraded '
+                    'under methodology v1.2</b></a> for the '
                     "December update."),
     "banner_link": "Found a factual error?",
 
@@ -3728,7 +3730,7 @@ SUB_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=23" />
+<link rel="stylesheet" href="/api-grader/report.css?v=24" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -4035,7 +4037,7 @@ PENDING_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=23" />
+<link rel="stylesheet" href="/api-grader/report.css?v=24" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
