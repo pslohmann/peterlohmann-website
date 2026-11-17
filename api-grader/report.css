@@ -642,3 +642,7 @@
    2026-11-17). Muli tops out at 700, which every header already uses, so this one
    uses Inter (already loaded site-wide) at 800 in the navy text colour. */
 #results .rank-table thead th:last-child{ font-family:Inter, var(--sans); font-weight:800; color:var(--navy); }
+/* Gate lines may carry a reason ("no change alerts") instead of a percentage, so let
+   them wrap inside the Base grade cell rather than run into its edge. */
+.g-lines{ white-space:normal; }
+.g-lines b, .g-lines .g-bind{ display:inline; }

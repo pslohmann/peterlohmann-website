@@ -122,6 +122,9 @@ REGRADE PILLS (2026-11-17): every graded platform on /api-grader/ shows a pill u
 regrade_pill() in build-api-grader.py from that platform's RESULTS meta "method": below 1.2 = orange
 "Regrading in progress", 1.2 or later = green "Regraded". Publishing a v1.2 regrade (meta method "1.2")
 flips it automatically on the next build.
+GATE 2 REASON (2026-11-17): the table's "Coverage: X (...)" line shows whatever set the gate 2 letter,
+via gate2_reason(): normally the coverage %, but when 85%+ coverage was capped by another rule it says
+"no change alerts", "missing a critical item" or "limited writes" (e.g. Magic Door 98.6% but B).
 METHODOLOGY v1.2 PLATFORMS (2026-11-17):
 - One JSON per regraded platform in `data/api-grader-v12/<slug>.json`; format and house rules in
   `data/api-grader-v12/SCHEMA.md`. If the file exists, the platform is shown from it (table row, page, share

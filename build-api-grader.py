@@ -3204,12 +3204,35 @@ def base_chip(d):
             f'title="Base grade from the two gates">{d["letter"]}</span>')
 
 
+def gate2_reason(d):
+    """What actually set the gate 2 letter, for the table's "Coverage: X (...)" line
+    (Andrew, 2026-11-17). Methodology v1.2, gate 2: 85%+ coverage allows an A only
+    with write coverage (C1.2) at least 70% AND change alerts (C1.4) yes or partial;
+    any critical item at 0 caps it at B. When one of those conditions, not the
+    percentage, held the letter down, show that reason instead of a percentage that
+    would otherwise read as "99% = B". The exact figure stays on the platform page."""
+    g2 = d["gate2"]
+    pct = float(g2["coverage_pct"])
+    by_pct = "A" if pct >= 85 else "B" if pct >= 60 else "C" if pct >= 35 else "D"
+    if g2["allows"] != by_pct and by_pct == "A":
+        if g2.get("critical_zero"):
+            return "missing a critical item"
+        if str(g2.get("c1_4", "")).lower() == "no":
+            return "no change alerts"
+        if float(g2.get("write_pct", 100)) < 70:
+            return "limited writes"
+    return f"{round(pct)}%"
+
+
 def gate_lines(d, sep):
     """"Access: A" and "Coverage: B (83%)", access first (gate 1, gate 2). The gate
     that set the letter is emphasized; when neither binds, both stay plain."""
     b = d.get("binding_gate", "none")
     acc = f'Access: {d["gate1"]["allows"]}'
-    cov = f'Coverage: {d["gate2"]["allows"]} ({round(float(d["gate2"]["coverage_pct"]))}%)'
+    # Keep the reason in one piece ("no change alerts"), so a narrow cell wraps it
+    # onto its own line after the letter instead of breaking mid-phrase.
+    cov = (f'Coverage: {d["gate2"]["allows"]} '
+           f'({gate2_reason(d).replace(" ", "&nbsp;")})')
     acc = f'<b class="g-bind">{acc}</b>' if b in ("gate1", "both") else acc
     cov = f'<b class="g-bind">{cov}</b>' if b in ("gate2", "both") else cov
     return f'{acc}{sep}{cov}'
@@ -3693,7 +3716,7 @@ SUB_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=21" />
+<link rel="stylesheet" href="/api-grader/report.css?v=22" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -4000,7 +4023,7 @@ PENDING_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=21" />
+<link rel="stylesheet" href="/api-grader/report.css?v=22" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
