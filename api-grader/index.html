@@ -553,6 +553,22 @@
     .lad-barrow{ flex-direction:column; align-items:stretch; }
     .lad-seg{ font-size:11px; padding:7px 2px; }  .lad-seg b{ font-size:13.5px; }
   }
+  /* "Why this change?" pill in What gets graded #1. Hover, tap or keyboard focus
+     opens a short navy note, same look as the .info tooltip on the results table. */
+  .why-pill{ display:inline-flex; align-items:center; gap:7px; position:relative; cursor:help;
+             font:inherit; font-size:13.5px; font-weight:700; color:var(--primary-dark);
+             background:var(--wash); border:1px solid #c7d8e6; border-radius:999px; padding:5px 12px 5px 6px; }
+  .why-q{ display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px;
+          border-radius:50%; background:var(--primary); color:#fff; font-size:11.5px; font-weight:800; }
+  .why-pill:hover, .why-pill:focus-visible{ border-color:var(--primary); }
+  .why-pill:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+  .why-pill::after{ content:attr(data-tip); position:absolute; top:calc(100% + 10px); left:0;
+                    width:340px; padding:13px 15px; border-radius:10px; background:var(--navy);
+                    color:#e6eef5; font-size:13.5px; font-weight:500; line-height:1.55; text-align:left;
+                    white-space:normal; box-shadow:0 16px 40px rgba(31,58,77,.28);
+                    opacity:0; visibility:hidden; transition:opacity .13s ease; z-index:40; pointer-events:none; }
+  .why-pill:hover::after, .why-pill:focus::after{ opacity:1; visibility:visible; }
+  @media (max-width:640px){ .why-pill::after{ width:min(78vw,300px); } }
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
@@ -862,7 +878,8 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           </summary>
           <div class="acc-body"><p><strong>Functional Coverage and Usefulness (Gate 2):</strong> Can you get the data and take the actions your business runs on, and change them, not just read them? Coverage is scored against a predetermined critical, important, and optional weighting.</p>
             <p style="margin-top:12px;"><strong>Accessibility and Cost (Gate 1):</strong> Can you get access without a sales call or a forced upgrade?</p>
-            <p style="margin-top:12px;"><strong>What happens next:</strong> each gate allows a highest possible letter, and the lower of the two becomes the platform&#x27;s letter. That letter is locked in. Groups 2, 3, and 4 are graded next, and they only decide where inside that letter&#x27;s range the platform lands: pass most of those checks and it sits near the top of the range, miss most and it sits near the bottom. Last, step 5 checks for an official MCP server, which can move the final grade up one step.</p></div>
+            <p style="margin-top:12px;"><strong>What happens next:</strong> each gate allows a highest possible letter, and the lower of the two becomes the platform&#x27;s letter. That letter is locked in. Groups 2, 3, and 4 are graded next, and they only decide where inside that letter&#x27;s range the platform lands: pass most of those checks and it sits near the top of the range, miss most and it sits near the bottom. Last, step 5 checks for an official MCP server, which can move the final grade up one step.</p>
+            <p style="margin-top:14px;"><button class="why-pill" type="button" aria-label="Why this change? What we heard during the preview: a free API that handles everyday work could lose a whole letter over minor technical items. What matters most is that your API is free and genuinely useful for everyday property management. So in v1.2, those two set the letter, and the other checks only fine-tune the score inside it." data-tip="What we heard during the preview: a free API that handles everyday work could lose a whole letter over minor technical items. What matters most is that your API is free and genuinely useful for everyday property management. So in v1.2, those two set the letter, and the other checks only fine-tune the score inside it."><span class="why-q" aria-hidden="true">?</span>Why this change?</button></p></div>
         </details>
         <details class="acc">
           <summary>
