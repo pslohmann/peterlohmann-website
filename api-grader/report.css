@@ -583,3 +583,23 @@
 .v11-note p + p{ margin-top:6px; }
 .v11-note strong{ color:var(--navy); }
 .v11-note a{ color:var(--primary); font-weight:700; }
+
+/* Base grade column (Andrew, 2026-11-17): outlined letter chip = the base grade
+   from the two gates, distinct from the filled final-grade chip. The gate that set
+   the letter is emphasized in the line below it. */
+.grade.grade-ol{ background:#fff; box-shadow:inset 0 0 0 1.5px currentColor;
+                 min-width:34px; padding:3px 9px; font-size:14px; }
+.base-chip{ display:block; margin-bottom:5px; }
+.g-lines{ display:block; font-size:12px; line-height:1.5; color:var(--muted); white-space:nowrap; }
+.g-bind{ color:var(--navy); font-weight:800; }
+.mc-sub .g-bind{ color:var(--navy); }
+/* The "?" variant of the header info button, opening to the right because the
+   Base grade column sits near the left edge of the table. */
+.info.info-q{ font-style:normal; font-size:10.5px; }
+.info.info-left::after{ right:auto; left:-8px; width:340px; }
+/* Header cells are sticky, each its own layer, so a tooltip opening from one would
+   slide under its right-hand neighbour. Lift the cell whose tooltip is open. */
+#results .rank-table thead th:has(.info:hover), #results .rank-table thead th:has(.info:focus),
+.rank-table thead th:has(.info:hover), .rank-table thead th:has(.info:focus){ z-index:8 !important; }
+/* Phone cards: the MCP "B -> B+" sits on the same line as "+1 step". */
+.mc-v .u-line{ display:inline; margin-left:7px; }

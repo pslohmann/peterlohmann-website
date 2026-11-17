@@ -3155,12 +3155,23 @@ def fmt_pts(v):
 # v1.2 platforms show gate results and checks earned; v1.1 platforms show their
 # old points. Every cell names its own unit, so points and checks never mix.
 TABLE_COLS = [
-    ("Gates", "coverage + cost"),
+    ("Base grade", "lower of access and coverage"),
     ("Design &amp; Reliability", ""),
     ("Access Control", ""),
     ("Docs &amp; AI-Ready", ""),
     ("Official MCP", ""),
 ]
+# The "?" on the Base grade header (Andrew, 2026-11-17): a short plain-English
+# explanation of the v1.2 ladder. Same tooltip mechanics as the Score header's "i".
+BASE_TIP = ('<button class="info info-q info-left" type="button" '
+            'aria-label="How the base grade works" '
+            'data-tip="Methodology v1.2: two gates set the base grade, and the lower one wins. '
+            'Access: free with a self-serve key allows an A, partly paid a B, a paid add-on or '
+            'sales call a C. Coverage: how much of the product type&#x27;s checklist the API '
+            'documents, 85% or more for an A, 60% a B, 35% a C, below that a D. The other three '
+            'columns then set the score inside that letter, and an official MCP server adds one '
+            'step. Rows not yet regraded show their v1.1 points instead. Full diagram under '
+            'See the grading ladder, below."><span aria-hidden="true">?</span></button>')
 V12_GROUP_KEYS = [("c2", "Design &amp; Reliability"), ("c3", "Access Control"),
                   ("c4", "Docs &amp; AI-Ready")]
 # v1.1 RESULTS "cats" order: 0 Functional Coverage, 1 Design, 2 Access Control,
@@ -3185,20 +3196,47 @@ def mark_pct(mark):
     return fmt_pct(m.group(1)) if m else None
 
 
+def base_chip(d):
+    """The base grade (the letter the two gates allow) as an OUTLINED chip, so it
+    reads as a starting point next to the filled final-grade chip."""
+    return (f'<span class="grade grade-ol {grade_class(d["letter"])}" '
+            f'title="Base grade from the two gates">{d["letter"]}</span>')
+
+
+def gate_lines(d, sep):
+    """"Access: A" and "Coverage: B (83%)", access first (gate 1, gate 2). The gate
+    that set the letter is emphasized; when neither binds, both stay plain."""
+    b = d.get("binding_gate", "none")
+    acc = f'Access: {d["gate1"]["allows"]}'
+    cov = f'Coverage: {d["gate2"]["allows"]} ({round(float(d["gate2"]["coverage_pct"]))}%)'
+    acc = f'<b class="g-bind">{acc}</b>' if b in ("gate1", "both") else acc
+    cov = f'<b class="g-bind">{cov}</b>' if b in ("gate2", "both") else cov
+    return f'{acc}{sep}{cov}'
+
+
+def base_grade_html(d):
+    return (f'<span class="base-chip">{base_chip(d)}</span>'
+            f'<span class="g-lines">{gate_lines(d, "<br>")}</span>')
+
+
+def mcp_html(d):
+    """Ties the MCP column to the final grade: "+1 step: B &rarr; B+", or "No"."""
+    if d["mcp"]["has"]:
+        return (f'<span class="cat-score hi">+1 step</span>'
+                f'<span class="u-line">{d["pre_mcp"]["grade"]} &rarr; {d["grade"]}</span>')
+    return '<span class="cat-score none">No</span>'
+
+
 def table_cells(r):
     """The five result cells (inner HTML) for one graded row, in TABLE_COLS order."""
     d = r.get("v12")
     if d:
-        g1, g2 = d["gate1"]["allows"], d["gate2"]
-        out = [(f'<span class="cat-score {letter_tier(d["letter"])}">Letter {d["letter"]}</span>'
-                f'<span class="u-line">Access {g1}</span>'
-                f'<span class="u-line">Coverage {fmt_pct(g2["coverage_pct"])}</span>')]
+        out = [base_grade_html(d)]
         for key, _ in V12_GROUP_KEYS:
             earned, appl = d["placement"][key]
             out.append(f'<span class="cat-score {tier(earned, appl) if appl else "none"}">'
                        f'{fmt_pts(earned)}</span><span class="u">/ {appl} checks</span>')
-        out.append('<span class="cat-score hi">+1 step</span>' if d["mcp"]["has"]
-                   else '<span class="cat-score none">No</span>')
+        out.append(mcp_html(d))
         return out
     c = r["cats"]
     def pts(i, label=None):
@@ -3208,8 +3246,8 @@ def table_cells(r):
         return (f'{lab}<span class="cat-score {tier(p, mx)}">{fmt_pts(p)}</span>'
                 f'<span class="u">/ {mx} pts</span>')
     return [
-        f'<span class="cell-2">{pts(0, "Coverage")}</span>'
-        f'<span class="cell-2">{pts(4, "Access &amp; Cost")}</span>',
+        f'<span class="cell-2">{pts(4, "Access &amp; Cost")}</span>'
+        f'<span class="cell-2">{pts(0, "Coverage")}</span>',
         pts(1), pts(2), pts(3),
         '<span class="cell-na">Not scored in v1.1</span>',
     ]
@@ -3227,21 +3265,16 @@ def card_rows(r):
     d = r.get("v12")
     out = []
     if d:
-        out.append(row("Gates",
-                       f'<span class="cat-score {letter_tier(d["letter"])}">Letter {d["letter"]}</span>',
-                       sub=f'Access allows {d["gate1"]["allows"]}, coverage '
-                           f'{fmt_pct(d["gate2"]["coverage_pct"])} allows {d["gate2"]["allows"]}'))
+        out.append(row("Base grade", base_chip(d), sub=gate_lines(d, " &middot; ")))
         for key, label in V12_GROUP_KEYS:
             earned, appl = d["placement"][key]
             pct = float(earned) / appl * 100 if appl else 0
             t = tier(earned, appl) if appl else "lo"
             out.append(row(label, f'<span class="cat-score {t}">{fmt_pts(earned)}</span>'
                                   f'<i> / {appl} checks</i>', pct, t))
-        out.append(row("Official MCP",
-                       '<span class="cat-score hi">+1 step</span>' if d["mcp"]["has"]
-                       else '<span class="cat-score none">No</span>'))
+        out.append(row("Official MCP", mcp_html(d)))
         return "".join(out)
-    for i, label in ((0, "Coverage"), (4, "Access &amp; Cost"), (1, "Design &amp; Reliability"),
+    for i, label in ((4, "Access &amp; Cost"), (0, "Coverage"), (1, "Design &amp; Reliability"),
                      (2, "Access Control"), (3, "Docs &amp; AI-Ready")):
         p, mx = r["cats"][i][0], CAT_LABELS[i][1]
         t = tier(p, mx)
@@ -3659,7 +3692,7 @@ SUB_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=11" />
+<link rel="stylesheet" href="/api-grader/report.css?v=15" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -3966,7 +3999,7 @@ PENDING_PAGE = """<!--
 <link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" media="print" onload="this.media='all'" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'" /><noscript><link rel="stylesheet" href="https://use.typekit.net/dik1zcl.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" /></noscript>
 <link rel="stylesheet" href="/styles.css?v={asset_v}" />
-<link rel="stylesheet" href="/api-grader/report.css?v=11" />
+<link rel="stylesheet" href="/api-grader/report.css?v=15" />
 <style>
   .grade{{ display:inline-flex; align-items:center; justify-content:center; min-width:44px;
           padding:5px 10px; border-radius:8px; font-weight:800; font-size:14px;
@@ -5362,7 +5395,7 @@ def main():
           <thead>
             <tr>
               <th>Platform</th>
-{chr(10).join(f'              <th class="num col-cat">{l}' + (f'<span class="th-sub">{sub}</span>' if sub else '') + '</th>' for l, sub in TABLE_COLS)}
+{chr(10).join(f'              <th class="num col-cat">{l}' + (BASE_TIP if i == 0 else '') + (f'<span class="th-sub">{sub}</span>' if sub else '') + '</th>' for i, (l, sub) in enumerate(TABLE_COLS))}
               <th class="num">Preliminary<br />Score<button class="info" type="button"
                     aria-label="How the score is calculated"
                     data-tip="Regraded platforms (methodology v1.2): two gates, open access and documented coverage, set the letter, the share of design, access-control, and documentation checks passed sets the score inside it, and an official MCP server adds one step. Platforms not yet regraded show v1.1 points: five categories add up to 50, doubled to a score out of 100. Scores are absolute, never curved against other platforms."><span aria-hidden="true">i</span></button></th>
