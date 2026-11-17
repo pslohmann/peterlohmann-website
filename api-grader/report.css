@@ -618,3 +618,8 @@
    its own line. (Sticky th is a positioned box, so it anchors there.) */
 #results .rank-table th.col-base{ padding-right:26px; padding-left:26px; }
 .rank-table th .info.info-q{ position:absolute; top:9px; right:9px; margin:0; }
+/* Preliminary Grade column (Andrew, 2026-11-17): bigger, bolder final-grade chip,
+   outlined in its own text colour, so it stands out from the outlined-only base
+   grade chip earlier in the row. About 60% larger than the default chip. */
+#results .rank-table td:last-child .grade{ min-width:70px; padding:8px 14px; border-radius:10px;
+  font-size:21px; font-weight:700; box-shadow:inset 0 0 0 1.5px currentColor; }
