@@ -117,6 +117,10 @@ TO PUBLISH A NEW OR UPDATED REPORT CARD:
      (it checks the math, rebuilds every page, the SEO tags/JSON-LD and the share cards)
   4. `python3 build-sitemap.py && python3 qa-check.py`, then commit + push.
 Company names live in CATEGORIES in build-api-grader.py (Lula removed 2026-09-18: no API).
+REGRADE PILLS (2026-11-17): every graded platform on /api-grader/ shows a pill under its name, set by
+regrade_pill() in build-api-grader.py from that platform's RESULTS meta "method": below 1.2 = orange
+"Regrading in progress", 1.2 or later = green "Regraded". Publishing a v1.2 regrade (meta method "1.2")
+flips it automatically on the next build.
 
 ## AI & Property Management: A Comprehensive Timeline (blog post), built 2026-10-22, public 2026-10-27
 URL: https://www.peterlohmann.com/blog/ai-property-management-timeline/  PUBLIC since 2026-10-27 (HIDDEN = False;

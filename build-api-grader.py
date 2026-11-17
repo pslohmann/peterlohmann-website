@@ -3120,6 +3120,21 @@ def article(name):
     return "an" if name[:1].lower() in "aeiou8" else "a"
 
 
+def regrade_pill(r):
+    """Regrade status pill for a graded platform (Andrew, 2026-11-17). Driven by the
+    methodology version in its meta: anything graded before v1.2 shows the orange
+    "Regrading in progress" pill; a v1.2 (or later) grade shows green "Regraded".
+    Publishing a v1.2 report and setting meta "method" to "1.2" flips it."""
+    method = str((r.get("meta") or {}).get("method", "1.1"))
+    try:
+        done = tuple(int(x) for x in method.split(".")[:2]) >= (1, 2)
+    except ValueError:
+        done = False
+    if done:
+        return '<span class="rg-wrap"><span class="rg-pill rg-done"><i></i>Regraded</span></span>'
+    return '<span class="rg-wrap"><span class="rg-pill rg-prog"><i></i>Regrading in progress</span></span>'
+
+
 def build_rows():
     rows = []
     for s, heading, companies in CATEGORIES:
@@ -3187,6 +3202,7 @@ def build_rows():
                 f'<td class="plat">'
                 f'<a class="co-btn" href="{slug(co)}.html">'
                 f'<span class="co-name">{co}</span>{flag}'
+                f'{regrade_pill(r)}'
                 f'<span class="co-hint">Full report &rarr;</span></a></td>'
                 f'{cells}'
                 f'<td class="num"><span class="cat-total">{r["score"]}</span></td>'
@@ -3251,6 +3267,7 @@ def build_cards():
                 f'<span class="mc-score"><span class="mc-lab">Preliminary</span>'
                 f'<span class="mc-num">{r["score"]}<i>/100</i></span>'
                 f'<span class="grade {grade_class(r["grade"])}">{r["grade"]}</span></span></div>'
+                f'{regrade_pill(r)}'
                 f'{cats}<span class="mc-link">Full report &rarr;</span></a>')
         out.append(f'<a class="mc-add" href="{GUIDE_URL}">Add a platform to '
                    f'{re.sub("&amp;", "&", heading)}<span>&rarr;</span></a>')
