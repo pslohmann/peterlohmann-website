@@ -482,6 +482,64 @@
   .vlight-close:hover{ background:rgba(255,255,255,.28); }
   .vlight-close:focus-visible{ outline:3px solid #fff; outline-offset:2px; }
   .band.wash .fix-note{ background:var(--card); box-shadow:var(--shadow); }
+  /* "How the grade is calculated" gate list + the collapsible grading ladder (v1.2). */
+  .calc-list{ margin:8px 0 10px; padding-left:20px; color:var(--muted); font-size:15.5px; }
+  .calc-list li{ margin-bottom:6px; }
+  .ladder{ margin-top:22px; border:1px solid var(--line); border-radius:var(--radius);
+           background:var(--card); box-shadow:var(--shadow); }
+  .ladder summary{ display:flex; align-items:center; gap:12px; cursor:pointer; list-style:none;
+                   padding:16px 18px; font-weight:800; font-size:17.5px; color:var(--navy); }
+  .ladder summary::-webkit-details-marker{ display:none; }
+  .ladder summary:hover{ background:var(--wash-soft); }
+  .ladder summary:focus-visible{ outline:2px solid var(--primary); outline-offset:-2px; }
+  .ladder summary::after{ content:""; margin-left:auto; flex:none; width:8px; height:8px;
+                          border-right:2px solid var(--muted); border-bottom:2px solid var(--muted);
+                          transform:rotate(45deg) translate(-2px,-2px); transition:transform .18s ease; }
+  .ladder[open] summary::after{ transform:rotate(225deg) translate(-3px,-3px); }
+  .ladder-body{ padding:6px 18px 22px; }
+  .lad-gates{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .lad-box{ border:1px solid var(--line); border-radius:12px; padding:14px 16px; background:var(--wash-soft); }
+  .lad-h{ margin:0 0 8px; font-weight:800; font-size:15.5px; color:var(--navy); }
+  .lad-rows{ list-style:none; margin:0; padding:0; }
+  .lad-rows li{ display:flex; align-items:center; gap:10px; padding:7px 0;
+                border-top:1px dashed var(--line); font-size:14.5px; color:var(--navy); }
+  .lad-rows li:first-child{ border-top:0; }
+  .lad-rows li span{ flex:1; }
+  .lad-rows li i{ font-style:normal; color:var(--muted); }
+  .lad-rows .grade{ min-width:62px; font-size:12.5px; padding:4px 8px; }
+  .lad-note{ margin:8px 0 0; font-size:13px; font-weight:700; color:#b3382c; }
+  .lad-join{ display:block; width:100%; height:40px; }
+  .lad-stem{ width:2px; height:22px; margin:0 auto; background:#8aa0b2; }
+  .lad-m{ display:none; }
+  .lad-tip{ width:0; height:0; margin:0 auto; border-left:7px solid transparent;
+            border-right:7px solid transparent; border-top:9px solid #8aa0b2; }
+  .lad-min{ max-width:340px; margin:2px auto 0; text-align:center; background:var(--navy); color:#fff;
+            font-weight:700; font-size:15px; border-radius:10px; padding:11px 16px; }
+  .lad-barrow{ display:flex; align-items:center; gap:14px; margin-top:2px; }
+  .lad-bar{ flex:1; display:flex; border-radius:10px; overflow:hidden; border:1px solid var(--line); }
+  .lad-seg{ flex:1; padding:8px 4px; text-align:center; font-size:12.5px; line-height:1.3;
+            font-variant-numeric:tabular-nums; }
+  .lad-seg b{ display:block; font-size:15px; }
+  .lad-seg + .lad-seg{ border-left:1px solid #fff; }
+  .s-d{ background:#fdecec; color:#b3382c; }  .s-c{ background:#fff3ec; color:var(--orange-dark); }
+  .s-b{ background:var(--wash); color:var(--primary-dark); }  .s-a{ background:#e7f5ee; color:#248a5c; }
+  .s-ap{ background:#cfeadb; color:#1d6f4a; }
+  .lad-mcp{ flex:none; display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:700;
+            color:#1d6f4a; background:#e7f5ee; border-radius:999px; padding:6px 12px; }
+  .lad-cap{ margin:8px 0 0; text-align:center; font-size:13.5px; color:var(--muted); }
+  .lad-eg{ margin:22px 0 0; padding:13px 16px; border-left:3px solid var(--primary); border-radius:8px;
+           background:var(--wash-soft); color:var(--navy); font-size:15.5px; line-height:1.6; }
+  .lad-tables{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:22px; align-items:start; }
+  .lad-tables h4{ margin:0 0 6px; font-size:15.5px; color:var(--navy); }
+  .lad-tables .sm-table td{ padding:6px 8px; font-variant-numeric:tabular-nums; }
+  .lad-small{ margin:8px 0 0; font-size:13px; color:var(--muted); }
+  @media (max-width:640px){
+    .lad-gates, .lad-tables{ grid-template-columns:1fr; }
+    .lad-join{ display:none; }  .lad-m{ display:block; }
+    .lad-barrow{ flex-direction:column; align-items:stretch; }
+    .lad-mcp{ align-self:center; }
+    .lad-seg{ font-size:11px; padding:7px 2px; }  .lad-seg b{ font-size:13.5px; }
+  }
 </style>
 <!-- Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DRCVXMNK1D"></script>
@@ -530,7 +588,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 <!-- BANNER:START -->
       <div class="pre-bar">
   <div class="wrap">
-    <p><span class="pre-tag">Preview Version</span>These are <b>pre-release scores</b>, not final grades. Every vendor's full markdown report is published here so the scoring can be checked line by line. A complete rerun follows in roughly 60 days. <a href="#correct">Found a factual error?</a></p>
+    <p><span class="pre-tag">Preview Version</span>These are <b>pre-release scores</b>, not final grades. Every vendor's full markdown report is published here so the scoring can be checked line by line. Regrading in progress: every platform is being regraded under methodology v1.2 for the December update. <a href="#correct">Found a factual error?</a></p>
   </div>
 </div><!-- BANNER:END -->
 
@@ -548,7 +606,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
            spanning both rows, so the copy and buttons stack on the left. -->
       <div class="hero-vidgrid">
         <div class="hg-copy">
-          <p class="sub" style="margin-top:0;">Grading the property management platforms we all use, on whether they&#x27;ll actually let you access your own data. Same rubric for every platform: five weighted categories totalling 100 points. No cherry-picking, no platform-specific tuning, and the grading file is yours to download and check.</p>
+          <p class="sub" style="margin-top:0;">Grading the property management platforms we all use, on whether they&#x27;ll actually let you access your own data. Same rubric for every platform: a two-gate grading ladder, explained below. No cherry-picking, no platform-specific tuning, and the grading file is yours to download and check.</p>
           <p class="disclosure-note" style="margin:14px 0 0;"><strong>NOTE:</strong> Results are about API access only, not the software overall.</p>
         </div>
 
@@ -743,7 +801,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <a class="mc-add" href="/api-grader-guide">Add a platform to Phone<span>&rarr;</span></a>
         </div>
 
-      <p class="tbl-note small">Scores are point-in-time and tied to the evidence access date. Methodology v1.1.</p>
+      <p class="tbl-note small">Scores are point-in-time and tied to the evidence access date. Preview scores use methodology v1.1; the December update uses v1.2.</p>
       <p class="tbl-note"><strong>Categories still to come:</strong> Market Rent &amp; Property Data, Inspections, Pets, Security Deposits, Insurance, E-sign, and Other. Platforms in those categories are not graded yet and are not counted anywhere on this page.</p>      <!-- RESULTS:END -->
     </div>
   </section>
@@ -775,19 +833,19 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
             <h3 style="margin:0 0 8px;font-size:21px;">The grading file</h3>
             <p class="sub" style="margin-bottom:20px;">The exact rubric behind every score on this page.</p>
             <a class="btn btn-primary" href="/files/methodology-v1.2.md" download>Download the .md file</a>
-            <p style="margin:14px 0 0;font-size:13px;color:var(--muted);">Methodology v1.1</p>
+            <p style="margin:14px 0 0;font-size:13px;color:var(--muted);">Methodology v1.2</p>
           </div>
         </div>
       </div>
 
       <h3 id="what-gets-graded" style="margin:38px 0 0;font-size:23px;scroll-margin-top:84px;">What gets graded</h3>
-      <p class="sub" style="margin:6px 0 0;">Five categories, each worth a fixed share of the 100 points. A category earns the fraction of its checks it passes, times its maximum.</p>
+      <p class="sub" style="margin:6px 0 0;">28 checks in five groups. Two groups decide the letter; the other three decide where in that letter&#x27;s range a platform lands.</p>
       <div class="acc-list mt-md">
         <details class="acc">
           <summary>
             <span class="acc-n">1</span>
             <span class="acc-t">Functional Coverage and Usefulness</span>
-            <span class="cat-pts">15 pts</span>
+            <span class="cat-pts">feeds Gate 2</span>
           </summary>
           <div class="acc-body"><p>Can you get the data and take the actions your business runs on, and change them, not just read them? Coverage is scored against a predetermined critical, important, and optional weighting.</p></div>
         </details>
@@ -795,7 +853,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           <summary>
             <span class="acc-n">2</span>
             <span class="acc-t">API Design, Reliability, and Operability</span>
-            <span class="cat-pts">10 pts</span>
+            <span class="cat-pts">sets placement</span>
           </summary>
           <div class="acc-body"><p>Is the API built so your code, no-code tools, and AI agents behave predictably instead of breaking, across typing, errors, idempotency, rate limits, pagination, bulk export, webhook security, concurrency, versioning, traceability, and uptime transparency?</p></div>
         </details>
@@ -803,7 +861,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           <summary>
             <span class="acc-n">3</span>
             <span class="acc-t">Access Control and Safe Automation</span>
-            <span class="cat-pts">5 pts</span>
+            <span class="cat-pts">sets placement</span>
           </summary>
           <div class="acc-body"><p>Can you safely hand a limited slice of access to an app or an AI agent, and shut it off?</p></div>
         </details>
@@ -811,7 +869,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           <summary>
             <span class="acc-n">4</span>
             <span class="acc-t">Documentation and AI-Agent Readiness</span>
-            <span class="cat-pts">5 pts</span>
+            <span class="cat-pts">sets placement</span>
           </summary>
           <div class="acc-body"><p>Can a developer, or an AI coding tool, understand the API and build against it correctly?</p></div>
         </details>
@@ -819,22 +877,88 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           <summary>
             <span class="acc-n">5</span>
             <span class="acc-t">Accessibility and Cost</span>
-            <span class="cat-pts">15 pts</span>
+            <span class="cat-pts">feeds Gate 1</span>
           </summary>
           <div class="acc-body"><p>Can you get access without a sales call or a forced upgrade?</p></div>
         </details>
       </div>
+      <p class="sub" style="margin:14px 0 0;">Each product type has its own published checklist: property management software, screening, listings and showings, workflow and CRM, maintenance, banking and payments, corporate accounting, and phone.</p>
 
       <div class="grid g2 mt-md">
         <div class="card" style="background:var(--wash-soft);">
           <h3 style="font-size:18px;margin-bottom:8px;">Every submission is graded three times</h3>
-          <p>The first run collects the evidence and scores it. The next two re-grade the evidence already collected, then any disagreement between the runs is resolved against that evidence instead of being averaged. That is what catches a bad assumption in a single run, and it is why we ask for it. Where a disagreement cannot be settled from the evidence, we publish it rather than hide it, along with what the score would have been under the other reading.</p>
+          <p>A tester collects the evidence with one API key, and every test only reads data. PLM then grades that frozen evidence three separate times on the same model. Any disagreement between the runs is resolved against that evidence instead of being averaged. That is what catches a bad assumption in a single run, and it is why we ask for it. Where a disagreement cannot be settled from the evidence, we publish it rather than hide it, along with what the score would have been under the other reading.</p>
         </div>
         <div class="card" style="background:var(--wash-soft);">
           <h3 style="font-size:18px;margin-bottom:8px;">How the grade is calculated</h3>
-          <p>The five category scores add up to a raw total out of 50, which is doubled to a score out of 100 and mapped to a letter grade: A+ at 97 and above, down to F below 60. Scores are absolute, never curved against other platforms. A number is only published when the run clears the methodology&#x27;s verification bar; otherwise the score is withheld.</p>
+          <p>Two gates set the letter, and the lower one wins:</p>
+          <ul class="calc-list">
+            <li><strong>Gate 1, open access:</strong> free with a self-serve key allows any grade; partly paid allows a B at most; a paid add-on, top-tier-only plan, or a key that needs a sales call allows a C at most.</li>
+            <li><strong>Gate 2, documented capability:</strong> the share of the product type&#x27;s checklist you can read and change through the API, based on the vendor&#x27;s docs. 85% or more (with most write actions and change alerts) allows an A, 60% a B, 35% a C, below that a D. Missing a critical item rules out an A.</li>
+          </ul>
+          <p>The other checks then set the score inside the letter: A 90-96, B 80-89, C 70-79, D 60-69. An official MCP server moves any grade up one step. F means no qualifying API.</p>
+          <p style="margin-top:10px;">Scores are absolute, never curved against other platforms. A number is only published when the run clears the methodology&#x27;s verification bar; otherwise the score is withheld.</p>
         </div>
       </div>
+
+      <!-- The grading ladder (methodology v1.2), closed by default. Diagram is plain
+           HTML/CSS so it reflows on phones; the converging arrows hide below 640px. -->
+      <details class="ladder">
+        <summary>See the grading ladder</summary>
+        <div class="ladder-body">
+          <div class="lad-gates">
+            <div class="lad-box">
+              <p class="lad-h">Gate 1: Open access</p>
+              <ul class="lad-rows">
+                <li><span>Free + self-serve key</span><i aria-hidden="true">&rarr;</i><b class="grade grade-a">A</b></li>
+                <li><span>Partly paid</span><i aria-hidden="true">&rarr;</i><b class="grade grade-b">B max</b></li>
+                <li><span>Paid add-on, top-tier only, or sales call</span><i aria-hidden="true">&rarr;</i><b class="grade grade-c">C max</b></li>
+              </ul>
+            </div>
+            <div class="lad-box">
+              <p class="lad-h">Gate 2: Documented capability</p>
+              <ul class="lad-rows">
+                <li><span>85%+ with writes and alerts</span><i aria-hidden="true">&rarr;</i><b class="grade grade-a">A</b></li>
+                <li><span>60%+</span><i aria-hidden="true">&rarr;</i><b class="grade grade-b">B</b></li>
+                <li><span>35%+</span><i aria-hidden="true">&rarr;</i><b class="grade grade-c">C</b></li>
+                <li><span>Under 35%</span><i aria-hidden="true">&rarr;</i><b class="grade grade-d">D</b></li>
+              </ul>
+              <p class="lad-note">Missing a critical item &rarr; no A</p>
+            </div>
+          </div>
+          <svg class="lad-join" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M25 0 L50 38 M75 0 L50 38" fill="none" stroke="#8aa0b2" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+          <div class="lad-stem lad-m" aria-hidden="true"></div>
+          <div class="lad-tip" aria-hidden="true"></div>
+          <div class="lad-min">The lower of the two is the letter</div>
+          <div class="lad-stem" aria-hidden="true"></div>
+          <div class="lad-tip" aria-hidden="true"></div>
+          <div class="lad-barrow">
+            <div class="lad-bar">
+              <div class="lad-seg s-d"><b>D</b>60-69</div>
+              <div class="lad-seg s-c"><b>C</b>70-79</div>
+              <div class="lad-seg s-b"><b>B</b>80-89</div>
+              <div class="lad-seg s-a"><b>A</b>90-96</div>
+              <div class="lad-seg s-ap"><b>A+</b>97-100</div>
+            </div>
+            <div class="lad-mcp"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>+1 step with an official MCP server</div>
+          </div>
+          <p class="lad-cap">The other checks set the score inside the letter&#x27;s range.</p>
+
+          <p class="lad-eg"><strong>Example:</strong> A free API (Gate 1: A) that covers 75% of its checklist (Gate 2: B) gets a B. It passes 85% of the other checks, so it lands at 80 + 8 = 88 (B+). With an official MCP server, it moves up one step to A- (90).</p>
+
+          <div class="lad-tables">
+            <div>
+              <h4>MCP step</h4>
+              <table class="sm-table"><thead><tr><th>From</th><th>Moves to</th></tr></thead><tbody><tr><td>D-</td><td>&rarr; D (63)</td></tr><tr><td>D</td><td>&rarr; D+ (67)</td></tr><tr><td>D+</td><td>&rarr; C- (70)</td></tr><tr><td>C-</td><td>&rarr; C (73)</td></tr><tr><td>C</td><td>&rarr; C+ (77)</td></tr><tr><td>C+</td><td>&rarr; B- (80)</td></tr><tr><td>B-</td><td>&rarr; B (83)</td></tr><tr><td>B</td><td>&rarr; B+ (87)</td></tr><tr><td>B+</td><td>&rarr; A- (90)</td></tr><tr><td>A-</td><td>&rarr; A (93)</td></tr><tr><td>A</td><td>&rarr; A+ (97)</td></tr></tbody></table>
+              <p class="lad-small">Applied once, even past a gate&#x27;s limit. A+ is reachable only this way.</p>
+            </div>
+            <div>
+              <h4>Letter grades</h4>
+              <table class="sm-table"><thead><tr><th>Grade</th><th>Score</th></tr></thead><tbody><tr><td>A+</td><td>97-100</td></tr><tr><td>A</td><td>93-96</td></tr><tr><td>A-</td><td>90-92</td></tr><tr><td>B+</td><td>87-89</td></tr><tr><td>B</td><td>83-86</td></tr><tr><td>B-</td><td>80-82</td></tr><tr><td>C+</td><td>77-79</td></tr><tr><td>C</td><td>73-76</td></tr><tr><td>C-</td><td>70-72</td></tr><tr><td>D+</td><td>67-69</td></tr><tr><td>D</td><td>63-66</td></tr><tr><td>D-</td><td>60-62</td></tr><tr><td>F</td><td>No qualifying API</td></tr></tbody></table>
+            </div>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -870,7 +994,9 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <p class="sub" style="margin-top:14px;">This is a pre-release. Scores are not yet final. The intention of this 60-day pre-release period is:</p>
         <p class="sub" style="margin-top:14px;"><b>1.</b> For the community to provide feedback on the scoring methodology, both the overall weighting and the specifics of each category.</p>
         <p class="sub" style="margin-top:14px;"><b>2.</b> For vendors to address any low-hanging fruit or simple technical fixes that can improve their score.</p>
-        <p class="sub" style="margin-top:14px;"><strong>A full rerun of every platform is planned in 60 days.</strong> At that time the scores will be final, and this page will not be updated again until a planned re-score in roughly 6 months.</p>        <!-- RERUN:END -->
+        <p class="sub" style="margin-top:14px;"><strong>Every platform will be regraded under methodology v1.2 in the December update.</strong> After that, the scores will be final, and this page will not be updated again until a planned re-score in roughly 6 months.</p>
+        <h3 style="margin:26px 0 0;font-size:19px;">What changed in v1.2, based on feedback</h3>
+        <ul class="feat"><li>An API that&#x27;s free and works well now lands at A or B: two gates set the letter, so minor technical items can no longer cost a whole letter.</li><li>Free stays central: a paid API add-on caps a platform at C; partly paid caps it at B.</li><li>Coverage is graded against fixed, published checklists for each product type, checked against every graded platform&#x27;s docs.</li><li>Testing only reads data, testers supply one API key, and PLM grades every platform three times on one fixed model.</li><li>An official MCP server, the connection AI assistants use, moves any grade up one step.</li></ul>        <!-- RERUN:END -->
       </div>
     </div>
   </section>

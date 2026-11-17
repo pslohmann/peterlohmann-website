@@ -3317,8 +3317,9 @@ COPY = {
     "banner_tag":  "Preview Version",
     "banner":      ("These are <b>pre-release scores</b>, not final grades. "
                     "Every vendor's full markdown report is published here so the "
-                    "scoring can be checked line by line. A complete rerun follows "
-                    "in roughly 60 days."),
+                    "scoring can be checked line by line. Regrading in progress: "
+                    "every platform is being regraded under methodology v1.2 for the "
+                    "December update."),
     "banner_link": "Found a factual error?",
 
     # Long form. Used at the foot of the index and on every vendor page.
@@ -3348,9 +3349,23 @@ COPY = {
         "both the overall weighting and the specifics of each category.",
         "<b>2.</b> For vendors to address any low-hanging fruit or simple technical "
         "fixes that can improve their score.",
-        "<strong>A full rerun of every platform is planned in 60 days.</strong> At "
-        "that time the scores will be final, and this page will not be updated again "
-        "until a planned re-score in roughly 6 months.",
+        "<strong>Every platform will be regraded under methodology v1.2 in the "
+        "December update.</strong> After that, the scores will be final, and this page "
+        "will not be updated again until a planned re-score in roughly 6 months.",
+    ],
+    # Short list closing the rerun section (Andrew, 2026-11-17).
+    "rerun_changes_head": "What changed in v1.2, based on feedback",
+    "rerun_changes": [
+        "An API that&#x27;s free and works well now lands at A or B: two gates set the "
+        "letter, so minor technical items can no longer cost a whole letter.",
+        "Free stays central: a paid API add-on caps a platform at C; partly paid caps "
+        "it at B.",
+        "Coverage is graded against fixed, published checklists for each product type, "
+        "checked against every graded platform&#x27;s docs.",
+        "Testing only reads data, testers supply one API key, and PLM grades every "
+        "platform three times on one fixed model.",
+        "An official MCP server, the connection AI assistants use, moves any grade up "
+        "one step.",
     ],
 }
 
@@ -3379,7 +3394,10 @@ def rerun_html():
     ps = "\n        ".join(
         f'<p class="sub" style="margin-top:{14 if i else 12}px;">{p}</p>'
         for i, p in enumerate(COPY["rerun_body"]))
-    return (f'<h2 class="h-lead">{COPY["rerun_head"]}</h2>\n        {ps}')
+    li = "".join(f'<li>{c}</li>' for c in COPY["rerun_changes"])
+    return (f'<h2 class="h-lead">{COPY["rerun_head"]}</h2>\n        {ps}\n'
+            f'        <h3 style="margin:26px 0 0;font-size:19px;">{COPY["rerun_changes_head"]}</h3>\n'
+            f'        <ul class="feat">{li}</ul>')
 
 
 # =============================================================================
@@ -4440,7 +4458,7 @@ def main():
 
       {build_cards()}
 
-      <p class="tbl-note small">Scores are point-in-time and tied to the evidence access date. Methodology v1.1.</p>
+      <p class="tbl-note small">Scores are point-in-time and tied to the evidence access date. Preview scores use methodology v1.1; the December update uses v1.2.</p>
       <p class="tbl-note"><strong>Categories still to come:</strong> Market Rent &amp; Property Data, Inspections, Pets, Security Deposits, Insurance, E-sign, and Other. Platforms in those categories are not graded yet and are not counted anywhere on this page.</p>"""
 
     html = re.sub(
