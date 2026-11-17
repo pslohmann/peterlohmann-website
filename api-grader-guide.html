@@ -8,11 +8,14 @@
   remove it from that EXCLUDE list.
 
   SWAP POINTS on this page (search "SWAP:"):
-    1. SWAP: grader-file  - DONE, serves /files/pm-api-report-card-methodology.md.
-                            The filename is deliberately UNVERSIONED: a new rubric
-                            overwrites this one file so there is only ever one current
-                            version live, and no stale copy or dead link. The version
-                            number lives inside the file and in the label below.
+    1. SWAP: grader-file  - DONE, serves /files/methodology-v1.2.md. Andrew's rule
+                            (2026-11-17): the file keeps the EXACT name he uploads it
+                            with (versioned, e.g. methodology-v1.2.md), and every
+                            download link on the site points at it (this page,
+                            /api-grader/ and every report card via build-api-grader.py,
+                            faq.html, llms.txt). For a new version: add the new file
+                            to /files/, find-and-replace the old filename site-wide,
+                            and update the "Methodology v1.x" label below.
     2. SWAP: jotform      - DONE, embeds JotForm 262425496176162 in step 5.
     3. SWAP: video        - DONE, embeds youtu.be/ZcxFtO-mWJw inline in the hero,
                             with a "watch on YouTube" link beneath it. There is no
@@ -305,7 +308,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
             <!-- SWAP: grader-file - when a new methodology version ships, drop the file in
                  /files/ and update this href (the version is in the filename on purpose, so
                  testers can tell which rubric they ran). -->
-            <a class="btn btn-primary" href="/files/pm-api-report-card-methodology.md" download>Download the .md file</a>
+            <a class="btn btn-primary" href="/files/methodology-v1.2.md" download>Download the .md file</a>
             <p style="margin:14px 0 0;font-size:13px;color:var(--muted);">Methodology v1.2</p>
           </div>
         </div>
@@ -321,7 +324,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 
         <div class="card">
           <div class="step-head"><div class="num-badge">1</div><h3>Download the grading file</h3></div>
-          <p><a href="/files/pm-api-report-card-methodology.md" download>Download the <code>.md</code> file here.</a> This is the exact prompt we use to grade every platform: same file, same criteria, every time. Nothing hidden, nothing platform-specific baked in. That&#x27;s on purpose. It&#x27;s how we keep this fair.</p>
+          <p><a href="/files/methodology-v1.2.md" download>Download the <code>.md</code> file here.</a> This is the exact prompt we use to grade every platform: same file, same criteria, every time. Nothing hidden, nothing platform-specific baked in. That&#x27;s on purpose. It&#x27;s how we keep this fair.</p>
         </div>
 
         <div class="card">

@@ -3546,7 +3546,7 @@ SUB_PAGE = """<!--
         </div>
       </div>
 
-      <p class="disclosure-note" style="margin:18px 0 0;"><strong>NOTE:</strong> This grade is produced by an AI analysis run against the same published grading file, which you can <a href="/files/pm-api-report-card-methodology.md" download>download and check here</a>. The scope is deliberately narrow: API and data access. It is not Peter Lohmann&#x27;s opinion of {name} as a software platform, and it says nothing about {name}&#x27;s features, reliability, interface, support, or standing in the industry.</p>
+      <p class="disclosure-note" style="margin:18px 0 0;"><strong>NOTE:</strong> This grade is produced by an AI analysis run against the same published grading file, which you can <a href="/files/methodology-v1.2.md" download>download and check here</a>. The scope is deliberately narrow: API and data access. It is not Peter Lohmann&#x27;s opinion of {name} as a software platform, and it says nothing about {name}&#x27;s features, reliability, interface, support, or standing in the industry.</p>
     </div>
   </section>
 
@@ -3613,7 +3613,7 @@ SUB_PAGE = """<!--
         <div class="card">
           <h3>The grading file</h3>
           <p>The exact rubric behind every score on this page. Same file, every platform. Run it yourself and compare.</p>
-          <a class="btn btn-ghost" href="/files/pm-api-report-card-methodology.md" download>Download the methodology</a>
+          <a class="btn btn-ghost" href="/files/methodology-v1.2.md" download>Download the methodology</a>
         </div>
       </div>
     </div>
@@ -3885,7 +3885,7 @@ PENDING_PAGE = """<!--
         <div class="panel t-blue">
           <h2>Work at {name}?</h2>
           <p>The fastest way onto the board is to run the grading file against your own API and send the result. It is the same file used for every platform here, it is public, and there is nothing in it that grades anyone favourably.</p>
-          <p style="margin-top:16px;"><a class="btn btn-primary" href="/files/pm-api-report-card-methodology.md" download>Download the grading file</a></p>
+          <p style="margin-top:16px;"><a class="btn btn-primary" href="/files/methodology-v1.2.md" download>Download the grading file</a></p>
         </div>
         <div class="panel t-orange">
           <h2>Use {name} and want it graded?</h2>
@@ -4412,7 +4412,7 @@ def main():
     results_block = f"""      <h2 class="h-lead">The results.</h2>
       <p class="sub" style="margin:10px 0 14px;">Scores are point-in-time, based on first-party documentation and, where available, live testing. Open any graded platform for its own page: all 27 checks, the evidence behind each mark, and the full report to download.</p>
 
-      <p class="sub" style="margin:0 0 18px;">Every grade on this page is produced by an AI analysis run against the same published grading file, which you can <a href="/files/pm-api-report-card-methodology.md" download>download and check here</a>. The scope is deliberately narrow: API and data access. A grade is not Peter Lohmann&#x27;s opinion of a company, and it does not reflect any financial interest in, or professional relationship with, it. It also says nothing about a platform&#x27;s features, reliability, interface, support, or standing in the industry.</p>
+      <p class="sub" style="margin:0 0 18px;">Every grade on this page is produced by an AI analysis run against the same published grading file, which you can <a href="/files/methodology-v1.2.md" download>download and check here</a>. The scope is deliberately narrow: API and data access. A grade is not Peter Lohmann&#x27;s opinion of a company, and it does not reflect any financial interest in, or professional relationship with, it. It also says nothing about a platform&#x27;s features, reliability, interface, support, or standing in the industry.</p>
 
       <p class="disclosure-note"><strong>Note:</strong> Peter may have consulting agreements with, or financial interests in, companies mentioned on this page. However, there are <strong>NO affiliate links</strong> on this page or the individual results pages. <a href="/financial-interest-disclosure">Click here for more information</a>.</p>
 

@@ -103,7 +103,9 @@ DELICATE AREA: make no edits to the grader pages, scores, copy or the methodolog
 - `api-grader/<slug>.html` ... one page per platform, GENERATED. Graded platforms are indexable and in the
   sitemap; not-yet-graded platforms carry noindex (thin placeholders) until their report lands.
 - `api-grader/reports/*.md` .. the published (redacted) reports each page offers for download.
-- `api-grader/report.css` .... grader-only styles. `/files/pm-api-report-card-methodology.md` = the grading file.
+- `api-grader/report.css` .... grader-only styles. `/files/methodology-v1.2.md` = the grading file, kept under the EXACT
+  filename Andrew uploads (2026-11-17). New version = new file + site-wide find-and-replace of the filename
+  (guide, /api-grader/, build-api-grader.py, faq.html, llms.txt).
 - `images/api-grader/og-*.png` 1200x630 share cards (one per graded platform + og-api-grader.png), generated.
 - `data/api-grader-checks.json` per-check detail extracted from the published reports.
 - Local, gitignored: `grader-reports/reports/` (raw archived reports) and `grader-reports/runs/`.
