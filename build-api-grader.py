@@ -4399,7 +4399,7 @@ SUB_PAGE_V12 = (_SP_HEAD.replace(_V11_DESC, "{desc}") + V12_MAIN + _SP_FOOT)
 
 GROUP_INFO = [
     # number, title (as on /api-grader/ "What gets graded"), tag
-    (1, "Functional Coverage and Usefulness + Accessibility and Cost", "sets the letter"),
+    (1, "Accessibility and Cost + Functional Coverage and Usefulness", "sets the letter"),
     (2, "API Design, Reliability, and Operability", "sets placement"),
     (3, "Access Control and Safe Automation", "sets placement"),
     (4, "Documentation and AI-Agent Readiness", "sets placement"),
@@ -4638,17 +4638,18 @@ def v12_groups(co, d):
                 f'<div class="acc-body">{body}</div></details>')
     out = []
     # 1: the two gates
-    # Same order as the item's title (and its body on /api-grader/): coverage, then cost.
+    # Gate 1 then gate 2, matching the item's title and its body on /api-grader/
+    # (Andrew, 2026-11-17: the gates read in order, cost first, then coverage).
     body1 = (
+        f'<h3 class="v12-sub">Accessibility and Cost (Gate 1) <span>allows {_g(g1["allows"])}</span></h3>'
+        f'<p>{g1["read"]}</p>'
+        f'{v12_check_rows(d, {"C5.1", "C5.2"})}'
         f'<h3 class="v12-sub">Functional Coverage and Usefulness (Gate 2) <span>allows {_g(g2["allows"])}</span></h3>'
         f'<p>{g2["read"]}</p>'
         f'<p class="v12-facts">Checklist coverage {fmt_pct(g2["coverage_pct"])} '
         f'({fmt_pts(g2["earned"])} of {g2["weight"]} weight points), write coverage '
         f'{fmt_pct(g2["write_pct"])}. <a href="#checklist">See the coverage checklist</a></p>'
         f'{v12_check_rows(d, {"C1.1", "C1.2", "C1.3", "C1.4"})}'
-        f'<h3 class="v12-sub">Accessibility and Cost (Gate 1) <span>allows {_g(g1["allows"])}</span></h3>'
-        f'<p>{g1["read"]}</p>'
-        f'{v12_check_rows(d, {"C5.1", "C5.2"})}'
         f'<p class="v12-facts"><strong>Letter from the gates: {d["letter"]}.</strong> '
         f'{v12_binding_text(d)}</p>')
     res1 = f'Letter {d["letter"]}'
