@@ -606,3 +606,15 @@
 /* v1.2 platform pages: the MCP result box heading uses the site's sans-serif,
    bold, at the same size (Andrew, 2026-11-17). h4 is serif site-wide by default. */
 .v12-ladder .mcp-card h4{ font-family:var(--sans); font-weight:800; letter-spacing:0; }
+/* Column widths (Andrew, 2026-11-17): Base grade gets more room so its gate lines
+   never touch the cell edge; the three placement columns give a little back.
+   Sum: 21 + 16 + 3x10 + 11 + 10 + 12 = 100. Higher specificity than the inline
+   rules on index.html, which load after this file. */
+#results table.rank-table th:first-child{ width:21%; }
+#results .rank-table th.col-base{ width:16%; }
+#results .rank-table th.col-grp{ width:10%; }
+#results .rank-table th.col-mcp{ width:11%; }
+/* The Base grade "?" sits in the header cell's upper-right corner instead of on
+   its own line. (Sticky th is a positioned box, so it anchors there.) */
+#results .rank-table th.col-base{ padding-right:26px; padding-left:26px; }
+.rank-table th .info.info-q{ position:absolute; top:9px; right:9px; margin:0; }
