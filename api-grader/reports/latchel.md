@@ -1,344 +1,234 @@
-# API Report Card: Latchel (Partner API, Webhooks, Latchel MCP)
-
-**Published score: 87 / 100 · Letter grade: B+** (gates allow B → placement 84 B → official MCP step → 87 B+)
+# API Report Card: Latchel Partner API
 
 ## Run metadata
-- Methodology version: 1.2
-- Grading model (fixed for this version): Claude Opus 5.5 (`claude-opus-5-5`) at high effort, for all three grading runs
-- Date run: 2026-11-17
-- Provisional evidence-packet version or ID: LATCHEL-EV-20261117-P1
-- Final evidence-packet version or ID: LATCHEL-EV-20261117-F1 (frozen 2026-11-17)
-- Evidence-discovery mode: supplied final packet (three independent grading runs; no discovery, no live calls, no sources added)
-- Evidence tier: baseline verified
-- Credential: sandbox / development API key (accepted only by the documented testing/development host `https://latchel-demo.com/v1`; rejected by production, L-01 vs L-04), used for read calls only
-- Minimum live-test battery: complete (all five steps run against the documented sandbox host; packet section 8). Production behavior was not observed.
-- Live tests performed: L-01…L-21. Authenticate (`GET /me`, L-01, L-04). Read and paginate `/jobs` (L-05…L-08), read a single job (L-09), its state history (L-10) and invoices (L-11). Incremental and filtered queries: `updated_at_start_date` on jobs (L-12) and properties (L-15, L-16), `in_states` (L-13). Deliberate errors: wrong key (L-02, L-21), no key (L-03), nonexistent ID (L-17, L-18), invalid parameter (L-19, L-20). Rate-limit and traceability headers recorded on every response.
-- Documentation-graded checks: C1.1, C1.2, C1.3, C1.4 (webhooks), C2.1, C2.2 (with live corroboration), C2.4, C2.7 (with live corroboration), C2.8, C2.9, C2.10, C2.12, C3.1–C3.6, C4.1–C4.4, C5.1, C5.2
-- Checks applicable: 28 of 28 (no N-A checks; no unverified checks)
+- Methodology version: 1.1
+- Evaluating model: Claude Opus 5 (claude-opus-5)
+- Date run: 2026-09-10
+- Provisional evidence-packet version or ID: LATCHEL-2026-09-10-P1
+- Final evidence-packet version or ID: LATCHEL-2026-09-10-F2 (F1 frozen before scoring; amended once to add one rendered source, see amendment log)
+- Evidence-discovery mode: tool-enabled discovery
+- Independent grading runs: 3. Run 1 performed discovery and the live battery. Runs 2 and 3 were independent blinded graders given only the frozen packet, barred from web discovery, from API calls, and from reading run 1's report or each other's. Check-level marks were compared and every disagreement was resolved against the final evidence rather than averaged. See "Reconciliation across independent runs".
+- Evidence tier: Baseline verified (sandbox writes)
+- Live-write method and safety: sandbox. Operator supplied a development API key for the documented sandbox host `latchel-demo.com/v1`. All writes were confined to that host. Fixtures were named with the sentinel `APITEST-DELETE`. Cleanup verified (see Cleanup log).
+- Minimum live-test battery: steps 1-6 complete. Step 7 N-A (the API documents no idempotency mechanism; the probe was run anyway and its result is recorded under C2.4). Step 8 not completable with the access supplied (see below).
+- Live tests performed: authenticate; read core resources; page through a collection and request an out-of-range page; run four filtered/incremental queries; trigger six classes of deliberate error; inspect response headers on GET/POST/2xx/4xx; create a property; create a work order; update a work order; attempt vendor reassignment and status transition on an existing work order; create a work order with a vendor assigned; approve a work order; cancel five work orders; deactivate a property; duplicate-write probe with a fixed `Idempotency-Key`; duplicate-write probe with a repeated `ref_job_id`; `If-Match` precondition probe; undocumented-completion-endpoint probe; sandbox-to-production credential isolation probe.
+- Live tests not possible: step 8 (register a webhook, trigger an event, observe delivery). Latchel's Partner API exposes no webhook-management endpoint (`GET /v1/webhooks` returns 404, observed 2026-09-10, and no webhook path appears among the 73 operations in the OpenAPI specification). Webhook subscriptions are created only through the Latchel dashboard UI, to which this run had no access, and the run had no operator-controlled receiving endpoint. Requesting dashboard-gated evidence is noted under "What would strengthen this run."
+- Documentation-graded checks (disclosed): C2.8 in full (webhook verification, retry policy, replay guidance) and the push half of C1.4. The polling half of C1.4 was live-verified.
+- Clean-room note: no prior grader run, stored vendor data, or existing report-card output was consulted for this evaluation. The repository's existing `api-grader-latchel.html` is an ungraded stub and was not opened.
 
 ## Final evidence packet manifest
-- S-01 https://latchel.com/ [Documented]
-- S-02 https://latchel.com/llms.txt [Documented]
-- S-03 https://latchel.com/llms-full.txt [Documented]
-- S-04 https://latchel.com/robots.txt [Documented]
-- S-05 https://latchel.com/sitemap.xml [Documented]
-- S-06 https://latchel.com/claude-mcp-connector/ [Documented]
-- S-07 https://latchel.com/latchel-everywhere-product-launch/ [Documented]
-- S-08 https://latchel.com/integrations/ [Documented]
-- S-09 https://latchel.com/reporting-and-analytics/ [Documented; added in verification]
-- S-10 https://latchel.com/terms-of-use/ [Documented]
-- S-11 https://latchel.com/terms-of-use-msa/ [Documented]
-- S-12 https://latchel.com/team/ [Documented]
-- S-13 https://latchel.com/faq/ [Documented]
-- S-14 https://help.latchel.com/llms.txt and /_llms/help-center-guides.txt [Documented]
-- S-15 https://help.latchel.com/sitemap.xml [Documented]
-- S-16 https://help.latchel.com/s/topic/0TO5e000000h9wqGAA/API-Docs [Documented]
-- S-17 https://help.latchel.com/s/topic/0TO5e000000h9wqGAA/How-to-Generate-an-API-Key (with screenshot transcriptions) [Documented]
-- S-18 https://help.latchel.com/s/topic/0TO5e000000h9wqGAA/The-Webhook-Subscription (with screenshot transcriptions) [Documented]
-- S-19 https://help.latchel.com/reference/introduction [Documented]
-- S-20 https://help.latchel.com/reference/payload-format [Documented]
-- S-21 Help Center webhook reference pages (job, tenant, portfolio) [Documented]
-- S-22 https://help.latchel.com/s/topic/0TO5e000000h9wqGAA/latchel-mcp-ai-assistants [Documented]
-- S-23 Help Center Product Updates / release notes 2025–2026 [Documented]
-- S-24 Help Center export guides [Documented]
-- S-25 https://papi.latchel.com/api-docs/papi/ (ReDoc shell) [Documented]
-- S-26 / Appendix A https://papi.latchel.com/api-docs/papi/papi.yaml (OpenAPI 3.0.0, sha256 b868232e…) [Documented]
-- S-27 / Appendix B https://papi.latchel.com/api-docs/webhooks/webhooks.yaml + 22 referenced files (OpenAPI 3.1.0) [Documented]
-- S-28 https://help.latchel.com/mcp (documentation-search MCP server) [Documented]
-- S-29 https://status.latchel.com/ redirect chain [Documented observation]
-- S-30 GitHub, npm, MCP Registry listings (search records)
-- S-31 https://help.latchel.com/s/topic/0TO5e000000h9wqGAA/How-to-Change-the-Service-Provider-on-a-Work-Order-New-Experience [Documented; added in verification]
-- S-32 Web search records (2026-11-17)
-- S-33 Pages checked in verification with no API evidence (on-call rotation page, pricing page, integration guides) [Documented; added in verification]
-- L-01…L-21 live read requests, 2026-11-17 19:27:34–19:28:37 UTC [Live-tested]
-- Standard locations checked (packet section 5):
-  - **latchel.com:** `/llms.txt` 200 (marketing index); `/llms-full.txt` 200 (marketing prose); `/openapi.json`, `/openapi.yaml`, `/swagger.json` 404; `/sitemap.xml` 200; `/changelog`, `/release-notes` 404; `/.well-known/api-catalog` 404.
-  - **status.latchel.com:** redirects to Atlassian's marketing page; no Latchel status content.
-  - **help.latchel.com:** `/llms.txt` 200; `/llms-full.txt` 200 (no Partner API endpoint reference); per-page `.md` available; `/openapi.*`, `/swagger.json`, `/changelog`, `/release-notes` redirect to a login page; `/mcp` is a docs-search server (protocol 2025-06-18).
-  - **papi.latchel.com:** standard locations 404, except `/api-docs/papi/papi.yaml` 200 and the webhook spec files 200.
-  - **latchel-demo.com:** standard locations 404.
-  - **Documentation-host subdomains** (`docs.`, `developer.`, `developers.`, `api.`, `api-docs.`, `dev.`, `mcp.`): connections timed out.
-  - **Registries:** MCP Registry, not listed; npm, 0 packages; GitHub, no SDK repository.
+
+First-party Latchel sources, all retrieved 2026-09-10:
+
+- https://papi.latchel.com/api-docs/papi/ (Partner API reference, ReDoc)
+- https://papi.latchel.com/api-docs/papi/papi.yaml (OpenAPI 3.0.0 specification, 148,542 bytes, 52 paths, 73 operations, `Last-Modified: Thu, 10 Sep 2026 16:18:30 GMT`)
+- https://papi.latchel.com/api-docs/webhooks/ (Webhook reference, ReDoc)
+- https://papi.latchel.com/api-docs/webhooks/webhooks.yaml (OpenAPI 3.1.0 webhook specification, 7 webhook events)
+- https://papi.latchel.com/api-docs/webhooks/info-description.md (webhook payload format, authentication, update-trigger semantics)
+- https://help.latchel.com/llms.txt (help-centre documentation index, 334 pages, each retrievable as Markdown at path + `.md`)
+- https://help.latchel.com/reference/introduction.md
+- https://help.latchel.com/reference/payload-format.md
+- https://help.latchel.com/s/topic/0TO5e000000h9wqGAA/API-Docs.md
+- https://help.latchel.com/s/topic/0TO5e000000h9wqGAA/How-to-Generate-an-API-Key.md
+- https://help.latchel.com/s/topic/0TO5e000000h9wqGAA/The-Webhook-Subscription.md
+- https://help.latchel.com/s/topic/0TO5e000000h9wqGAA/latchel-mcp-ai-assistants.md
+- https://help.latchel.com/s/topic/0TO5e000000h9wqGAA/Self-Signup-Latchel-Standard.md
+- https://help.latchel.com/s/topic/0TO5e000000h9wsGAA/september-8-2026.md (most recent release notes)
+- https://help.latchel.com/s/topic/0TO5e000000h9wsGAA/august-10-2026.md (release notes documenting an API behaviour change)
+- https://help.latchel.com/s/topic/0TO5e000000h9wsGAA/2026-newsletter-releases.md (biweekly release-note index)
+- https://latchel.com/llms.txt (site index)
+- https://latchel.com/llms-full.txt (full site corpus, 202,327 bytes)
+- https://latchel.com/legal/ (agreements index)
+- https://latchel.com/ (product home)
+- Live API observations against `https://latchel-demo.com/v1` (documented sandbox host), operator-supplied development key, 2026-09-10 16:33 to 16:52 UTC
+- Live API observation against `https://papi.latchel.com/v1/me` (production host, isolation probe only), 2026-09-10
+
+Sources checked and found not to exist (recorded so the absence is auditable):
+
+- `https://papi.latchel.com/llms.txt` (404)
+- `https://api.latchel.com/` (does not resolve)
+- `https://latchel.com/pricing/` (404)
+- `https://status.latchel.com` (resolves to Atlassian's Statuspage marketing site, not a Latchel status page)
+- No official SDK or client library located on any first-party domain
 
 ## Evidence-amendment log
-- As recorded by the tester in packet section 9 (V-01…V-13):
-  - S-09 added (commercial-gating search, C5.2).
-  - S-31 added (vendor reassignment, checklist row 19).
-  - S-33 added (status/SLA and pricing searches, C2.12, C5.2).
-  - S-17 and S-18 screenshot transcriptions added (C3.1–C3.4, C2.8).
-  - S-10 and S-11 excerpts extended (C2.10).
-- No source was removed, and the coverage table was unchanged. The grading runs added nothing.
 
-## Grading runs
-- Evidence session (tester: discovery, verification, live battery, packet frozen): 2026-11-17
-- Runs 1–3 (PLM; this prompt and the frozen packet only; no vendor-specific guidance; each run graded the packet once, in parallel, as separate agents on Claude Opus 5.5 at high effort): all 2026-11-17
-- Run results before reconciliation: Run 1 **87 (B+)** · Run 2 **97 (A+)** · Run 3 **87 (B+)**
-- Check-level agreement: **24 of 28 checks unanimous**. All 22 placement checks (Categories 2–4) agreed except C2.7 and C3.6. C1.3, C1.4, C5.1 and C5.2 agreed. C1.1 and C1.2 differed because the checklist rows under them differed. Checklist rows: 13 of 20 unanimous.
+Sources added during the controlled verification pass, with the check each affects:
 
-| Check / row | Run 1 | Run 2 | Run 3 | Resolved | Basis |
-|---|---|---|---|---|---|
-| Row 2 Status transitions (critical, 3) | 0.5 | 1.0 | 0.5 | **0.5** | The Partner API reads state and state history and can cancel, approve and deny. `Job_Updatable` has no `state_id` and there is no completion endpoint [Appendix A; V-11]. Run 2's 1.0 relied on MCP-only actions (see the MCP note below). |
-| Row 3 Vendor/technician assignment (critical, 3) | 1.0 | 0.5 | 0.5 | **0.5** | `vendor_id` is settable only in `Job_Creatable`, not `Job_Updatable` [Appendix A], so a vendor cannot be assigned to an existing job through the API. The MCP "can't find or assign a service provider" [S-22]. The assignment is present but materially limited. |
-| Row 5 Scheduling/appointments (important, 2) | 0.5 | 1.0 | 0.5 | **0.5** | `scheduled_start`/`scheduled_end` are readable, but `Job_Updatable` has no scheduling fields [Appendix A; V-11]. "Schedule or reschedule" is documented only for the MCP [S-22]. |
-| Row 12 Estimates (optional, 1) | 0.5 | 1.0 | 1.0 | **0.5** | `estimate`/`estimate_note` appear only on the Job response schema, not in `Job_Creatable`/`Job_Updatable` [Appendix A], and are "only filled in while the work order is waiting on approval" [S-16]. Approve/deny is scored separately in row 20, and "add an estimate" is MCP-only [S-22]. Read-only and transient, so 0.5. Effect: 1.1 points of capability coverage; no grade effect. |
-| Row 13 Invoices (optional, 1) | 1.0 | 1.0 | 0.5 | **1.0** | `GET /invoices`, `GET /invoices/{id}` [Appendix A; L-11] plus the `invoice_mutated` webhook [Appendix B]. Invoices are vendor-submitted financial records, and reading them is the operations the item requires. No grade effect. |
-| Row 14 Owner approval (optional, 1) | 0.5 | 1.0 | 0.5 | **0.5** | The API has owners CRUD and budget approve/deny [Appendix A], but no owner-approval record. "Record an owner's approval or denial" is MCP-only [S-22]. |
-| Row 17 Transition its status to completion (critical, 3) | 0.0 | 1.0 | 0.0 | **0.0** | No completion endpoint, and `Job_Updatable` lacks `state_id` [Appendix A; S-26 inventory; V-11]. "Confirm completion" is MCP-only [S-22]. |
-| C1.1 Object coverage | 83.9% | 91.1% | 78.6% | **78.6%** | Follows from the resolved rows (22 / 28) |
-| C1.2 Write coverage | 50.0% | 83.3% | 50.0% | **50.0%** | Follows from the resolved rows (4.5 / 9) |
-| C2.7 Bulk or incremental export | yes | yes | partial | **yes** | The check's "yes" expressly includes "documented incremental sync via updated-since plus pagination". The spec documents "Delta Sync" with `updated_at_start_date` and `per_page` up to 500 [Appendix A `info.description`], confirmed live [L-12, L-15, L-16]. Score effect: none (84 either way). |
-| C3.6 Delegated access | yes | yes | partial | **yes** | The official hosted MCP uses "standard OAuth" sign-in with the user's own account, and the user approves the connection after seeing "what the connector can reach" [S-22; S-06 steps 2–3]. This matches the methodology's qualifying MCP case. Operator-side grant revocation is not separately described. Score effect: none (84 either way). |
+- C2.12: `https://status.latchel.com` and `https://latchel.statuspage.io` fetched and read. Both return Atlassian's own Statuspage product marketing page, not a Latchel-operated status page. Confirms `no` rather than `unverified`.
+- C2.10, C2.11, C2.4, C2.9, C3.1, C3.2, C3.4: term-level sweep for `deprecat`, `backward`, `breaking change`, `request id`, `correlation`, `retry`, `read-only`, `scope`, `revoke`, `rotate`, `SLA`, `uptime`, `idempot` across `papi.yaml`, `llms-full.txt`, and the retrieved help-centre Markdown corpus. All hits inspected individually; every hit proved to be a false positive (for example "backward" matched an access-instruction example string, "request id" matched a field named `service_request_id`, "retry" matched the rate-limit `Retry-After` guidance already credited under C2.5). Confirms `no` on C2.4, C2.9, C2.11, C3.1, C3.2 and `partial` on C2.10.
+- C4.4: 2026 release-note index retrieved and eight 2026 entries scanned for API content. The 2026-08-10 entry documents an API-specific behaviour change and an API documentation refresh. Upgrades C4.4 from provisional `partial` to `yes`.
+- C1.2, C1.3: undocumented completion-endpoint probe (`POST /jobs/{id}/complete`, `/close`, `/finish`, `/resolve`, all 404). Confirms the absence is real rather than merely undocumented.
+- C3.5: sandbox-to-production credential isolation probe (sandbox key against `papi.latchel.com/v1/me` returns 403). Upgrades C3.5 from documentation-graded to live-verified.
+- C5.3: `Self-Signup-Latchel-Standard.md` retrieved to test for tier-gating of API access. No plan qualifier found on API entitlement anywhere in the corpus.
 
-- **The main disagreement: does the AI connector count in Category 1?** Run 2 credited actions that are documented only for the official Latchel MCP connector (completion, scheduling, owner approval, adding an estimate) to the coverage map. Runs 1 and 3 did not. It was resolved against counting them, on the methodology's text:
-  - Gate 2 and Core rule 1 credit what is available "through the API".
-  - The methodology names where an official MCP server earns credit: "C3.6, C4.2, and C4.3, where the MCP rule assigns it", plus the MCP step. The final integrity check repeats this ("credited where the MCP rule assigns it (C3.6, C4.2, C4.3) and, by design, also through the MCP step").
-  - "Grade it on every check, the same as an API" appears only under MCP-only vendors (Step 0), and Latchel has a public API.
-  - Latchel's own FAQ points autonomous agents to the Partner API instead, because the MCP supports only interactive sign-in [S-22 FAQ].
-- **Unresolved disagreements:** none at the check level. **Disclosed sensitivity:** the methodology does not say outright whether an official MCP's documented actions count toward the Category 1 checklist when a public API also exists. If they did count (Run 2's reading), capability coverage would be 86.36%, write coverage 83.3%, and no critical item would score 0. Gate 2 would then allow an A, giving 93 (A) before the MCP step and an **alternate published score of 97 (A+)**. This should be clarified in the next methodology version so it applies to every vendor.
+Sources added after packet F1 was frozen, during reconciliation of the independent runs (packet F2):
+
+- **C5.3, decisive.** Grader 2 identified that the self-signup page's FAQ item "What types of Latchel subscriptions are available, what are the associated costs, and what is included in each plan?" is answered not by text but by an embedded image (`rtaImage-559.jpg`), which run 1 had filtered out of its retrieval and therefore never read. Under Core rule 4 and How-to-run step 9, a first-party source that exists but cannot be read must not be settled as `no` or left `unverified` until the readable version has been obtained. The image was retrieved from its first-party CDN URL and read. It is a two-tier plan comparison: **Standard**, $250-500/month, 30-day free trial, up to 50 doors; and **Professional**, revenue share, "Talk to Sales". Feature lists on both tiers are: Resident Maintenance Portal, 24/7 Emergency Support, Yardi/Rent Manager integrations, Vendor Payments, Work order management, Troubleshooting and Dispatching, Vendor Sourcing; Professional adds Resident Benefits. **Neither tier lists API access as a feature or as a differentiator.** This resolved C5.3 (see that check for how). Recorded as the only amendment between F1 and F2.
+- **C2.2.** Graders 2 and 3 independently identified two schema defects in `specs/papi.yaml` that run 1 did not detect. Both were verified directly against the packet file during reconciliation: five occurrences of `type: float`, which is not a valid OpenAPI 3.0 type keyword, on the money fields `Job.max_cost` (twice), `Job.estimate`, `Invoice.price` and `Invoice.total`; and four fields declared `type: boolean` (`disable_invoice_collection`, `vendor_lock_in`, `force_latchel_invoices`, `vip_vendor`) that carry `example: 1` and that live responses return as integers. No new source was added; this is a re-reading of a packet file already in F1.
 
 ## API eligibility
-- Qualifying API: yes
-- Interface label: none (a public Partner API exists, so "MCP only" does not apply)
-- API operator: Latchel, Inc., a Delaware corporation [S-10 Terms of Use, opening paragraph; Appendix A `info.contact` tech@latchel.com] [Documented]
-- Access or credential issuer: Latchel; a property-manager user generates the key in the Latchel dashboard (Account Settings → Integrations → API Key → Generate) [S-17 steps 1–4] [Documented]
-- Eligibility basis: The Latchel Partner API is a documented REST/JSON interface that reads and writes Latchel's own work orders, properties, residents, vendors, files and invoices [S-16; Appendix A `info`, `servers`, `paths`, `securitySchemes`]. It has a production base (`https://papi.latchel.com/v1`), a sandbox base (`https://latchel-demo.com/v1`) and an `x-api-key` header. Webhooks [Appendix B] and an official MCP server [S-06, S-22] are additional first-party interfaces. Confirmed live with `GET /me` 200 [L-04].
+
+- Qualifying API: **yes**
+- API operator: Latchel, Inc. The specification's `info.description` reads "Partner API for Latchel users" and names `tech@latchel.com` as contact (papi.yaml, `info.description` and `info.contact.email`).
+- Access or credential issuer: Latchel, self-serve by the property manager. "Latchel Property Managers can generate (for the first-time) or regenerate an API key right from the Latchel console" (How to Generate an API Key, opening paragraph).
+- Eligibility basis: A first-party OpenAPI 3.0.0 specification published at `papi.latchel.com/api-docs/papi/papi.yaml` defines 52 paths and 73 operations against Latchel's own work-order, property, resident, vendor, owner and invoice functions. Access is issued as a company-scoped API key presented in an `x-api-key` header (papi.yaml, `components.securitySchemes.api_key`). Live authentication against the documented sandbox host returned HTTP 200 with the operator's own company record (`GET /v1/me`, 2026-09-10, company_id 1862).
 
 ## Context
-- Product type: Maintenance/operations
-- What the API is for and its core objects and workflows: Latchel coordinates residential maintenance alongside a PMS: intake, troubleshooting, vendor dispatch, scheduling, approvals, invoices and after-hours emergencies. Its API exposes work orders ("jobs") with their states and state history, vendor companies and their priority rules, properties, portfolios, residents, owners, job files, invoices, inbound calls, on-call emergency alerts and intake-session transcripts. The core workflows are creating a work order, getting it assigned and moving it to completion.
+
+- Software category: **maintenance or operations tool**
+- What the API is for and its core objects and workflows: The Latchel Partner API exposes Latchel's maintenance coordination platform so an operator can push maintenance requests in from their own systems and pull work-order, vendor, resident and invoice data back out. Its core objects are Jobs (work orders), Properties, Portfolios, Tenants, Owners, Vendor Companies, Invoices and On-Call Instances. Its central workflows are creating a work order, moving it through budget approval, cancelling it, and syncing the resulting record and its files back to a system of record.
 
 ## Provider and property-management fit
-- What this product is: An AI maintenance-coordination and AI call-center platform for residential property managers, "not a property management system (PMS). It sits alongside one." [S-02] [Documented]
-- Bank status, when relevant: N-A (not a bank or payments provider; no banking materials found) [packet section 2; S-02] [Documented]
-- Who provides any bank account or regulated banking service: N-A [packet section 2]
-- What the customer actually receives: Software plus a service, quoted as a per-door subscription: 24/7 maintenance intake and troubleshooting, vendor dispatch and coordination, an AI call center, and vendor invoice collection [S-02; S-03; S-33] [Documented]
-- Property-management fit: PM-specialized [S-02 "the AI front office for residential property managers"; S-08] [Documented]
-- Documented PM-specific workflows: [S-02 "Product" and "Integrations" lists; S-08] [Documented]
-  - maintenance intake and troubleshooting
-  - vendor dispatch and scheduling
-  - budget approval and invoice collection
-  - after-hours emergency on-call
-  - resident benefits
-  - PMS integrations (AppFolio, Rentvine, Buildium, Rent Manager, Propertyware, Yardi and others)
-- Trust or fiduciary workflow support, when relevant: not documented. The API has owner payment-method links and vendor invoices [Appendix A `/portfolios/{id}/create-payment-method-link`, `/invoices`], but no trust-accounting, security-deposit or client-fund workflow appears in the packet [packet section 2].
-- Operational role and dependencies: Latchel runs the maintenance and call-center layer, while the operator's PMS stays the system of record [S-08].
+
+- What this product is: A 24/7 outsourced maintenance coordination and AI call-centre service for residential property managers, which triages resident maintenance requests, dispatches vendors and tracks each job to invoice (latchel.com/llms.txt, opening summary; latchel.com/property-management-software-features/property-maintenance-services/).
+- Bank status, when relevant: **N-A**. Latchel is not a bank and does not present itself as one. No first-party material in the packet describes Latchel as a bank or as offering deposit accounts.
+- Who provides any bank account or regulated banking service: **none**. The API exposes owner payment methods (`GET /owners/{user_id}/payment-methods`, `GET`/`DELETE /payment-methods/{payment_id}`) and property/portfolio subscription billing, but no first-party evidence in the packet identifies a bank or regulated-service provider behind them.
+- What the customer actually receives: A software platform plus a human and AI service layer. The property manager receives a dashboard, a Latchel-assigned resident phone number, coordinated vendor dispatch, and this API for moving data in and out (help.latchel.com/llms.txt, Property Manager Articles; How to View Your Latchel-Assigned Phone Number).
+- Property-management fit: **PM-specialized**. Property management is the product's central purpose, and the API's object model is property-management native throughout: portfolios, properties, residents, owners, work orders and on-call instances (papi.yaml, `tags` list; latchel.com/llms.txt, "Latchel is a property maintenance and AI call center platform").
+- Documented PM-specific workflows: work-order intake and troubleshooting (latchel.com/maintenance-support-requests/); vendor dispatch and prioritisation, exposed in the API at `/properties/{id}/vendor-companies` and `/portfolios/{id}/vendor-companies`; budget approval thresholds, exposed at `POST /jobs/{id}/approve` and `/deny`; emergency temperature thresholds and on-call escalation, exposed as `emergency_temp_low`/`emergency_temp_high` and `/on-call-instances`; owner profiles and property ownership assignment at `/owners`; resident move-in and move-out dates at `POST /properties/{property_id}/tenants/{tenant_id}`.
+- Trust or fiduciary workflow support, when relevant: **not documented**. The API reads invoices and manages owner payment-method records, but nothing in the packet documents trust accounting, client-fund segregation, security-deposit handling or escrow. Latchel is not the system of record for those and does not claim to be. The site states plainly that Latchel "is a property maintenance and AI call center platform, not a property management system (PMS). It sits alongside one" (latchel.com/llms.txt).
+- Operational role and dependencies: Latchel is a maintenance layer that sits beside a PMS rather than replacing one, so an operator still needs a separate accounting and PMS platform (Yardi, AppFolio, Buildium, Rent Manager, Rentvine, Propertyware or Leonardo247 are the documented sync targets) for leases, ledgers, rent and trust accounting.
 
 ## Coverage classification (fixed before inspection)
-- Checklist: Maintenance/operations published list, used verbatim; no deviation recorded (packet section 3). The tester disclosed that the table was written into the packet after the spec was downloaded. Its content is the published list verbatim, so it does not depend on the API.
-- Size (re-added with code): 20 items, total weight 44.
-  - By kind: objects 14 items (weight 28); workflows 3 items (weight 9); lifecycle actions 3 items (weight 7).
-  - By class: critical 7 items (weight 21); important 10 (weight 20); optional 3 (weight 3).
-  - These match the packet's stated totals.
-- One missing critical item = 3 / 44 = **6.82%** of capability coverage
-- Interfaces counted in this map: the Partner API and its webhooks (see "Grading runs" for why MCP-only actions were not counted)
 
-| # | Item | Kind | Class | Weight | Present / partial / alert-only / absent | Score |
-|---|---|---|---|---|---|---|
-| 1 | Work orders | object | critical | 3 | present (list, create, read, update, cancel) | 1.0 |
-| 2 | Status transitions | object | critical | 3 | partial (state, history and events readable; only cancel/approve/deny writable) | 0.5 |
-| 3 | Vendor/technician assignment | object | critical | 3 | partial (vendor_id settable only at creation; priority rules writable) | 0.5 |
-| 4 | Vendors | object | important | 2 | present (vendor companies CRUD, vendor users, service zip codes) | 1.0 |
-| 5 | Scheduling/appointments | object | important | 2 | partial (scheduled window and resident availability read-only) | 0.5 |
-| 6 | Residents | object | important | 2 | present (list, read, create in property, update, move dates) | 1.0 |
-| 7 | Units/properties | object | important | 2 | present (list, create, read, update, merge, portfolios) | 1.0 |
-| 8 | Photos or attachments on a work order | object | important | 2 | present (list, upload, read, reclassify) | 1.0 |
-| 9 | Messages or comments on a work order | object | important | 2 | partial (intake transcript read-only; no notes/messages endpoint) | 0.5 |
-| 10 | Links to PMS records | object | important | 2 | present (ref_job_id, ref_property_id, ref_unit_id, ref_user_id writable) | 1.0 |
-| 11 | Entry permission and access instructions | object | important | 2 | present (enter_permission, access_instructions, property defaults writable) | 1.0 |
-| 12 | Estimates | object | optional | 1 | partial (read-only, only while awaiting approval) | 0.5 |
-| 13 | Invoices | object | optional | 1 | present (list, read, webhook) | 1.0 |
-| 14 | Owner approval | object | optional | 1 | partial (owners CRUD and budget approve/deny; no owner-approval record) | 0.5 |
-| 15 | Create a work order | workflow | critical | 3 | present | 1.0 |
-| 16 | Assign it | workflow | critical | 3 | partial (assignable only at creation) | 0.5 |
-| 17 | Transition its status to completion | workflow | critical | 3 | absent from the API | 0.0 |
-| 18 | Cancel a work order | lifecycle | critical | 3 | present (state-restricted) | 1.0 |
-| 19 | Reassign the vendor or technician | lifecycle | important | 2 | absent from the API (UI only) | 0.0 |
-| 20 | Approve or reject an estimate or invoice | lifecycle | important | 2 | present (budget approve/deny) | 1.0 |
+Default classification for the Maintenance/operations category, adopted without deviation.
+
+| Object or workflow | Class | Weight | Present / read-only / absent |
+|---|---|---|---|
+| Work orders | critical | 3 | Present with full operations |
+| Status transitions | critical | 3 | Partial (three named transitions only; no general transition, no completion) |
+| Vendor/technician assignment | critical | 3 | Partial (settable at creation only; not changeable afterwards) |
+| Vendors | important | 2 | Present with full operations |
+| Scheduling/appointments | important | 2 | Read-only (fields returned, not writable) |
+| Residents | important | 2 | Present with full operations |
+| Units/properties | important | 2 | Present with full operations |
+| Estimates | optional | 1 | Read-only |
+| Invoices | optional | 1 | N-A within sub-map (finalised financial records) |
+| Owner approval | optional | 1 | Present with full operations |
+| Tags | optional | 1 | Absent |
+| Workflow: create a work order | critical | 3 | Present (live-verified) |
+| Workflow: assign a work order | critical | 3 | Partial (live-verified: create-time only) |
+| Workflow: transition status to completion | critical | 3 | No completion path exists (live-verified); other status transitions present, so the item is scored 0.5 rather than 0.0 in C1.2 and C1.3. See the reconciliation table. |
 
 ## Functional coverage map
-- Core objects:
-  - Work orders (critical, 3), present: `GET/POST /jobs`, `GET/PUT /jobs/{job_id}`, `POST /jobs/{job_id}/cancel` [Appendix A paths; S-26 inventory]; list and read observed live [L-05…L-09] [Documented, Live-tested]
-  - Status transitions (critical, 3), partial: every job carries `state_id`/`state`, and `GET /jobs/{job_id}/history/state` returns its history [Appendix A; L-10]. The job `updated` webhook carries `state_id` [S-20; Appendix B job.yaml]. Writes are limited to cancel, approve and deny; `Job_Updatable` has no `state_id` [Appendix A] [Documented, Live-tested]
-  - Vendor/technician assignment (critical, 3), partial: `vendor_id` and `manually_assign_vendor` are in `Job_Creatable` only, not `Job_Updatable` [Appendix A]. Per-property and per-portfolio vendor priority rules are writable (`POST/PATCH/DELETE /properties|portfolios/{id}/vendor-companies`) [Appendix A]. A vendor change fires the job webhook [S-20] [Documented]
-  - Vendors (important, 2), present: `/vendor-companies` GET/POST/PATCH/DELETE, `/vendor-companies/prioritized`, `/vendors/{user_id}`, service zip codes [Appendix A] [Documented]
-  - Scheduling/appointments (important, 2), partial and read-only: Job `scheduled_start`/`scheduled_end` and Tenant `availability` are readable [Appendix A; L-06], but `Job_Updatable` has no scheduling fields [Appendix A; V-11] [Documented, Live-tested]
-  - Residents (important, 2), present: `/tenants` GET, `/tenants/{user_id}` GET/PUT, `/properties/{id}/tenants` GET/POST/PUT, and adding a tenant to a property with move dates [Appendix A] [Documented]
-  - Units/properties (important, 2), present: `/properties` GET/POST, `/properties/{id}` GET/PUT, merge, subscriptions, warranties; `/portfolios` [Appendix A; L-14] [Documented, Live-tested]
-  - Photos or attachments (important, 2), present: `/jobs/{job_id}/files` GET/POST (multipart, with classifications including Before/After Image) and `/jobs/{job_id}/files/{file_id}` GET/PATCH [Appendix A] [Documented]
-  - Messages or comments (important, 2), partial: intake-session transcripts are readable via `/intake-sessions` and `/jobs/{job_id}/intake-session` [Appendix A], but there is no endpoint to read or post work-order notes or messages [V-11] [Documented]
-  - Links to PMS records (important, 2), present: `ref_job_id`, `ref_property_id`, `ref_unit_id`, `ref_user_id`, `ref_service_request_id` [Appendix A, B] [Documented]
-  - Entry permission and access instructions (important, 2), present: `enter_permission` and `access_instructions` in `Job_Updatable`, plus `default_access_instructions` on property and portfolio [Appendix A] [Documented]
-  - Estimates (optional, 1), partial: Job `estimate`/`estimate_note` exist only on the response schema and are "only filled in while the work order is waiting on approval" [S-16; Appendix A] [Documented]
-  - Invoices (optional, 1), present (read role): `GET /invoices`, `GET /invoices/{id}` [Appendix A; L-11] and the invoice webhook [Appendix B] [Documented, Live-tested]
-  - Owner approval (optional, 1), partial: `/owners` GET/POST/PUT and `/jobs/{id}/approve|deny` ("Approve a jobs budget") exist [Appendix A], but there is no owner-approval record [Documented]
-- Primary operational workflows:
-  - create a work order (`POST /jobs`): present
-  - assign it (`vendor_id` on creation only): partial
-  - transition to completion: absent from the API
-- Lifecycle actions:
-  - Cancel a work order (critical, 3): present. `POST /jobs/{id}/cancel`, restricted to pre-dispatch and approval states [Appendix A].
-  - Reassign the vendor (important, 2): absent from the API. `Job_Updatable` has no `vendor_id`, and S-31 documents reassignment as a dashboard action.
-  - Approve or reject an estimate (important, 2): present. `POST /jobs/{id}/approve` (note, max_cost) and `/deny` [Appendix A].
 
-## Category 1: Functional Coverage and Usefulness (gate 2)
-- C1.1 Object coverage: **78.6%** (22 / 28) [Documented, Live-tested] [Appendix A paths and schemas cited per row above; L-05…L-14]
-- C1.2 Write coverage: **50.0%** (4.5 / 9) [Documented] [Appendix A `requestBodies.JobCreate`, `JobUpdate`; V-11]
-  - create a work order: 1.0
-  - assign it: 0.5
-  - completion: 0.0
-- C1.3 Lifecycle coverage: **71.4%** (5 / 7) [Documented] [Appendix A `/jobs/{job_id}/cancel`, `/approve`, `/deny`; S-31]
-  - cancel: 1.0
-  - reassign: 0.0
-  - approve/reject: 1.0
-- C1.4 Change notification: **yes** [Documented] [Appendix B `webhooks.yaml`; S-20 "What Triggers an Updated Webhook"; S-18]
-  - Webhooks fire on create and update for jobs, tenants, portfolios, invoices, properties, files, owners and on-call instances.
-  - They cover 37 / 41 = 90.2% of the critical-plus-important checklist weight. The uncovered rows are Vendors and Messages.
-  - Incremental polling also works: `updated_at_start_date` on jobs, properties and tenants [Appendix A; L-12, L-15].
+**Core objects.** Jobs, present with GET/POST/PUT plus `cancel`, `approve`, `deny`, a read-only state history and file upload/retrieve/update (papi.yaml `/jobs`, `/jobs/{job_id}`, `/jobs/{job_id}/cancel|approve|deny|history/state|files`). Properties, present with GET/POST/PUT plus `merge`, subscription add/end, and vendor-relationship CRUD. Portfolios, present with the same shape. Tenants, present with list, retrieve, update, plus per-property create/update/add and move-date handling. Owners, present with list, retrieve, create, update, plus payment-method read and delete. Vendor Companies, present with list, retrieve, create, update, delete, prioritisation reads and service-zipcode add/remove. Invoices, read-only. On-Call Instances, read-only. Categories, Issues, Problems and Locations, read-only reference data.
 
-Gate 2 math: capability coverage = **71.59%** (31.5 / 44) over 44 weight; write coverage 50.0%; C1.4 yes; critical item scored 0: **Transition its status to completion**; unverified weight: 0%; **gate 2 allows: B** (coverage ≥ 0.60; A blocked by coverage < 0.85, write coverage < 0.70, and the critical zero); verification coverage = 100% (4 / 4)
+**Primary operational workflows.** Create a work order (live-verified, `POST /v1/jobs` returned 201 with job_id 22896, 2026-09-10 16:36:39). Assign a vendor at creation (live-verified, `POST /v1/jobs` with `vendor_id: 4313301` returned 201 with job_id 22897 carrying that vendor). Update a work order (live-verified, `PUT /v1/jobs/22896` set name and `max_cost: 123.45`, returned 200 with both changed). Approve a work order budget (live-verified, `POST /v1/jobs/22888/approve` with a note and `max_cost: 500` moved the job from state 27 "Needs PM Approval" to state 1 "Scheduling Resident"). Create a property (live-verified, `POST /v1/properties` returned property_id 5578).
 
-What this means for you:
-- Through the API you can push work orders into Latchel from your own system and keep properties, residents, owners and vendors in sync.
-- You can also set preferred-vendor rules, attach photos, cancel early-stage jobs and approve or deny budgets.
-- Webhooks tell you when jobs, residents, properties, invoices or files change.
-- The published documentation shows no API way to mark a job complete, schedule it, change the vendor after creation, or read and post work-order notes. Those happen in the Latchel app, and some can be done through Latchel's MCP connector in Claude or ChatGPT.
+**Principal lifecycle changes.** Cancel a work order, present and live-verified (`POST /v1/jobs/22897/cancel` moved it to state 14 "Cancelled"). Approve and deny a budget, present, approve live-verified. Deactivate a property, present via `PUT` with `is_active: 0`, live-verified. End a property or portfolio subscription, present. Resident move-out dates, present. **Reassign a vendor on an existing work order, absent** (live-verified: `PUT /v1/jobs/22896` with `vendor_id: 4313301` returned 200 but the subsequent `GET` showed `vendor_id: null`). **Reschedule, absent** (`scheduled_start`/`scheduled_end` are returned on the Job schema but are not members of `Job_Updatable` and no scheduling endpoint exists). **Transition a work order to completion, absent** (live-verified: `PUT` with `state_id: 6` returned 200 but the state was unchanged at 26; and `POST /jobs/{id}/complete`, `/close`, `/finish`, `/resolve` all returned 404).
 
-## Category 2: API Design, Reliability, and Operability (placement)
-- C2.1 Modern API conventions: **yes** [Documented, Live-tested]
-  - Resource-oriented REST/JSON with GET/POST/PUT/PATCH/DELETE and an OpenAPI 3.0 spec [Appendix A paths]; JSON responses observed [L-04…L-20].
-- C2.2 Consistent typing: **partial** [Documented, Live-tested]
-  - Identifiers are integers and flags are 0/1 integers consistently on core records, and live reads match [L-05…L-16].
-  - Work-order money fields `max_cost` and `estimate` are binary `float` [Appendix A; L-05, L-09], which caps this check at partial.
-  - Invoice `total`/`price` are `float` in the API but `string` in webhooks [Appendix A `Invoice`; Appendix B invoice.yaml].
-  - File `author` is an object in the API but an integer in webhooks [Appendix A `JobFile`; Appendix B file.yaml].
-  - Job timestamps come back as `"2026-09-10 16:09:17"` with no timezone, while other endpoints return RFC 3339 [L-05 vs L-10, L-14].
-  - Some schema type keywords are invalid (`float`, `string|null`, `json`).
-- C2.3 Structured errors: **partial** [Live-tested, Documented]
-  - Responses use correct status codes with a JSON `{"errors":["..."]}` body and usable messages: 401 no key [L-03], 403 bad key [L-02, L-21], 404 "Record not found." [L-17, L-18], 422 validation [L-19, L-20].
-  - No stable machine-readable error code is documented or returned [Appendix A `ValidationErrors`].
-- C2.4 Duplicate prevention: **no** [Documented]
-  - No idempotency key or other duplicate protection is documented for `POST /jobs` or other creates [V-01; Appendix A].
-  - Two sandbox jobs share `ref_job_id` "APITEST-REF-001" [L-07, jobs 22900 and 22901], so the reference ID does not stop duplicates.
-- C2.5 Graceful handling under load: **yes** [Documented, Live-tested]
-  - Documented limit of 600 requests per key per 10 minutes, with 429, `Retry-After` and `X-RateLimit-Reset` [Appendix A `info.description` "Request Limits"; S-16].
-  - `x-ratelimit-limit` and `x-ratelimit-remaining` observed on ordinary reads [L-04…L-20]. No 429 was provoked.
-- C2.6 Pagination for large collections: **partial** [Live-tested, Documented]
-  - `page`/`per_page` (1–500) with `links.next` are documented [Appendix A; L-05].
-  - Following `links.next` exactly as returned drops `per_page`, so a client silently skipped records 3–10 [L-05 → L-07].
-  - `/jobs` documents no ordering and returns no total or last page [L-05, L-08].
-- C2.7 Bulk or incremental export: **yes** [Documented, Live-tested]
-  - Documented "Delta Sync" with `updated_at_start_date` plus pagination up to 500 per page [Appendix A `info.description`; S-16], confirmed live [L-12, L-15, L-16].
-  - No async export job; CSV exports exist in the app only [S-24]. Run 3 marked this partial; no score effect.
-- C2.8 Webhook security and delivery reliability: **partial** [Documented]
-  - A static per-account UUID is sent in the body `secret` and the `x-api-key` header, and is obtained by contacting Latchel Engineering [S-20 "Authentication"]. It is not a signature.
-  - No retry policy and no replay guidance are documented [V-10; S-18].
-- C2.9 Concurrency and conflict control: **no** [Documented]
-  - No ETag/If-Match, version field or 409/412 behavior [V-02; Appendix A].
-  - The `Contact` schema warns that a PUT without the full array removes contacts, i.e. the last write wins [Appendix A].
-- C2.10 Versioning and backward compatibility: **partial** [Documented]
-  - Path `/v1` and `info.version: 1.0.0` [Appendix A].
-  - No breaking-change definition, deprecation notice period or deprecation signal [V-03].
-  - Terms §22 allow changes "without notice" [S-10]. MSA §7.d gives 90 days' notice only for discontinuing the Services [S-11].
-- C2.11 Request traceability: **no** [Live-tested, Documented]
-  - No request or correlation ID header on any of the 21 responses (packet section 8), and none is documented [V-04].
-- C2.12 Service availability and status transparency: **no** [Documented]
-  - `status.latchel.com` redirects to Atlassian's marketing page [S-29].
-  - No SLA or uptime commitment and no availability page were found [S-11; V-05; S-33].
+## Category 1: Functional Coverage and Usefulness: 9.4/15
 
-Checks earned: 5.5 of 12 applicable; verification coverage = 100% (12 / 12)
+- **C1.1 Object coverage: partial** - weighted coverage = 72.5% (14.5 of 20 applicable weight; Invoices marked N-A within the sub-map as finalised financial records). No critical object is wholly absent. Work orders 1.0 (papi.yaml `/jobs` block, seven operations). Status transitions 0.5 (state is readable on every Job and at `/jobs/{job_id}/history/state`, and three named transitions exist, but no general transition control). Vendor assignment 0.5 (`vendor_id` is a member of `Job_Creatable` but not of `Job_Updatable`; live-verified unchangeable after creation). Vendors 1.0, Residents 1.0, Properties and Portfolios 1.0. Scheduling 0.5 (read-only). Estimates 0.5 (`estimate` and `estimate_note` readable on Job, no write path). Owner approval 1.0. Tags 0.0 (no tag object anywhere in the 79 schemas).
+- **C1.2 Core operational actions: partial** - weighted coverage = 65.0% (13 of 20 applicable weight), scoring the completion workflow 0.5 rather than 0.0. The limitation, exactly: a work order's status **can** be transitioned through the API, but only via three named terminal-or-branch operations (`cancel`, `approve`, `deny`), and there is no path to completion. Live-verified 2026-09-10: `POST /v1/jobs/22888/approve` moved state 27 to state 1 and `POST /v1/jobs/22897/cancel` moved it to state 14, so transitions demonstrably work; but `PUT /v1/jobs/22896` with `{"state_id": 6}` returned HTTP 200 while leaving `state_id` at 26, and `POST /v1/jobs/22897/{complete|close|finish|resolve}` each returned 404. Creation and update are strong and live-verified (see coverage map). **This mark was contested.** Run 1 marked it `no` on the check's second trigger ("a critical write workflow absent"); runs 2 and 3 independently marked it `partial`. Resolved to `partial` against the evidence, because that trigger is glossed in the rubric as "API is primarily observational", which this API is demonstrably not: it exposes over 30 write operations, nine of which were exercised live in this run, including two that changed a work order's state. See "Reconciliation across independent runs".
+- **C1.3 Delete or lifecycle actions: partial** - weighted coverage = 67.6% (11.5 of 17), scoring the completion action 0.5 on the same basis and for the same reason as C1.2, so that one missing capability is not zeroed twice across two checks. Present and live-verified: cancel (state 14), budget approve (state 27 to state 1), property deactivation via `is_active: 0`. Present and documented: budget deny, subscription end, resident move-out dates. The limitation, exactly: of the principal lifecycle changes, completion/close is absent entirely, vendor reassignment on an existing job is absent (live-verified: `PUT` with `vendor_id` returns 200 and does not apply), and rescheduling is absent (`scheduled_start`/`scheduled_end` are on the Job response schema but on neither write schema). **This mark was contested**: run 1 and run 3 marked it `no`, run 2 marked it `partial`. Resolved to `partial` for consistency with C1.2 and to respect the rubric's own warning against unintended double-counting of a single capability across two checks.
+- **C1.4 Change notification: yes** - documented webhooks cover `created` and `updated` for Job, Tenant, Portfolio, Property, Invoice, File and Owner (webhooks.yaml, `webhooks` block, seven entries), and the update trigger is defined at property level, so a state change fires the Job webhook: "a Job's updated webhook **will** be triggered if the vendor for a job is changed (because `job.vendor_id` will change)" (info-description.md, "What Triggers an Updated Webhook"). That covers the critical and important state changes. Independently, efficient incremental polling was live-verified: `GET /v1/jobs?updated_at_start_date=2026-09-10T16:10:00Z` returned exactly the 3 of 7 jobs updated after that instant, and `GET /v1/jobs?in_states=3` returned exactly the 2 jobs in state 3. Push delivery itself was not observed (see step 8 note); the polling half was.
 
-What this means for you:
-- This is a normal, well-structured REST API with clear rate limits and a documented "only what changed" sync, which suits a nightly sync into a spreadsheet, database or Zapier flow.
-- Be careful with retries and paging. The published documentation shows no protection against creating the same work order twice and no overwrite protection.
-- Following the API's own "next page" link can skip records unless you add the page size back yourself.
-- There is no public status page and no request ID to quote in support tickets.
+Score math: earned 2.5 of 4 applicable checks (0.5 + 0.5 + 0.5 + 1); unrounded fraction = 0.625; category points = 0.625 x 15 = 9.375, displayed 9.4/15; verification coverage = 4/4 = 100%.
 
-## Category 3: Access Control and Safe Automation (placement)
-- C3.1 Read-only credentials: **no** [Documented]
-  - "API keys have full access to your account" [S-16].
-  - The key panel has no read-only option [S-17 screenshot].
-- C3.2 Scoped credentials: **no** [Documented]
-  - There is one all-powerful company key, with no scope or permission controls [S-16; S-17 screenshots].
-- C3.3 Multiple keys: **no** [Documented]
-  - The panel shows one key and "Re-generate Api Key", with no way to add a second key [S-17; V-06].
-- C3.4 Rotation and revocation: **yes** [Documented]
-  - Self-serve "Re-Generate API Key"; "Re-generating a key immediately invalidates the old one" [S-17; S-16].
-- C3.5 Test environment and isolation: **partial** [Documented, Live-tested]
-  - A sandbox host with separate keys and data exists [S-16; Appendix A `servers`], and the supplied development key worked only there [L-01 vs L-04].
-  - No first-party page explains how an operator gets a development key, and webhook staging secrets require contacting Latchel Engineering [S-20; V-07].
-- C3.6 Delegated access: **yes** [Documented]
-  - The official hosted Latchel MCP connects through "standard OAuth": the user signs in with their own Latchel account and approves the connection after seeing "what the connector can reach", with "no API keys to manage" [S-22; S-06 steps 2–3]. This matches the methodology's MCP qualifying case.
-  - The Partner API itself has no OAuth [V-08]. Run 3 marked this partial; no score effect.
+What this means for you: You can push work orders into Latchel from your own systems, approve or deny their budgets, cancel them, and read almost everything back out. That much works and I confirmed all of it against a live sandbox. What you cannot do is drive a work order to completion, reassign it to a different vendor once it exists, or reschedule it. Latchel runs those steps itself, through its own coordinators and vendor flow. So the API is a strong intake and reporting surface and a partial control surface: you can start jobs, steer their budget, kill them, and watch them, but you cannot finish them or move them to a different vendor.
 
-Checks earned: 2.5 of 6 applicable; verification coverage = 100% (6 / 6)
+## Category 2: API Design, Reliability, and Operability: 3.3/10
 
-What this means for you:
-- You can't give an app or AI agent a limited, read-only or second key through the Partner API. There is one full-access key per company, and replacing it breaks every integration using it.
-- You can rotate the key yourself.
-- You can connect Claude or ChatGPT through Latchel's sign-in instead of sharing the key.
-- A sandbox exists, but the documentation doesn't say how to get its key.
+- **C2.1 Modern API conventions: yes** - resource-oriented REST over HTTPS with standard verbs, JSON bodies, and a published OpenAPI 3.0.0 specification (papi.yaml, `openapi: 3.0.0`; 52 paths across GET/POST/PUT/PATCH/DELETE). Live-confirmed on every request in this run.
+- **C2.2 Consistent typing: no** - the published schema is not type-consistent with itself or with live behaviour, and the inconsistencies land on core fields, which is the condition that rules out `partial`. Three distinct defects, all verified directly against `specs/papi.yaml` and the live log: (1) **an invalid type keyword on money fields.** `type: float` appears five times, on `Job.max_cost` (in both the create and update schemas), `Job.estimate`, `Invoice.price` and `Invoice.total`. `float` is not a valid OpenAPI 3.0 type; the valid spelling is `type: number, format: float`. A generated client cannot type a dollar amount from this schema. (2) **booleans that are not booleans.** Four fields are declared `type: boolean` (`disable_invoice_collection`, `vendor_lock_in`, `force_latchel_invoices`, `vip_vendor`) yet carry `example: 1`, and live `GET /v1/vendor-companies` returns them as integers. Meanwhile the equivalent flags on Job (`is_mandatory`, `enter_permission`, `is_vacant`, `is_urgent`, `is_emergency`, `manually_assign_vendor`) are declared `type: integer` and documented as "1 or 0". The same semantic concept is therefore typed two different ways in the same specification, and the boolean-declared half does not return booleans. This is the check's headline question ("a boolean stays a boolean") failing directly. (3) **timestamp format varying across endpoints.** `GET /v1/jobs/22888` and `GET /v1/tenants` return `"created_at": "2026-09-10 16:09:17"` (space separator, no timezone), while `GET /v1/properties/5574`, `GET /v1/me` and `GET /v1/jobs/22888/history/state` return `"2026-09-10T16:09:00.000000Z"` (ISO 8601 with zone). Both are declared `type: string, format: date-time`, which the Job and Tenant responses do not satisfy. None of this is confined to non-core fields: `max_cost` is the budget field, and `jobs.updated_at` is the field an incremental sync is built on. **This mark was contested**: run 1 and run 3 marked it `partial`, run 2 marked it `no`. Resolved to `no` because `partial` requires the inconsistencies be "confined to non-core fields", which on this evidence they are not. Defects (1) and (2) were found by the independent graders and missed by run 1.
+- **C2.3 Structured errors: no** - two of the check's explicit `no` triggers were observed live, and `partial`'s band accommodates neither. **Trigger one, a success code that hides a failure.** `PUT /v1/jobs/22896` with `{"vendor_id": 4313301, "state_id": 6}` returned HTTP 200 and a complete Job body, with no error, warning or partial-success indicator, having applied neither field; the confirming `GET` showed both unchanged. These are not unknown fields being tolerated: `vendor_id` is a valid member of the create schema and `state_id` is a real Job property. A caller is told its write succeeded when it did not. **Trigger two, unstructured errors.** `POST /v1/jobs` with `{"property_id": "not-a-number"}` returned HTTP 500 with an HTML Laravel stack trace exposing a raw `SQLSTATE[22P02]: Invalid text representation` Postgres error and internal release paths, rather than the 422 the same endpoint returns for every other bad value. A string where an integer is expected is precisely what a no-code tool or a loosely typed script sends, so this is not an exotic edge case. What the API does well, recorded for fairness: status semantics are correct on the common classes (401 missing key, 403 invalid key, 404 unknown record, 422 validation) and the messages are genuinely usable, for example `{"errors":["The name field is required.","The property id field is required.","The description field is required."]}`. Two further weaknesses that would independently have held this to `partial`: there is no populated stable machine-readable error code anywhere, only an array of English strings, so an integration must string-match; and 403 "Forbidden" is reused for a state-precondition failure (`POST /v1/jobs/22896/approve` on a job not in an approval state) where a 409 or 422 would be actionable. **This mark was contested**: run 1 and run 3 marked it `partial`, run 2 marked it `no`. Resolved to `no` on the silent-discard trigger, which `partial` does not cover at any point in its definition.
+- **C2.4 Duplicate prevention: no** - no idempotency mechanism is documented (term sweep for `idempot` across papi.yaml, llms-full.txt and the help corpus returned zero hits) and none exists in practice. Live-verified twice: two identical `POST /v1/jobs` requests carrying the same `Idempotency-Key: apitest-fixed-key-001` created two distinct work orders (job_id 22898 and 22899); two identical creates carrying the same `ref_job_id: "APITEST-REF-001"` also created two distinct work orders (22900 and 22901). A retried work-order creation duplicates the job. Not N-A: the API has consequential writes.
+- **C2.5 Graceful handling under load: yes** - "Requests to the Partner API are limited to 600 requests per API key, per 10 minutes... Once the limit has been overstepped, a 429 response code will be returned with `Retry-After` and `X-RateLimit-Reset` headers stating when the next retry attempt will be successful" (papi.yaml, `info.description`, "Request Limits"). Live-confirmed that the budget headers are actually emitted: every response in this run carried `x-ratelimit-limit: 600` and a decrementing `x-ratelimit-remaining`, on both reads and writes and on both 2xx and 4xx responses.
+- **C2.6 Pagination for large collections: partial** - pagination works and is traversable. Live-verified: `GET /v1/jobs` returns a `links` object (`first`, `last`, `prev`, `next`) and a `meta` object (`current_page`, `from`, `path`, `per_page`, `to`), and `GET /v1/jobs?page=2` correctly returned an empty `data` array with `prev` populated and `next: null`. The same shape appeared on `/properties`, `/tenants` and `/jobs/{id}/history/state`. The limitations, exactly: (1) `per_page` is not honoured, so page size is fixed at 10 (live: `GET /v1/jobs?per_page=2` returned all 7 records with `per_page: 10`); (2) on these endpoints `links.last` is null and `meta` carries no `total` or `last_page`, so there is no total-count signal and a client must walk until `next` is null; (3) no stable ordering guarantee is documented anywhere; (4) pagination is undocumented for every collection except `/on-call-instances`, whose schema alone describes `links`, `meta`, `last_page` and `total` (papi.yaml, `PageOfOnCallInstances`). A developer building from the specification would not know that `/jobs` paginates at all.
+- **C2.7 Bulk or incremental export: partial** - incremental sync is genuinely possible on the standard list endpoints and was live-verified (`updated_at_start_date` and `updated_at_end_date` on `/jobs`, honoured exactly), combined with the pagination above. But there is no dedicated bulk or export path: no async export job, no bulk endpoint, no file export among the 73 operations. This is precisely the check's `partial` condition. At a fixed 10 records per page and 600 requests per 10 minutes, a full extract of a 6,000-work-order history costs 600 calls and would consume an entire rate-limit window.
+- **C2.8 Webhook security and delivery reliability: partial** (documentation-graded) - a verification mechanism exists: "Webhook bodies include a property named secret, and the header includes a property called `x-api-key`. Both the secret value and the x-api-key header contain a UUID that is unique to your account" (info-description.md, "Authentication"). That is a static shared secret rather than an HMAC signature over the payload, so it verifies the sender but not payload integrity, and it cannot be rotated self-serve ("Please contact Latchel Engineering to obtain your UUID codes"). The limitations, exactly: no retry policy is documented anywhere in the packet, and no replay or idempotency guidance is given to consumers. The check requires all three; one of three is present. Not double-counted with C1.4, which grades event coverage rather than delivery security.
+- **C2.9 Concurrency and conflict control: no** - no optimistic concurrency and no documented conflict semantics. Live-verified: `GET /v1/jobs/22896` returns no `ETag` and no `Last-Modified` header, and `PUT /v1/jobs/22896` sent with `If-Match: "bogus-etag"` returned HTTP 200 and applied the write rather than 412. No version field exists on any schema, no 409 is documented among the response codes in the specification (which documents only 200, 201, 204, 403, 404 and 422), and no concurrency limits or behaviour are described. Not N-A: the API is not read-only.
+- **C2.10 Versioning and backward compatibility: partial** - an explicit version identifier exists in the path (`https://papi.latchel.com/v1`, papi.yaml `servers`) and the specification carries `info.version: 1.0.0`. The limitation, exactly: there is no backward-compatibility policy defining breaking versus non-breaking changes, and no deprecation window or notice mechanism. A verification-pass sweep for `deprecat`, `backward` and `breaking change` across papi.yaml, llms-full.txt and the help-centre Markdown corpus returned no policy text (the two `backward` hits were an access-instruction example string). Graded on the versioning contract only; currency of change communication is graded separately at C4.4.
+- **C2.11 Request traceability: no** - no request or correlation identifier is returned on any response. Live-verified across a GET 200, a POST 201, a POST 422, a 403 and a 404: the complete header set is `server`, `content-type`, `vary`, `cache-control`, `date`, `x-ratelimit-limit`, `x-ratelimit-remaining`, `x-xss-protection`, `x-content-type-options`. No `x-request-id`, no trace header, and none documented. Supporting a ticket means describing the call in prose.
+- **C2.12 Service availability and status transparency: no** - no public availability signal. `status.latchel.com` resolves, but to Atlassian's own Statuspage product marketing site rather than to a Latchel-operated status page, and `latchel.statuspage.io` does the same. No uptime figure, incident history or SLA appears anywhere in the first-party corpus (sweep for `uptime`, `status page` and `SLA` across papi.yaml, llms-full.txt and the help corpus). The one `SLA` hit on the site is unrelated prose.
 
-## Category 4: Documentation and AI-Agent Readiness (placement)
-- C4.1 Complete self-serve reference: **partial** [Documented]
-  - A public ReDoc reference, backed by a complete OpenAPI file, covers every endpoint with auth, parameters, request bodies and field-level examples [S-25, S-26, Appendix A].
-  - There are no worked request/response examples beyond the field examples.
-  - Error responses are undocumented for most endpoints.
-  - There are some schema defects, e.g. `GET /owners` returns a single `Owner`, and `GET /jobs/{job_id}/files/{file_id}` lists 201 as its success code.
-- C4.2 Reliable machine-consumable integration path: **yes** [Documented]
-  - A published, maintained OpenAPI 3.0.0 spec for the full Partner API (last-modified 2026-11-17) [S-26], plus an OpenAPI 3.1.0 webhooks spec [S-27].
-  - Also an official read-write MCP server [S-06 "Fourteen tools. Read and write."; S-22].
-  - No SDKs.
-- C4.3 AI-readable documentation: **partial** [Documented]
-  - The Help Center has `llms.txt`, `llms-full.txt`, per-page Markdown and a docs-search MCP server [S-14, S-28].
-  - They cover only the API overview, key and webhook pages, not the Partner API endpoint reference [packet section 5; V-12].
-- C4.4 Kept current: **partial** [Documented]
-  - Biweekly product release notes mention some API changes (Nov 2, 2026; Aug 10, 2026; Dec 1, 2025; Mar 9, 2026) [S-23], and the spec is freshly dated [S-26].
-  - There is no API changelog, and several spec changes (on-call instances, intake sessions, warranties, delta sync) do not appear in the release notes.
-- AI agent path: official MCP (read-write), plus a public OpenAPI specification (Partner API and webhooks); no SDKs; also an official docs-search MCP.
-  - MCP standard version: not stated for the data MCP server (`app.latchel.com/mcp/user-tools`) [S-22; packet section 5].
-  - The docs-search server reports protocol `2025-06-18` [S-28].
+Score math: earned 4.0 of 12 applicable checks (yes on C2.1 and C2.5 = 2.0; partial on C2.6, C2.7, C2.8, C2.10 = 2.0; no on C2.2, C2.3, C2.4, C2.9, C2.11, C2.12 = 0); unrounded fraction = 0.33333; category points = 0.33333 x 10 = 3.3333, displayed 3.3/10; verification coverage = 12/12 = 100%.
 
-Checks earned: 2.5 of 4 applicable; verification coverage = 100% (4 / 4)
+What this means for you: This is the weakest technical area and it is where an integration will actually hurt. Some things are fine: it is a clean REST API, the rate limits are published and the headers are honest, and paging and date-filtering both work. But four problems compound. If your automation retries a work-order creation because a request timed out, you get two work orders and there is no way to prevent it. If you send an update the API will not apply, it returns "200 OK" and silently throws your change away, so your code cannot tell success from failure. If something goes wrong there is no request ID to give support, and no status page to check. And the spec mistypes dollar amounts and booleans, so tools that generate code from it will get those fields wrong. Given that Latchel's own demo server is openly described as slow, retry-driven duplicate work orders are a practical risk, not a theoretical one.
 
-What this means for you:
-- An AI coding tool can load Latchel's OpenAPI file and build against the whole API.
-- Latchel's own connector lets Claude or ChatGPT read and act on work orders.
-- The AI-friendly help files leave out the endpoint reference itself.
-- API changes are announced inside general product newsletters, not a dedicated API changelog.
+## Category 3: Access Control and Safe Automation: 2.0/5
 
-## Category 5: Accessibility and Cost (gate 1)
-- C5.1 Self-serve API key: **yes** [Documented]
-  - "Latchel Property Managers can generate (for the first-time) or regenerate an API key right from the Latchel console" [S-17].
-- C5.2 Not commercially gated: **yes** [Documented]
-  - API and MCP access are presented to Latchel property managers with no plan condition [S-16, S-17, S-06 "Anyone who can sign in to Latchel"].
-  - The verification search found no statement that the API, webhooks, sandbox or MCP are tier-gated or paid [V-09].
-  - The only separately priced add-on found, Analytics+, is not an API feature [S-03].
+- **C3.1 Read-only credentials: no** - no read-only credential or read-only integration identity is documented or evidenced. The Account Settings panel offers a single "API Key" with "Generate" and "Re-Generate" and no permission selector (How to Generate an API Key, both sections and the accompanying interface screenshots). Live-confirmed that the one key is full-access: the same credential read every collection and also created a property, created four work orders, updated a work order, approved a work order, cancelled five work orders and deactivated a property. Not N-A: the API is not read-only.
+- **C3.2 Scoped credentials: no** - no resource, action or role scoping is documented. The key is company-scoped and all-or-nothing. A verification-pass sweep for `scope`, `permission` and `role` in an API-credential sense returned nothing in papi.yaml beyond the unrelated field `enter_permission`.
+- **C3.3 Multiple keys: no** - the documented interface exposes exactly one key per company, and the second workflow is "Re-Generate API Key", which replaces it rather than adding one (How to Generate an API Key, "How to re-generate an API key?"). No first-party evidence of issuing multiple concurrent credentials for separate integrations. The practical effect: one shared key across every integration, so revoking access for one tool breaks all of them.
+- **C3.4 Rotation and revocation: yes** - self-serve and immediate. "Scroll down to the API Key panel, and click Re-Generate API Key. Then click OK to generate a new API key" (How to Generate an API Key), performed by the property manager in Account Settings without a support ticket. Regeneration invalidates the prior key, which serves as revocation.
+- **C3.5 Test and production isolation: yes** - separate environments with separate credentials, documented and live-verified. The specification names two servers and states the separation explicitly: "Testing/development/sandbox server. Your API key will be different for this server. Data on this server is not guaranteed to remain intact, indefinitely" (papi.yaml, `servers`), with the endpoints listed as `https://papi.latchel.com/v1` for production and `https://latchel-demo.com/v1` for testing (papi.yaml, `info.description`, "Endpoints"). Live-verified 2026-09-10: the sandbox key returned 200 against `latchel-demo.com/v1/me` and 403 against `papi.latchel.com/v1/me`, confirming the credentials do not cross environments. Every write in this run was contained to the sandbox as a result.
 
-Gate 1 allows: A (both yes); verification coverage = 100% (2 / 2)
+Score math: earned 2 of 5 applicable checks (yes on C3.4 and C3.5; no on C3.1, C3.2, C3.3); unrounded fraction = 0.4; category points = 0.4 x 5 = 2.0/5; verification coverage = 5/5 = 100%.
 
-What this means for you: If you're a Latchel customer, you can create your API key yourself today, and nothing in Latchel's published materials says the API costs extra.
+What this means for you: This is the weakest area and it matters most if you plan to point an AI agent at Latchel. There is one key per company, it can do everything you can do, and you cannot make a read-only one or restrict it to a single property. If you hand it to a contractor, a Zapier zap and an AI assistant, all three hold the same unlimited credential, and cutting off any one of them means regenerating the key and re-entering it everywhere. The two things Latchel does get right here are real: you can rotate the key yourself in seconds, and the sandbox is genuinely separate, which I confirmed by trying the demo key against production and being refused. If you want a limited-permission agent, use the Latchel MCP connector instead, which signs in as a specific user through OAuth and is scoped to what that user can see.
 
-## Grade
-- Gate 1, open access: allows A (C5.1 yes, C5.2 yes)
-- Gate 2, documented capability: allows **B**
-  - capability coverage 71.59%
-  - write coverage 50.0%
-  - C1.4 yes
-  - critical item scored 0: transition to completion
-- Letter from the gates: **B**; binding gate: **gate 2**
-- Placement share: 10.5 of 22 Category 2–4 checks = 47.73%
-- Score math: 80 + round(9 × 0.477273) = 80 + round(4.295) = **84 (B)** (computed with code)
-- Official MCP server (one-step bump): yes. Latchel's official, Latchel-hosted MCP server reads and acts on work orders, tasks, properties and residents [S-06; S-22]. After the step: **87 (B+)**
-- Published numeric score: **87 / 100**
-- Letter grade: **B+**
-- Evidence tier: baseline verified
-- Overall verification coverage: 100% (28 / 28) (gate: no group Unable to verify; unverified checklist weight 0% ≤ 30%; overall ≥ 80%)
-- Partial-result flag: no. The live battery ran on the documented sandbox host; production behavior was not observed because the supplied key is a development key.
-- Unresolved evaluator disagreements: none at the check level. Disclosed methodology sensitivity: if MCP-only actions counted in Category 1, the alternate score would be 97 (A+) (see "Grading runs").
+## Category 4: Documentation and AI-Agent Readiness: 3.1/5
 
-## Good for / Not built for
-- Good for: pushing work orders into Latchel from your own system, syncing properties, residents, owners and vendors, setting preferred-vendor rules, attaching photos, approving or denying budgets, cancelling early-stage jobs, and getting webhooks or a delta sync of what changed.
-- Not built for: closing out, scheduling or reassigning work orders, or reading and posting work-order notes, through the API; giving an app a limited or read-only key.
+- **C4.1 Complete self-serve reference: partial** - a complete, publicly accessible reference exists at `papi.latchel.com/api-docs/papi/` with no login, rendered by ReDoc from the OpenAPI specification. It documents authentication (`x-api-key` header), every one of the 73 operations, parameters, field descriptions, the inheritance model, rate limits and both server environments, and carries 396 field-level `example:` values from which ReDoc renders worked request and response bodies. The limitations, exactly: (1) `required` is declared on only 6 of 79 schemas, and `Job_Creatable` declares none, yet the API enforces three required fields, which a developer discovers only by receiving the 422 (live-verified: `POST /v1/jobs` with `{}` returns "The name field is required. The property id field is required. The description field is required."); (2) pagination is undocumented on every collection except `/on-call-instances`, though it demonstrably works on the others; (3) job `state_id` values are never enumerated anywhere, and the `State` schema documents only that it has an id and a name, so an integrator cannot learn what state 26 or state 6 means without observing live data; (4) the fact that `PUT /jobs/{id}` silently ignores `vendor_id` and `state_id` is undocumented. Those are four flows requiring reverse-engineering, which is the check's `partial` condition.
+- **C4.2 Reliable machine-consumable integration path: yes** - two independent mechanisms, either sufficient on its own. First, a published OpenAPI 3.0.0 specification downloadable at `papi.latchel.com/api-docs/papi/papi.yaml`, which parsed cleanly in this run to 52 paths and 73 operations with resolvable internal `$ref`s, covering the full API surface and freshly maintained. Second, an operations-capable MCP server at `https://app.latchel.com/mcp/user-tools` which exposes write operations, not merely documentation search: "Work orders - list them, get full details (including open tasks), review activity history, and create new ones. Tasks - list, view details, create, resolve, and reschedule (defer) tasks on a work order" (Latchel MCP for AI Assistants, "What You Can Do"), authenticated by OAuth. No official SDK was located, but the check is explicit that one strong mechanism suffices and that extra formats earn no extra credit. **This mark was contested**: runs 1 and 2 marked it `yes`, run 3 marked it `partial` on the ground that the specification's five invalid `type: float` declarations and its total absence of declared paging parameters mean a generated client can neither page a collection nor type a dollar amount. Those defects are real and are penalised at C2.2 and C4.1. Resolved to `yes` because they fall short of the check's `partial` threshold of "requires substantial manual correction" (five fields across 79 schemas), and because the MCP server independently satisfies the check on its own terms. Recorded caveat on that second mechanism: Latchel states the MCP connector "currently only supports email-matching authentication" and recommends the Partner API for autonomous agents that cannot replicate an interactive OAuth flow.
+- **C4.3 AI-readable documentation: partial** - a genuinely comprehensive, intentionally AI-structured corpus exists, but it comprehensively represents the *help centre and product site*, not the API. `help.latchel.com/llms.txt` indexes 334 pages, each retrievable as clean Markdown at its path plus `.md`, verified by fetching eight directly; `latchel.com/llms.txt` states the same convention in-file; `latchel.com/llms-full.txt` supplies a 202,327-byte prose corpus. The limitation, exactly: of those 334 help pages, exactly three concern the API (`API-Docs`, `How-to-Generate-an-API-Key`, `The-Webhook-Subscription`), plus the `/reference/*` webhook pages. There is no per-endpoint Markdown, and `papi.latchel.com/llms.txt` returns 404, so the documentation domain that actually hosts the API reference publishes no AI-retrieval index at all. The one resource that does comprehensively represent the API is `papi.yaml`, which is already credited at C4.2; crediting it again here would double-count a single artifact. **This mark was contested**: run 1 marked it `yes`, runs 2 and 3 independently marked it `partial`. Resolved to `partial`, since the check requires that a resource comprehensively represent *the API*, and the llms.txt corpus does not.
+- **C4.4 Kept current: partial** - currency information exists and is genuinely fresh, but it is irregular and not API-specific. In favour: biweekly release notes run continuously to 2026-09-08, two days before this run, and the 2026-08-10 entry does document an API-specific fix and a documentation refresh ("You can create work orders in Latchel directly from your own systems using our public API - and as of this fix, every one of them gets the same intake and diagnostic treatment as a request that came in by phone or web form. We've also given the docs a refresh"), alongside a numbered item "API-Created Work Orders Now Complete Diagnostics First". The specification is demonstrably maintained: `papi.yaml` returned `Last-Modified: Thu, 10 Sep 2026 16:18:30 GMT`, the day of this run. The limitation, exactly: there is no API changelog, no release history on the specification, and no version notes. API changes surface incidentally inside a general product newsletter written for property managers, in roughly one or two of the eight most recent biweekly entries, with the rest covering dashboard and service features. A developer cannot rely on that channel to learn that an API behaviour has changed. That is "irregular" and "incomplete" in the check's own terms. **This mark was contested**: run 1 marked it `yes`, runs 2 and 3 independently marked it `partial`. Resolved to `partial`. Graded on currency of change communication only; the absent deprecation policy is penalised once, at C2.10, and is not re-counted here.
+
+Score math: earned 2.5 of 4 applicable checks (yes on C4.2 = 1.0; partial on C4.1, C4.3, C4.4 = 1.5); unrounded fraction = 0.625; category points = 0.625 x 5 = 3.125, displayed 3.1/5; verification coverage = 4/4 = 100%.
+
+What this means for you: The basics are here and the front door is genuinely good: the reference is public with no login, there is a real downloadable spec, and Latchel ships an MCP connector that can create and resolve work orders conversationally, which is unusual in this category. What holds the score down is that the documentation stops short in several places at once. The spec does not tell you which fields are required, never mentions that most lists paginate, never explains what the work-order status numbers mean, and mistypes money and boolean fields. The AI-readable documentation is excellent for the help centre but covers the API in only three pages. And while the release notes are current to this week, API changes appear in them only occasionally, buried in a general product newsletter, so you cannot rely on that channel to catch a behaviour change. Expect a round of trial and error at the start, and expect to notice API changes yourself.
+
+## Category 5: Accessibility and Cost: 15.0/15
+
+- **C5.1 Self-serve API key: yes** - credential creation is entirely self-serve, with no sales call, support ticket or approval step. "Latchel Property Managers can generate (for the first-time) or regenerate an API key right from the Latchel console... On your Latchel dashboard click the initial icon and on the dropdown select Account Settings. Select the Integrations tab... Scroll down to the API Key panel, then select Generate" (How to Generate an API Key). Corroborated live: the operator-supplied key authenticated on first use without any provisioning step by Latchel. Per the check's preamble, the cost of acquiring an eligible account is not counted here.
+- **C5.3 Not commercially gated: yes** - resolved on a source read during reconciliation rather than on absence of evidence. Latchel's plan comparison, published as an image on the self-signup help page (`rtaImage-559.jpg`, retrieved and read 2026-09-10), shows the complete tier structure: **Standard** at $250-500/month with a 30-day free trial, up to 50 doors; and **Professional** on revenue share, "Talk to Sales". The feature list is identical on both tiers except that Professional adds Resident Benefits: Resident Maintenance Portal, 24/7 Emergency Support, Yardi/Rent Manager integrations, Vendor Payments, Work order management, Troubleshooting and Dispatching, Vendor Sourcing. **API access appears on neither tier's list**, so it is not presented as a premium or top-tier differentiator, which is precisely what the check asks. Supporting evidence: the key-generation guide addresses "Latchel Property Managers" with no plan qualifier and no premium condition on the API Key panel; the 2026-08-10 release note calls it "our public API" while addressing the general customer base; and where Latchel does gate a capability commercially it says so plainly, as with Analytics+ at "$0.25 per unit per month with an annual contract... minimum monthly price of $100" (llms-full.txt), with no comparable statement anywhere attached to the API. Stated honestly, so a reader can weigh it: the tier document is *silent* on the API rather than affirmatively granting it, and Latchel publishes no pricing page. **This mark was contested and it was decisive.** Run 1 marked it `yes` on the key-generation guide alone. Run 2 marked it `unverified: could not access`, correctly observing that the plan-inclusion answer was an unread image and, sharply, that the key-generation guide is the artifact C5.1 grades, so leaning on it for C5.3 conflates credential creation with commercial entitlement, which the methodology explicitly separates. Run 3 marked it `yes`. Run 2's objection was upheld as a process matter and triggered the packet amendment: the image was retrieved and read, which is what Core rule 4 requires before an unreadable first-party source is settled. With the source now read, `unverified: could not access` no longer applies, and the tier document supports `yes` on direct evidence rather than inference. Had the source stayed unread, Category 5 verification coverage would have fallen to 50%, the category would have been Unable to verify, and **the entire numeric score would have been withheld**.
+
+Score math: earned 2 of 2 applicable checks; unrounded fraction = 1.0; category points = 1.0 x 15 = 15.0/15; verification coverage = 2/2 = 100%.
+
+What this means for you: There is no door to get through. If you are a Latchel customer, you click Generate in Account Settings and you have a key, today, without talking to anyone or upgrading anything. There is a real sandbox to develop against, and a free trial if you want to try before committing. Latchel does not publish its pricing, so you will have a sales conversation to become a customer, but that is the cost of the product, not a toll on the API.
+
+## Total
+
+- Raw: 32.83 / 50 (C1 9.375 + C2 3.3333 + C3 2.0 + C4 3.125 + C5 15.0)
+- Normalized before rounding: 65.67 / 100
+- Published numeric score: **66 / 100**
+- Letter grade: **D**
+- Evidence tier: Baseline verified (sandbox writes; step 8 not completable with API-only access)
+- Overall verification coverage: 100% (27 of 27 applicable checks verified; no check marked unverified; no category below the 0.70 floor; gate satisfied)
+- Partial-result flag: **yes**. Webhook delivery, retry behaviour and signature verification (C2.8, and the push half of C1.4) were graded from first-party documentation because Latchel's Partner API exposes no webhook-registration endpoint and this run had dashboard-free, API-only access. Registering a webhook in the Latchel dashboard against an operator-controlled receiver would resolve it and would move the run to Fully verified. It could raise C2.8 to `yes` if retries and replay guidance turn out to exist undocumented, which would lift Category 2 from 3.3 to 3.8 and the published score from 66 (D) to 67 (D+).
+- Unresolved evaluator disagreements: **none remaining.** Eight checks were marked differently across the three independent runs. All eight were resolved against the final evidence, not by majority vote, and each resolution is stated in the check itself and summarised below. The two that would still move the published number if a future grader took the other view are C1.3 (were it `no`, as runs 1 and 3 had it, the score falls to 62, D-) and C2.3 (were it `partial`, as runs 1 and 3 had it, the score rises to 67, D+). For reference, marking both C1.2 and C1.3 `no`, which was run 1's original position, would give 58 and an F.
+
+## Reconciliation across independent runs
+
+Three independent runs were compared at check level, as Step 12 requires. Run 1 performed discovery and the live battery. Runs 2 and 3 were blinded graders given only the frozen packet, with no web access, no API access, and no sight of run 1's report or each other's.
+
+**Agreement: 19 of 27 checks unanimous (70%).** All of C3 and the majority of C2 were unanimous, including every `no` in C2 that run 1 had assigned (C2.4 idempotency, C2.9 concurrency, C2.11 traceability, C2.12 status transparency) and every `partial` on C2.6, C2.7, C2.8 and C2.10.
+
+**Independent run totals before reconciliation:** run 1 published 62/D-; run 3 published 62/D- by a different route (higher C1, lower C4); run 2 **withheld the score entirely**, because marking C5.3 `unverified` dropped Category 5 verification coverage to 50%, below the 0.70 floor, making it Unable to verify.
+
+| Check | Run 1 | Run 2 | Run 3 | Resolved | Basis for resolution |
+|---|---|---|---|---|---|
+| C1.2 | no | partial | partial | **partial** | The `no` trigger is glossed "API is primarily observational", which is false here: 30-plus write operations, nine exercised live, two of which changed a work order's state. |
+| C1.3 | no | partial | no | **partial** | Consistency with C1.2 and the rubric's warning against double-counting: the single missing completion capability is scored 0.5 in both checks rather than zeroed in each. |
+| C2.2 | partial | no | partial | **no** | Runs 2 and 3 found schema defects run 1 missed, verified during reconciliation: five invalid `type: float` money fields and four `type: boolean` fields returning integers. `partial` requires inconsistencies "confined to non-core fields", which fails. |
+| C2.3 | partial | no | partial | **no** | The observed 200-response that silently discarded `state_id` and `vendor_id` is the check's literal "success codes that hide failures" trigger, which `partial`'s band does not accommodate at any point. |
+| C4.2 | yes | yes | partial | **yes** | Run 3's cited defects are real but fall short of "requires substantial manual correction" (five fields across 79 schemas), and the MCP server independently satisfies the check. |
+| C4.3 | yes | partial | partial | **partial** | The check requires a resource comprehensively representing *the API*. The llms.txt corpus covers the help centre comprehensively but the API in three pages; crediting `papi.yaml` here would double-count the C4.2 artifact. |
+| C4.4 | yes | partial | partial | **partial** | API changes appear only occasionally inside a general product newsletter, with no API changelog. "Irregular" and "incomplete" in the check's own terms. |
+| C5.3 | yes | unverified | yes | **yes** | Run 2 correctly identified an unread first-party image as the decisive source. Retrieved and read under Core rule 4; the plan comparison lists the API on neither tier. Packet amended F1 to F2. |
+
+**Net effect of reconciliation:** run 1's provisional 62/D- moved to a reconciled **66/D**. Run 1 was overruled on six of the eight contested checks, in both directions: C1.2, C1.3, C4.2 and C5.3 resolved more favourably to Latchel than run 1 had them, while C2.2, C2.3, C4.3 and C4.4 resolved less favourably. The single most valuable contribution of the independent runs was run 2's catch on C5.3, which identified that run 1 had silently filtered an image out of its source retrieval and had then graded a decisive check on inference rather than on the document that answers it.
+
+## Cleanup log
+
+All test writes were confined to the documented sandbox host `latchel-demo.com/v1`, which the vendor states is not guaranteed to persist. Cleanup verified 2026-09-10:
+
+- Work orders 22896, 22898, 22899, 22900, 22901 (all created by this run, all named with the `APITEST-DELETE` sentinel): cancelled via `POST /v1/jobs/{id}/cancel`, each returning HTTP 200 with `state.name: "Cancelled"`.
+- Work order 22897 (`APITEST-DELETE assign-test`): cancelled, state 14 "Cancelled".
+- Property 5578 (`APITEST-DELETE 100 Grader Way`): deactivated via `PUT /v1/properties/5578` with `is_active: 0`, confirmed `is_active: 0` in the response. The API exposes no property delete operation, so deactivation is the available reversal.
+- Seeded demo work order 22888 was moved from state 27 to state 1 by the budget-approval test. This was a pre-existing sandbox fixture on a disposable demo dataset, not operator production data; it is noted here for completeness and is not reversible through the API, since no endpoint returns a job to a prior state.
+- No production write of any kind was performed. The only production request in this run was a single read-only `GET /v1/me` isolation probe, which was refused with 403.
+
+## What would strengthen this run
+
+- Dashboard access to the demo account, or an operator-registered webhook pointed at an endpoint the operator controls, would complete battery step 8 and move the tier from Baseline verified to Fully verified.
+- A first-party statement from Latchel on whether the Partner API is included on all plans would convert the C5.3 caveat into direct evidence rather than absence of contrary evidence.
+- A first-party statement on webhook retry behaviour would settle C2.8.
 
 ## Bottom line for a property manager
-Latchel is a maintenance-coordination and AI call-center service that sits alongside your PMS. It is not a PMS, a bank or a trust-accounting system, and your PMS stays the system of record. Its Partner API is a clean, self-serve REST API with an OpenAPI file, a "what changed since" sync and webhooks. You can build intake flows that create work orders, keep your property, resident and vendor lists in sync, and pipe job updates into your own reports or automations. The biggest limitation is that the published documentation shows no API way to mark a work order complete, schedule it, or change its vendor. Those steps stay in the Latchel app, or partly in Latchel's Claude/ChatGPT connector, which needs a person to sign in. Plan for one all-access key per company, no duplicate protection on creates, and a "next page" link that drops your page size, and handle those in your build.
+
+Latchel's API is easy to get into and pleasant to read, and then it stops short of the thing you would most want to automate. Getting a key takes about thirty seconds in Account Settings with no sales call and no upgrade, the reference is public, there is a real sandbox, and there is even an MCP connector that lets Claude or ChatGPT create work orders conversationally. Using it, you can push maintenance requests in from your own systems, assign a vendor at the moment you create the job, approve or deny budgets, cancel jobs, and pull work orders, residents, properties, vendors and invoices back out with working date filters. What you cannot do is mark a work order complete, move it to a different vendor after it exists, or reschedule it, and I confirmed all three against the live sandbox rather than inferring them from the docs. That is a deliberate product boundary as much as an API gap, because Latchel's whole proposition is that its coordinators run the job to completion for you, but it means the API cannot be the control plane for your maintenance operation, only its front door and its reporting window. Three other things to plan around. There is exactly one API key per company and it can do everything, so you cannot hand a limited or read-only credential to an AI agent or a contractor. A retried write creates a duplicate work order, because there is no idempotency of any kind. And when the API will not apply a change you asked for, it does not tell you: it returns "200 OK" and quietly drops the field, which means your automation cannot distinguish a real success from a silent no-op without reading the record back every time. Build that read-back in from day one. Latchel is not a bank and not a PMS, and says so itself, so you will still need your accounting and trust-accounting system underneath it; nothing in this API changes that.

@@ -96,6 +96,24 @@ build-largest-list.py (NAV_LINKS / FOOT_LINKS) and build-api-grader.py, so a men
 - PeterBot: Delphi widget (scripts inside the embed section; Delphi injects #delphi-container there)
 
 ## PM API Report Card (/api-grader/), launched 2026-09-18
+
+**STATUS 2026-11-18: BOARD REVERTED TO v1.1 (Andrew + Peter).** Peter found the v1.2 table confusing, and v1.2 grades
+won't be posted until more submissions are in. So:
+- build-api-grader.py is the PRE-v1.2 builder (from commit 5b6bb074, 11:05 on Nov 17) with today's shared COPY (banner,
+  fix box, preview section, "What changed in v1.2" list) and results intro pasted back in. The chart is the old five
+  weighted columns (points, out of 100); the 28 v1.1 grades are exactly as on Nov 13. v1.1 pages link /files/methodology-v1.1.md;
+  pending pages and the main grading-file card link /files/methodology-v1.2.md.
+- ONE EXCEPTION: Leasey.AI shows its v1.2 grade (95 A). RESULTS has a "v12": True entry whose points are its v1.2 results
+  converted onto the v1.1 columns (display only, a note under the table says they don't add up). Its page
+  api-grader/leasey-ai.html, report and share card are the v1.2 ones and are KEEP_AS_IS: the build never rewrites that
+  page, so if the banner, menu or footer changes, edit leasey-ai.html by hand too.
+- Index method section: v1.1 "What gets graded" + v1.1 cards, with the v1.2 explanation (two gates, ladder, MCP step,
+  Why this change? pill) inside the orange "Coming in December: how grading changes in v1.2" dropdown (#v12-grading).
+- The v1.2 notes below (data/api-grader-v12, publish_v12_reports, gate2_reason, five-group table, base grade column)
+  describe the PARKED v1.2 build. The current builder does not read data/api-grader-v12/.
+- SAVED FOR LATER: local git branch `api-grader-v1.2-preview-2026-11-18` (not pushed) and the folder
+  ~/Documents/Claude/Archive/api-grader-v1.2-preview-2026-11-18/ (all pages, builder, data, reports, CSS, screenshots,
+  README with how to bring it back).
 Moved here from the preview repo (andrewmswensen-hue/plm-api-grader-preview), which now only redirects.
 DELICATE AREA: make no edits to the grader pages, scores, copy or the methodology file unless Andrew asks.
 - `api-grader/index.html` .... main page. Hand-maintained EXCEPT the blocks between START/END markers

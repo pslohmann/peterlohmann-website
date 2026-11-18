@@ -609,42 +609,9 @@
 /* v1.2 platform pages: the MCP result box heading uses the site's sans-serif,
    bold, at the same size (Andrew, 2026-11-17). h4 is serif site-wide by default. */
 .v12-ladder .mcp-card h4{ font-family:var(--sans); font-weight:800; letter-spacing:0; }
-/* Column widths (Andrew, 2026-11-17): Base grade gets more room so its gate lines
-   never touch the cell edge; the three placement columns give a little back.
-   Sum: 21 + 16 + 3x10 + 11 + 10 + 12 = 100. Higher specificity than the inline
-   rules on index.html, which load after this file. */
-#results table.rank-table th:first-child{ width:21%; }
-#results .rank-table th.col-base{ width:16%; }
-#results .rank-table th.col-grp{ width:10%; }
-#results .rank-table th.col-mcp{ width:11%; }
-/* The Base grade "?" sits in the header cell's upper-right corner instead of on
-   its own line. (Sticky th is a positioned box, so it anchors there.) */
-#results .rank-table th.col-base{ padding-right:26px; padding-left:26px; }
-.rank-table th .info.info-q{ position:absolute; top:9px; right:9px; margin:0; }
-/* Preliminary Grade column (Andrew, 2026-11-17): bigger, bolder final-grade chip,
-   outlined in its own text colour, so it stands out from the outlined-only base
-   grade chip earlier in the row. About 60% larger than the default chip. */
-#results .rank-table td:last-child .grade{ min-width:70px; padding:8px 14px; border-radius:10px;
-  font-size:21px; font-weight:700; box-shadow:inset 0 0 0 1.5px currentColor; }
-/* Design, Access Control and Docs columns: the unit ("/ 12 checks", "/ 10 pts")
-   drops to its own line under the number, so a long value like "10.5 / 12 checks"
-   never crowds the cell edge at any table width (Andrew, 2026-11-17). */
-#results .rank-table td:nth-child(3) .u, #results .rank-table td:nth-child(4) .u,
-#results .rank-table td:nth-child(5) .u{ display:block; margin:2px 0 0; }
-/* Width rebalance, measured at 1024px and 1280px (Andrew, 2026-11-17): Platform
-   gives 2% to the Score column so "PRELIMINARY" and its info button fit; on
-   narrower desktops the header cells use slightly less side padding.
-   Sum: 19 + 16 + 3x10 + 11 + 12 + 12 = 100. */
-#results table.rank-table th:first-child{ width:19%; }
-#results table.rank-table th:nth-last-child(2){ width:12%; }
-@media (max-width:1180px){
-  #results .rank-table thead th{ padding-left:8px; padding-right:8px; letter-spacing:.04em; }
-  #results .rank-table th.col-base{ padding-left:24px; padding-right:24px; }
-}
-/* "Preliminary Grade" header in heavy type to match the bold grade chips (Andrew,
-   2026-11-17). Muli tops out at 700, which every header already uses, so this one
-   uses Inter (already loaded site-wide) at 800 in the navy text colour. */
-#results .rank-table thead th:last-child{ font-family:Inter, var(--sans); font-weight:800; color:var(--navy); }
+/* (2026-11-18) The v1.2 results-table rules that sat here (column widths, big outlined grade chips,
+   bold Preliminary Grade header) were removed when the board went back to the v1.1 layout. They are
+   saved in Archive/api-grader-v1.2-preview-2026-11-18/api-grader/report.css for when v1.2 goes live. */
 /* Gate lines may carry a reason ("no change alerts") instead of a percentage, so let
    them wrap inside the Base grade cell rather than run into its edge. */
 .g-lines{ white-space:normal; }
@@ -666,3 +633,16 @@
 @media (max-width:640px){ .info-q .tip-pop{ width:min(78vw,320px); } }
 /* Banner pill (Andrew, 2026-11-17): orange "Regrading in progress" on the navy bar. */
 .pre-bar .pre-tag{ background:var(--orange); color:#fff; }
+/* "Coming in December: how grading changes in v1.2" dropdown on the index (2026-11-18). While the
+   board shows v1.1 scores, the v1.2 explanation (two gates, ladder, MCP step) lives inside it. */
+.v12-next{ border:1px solid var(--line); border-left:4px solid var(--orange); border-radius:0 var(--radius-sm) var(--radius-sm) 0; background:#fff; }
+.v12-next > summary{ list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:14px; padding:16px 20px; }
+.v12-next > summary::-webkit-details-marker{ display:none; }
+.v12-next > summary::marker{ content:""; }
+.v12-next > summary:hover{ background:#fff7f2; }
+.v12-next-t{ font-weight:800; color:var(--navy); font-size:17px; }
+.v12-next-hint{ flex:none; color:var(--orange-dark); font-size:13px; font-weight:700; white-space:nowrap; }
+.v12-next[open] .v12-next-hint{ font-size:0; }
+.v12-next[open] .v12-next-hint::after{ content:"Click to collapse"; font-size:13px; }
+.v12-next-body{ padding:4px 20px 22px; border-top:1px solid var(--line); }
+.v12-next-body > .sub:first-child{ margin-top:16px !important; }
