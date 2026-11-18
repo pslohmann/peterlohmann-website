@@ -3185,7 +3185,7 @@ def build_rows():
                     f'<td class="plat">'
                     f'<a class="co-btn" href="{slug(co)}.html">'
                     f'<span class="co-name">{co}</span>'
-                    f'<span class="co-hint">What we grade &rarr;</span></a></td>'
+                    f'<span class="co-hint">What I grade &rarr;</span></a></td>'
                     f'<td class="num" colspan="7">'
                     f'<span class="pend-tag"><i></i>Scoring in progress</span>'
                     f'</td></tr>'
@@ -3252,7 +3252,7 @@ def build_cards():
                 out.append(f'<a class="mcard is-muted" href="{slug(co)}.html"><div class="mc-head">'
                            f'<span class="mc-name">{co}</span>'
                            f'<span class="pend-tag"><i></i>Scoring in progress</span></div>'
-                           f'<span class="mc-link">What we grade &rarr;</span></a>')
+                           f'<span class="mc-link">What I grade &rarr;</span></a>')
                 continue
             flag = (' <span class="row-flag">v2.0</span>' if r.get("legacy") else
                     ' <span class="row-flag">v1.2</span>' if r.get("v12") else "")
@@ -3350,7 +3350,7 @@ COPY = {
     # Long form. Used at the foot of the index and on every vendor page.
     "fix_head": "Found a factual error in your grade?",
     "fix_body": [
-        "Tell us and we&#x27;ll fix it. Every mark on this page traces back to the "
+        "Tell me and I&#x27;ll fix it. Every mark on this page traces back to the "
         "vendor&#x27;s own documentation or a live API call, and the full report is "
         "posted so you can see exactly what was checked.",
         "<strong>Confirmed factual errors are corrected right away.</strong>",
@@ -3358,7 +3358,7 @@ COPY = {
         "to everyone else, so shipped improvements, updated docs, and disagreements "
         "about judgment all go into the next full regrade.",
     ],
-    "fix_cta":  "Contact us with a factual error",
+    "fix_cta":  "Contact me with a factual error",
 
     # The rerun policy, stated once.
     "rerun_head": "Preview scores, and what happens next.",
@@ -3383,7 +3383,7 @@ COPY = {
         "it at B.",
         "Coverage is graded against fixed, published checklists for each product type, "
         "checked against every graded platform&#x27;s docs.",
-        "Testing only reads data, testers supply one API key, and we grade every "
+        "Testing only reads data, testers supply one API key, and I grade every "
         "platform three times on one fixed model.",
         "An official MCP server, the connection AI assistants use, moves any grade up "
         "one step.",
@@ -4456,7 +4456,7 @@ def main():
     html = PAGE.read_text(encoding="utf-8")
 
     results_block = f"""      <h2 class="h-lead">The results.</h2>
-      <p class="sub" style="margin:10px 0 14px;">Scores are based on each platform&#x27;s API docs (plus live testing where we had access) as of the date it was checked. Click any platform to see how it did on each check and download its full report.</p>
+      <p class="sub" style="margin:10px 0 14px;">Scores are based on each platform&#x27;s API docs (plus live testing where I had access) as of the date it was checked. Click any platform to see how it did on each check and download its full report.</p>
 
       <p class="sub" style="margin:0 0 18px;">Every grade on this page is produced by an AI analysis run against the same published grading file (methodology v1.1), which you can <a href="/files/methodology-v1.1.md" download>download and check here</a>. The scope is deliberately narrow: API and data access. A grade is not Peter Lohmann&#x27;s opinion of a company, and it does not reflect any financial interest in, or professional relationship with, it. It also says nothing about a platform&#x27;s features, reliability, interface, support, or standing in the industry.</p>
 
