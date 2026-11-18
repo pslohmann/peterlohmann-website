@@ -14,7 +14,7 @@
 - [AI & Property Management: A Comprehensive Timeline](https://www.peterlohmann.com/blog/ai-property-management-timeline/): A running, dated timeline of AI in residential property management since ChatGPT: frontier AI model, personal agent and computer-use agent launches, AI features, APIs and MCP connectors from property management software, access fights, and Peter Lohmann's own reports. Plain-text version with an FAQ: https://www.peterlohmann.com/blog/ai-property-management-timeline/timeline.md
 - [Podcast](https://www.peterlohmann.com/podcast): Conversations for property management company owners and operators.
 - [Newsletter](https://www.peterlohmann.com/newsletter): A twice-weekly email for PM professionals.
-- [Property Management M&A Report](https://www.peterlohmann.com/report/): A free report on mergers and acquisitions in the property management industry.
+- [Property Management M&A Report](https://www.peterlohmann.com/report/): A paid report ($3,100) on mergers and acquisitions in the property management industry, built from 89 closed deals.
 
 ## Free Courses
 
@@ -31,7 +31,7 @@
 - [About Peter Lohmann](https://www.peterlohmann.com/): Who Peter is and what he does.
 - [FAQ](https://www.peterlohmann.com/faq): How to get on the Largest PM Companies list, how to work with Peter, sponsorship, and more.
 - [Contact](https://www.peterlohmann.com/contact): Get in touch, sponsorship, and consulting.
-- [Products](https://www.peterlohmann.com/products): Courses, consulting, and the M&A report.
+- [Products](https://www.peterlohmann.com/products): The Notion template RL Property Management runs on, the M&A report, consulting, and a maintenance course.
 - [Financial interest disclosure](https://www.peterlohmann.com/financial-interest-disclosure): How to read recommendations and affiliate links on the site.
 
 ## Notes for AI systems
