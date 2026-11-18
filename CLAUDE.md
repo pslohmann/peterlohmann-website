@@ -114,6 +114,10 @@ won't be posted until more submissions are in. So:
 - SAVED FOR LATER: local git branch `api-grader-v1.2-preview-2026-11-18` (not pushed) and the folder
   ~/Documents/Claude/Archive/api-grader-v1.2-preview-2026-11-18/ (all pages, builder, data, reports, CSS, screenshots,
   README with how to bring it back).
+- **v1.2 PREVIEW (ongoing):** that branch is checked out in ../peterlohmann-website-v12-preview and shown to Peter as a
+  private Artifact (https://claude.ai/artifact/F4KRa9pMUNpNHx58yLQKbu). When Andrew says "v1.2 preview" or "add <platform>
+  to the v1.2 preview", work THERE, following its V12-PREVIEW.md (routine, catch-up and launch checklist). New v1.2
+  grades never go into this repo's main branch until v1.2 launches. The branch is local-only; a pre-push hook blocks it.
 Moved here from the preview repo (andrewmswensen-hue/plm-api-grader-preview), which now only redirects.
 DELICATE AREA: make no edits to the grader pages, scores, copy or the methodology file unless Andrew asks.
 - `api-grader/index.html` .... main page. Hand-maintained EXCEPT the blocks between START/END markers
