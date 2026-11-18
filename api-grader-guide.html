@@ -262,13 +262,13 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
       <div class="ticks" aria-hidden="true"><i></i><i></i><i></i></div>
       <p class="guide-label">Tester Guide:</p>
       <h1>Property Management API Grader</h1>
-      <p class="lead">Help the industry test and grade PM platform API data access.</p>
+      <p class="lead">Help find out which PM platforms actually let you get to your own data.</p>
 
       <div class="split" style="margin-top:32px;">
         <div>
           <p class="sub" style="margin-top:0;">Property managers should be able to get their own data out of the software they pay for, and right now some platforms make that easy and some make it nearly impossible. We&#x27;re grading the APIs of the major PM platforms and point solutions to find out which is which, and we can&#x27;t personally test every product ourselves.</p>
-          <p class="sub" style="margin-top:14px;">This takes about 15 to 20 minutes. <strong>You will never be named in the published report</strong>, so there&#x27;s no risk of blowback from a vendor. Click below to get started.</p>
-          <p style="margin-top:14px;font-size:14px;color:var(--muted);">Updated for methodology v1.2: testers now collect the evidence, and PLM does the grading.</p>
+          <p class="sub" style="margin-top:14px;">This takes about 15 to 20 minutes. <strong>You&#x27;ll never be named in the published report</strong>, so there&#x27;s no risk of blowback from a vendor. Click below to get started.</p>
+          <p style="margin-top:14px;font-size:14px;color:var(--muted);">Updated for methodology v1.2. You collect the evidence, and we do the grading.</p>
           <p style="margin-top:18px;font-size:14px;color:var(--muted);">Inspired by SaaStr&#x27;s <a href="https://saastr.ai/api-report-card" target="_blank" rel="noopener">AI Agent API Report Card</a>.</p>
           <div class="hero-jump" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;justify-content:center;">
             <a class="btn btn-primary" href="#what-you-need">Get started &darr;</a>
@@ -306,7 +306,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <div>
           <h2 class="h-lead">What you&#x27;ll need.</h2>
           <ul class="feat">
-            <li>A <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a> account (Claude Code is what we&#x27;ll use to actually run the grading)</li>
+            <li>A <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a> account (you&#x27;ll use Claude Code to collect the evidence)</li>
             <li>Access to the platform&#x27;s developer/API documentation (usually public, sometimes requires a login from your account)</li>
             <li>The grading file, which you can download here</li>
           </ul>
@@ -314,7 +314,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
         <div>
           <div class="panel" style="text-align:center;">
             <h3 style="margin:0 0 8px;font-size:21px;">PM API Grader</h3>
-            <p class="sub" style="margin-bottom:20px;">The same prompt we run against every platform.</p>
+            <p class="sub" style="margin-bottom:20px;">The file we use for every platform.</p>
             <!-- SWAP: grader-file - when a new methodology version ships, drop the file in
                  /files/ and update this href (the version is in the filename on purpose, so
                  testers can tell which rubric they ran). -->
@@ -334,7 +334,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
 
         <div class="card">
           <div class="step-head"><div class="num-badge">1</div><h3>Download the grading file</h3></div>
-          <p><a href="/files/methodology-v1.2.md" download>Download the <code>.md</code> file here.</a> This is the exact prompt we use to grade every platform: same file, same criteria, every time. Nothing hidden, nothing platform-specific baked in. That&#x27;s on purpose. It&#x27;s how we keep this fair.</p>
+          <p><a href="/files/methodology-v1.2.md" download>Download the <code>.md</code> file here.</a> It&#x27;s the same file we use for every platform, with nothing tailored to any one of them. That&#x27;s how we keep this fair.</p>
         </div>
 
         <div class="card">
@@ -375,15 +375,15 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
                 </ul>
                 <p>Leave out the API key, any personal or tenant data, and your provisional marks.</p>
               </div>
-              <p>If you&#x27;re testing more than one platform, start a separate session for each and repeat the clean-room line, so an earlier score can&#x27;t colour a later one.</p>
-              <p><strong>Two things that noticeably improve accuracy.</strong> A screenshot of the screen where you generate API keys: Claude often can&#x27;t tell what key types exist (read-only versus read-write, or whether you can issue more than one), and that feeds several checks directly. And the API documentation itself if it&#x27;s downloadable, rather than just a link to it.</p>
+              <p>If you&#x27;re testing more than one platform, start a separate session for each and repeat the clean-room line in the prompt, so one platform&#x27;s results can&#x27;t affect the next.</p>
+              <p><strong>Two things make the results noticeably more accurate.</strong> First, a screenshot of the screen where you create API keys. Claude often can&#x27;t tell what kinds of keys exist (read-only or read-write, or whether you can create more than one), and several checks depend on it. Second, the API documentation itself if you can download it, not just a link.</p>
             </div>
           </details>
         </div>
 
         <div class="card">
           <div class="step-head"><div class="num-badge">4</div><h3>Let it run</h3></div>
-          <p>The session reads the platform&#x27;s docs, runs a few read-only tests, and saves one evidence packet file. It won&#x27;t ask you anything, and it won&#x27;t give you a score: PLM grades every packet three separate times.</p>
+          <p>The session reads the platform&#x27;s docs, runs a few read-only tests, and saves one evidence packet file. It won&#x27;t ask you anything, and it won&#x27;t give you a score. We grade every packet ourselves, three separate times.</p>
 
           <p style="margin-top:14px;">Skim the final output. If something looks off, or the documentation was incomplete, tell us. We&#x27;d rather know than publish a false score.</p>
         </div>
@@ -404,8 +404,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           <li>The evidence packet (<code>.md</code> file)</li>
         </ul>
         <div class="anon-note">
-          <p><strong>You will never be named in the published report.</strong> We identify the platform being graded, never the operator who graded it. No vendor will know the score came from you.</p>
-          <p>We do need your name on the submission itself, so we can come back to you with a question or ask for a re-run if something looks off. That stays between us.</p>
+          <p><strong>You&#x27;ll never be named in the published report</strong>, and no vendor will know the results came from you. We only ask for your name so we can follow up with a question or ask for a re-run. That stays between us.</p>
         </div>
 
         <div class="jf-embed mt-md">
