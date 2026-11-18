@@ -30,7 +30,7 @@ POST = os.path.join(HERE, "blog", f"{SLUG}.html")
 DATA = os.path.join(HERE, "data", "poll-results-2026.json")
 COPY = os.path.join(HERE, "data", "poll-results-2026-copy.md")
 SHELL = os.path.join(HERE, "blog", "payroll-tips-property-management-business-owners.html")
-CSS_V = 1   # bump after editing blog/poll-results.css
+CSS_V = 2   # bump after editing blog/poll-results.css
 
 TITLE = "21 Polls Later: What Property Managers Told Me in 2026"
 DESC = ("21 polls from my Tuesday newsletter: PM software, AI, trust accounting, org structure, churn, "
@@ -91,21 +91,44 @@ def ordered(p):
         ch = main + tail
     return ch
 
+def grouped(p):
+    """Small answers listed in a poll's "group_other" are folded into one "Other" row (Andrew, 2026-11-18).
+    Returns the chart's choices plus the folded answers, biggest first, with the poll's own "Other" last."""
+    members = p.get("group_other")
+    if not members:
+        return list(p["choices"]), []
+    keep = [c for c in p["choices"] if c[0] not in members]
+    folded = [c for c in p["choices"] if c[0] in members]
+    if len(folded) != len(members):
+        sys.exit(f"{p['key']}: group_other names an answer that isn't in the poll")
+    folded.sort(key=lambda c: (c[0] == "Other", -c[1]))
+    return keep + [["Other", sum(v for _, v in folded)]], folded
+
 def chart(p):
     total = sum(v for _, v in p["choices"])
-    top = max(v for _, v in p["choices"])
+    choices, folded = grouped(p)
+    top = max(v for _, v in choices)
     rows = []
     top_done = False
-    for label, v in ordered(p):
+    for label, v in ordered({**p, "choices": choices}):
         w = v * 100 / top
         cls = ["poll-row"]
         if v == top and not top_done:
             cls.append("is-top"); top_done = True
         if w < SMALL:
             cls.append("is-small")
+        votes = f'<span class="poll-votes">{v} of {total} votes</span>'
+        if folded and label == "Other":
+            # "Breakdown" button next to Other: a native <details> dropdown, so it works with or without JavaScript
+            cls.append("has-more")
+            items = "".join(f'<li><span>{smart("Other answers" if n == "Other" else n)}</span><span>{c} vote{"s" if c != 1 else ""}</span></li>' for n, c in folded)
+            label_html = (f'<details class="poll-more"><summary><span class="poll-choice">Other '
+                          f'<span class="pm-btn">Breakdown<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></span></span>'
+                          f'{votes}</summary><ul class="pm-list">{items}</ul></details>')
+        else:
+            label_html = f'<span class="poll-choice">{smart(label)}</span>{votes}'
         rows.append(
-            f'<li class="{" ".join(cls)}"><div class="poll-label"><span class="poll-choice">{smart(label)}</span>'
-            f'<span class="poll-votes">{v} of {total} votes</span></div>'
+            f'<li class="{" ".join(cls)}"><div class="poll-label">{label_html}</div>'
             f'<div class="poll-track" aria-hidden="true"><div class="poll-fill" style="--w:{w:.1f}%">'
             f'<span class="poll-pct">{pct(v, total) or "&lt;1"}%</span></div></div></li>')   # 1 vote of 212 reads "<1%", not "0%"
     q = smart(p["question"])

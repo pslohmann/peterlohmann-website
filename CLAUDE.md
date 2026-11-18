@@ -364,7 +364,8 @@ From this folder: `python3 -m http.server 8747`, then open http://localhost:8747
 article body (between the POLL-BODY markers) from data/poll-results-2026.json (the 21 polls) and
 data/poll-results-2026-copy.md (Peter's copy, word for word; [POLL CHART: key] and [HIGHLIGHTS] are placement markers).
 Header, date and meta tags are outside the markers and left alone. Rules: percent = votes/total rounded (1 vote of 212
-shows "<1%"); bars scale to the top answer (orange); "sorted" polls put Other/None/N/A/Not sure last. Andrew
+shows "<1%"; answers named in a poll's "group_other" fold into one Other row with a Breakdown dropdown, used on the
+accounting and email polls per Andrew 2026-11-18); bars scale to the top answer (orange); "sorted" polls put Other/None/N/A/Not sure last. Andrew
 (2026-11-18): when the copy and the poll data disagree, the DATA wins and the copy is changed to match. Styles live in
 blog/poll-results.css (post-only, ?v=CSS_V in the build script), not styles.css. The header cover is a CSS card; the
 image cover (blog card + share image) is cover-src/make-poll-results-cover.py rendered at 1200x675.
