@@ -3552,10 +3552,8 @@ CONTACT = "/contact"
 COPY = {
     # Thin bar across the top of every page.
     "banner_tag":  "Regrading in progress",
-    "banner":      ("These are <b>pre-release scores</b>, not final grades. "
-                    "Every vendor's full markdown report is published here so the "
-                    "scoring can be checked line by line. Regrading in progress: "
-                    "every platform is being "
+    "banner":      ("These are <b>preview scores</b>, not final grades. "
+                    "Every platform is being "
                     '<a class="pre-jump" href="/api-grader/#what-gets-graded"><b>regraded '
                     'under methodology v1.2</b></a> for the '
                     "December update."),
@@ -3564,33 +3562,29 @@ COPY = {
     # Long form. Used at the foot of the index and on every vendor page.
     "fix_head": "Found a factual error in your grade?",
     "fix_body": [
-        "Tell us and we will fix it. Every mark on this page traces to a specific "
-        "piece of first-party evidence or a live API call, and the full report is "
-        "published so you can see exactly what was checked and what it was checked "
-        "against.",
-        "<strong>Confirmed factual errors are corrected immediately.</strong>",
-        "Everything else waits. We do not rescore piecemeal on request, because a "
-        "board where some vendors have been re-run and others have not is not a fair "
-        "comparison. Shipped improvements, changed documentation and disagreements "
-        "about judgement all go into the next full rerun.",
+        "Tell us and we&#x27;ll fix it. Every mark on this page traces back to the "
+        "vendor&#x27;s own documentation or a live API call, and the full report is "
+        "posted so you can see exactly what was checked.",
+        "<strong>Confirmed factual errors are corrected right away.</strong>",
+        "Everything else waits. Rescoring one vendor at a time wouldn&#x27;t be fair "
+        "to everyone else, so shipped improvements, updated docs, and disagreements "
+        "about judgment all go into the next full regrade.",
     ],
     "fix_cta":  "Contact us with a factual error",
 
     # The rerun policy, stated once.
     "rerun_head": "Preview scores, and what happens next.",
     "rerun_body": [
-        "Every graded platform's preliminary score is published along with the full "
-        "report that generated it, so any vendor can see precisely how the score was "
-        "reached rather than arguing with a number.",
-        "This is a pre-release. Scores are not yet final. The intention of this "
-        "60-day pre-release period is:",
-        "<b>1.</b> For the community to provide feedback on the scoring methodology, "
-        "both the overall weighting and the specifics of each category.",
-        "<b>2.</b> For vendors to address any low-hanging fruit or simple technical "
-        "fixes that can improve their score.",
+        "Every graded platform&#x27;s preview score is posted with the full report "
+        "behind it, so vendors can see exactly how they got their score.",
+        "These scores aren&#x27;t final yet. The preview has two goals:",
+        "<b>1.</b> Get the community&#x27;s feedback on how the grading works, both the "
+        "overall weighting and the details of each category.",
+        "<b>2.</b> Give vendors time to fix the easy stuff: simple technical fixes "
+        "that can raise their score.",
         "<strong>Every platform will be regraded under methodology v1.2 in the "
-        "December update.</strong> After that, the scores will be final, and this page "
-        "will not be updated again until a planned re-score in roughly 6 months.",
+        "December update.</strong> After that, the scores are final, and I won&#x27;t "
+        "update this page again until a planned regrade in about 6 months.",
     ],
     # Short list closing the rerun section (Andrew, 2026-11-17).
     "rerun_changes_head": "What changed in v1.2, based on feedback",
@@ -3601,7 +3595,7 @@ COPY = {
         "it at B.",
         "Coverage is graded against fixed, published checklists for each product type, "
         "checked against every graded platform&#x27;s docs.",
-        "Testing only reads data, testers supply one API key, and PLM grades every "
+        "Testing only reads data, testers supply one API key, and we grade every "
         "platform three times on one fixed model.",
         "An official MCP server, the connection AI assistants use, moves any grade up "
         "one step.",
@@ -5419,7 +5413,7 @@ def main():
     html = PAGE.read_text(encoding="utf-8")
 
     results_block = f"""      <h2 class="h-lead">The results.</h2>
-      <p class="sub" style="margin:10px 0 14px;">Scores are point-in-time, based on first-party documentation and, where available, live testing. Open any graded platform for its own page: every check, the evidence behind each mark, and the full report to download.</p>
+      <p class="sub" style="margin:10px 0 14px;">Scores are based on each platform&#x27;s API docs (plus live testing where we had access) as of the date it was checked. Click any platform to see how it did on each check and download its full report.</p>
 
       <p class="sub" style="margin:0 0 18px;">Every grade on this page is produced by an AI analysis run against the same published grading file, which you can <a href="/files/methodology-v1.2.md" download>download and check here</a>. The scope is deliberately narrow: API and data access. A grade is not Peter Lohmann&#x27;s opinion of a company, and it does not reflect any financial interest in, or professional relationship with, it. It also says nothing about a platform&#x27;s features, reliability, interface, support, or standing in the industry.</p>
 
