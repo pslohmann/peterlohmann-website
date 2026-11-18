@@ -307,7 +307,7 @@ functional breaks. These are marked in each page.
   Oct 9 conference calendar LIGHT, Oct 16 NARPM Week DARK, Oct 27 AI timeline DARK, Oct 29 discovery
   call LIGHT, Oct 30 Zillow fee lawsuit DARK, Nov 3 AI data follow-up LIGHT, Nov 6 AppFolio/Buildium
   drawbridge LIGHT, Nov 10 industry reports DARK (cover-src/make-industry-reports-cover.py), Nov 13
-  payroll tips LIGHT (cover-src/make-payroll-cover.py), so the NEXT drawn cover is DARK. Check the last drawn cover before making the next.
+  payroll tips LIGHT (cover-src/make-payroll-cover.py), Nov 18 poll results DARK (navy card, cover-src/make-poll-results-cover.py), so the NEXT drawn cover is LIGHT. Check the last drawn cover before making the next.
   Batch 2 (2026-11-06), Nov 2025 to Sep 2026, alternating by date: Nov 17 newsletter L, Dec 5 owner
   leads D, Dec 16 role design L, Feb 11 tapeworm vendors D, Feb 16 OpenClaw L, Mar 5 company structure D,
   Mar 23 FTC letters L, Mar 31 RPU D, Apr 8 ESA lawsuit L, Apr 17 accounting software D, May 5 Google
@@ -358,3 +358,13 @@ From this folder: `python3 -m http.server 8747`, then open http://localhost:8747
 - SWAP points still open (search "SWAP:" in each file): newsletter subscribe URL, podcast
   platform links, store/checkout links, M&A report purchase link, PeterBot chat link,
   contact media-kit + Jotform links. Most currently point to the live peterlohmann.com pages.
+
+## 21 Polls Later: poll results post (published 2026-11-18)
+/blog/property-management-poll-results-2026. BUILT, not hand-edited: `python3 build-poll-results-post.py` rebuilds the
+article body (between the POLL-BODY markers) from data/poll-results-2026.json (the 21 polls) and
+data/poll-results-2026-copy.md (Peter's copy, word for word; [POLL CHART: key] and [HIGHLIGHTS] are placement markers).
+Header, date and meta tags are outside the markers and left alone. Rules: percent = votes/total rounded (1 vote of 212
+shows "<1%"); bars scale to the top answer (orange); "sorted" polls put Other/None/N/A/Not sure last. Andrew
+(2026-11-18): when the copy and the poll data disagree, the DATA wins and the copy is changed to match. Styles live in
+blog/poll-results.css (post-only, ?v=CSS_V in the build script), not styles.css. The header cover is a CSS card; the
+image cover (blog card + share image) is cover-src/make-poll-results-cover.py rendered at 1200x675.

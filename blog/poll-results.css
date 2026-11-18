@@ -1,0 +1,106 @@
+/* =============================================================================
+   POLL RESULTS
+   Styles for posts that show newsletter poll results as charts (first used by
+   /blog/property-management-poll-results-2026, Nov 2026). Loaded only by those
+   posts, after styles.css, so it can use the site's variables (--navy, --primary,
+   --orange, --wash-soft, --line, --serif, --display ...). The chart markup is
+   generated from data/poll-results-2026.json by build-poll-results-post.py.
+   Bump the ?v= on the <link> in the post (and in the build script) after editing.
+   ========================================================================== */
+
+/* ---------- Poll results chart (one card per poll) ---------- */
+.poll-card{margin:1.6em 0 1.4em;padding:26px 28px 18px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.poll-kicker{display:inline-block;font:700 12px/1 var(--display);letter-spacing:.09em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+.article-body .poll-q{font-family:var(--serif);font-size:23px;line-height:1.25;color:var(--navy);margin:0 0 20px;letter-spacing:-.005em}
+.poll-bars,.article-body ol.poll-bars{list-style:none;margin:0;padding:0}
+.article-body .poll-bars li{margin:0 0 12px}
+.article-body .poll-bars li:last-child{margin-bottom:0}
+.poll-row{display:grid;grid-template-columns:minmax(150px,38%) 1fr;gap:16px;align-items:center}
+.poll-choice{display:block;font:700 15px/1.25 var(--display);color:var(--navy)}
+.poll-votes{display:block;font:500 12.5px/1.3 var(--display);color:var(--muted);margin-top:3px;font-variant-numeric:tabular-nums}
+.poll-track{position:relative;height:36px;border-radius:999px;background:var(--wash-soft)}
+.poll-fill{position:absolute;inset:0 auto 0 0;width:var(--w);min-width:36px;border-radius:999px;
+  background:linear-gradient(90deg,#3b8dc2 0%,var(--primary) 45%,var(--navy) 100%);
+  display:flex;align-items:center;justify-content:flex-end;padding-right:13px;box-sizing:border-box;
+  transition:width .9s cubic-bezier(.2,.7,.2,1)}
+.poll-row.is-top .poll-fill{background:linear-gradient(90deg,#ec8a5a 0%,var(--orange) 55%,var(--orange-dark) 100%)}
+.poll-pct{font:800 16px/1 var(--display);color:#fff;white-space:nowrap;font-variant-numeric:tabular-nums}
+.poll-row.is-small .poll-fill{justify-content:flex-start}
+.poll-row.is-small .poll-pct{position:absolute;left:calc(100% + 10px);color:var(--navy)}
+.poll-foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 16px;margin-top:16px;padding-top:12px;border-top:1px solid var(--line);font:600 12.5px/1.4 var(--display);color:var(--muted);text-align:left}
+.article-body .poll-foot{margin-top:16px;color:var(--muted);font-size:12.5px}
+.poll-foot b{color:var(--navy)}
+/* Bars grow from the left as each card scrolls into view. The page script adds .js-anim only when
+   the browser can watch scrolling and the reader hasn't asked for reduced motion, so with JS off
+   (or reduced motion) every bar simply renders at full length. */
+.js-anim .poll-card:not(.in-view) .poll-fill{width:36px}
+.js-anim .poll-pct{transition:opacity .3s ease .55s}
+.js-anim .poll-card:not(.in-view) .poll-pct{opacity:0;transition:none}
+@media (prefers-reduced-motion:reduce){.poll-fill{transition:none}}
+@media print{.js-anim .poll-card .poll-fill{width:var(--w)}}
+
+/* ---------- Header cover: a navy card drawn in CSS (crisp at any size) ---------- */
+.article-head.with-cover .cover-card{container-type:inline-size}
+.cover-card{aspect-ratio:1/1;border-radius:14px;background:radial-gradient(120% 140% at 100% 0%,#2C7CB0 0%,#1F3A4D 55%);color:#fff;padding:9% 9% 8%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow-lg);overflow:hidden}
+.cover-kicker{font:800 12px/1 var(--display);letter-spacing:.12em;text-transform:uppercase;color:#f3a57f}
+.cover-big{font-family:var(--serif);font-size:44px;line-height:1;color:#fff}
+.cover-sub{margin-top:6px;font:600 14px/1.3 var(--display);color:#dce7ef}
+.cover-bars{display:grid;gap:7px}
+.cover-bars i{display:block;height:12px;border-radius:999px;background:linear-gradient(90deg,#7FB4DD,#2C7CB0)}
+.cover-bars i:first-child{background:linear-gradient(90deg,#ec8a5a,#E0703C)}
+@supports (container-type:inline-size){
+  /* sizes follow the card's own width, so the words always fit the card */
+  .cover-kicker{font-size:max(10px,4.6cqw)}
+  .cover-big{font-size:21cqw}
+  .cover-sub{font-size:max(12px,5.6cqw)}
+  .cover-bars{gap:2.8cqw}
+  .cover-bars i{height:4.6cqw}
+}
+@media (max-width:640px){
+  /* stacked header on phones: a wide card, words on the left and the bars on the right */
+  .cover-card{aspect-ratio:1200/630;padding:6% 6.5%;display:grid;grid-template-columns:1.15fr 1fr;grid-template-rows:auto 1fr;column-gap:7%}
+  .cover-kicker{grid-column:1/-1}
+  .cover-bars{grid-column:2;grid-row:2;align-self:end;order:2}
+  .cover-text{grid-column:1;grid-row:2;align-self:end}
+  @supports (container-type:inline-size){
+    .cover-kicker{font-size:max(10px,2.9cqw)}
+    .cover-big{font-size:11.5cqw}
+    .cover-sub{font-size:max(12px,3.4cqw)}
+    .cover-bars{gap:2cqw}
+    .cover-bars i{height:3.2cqw}
+  }
+}
+
+/* ---------- "The year in four numbers" highlights strip ---------- */
+.hl-wrap{margin:1.8em 0 1.2em;padding:22px;border-radius:var(--radius);background:var(--navy);color:#fff}
+.article-body .hl-title{margin:0 0 14px;font:700 12px/1 var(--display);letter-spacing:.09em;text-transform:uppercase;color:#f3a57f}
+.hl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.hl{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius-sm);padding:14px 14px 12px}
+.hl-num{display:block;font:800 34px/1 var(--display);color:var(--orange);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.hl-txt{display:block;margin-top:8px;font:600 13.5px/1.35 var(--display);color:#dce7ef}
+
+/* ---------- Topic jump links ---------- */
+.jump{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 .5em}
+.jump-label{font:700 13px/1 var(--display);color:var(--muted);margin-right:2px}
+.article-body .jump a{text-decoration:none;font:600 13.5px/1 var(--display);color:var(--navy);background:var(--wash-soft);border:1px solid var(--line);padding:8px 12px;border-radius:999px}
+.article-body .jump a:hover{background:var(--wash);color:var(--primary)}
+
+/* ---------- Reader comments (quotes next to each other share one card) ---------- */
+.article-body blockquote.reader{margin:0 0 1.25em;padding:14px 18px;border-left:4px solid var(--primary);background:var(--wash-soft);border-radius:0 12px 12px 0;color:var(--ink)}
+.article-body blockquote.reader p{margin:0;font-style:italic}
+.article-body blockquote.reader p+p{margin-top:.9em;padding-top:.9em;border-top:1px solid var(--line)}
+
+/* ---------- Section rhythm: each topic reads as a chapter ---------- */
+.article-body.polls h2{scroll-margin-top:90px;margin-top:2em;padding-top:.6em;border-top:3px solid var(--wash)}
+.article-body.polls h3{color:var(--navy);margin-top:2.2em}
+
+@media (max-width:820px){.hl-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){
+  .poll-card{padding:20px 16px 14px}
+  .article-body .poll-q{font-size:20px}
+  .poll-row{grid-template-columns:1fr;gap:6px}
+  .poll-label{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .poll-votes{margin-top:0;white-space:nowrap}
+  .poll-track{height:30px}
+  .poll-pct{font-size:14px}
+}
