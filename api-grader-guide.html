@@ -132,6 +132,15 @@
   .copy-btn:hover{ background:var(--primary-dark); }
   .copy-btn:focus-visible{ outline:2px solid var(--navy); outline-offset:2px; }
   .copy-btn.done{ background:#248a5c; }
+  /* Shareable link /api-grader-guide#prompt (Andrew, 2026-11-20): opens the prompt box,
+     scrolls to it, and pulses the Copy button. Browsers only allow copying after a
+     click on this page, so the visitor still clicks Copy once. */
+  #prompt{ scroll-margin-top:96px; }
+  .copy-btn.nudge{ animation:copyNudge 1s ease-out 3; }
+  @keyframes copyNudge{ 0%{ box-shadow:0 0 0 0 rgba(44,124,176,.55); }
+                        100%{ box-shadow:0 0 0 14px rgba(44,124,176,0); } }
+  @media (prefers-reduced-motion: reduce){
+    .copy-btn.nudge{ animation:none; outline:3px solid var(--primary); outline-offset:3px; } }
   .prompt-box .pb-body p{ margin:0; font-size:13.5px; line-height:1.6; color:var(--muted); }
   .prompt-box .pb-body p + p{ margin-top:7px; }
 
@@ -353,7 +362,7 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
           </ol>
           <p>Ask it to run the test, and tell it you have access to the live API and will provide the credentials.</p>
 
-          <details class="prompt-box">
+          <details class="prompt-box" id="prompt">
             <summary>Click to see the prompt I use</summary>
             <div class="pb-body">
               <div class="copy-row">
@@ -499,6 +508,19 @@ document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.g
     var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
     document.body.removeChild(ta); return ok;
   }
+  /* #prompt link: open the box, bring it into view, point at the Copy button. */
+  function openFromHash() {
+    if (location.hash !== '#prompt') return;
+    var box = document.getElementById('prompt');
+    if (!box) return;
+    box.open = true;
+    box.scrollIntoView({ block: 'start' });
+    var b = box.querySelector('.copy-btn');
+    if (b) { b.classList.remove('nudge'); void b.offsetWidth; b.classList.add('nudge');
+             setTimeout(function () { b.classList.remove('nudge'); }, 3200); }
+  }
+  openFromHash();
+  window.addEventListener('hashchange', openFromHash);
   document.addEventListener('click', function (e) {
     var btn = e.target.closest && e.target.closest('.copy-btn');
     if (!btn) return;
