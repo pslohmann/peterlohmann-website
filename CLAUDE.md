@@ -329,7 +329,7 @@ functional breaks. These are marked in each page.
   Oct 9 conference calendar LIGHT, Oct 16 NARPM Week DARK, Oct 27 AI timeline DARK, Oct 29 discovery
   call LIGHT, Oct 30 Zillow fee lawsuit DARK, Nov 3 AI data follow-up LIGHT, Nov 6 AppFolio/Buildium
   drawbridge LIGHT, Nov 10 industry reports DARK (cover-src/make-industry-reports-cover.py), Nov 13
-  payroll tips LIGHT (cover-src/make-payroll-cover.py), Nov 18 poll results DARK (navy card, cover-src/make-poll-results-cover.py), so the NEXT drawn cover is LIGHT. Check the last drawn cover before making the next.
+  payroll tips LIGHT (cover-src/make-payroll-cover.py), Nov 18 poll results DARK (navy card, cover-src/make-poll-results-cover.py), Nov 20 light bulbs LIGHT (cover-src/make-light-bulbs-cover.py), so the NEXT drawn cover is DARK. Check the last drawn cover before making the next.
   Batch 2 (2026-11-06), Nov 2025 to Sep 2026, alternating by date: Nov 17 newsletter L, Dec 5 owner
   leads D, Dec 16 role design L, Feb 11 tapeworm vendors D, Feb 16 OpenClaw L, Mar 5 company structure D,
   Mar 23 FTC letters L, Mar 31 RPU D, Apr 8 ESA lawsuit L, Apr 17 accounting software D, May 5 Google
