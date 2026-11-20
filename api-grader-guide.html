@@ -144,6 +144,11 @@
   .prompt-box .pb-body p{ margin:0; font-size:13.5px; line-height:1.6; color:var(--muted); }
   .prompt-box .pb-body p + p{ margin-top:7px; }
 
+  /* Text links in the page body are bold and underlined (Andrew, 2026-11-20).
+     Buttons, the menu, and the footer keep their own styles. */
+  main p a:not(.btn), main li a:not(.btn){ font-weight:700; text-decoration:underline;
+                                           text-underline-offset:3px; }
+  main .vid-link{ font-weight:700; text-decoration:underline; text-underline-offset:3px; }
   .vid-link{ display:inline-block; margin-top:5px; font-size:13.5px;
              color:var(--muted); font-weight:600; text-decoration:none; }
   .vid-link:hover{ color:var(--primary); text-decoration:underline; }
