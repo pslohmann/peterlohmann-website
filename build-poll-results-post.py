@@ -30,7 +30,7 @@ POST = os.path.join(HERE, "blog", f"{SLUG}.html")
 DATA = os.path.join(HERE, "data", "poll-results-2026.json")
 COPY = os.path.join(HERE, "data", "poll-results-2026-copy.md")
 SHELL = os.path.join(HERE, "blog", "payroll-tips-property-management-business-owners.html")
-CSS_V = 2   # bump after editing blog/poll-results.css
+CSS_V = 3   # bump after editing blog/poll-results.css
 
 TITLE = "21 Polls Later: What Property Managers Told Me in 2026"
 DESC = ("21 polls from my Tuesday newsletter: PM software, AI, trust accounting, org structure, churn, "
@@ -182,7 +182,13 @@ def body(polls):
             key = m.group(1)
             if key not in polls:
                 sys.exit(f"No poll data for chart key: {key}")
-            used.append(key); out.append(chart(polls[key]))
+            used.append(key); c = chart(polls[key])
+            # Jump links (Andrew, 2026-11-23): #poll-<key> lands on the poll's own heading when it
+            # has one, so the reader sees the question and month; otherwise on the chart card.
+            if out and out[-1].startswith("<h3>"):
+                out[-1] = out[-1].replace("<h3>", f'<h3 id="poll-{key}">', 1)
+                c = c.replace(f' id="poll-{key}"', "", 1)
+            out.append(c)
         elif b == "[HIGHLIGHTS]":
             out.append(highlights(polls, topics))
         elif b.startswith("## "):
