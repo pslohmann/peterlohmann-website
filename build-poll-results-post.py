@@ -30,7 +30,7 @@ POST = os.path.join(HERE, "blog", f"{SLUG}.html")
 DATA = os.path.join(HERE, "data", "poll-results-2026.json")
 COPY = os.path.join(HERE, "data", "poll-results-2026-copy.md")
 SHELL = os.path.join(HERE, "blog", "payroll-tips-property-management-business-owners.html")
-CSS_V = 3   # bump after editing blog/poll-results.css
+CSS_V = 4   # bump after editing blog/poll-results.css
 
 TITLE = "21 Polls Later: What Property Managers Told Me in 2026"
 DESC = ("21 polls from my Tuesday newsletter: PM software, AI, trust accounting, org structure, churn, "
@@ -198,6 +198,16 @@ def body(polls):
         else:
             out.append(f"<p>{inline(b.replace(chr(10), ' '))}</p>")
     flush()
+    # Jump links: the browser jumps before Peter's fonts and the rest of the page finish loading,
+    # and the late reflow pushes the target up under the sticky menu. Re-line it up after load and
+    # when fonts finish, unless the reader has already started scrolling on their own.
+    out.append("<script>(function(){var moved=false;['wheel','touchstart','keydown','mousedown'].forEach(function(t){"
+               "addEventListener(t,function(){moved=true;},{passive:true,once:true});});function fix(){if(moved)return;"
+               "var id=decodeURIComponent(location.hash.slice(1));var el=id&&document.getElementById(id);"
+               "if(el&&/^poll-/.test(id))el.scrollIntoView({behavior:'instant',block:'start'});}"
+               "addEventListener('load',function(){fix();setTimeout(fix,400);setTimeout(fix,1200);});"
+               "if(document.fonts){document.fonts.ready.then(fix);document.fonts.addEventListener&&document.fonts.addEventListener('loadingdone',fix);}"
+               "addEventListener('hashchange',function(){moved=false;});})();</script>")
     missing = [k for k in polls if k not in used]
     if missing or len(used) != len(set(used)):
         sys.exit(f"Chart problem. Unused polls: {missing}; used: {used}")
