@@ -102,7 +102,7 @@ def fetch_youtube():
 
     Since Sep 2026 the show publishes on its own channel (@PeterLohmannsPodcast); older
     episodes live in the original playlist on Peter's main channel. Both RSS feeds are read,
-    merged, de-duplicated by video id and sorted by publish date, so new episodes appear
+    merged, de-duplicated by video id and by title, and sorted by publish date, so new episodes appear
     automatically while the older ones still fill out the list."""
     eps, seen = [], set()
     for url, only_eps in ((f"https://www.youtube.com/feeds/videos.xml?channel_id={YT_PODCAST_CHANNEL}", True),
@@ -113,8 +113,11 @@ def fetch_youtube():
             print(f"  ! could not read {url}: {ex}")
             continue
         for ep in entries:
-            if ep["id"] not in seen:
-                seen.add(ep["id"]); eps.append(ep)
+            # The same episode is sometimes uploaded to BOTH channels (Thomas Kopelman, Nov 19 2026).
+            # Skip a repeat by video id or by title; the podcast channel is read first, so its copy wins.
+            key = re.sub(r"\W+", "", ep["title"].lower())
+            if ep["id"] not in seen and key not in seen:
+                seen.update((ep["id"], key)); eps.append(ep)
     eps.sort(key=lambda e: e["date"], reverse=True)
     return eps
 
@@ -325,7 +328,7 @@ def build():
       <h1>Peter Lohmann's Podcast</h1>
       <a class="presented-by" href="{PARTNER_URL}" target="_blank" rel="sponsored noopener">Season 7 Presenting Partner: <img src="images/appfolio-logo.webp" alt="AppFolio" /></a>
       <div class="hero-rule" aria-hidden="true"></div>
-      <p class="lead">100+ episodes across seven seasons. Interviews with fellow business owners and executives about growth, hiring, systems, and the realities of leadership. No fluff, just smart people talking shop.</p>
+      <p class="lead">100+ episodes across seven seasons. Interviews with fellow business owners and executives about growth, hiring, systems, and the realities of leadership.</p>
       <div class="listen-row mt-md">
         <a class="listen-btn apple" href="{APPLE_SHOW}" target="_blank" rel="noopener">{APPLE_SVG} Apple Podcasts</a>
         <a class="listen-btn spotify" href="{SPOTIFY_SHOW}" target="_blank" rel="noopener">{SPOTIFY_SVG} Spotify</a>
@@ -341,7 +344,7 @@ def build():
         <div>
           <span class="tag tag-warn">Latest episode</span>
           <h2 class="h-lead" style="margin:14px 0 10px;">{esc(hero['title'])}</h2>
-          <p class="sub">Fresh conversations drop regularly. Hit play, or catch the full back catalog on the platform of your choice.</p>
+          <p class="sub">New episodes come out on Thursdays.</p>
           <div class="listen-row mt-sm">
             <a class="btn btn-yt" href="https://www.youtube.com/@PeterLohmannsPodcast?sub_confirmation=1" target="_blank" rel="noopener">{YT_SVG} Subscribe on YouTube</a>
             <span style="display:inline-flex;align-items:center;gap:10px;">{hero_icons}</span>
@@ -396,7 +399,6 @@ def build():
     <div class="wrap center">
       <span class="kicker">Listen &amp; Subscribe</span>
       <h2 class="h-lead">Catch it wherever you listen.</h2>
-      <p class="sub" style="margin:8px auto 0;">Tune in, turn up the property know-how, and have a blast while you're at it.</p>
       <div class="listen-row mt-md" style="justify-content:center;">
         <a class="listen-btn apple" href="{APPLE_SHOW}" target="_blank" rel="noopener">{APPLE_SVG} Apple Podcasts</a>
         <a class="listen-btn spotify" href="{SPOTIFY_SHOW}" target="_blank" rel="noopener">{SPOTIFY_SVG} Spotify</a>
