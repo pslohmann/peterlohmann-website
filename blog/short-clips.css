@@ -1,0 +1,31 @@
+/* Vertical YouTube Shorts beside the paragraph(s) they pair with.
+   Used by blog posts that link this file. Markup:
+     <div class="clip-pair clip-right">   (or clip-left)
+       <div class="clip-text"><p>...</p></div>
+       <figure class="clip-video"><div class="clip-frame"><iframe ...></iframe></div></figure>
+     </div>
+   The text stays first in the page source, so it reads in order with a screen reader and
+   on phones, where the video drops under its text. Wide screens: text column stays
+   roughly twice the width of the video. */
+.article-body .clip-pair{
+  display:grid; gap:32px; align-items:center;
+  margin:1.9em 0;
+}
+.article-body .clip-right{ grid-template-columns:minmax(0,1fr) 232px; grid-template-areas:"text video"; }
+.article-body .clip-left { grid-template-columns:232px minmax(0,1fr); grid-template-areas:"video text"; }
+.article-body .clip-text{ grid-area:text; min-width:0; }
+.article-body .clip-text p:last-child{ margin-bottom:0; }
+.article-body .clip-video{ grid-area:video; margin:0; }
+.article-body .clip-frame{
+  position:relative; width:100%; aspect-ratio:9/16;
+  border-radius:14px; overflow:hidden; background:#0f1d27;
+  border:1px solid var(--line); box-shadow:var(--shadow);
+}
+.article-body .clip-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+
+/* Phones and narrow tablets: one column, video centered under its text. */
+@media (max-width:700px){
+  .article-body .clip-right,
+  .article-body .clip-left{ grid-template-columns:minmax(0,1fr); grid-template-areas:"text" "video"; gap:22px; }
+  .article-body .clip-video{ width:min(100%,280px); justify-self:center; }
+}
